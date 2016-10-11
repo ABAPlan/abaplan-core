@@ -3,3 +3,4 @@ typings
 *.log
 *.js
 *.js.map
+!systemjs.config.js
