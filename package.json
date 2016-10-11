@@ -1,0 +1,24 @@
+{
+  "name": "abaplan-core",
+  "version": "0.1.0",
+  "description": "Abaplan core project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ABAPlan/abaplan-core.git"
+  },
+  "keywords": [
+    "abaplan",
+    "audiotactile",
+    "blind"
+  ],
+  "author": "Joel Cavat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ABAPlan/abaplan-core/issues"
+  },
+  "homepage": "https://github.com/ABAPlan/abaplan-core#readme"
+}
