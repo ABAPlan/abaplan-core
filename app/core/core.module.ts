@@ -1,3 +1,13 @@
-/**
- * Created by joel on 14.10.16.
- */
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MapService } from './map.service';
+
+@NgModule({
+  imports:      [ CommonModule ],
+  declarations: [ ],
+  exports:      [ ],
+  providers:    [ MapService ]
+})
+
+export class CoreModule {
+}
