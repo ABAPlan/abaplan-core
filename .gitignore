@@ -4,3 +4,5 @@ typings
 *.js
 *.js.map
 !systemjs.config.js
+.idea
+abaplan-core.iml
