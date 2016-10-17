@@ -10,7 +10,7 @@ export class MapService {
   constructor(private http: Http) {
   }
 
-  addMap(
+  add(
     title: string = "",
     height: number,
     width: number,
@@ -28,6 +28,8 @@ export class MapService {
   maps() {
 
   }
+
+  delete(id: number) {}
 
 
 }
