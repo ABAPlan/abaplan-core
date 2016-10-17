@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapService } from './map.service';
 import { HttpModule, JsonpModule } from '@angular/http';
+
+
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api/in-memory-web-api.module';
+import { InMemoryDataService }  from './in-memory-data.service';
+
 
 @NgModule({
   imports: [
     CommonModule,
     HttpModule,
-    JsonpModule
+    JsonpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   declarations: [ ],
   exports:      [ ],
-  providers:    [ MapService ]
+  providers:    [ ]
 })
 
 export class CoreModule {

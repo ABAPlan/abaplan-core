@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 @Component({
   selector: 'aba-plan',
   template: `
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
       <a>Plan de ville</a>
       <a>Plan de quartier</a>
     </nav>
+    <aba-map></aba-map>
   `
 })
 export class AppComponent {
