@@ -6,13 +6,13 @@ interface Square { kind: "square"; }
 // Map class
 export class Map {
   constructor(
-    private id?: number,
-    private title?: string,
+    private id: number,
     private height: number,
     private width: number,
     private mapType: MapType,
+    private title?: string,
     private owner?: number,
-    private graphics?: string = "",
+    private graphics?: string,
     private hash?: string,
     private dateCreation?: string,
   ) {}
