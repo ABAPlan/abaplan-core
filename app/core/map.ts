@@ -1,5 +1,5 @@
 // Enum for the kind of map
-type MapType = City | Square;
+export type MapType = City | Square;
 interface City { kind: "city"; }
 interface Square { kind: "square"; }
 
@@ -14,7 +14,7 @@ export class Map {
     private owner?: number,
     private graphics?: string = "",
     private hash?: string,
-    private dateCreation?: string
+    private dateCreation?: string,
   ) {}
 
 }
