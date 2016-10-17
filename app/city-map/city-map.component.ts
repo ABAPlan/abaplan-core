@@ -5,13 +5,7 @@ import { MapService }         from '../core/map.service';
 @Component({
   moduleId: module.id,
   selector: 'aba-map',
-  template: `
-<ul>
-  <li *ngFor="let map of maps">
-    {{map.title}}: ({{map.height}}, {{map.width}})
-  </li>
-</ul>
-`
+  templateUrl: 'city-map.component.html'
 })
 export class CityMapComponent implements OnInit {
 
