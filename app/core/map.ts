@@ -10,6 +10,7 @@ export class Map {
     private height: number,
     private width: number,
     private mapType: MapType,
+    private extent: string,
     private title?: string,
     private owner?: number,
     private graphics?: string,
