@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+
 /* Rx tools */
 import 'rxjs/add/operator/map';
 
@@ -20,7 +22,8 @@ import  { CityMapComponent } from './city-map/city-map.component';
   imports:      [
     BrowserModule,
     CityMapModule,
-    CoreModule
+    CoreModule,
+    TabsModule
   ],
   declarations: [ AppComponent, CityMapComponent ],
   bootstrap:    [ AppComponent ]
