@@ -6,5 +6,17 @@ import { Component } from '@angular/core';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  title = "AbaPlan"
+  title = "AbaPlan";
+
+  constructor() {}
+
+  public tabs: Array<any> = [
+    {
+      heading: 'Plan de quartier',
+    },
+    {
+      heading: 'Plan de ville',
+    }
+  ];
+
 }

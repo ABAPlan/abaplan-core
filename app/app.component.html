@@ -1,8 +1,8 @@
 <div class='container'>
     <h1>{{title}}</h1>
     <tabset>
-        <tab heading='Justified'>Plan de ville</tab>
-        <tab heading='test'>Plan de quartier</tab>
+        <tab *ngFor="let tab of tabs" heading="{{tab.heading}}">
+        </tab>
     </tabset>
     <aba-map></aba-map>
 </div>
