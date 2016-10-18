@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import  { CityMapModule } from './city-map/city-map.module';
 import  { CityMapComponent } from './city-map/city-map.component';
+import { Maps } from 'esri-mods';
 
 /* Routing Module */
 // import { AppRoutingModule } from './app-routing.module';

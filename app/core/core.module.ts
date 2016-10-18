@@ -6,7 +6,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api/in-memory-web-api.module';
 import { InMemoryDataService }  from './in-memory-data.service';
 
-
 @NgModule({
   imports: [
     CommonModule,
