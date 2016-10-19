@@ -6,7 +6,6 @@ import { Map, MapType } from './map';
 @Injectable()
 export class MapService {
 
-
   private mapsUrl = "app/maps";
 
   constructor(private http: Http) {
