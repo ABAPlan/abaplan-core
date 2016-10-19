@@ -1,19 +1,17 @@
-/* Refractoring from Chappatte code */
+/* Refractoring by jca from Chappatte code */
 
 import { Injectable } from '@angular/core';
 
-import { Layer } from 'esri-mods';
-/*
-import {
-  SimpleLineSymbol,
-  SimpleFillSymbol,
-  PictureFillSymbol,
-  PictureMarkerSymbol,
-  UniqueValueRenderer,
-  FeatureLayer,
-  SimpleRenderer
-} from 'esri-mods';
-*/
+//import { Layer } from 'esri-mods';
+import Layer = require('esri/layers/layer');
+import SimpleLineSymbol = require('esri/symbols/SimpleLineSymbol');
+import SimpleFillSymbol = require('esri/symbols/SimpleFillSymbol');
+import PictureFillSymbol = require('esri/symbols/PictureFillSymbol');
+import PictureMarkerSymbol = require('esri/symbols/PictureMarkerSymbol');
+import UniqueValueRenderer = require('esri/renderers/UniqueValueRenderer');
+import FeatureLayer = require('esri/layers/FeatureLayer');
+import SimpleRenderer = require('esri/renderers/SimpleRenderer');
+import Color = require('esri/Color');
 
 export type LayerType = Default | City | Square | Osm;
 interface Default { kind: "default"; }
@@ -27,9 +25,8 @@ export class LayerService {
 
   constructor() {}
 
-  createLayer(layerType: LayerType){
+  createLayer(layerType: LayerType): Layer {
 
-    /*
     var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
     var renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
@@ -69,7 +66,7 @@ export class LayerService {
       ]
     };
 
-    const symbol_surfaceDure = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, 'black');
+    const symbol_surfaceDure = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color('black'));
     const symbol_building = new PictureFillSymbol("/editeur/examples/images/traitilles.png", null, 15, 15);
     const symbol_water = new PictureFillSymbol("/editeur/examples/images/cercle.png", null, 15, 15);
     const symbol_green = new PictureFillSymbol("/editeur/examples/images/traitilles.png", null, 25, 25);
@@ -79,9 +76,9 @@ export class LayerService {
 
     if (layerType.kind === 'city'){
       champs = surface.linear.concat(surface.water, surface.green);
-      symbol_el_linaires = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, 'black');
+      symbol_el_linaires = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color("black"));
     } else if (layerType.kind === 'square'){
-      symbol_el_linaires = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, "black", 10);
+      symbol_el_linaires = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 10);
       champs = surface.building.concat(surface.hard, surface.water, surface.green, surface.linear);
 
       surface.building.forEach( (value) => renderer.addValue(value, symbol_building));
@@ -90,7 +87,6 @@ export class LayerService {
 
     surface.water.forEach( (value) => renderer.addValue(value, symbol_water) );
     surface.green.forEach( (value) => renderer.addValue(value, symbol_green) );
-
     surface.linear.forEach( (value) => renderer.addValue(value, symbol_el_linaires));
 
     const featureLayerUrl = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/";
@@ -103,7 +99,6 @@ export class LayerService {
 
     return featureLayer;
 
-     */
   }
 
 
