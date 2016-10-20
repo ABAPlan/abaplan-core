@@ -67,9 +67,9 @@ export class LayerService {
     };
 
     const symbol_surfaceDure = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color('black'));
-    const symbol_building = new PictureFillSymbol("/editeur/examples/images/traitilles.png", null, 15, 15);
-    const symbol_water = new PictureFillSymbol("/editeur/examples/images/cercle.png", null, 15, 15);
-    const symbol_green = new PictureFillSymbol("/editeur/examples/images/traitilles.png", null, 25, 25);
+    const symbol_building = new PictureFillSymbol("src/traitilles.png", null, 15, 15);
+    const symbol_water = new PictureFillSymbol("src/cercle.png", null, 15, 15);
+    const symbol_green = new PictureFillSymbol("src/traitilles.png", null, 25, 25);
 
     let champs;
     let symbol_el_linaires;
