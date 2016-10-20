@@ -4,7 +4,7 @@
   "description": "Abaplan core project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
     "lite": "lite-server",
     "postinstall": "typings install",
@@ -49,6 +49,13 @@
   },
   "devDependencies": {
     "concurrently": "^3.0.0",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-cli": "^1.0.1",
+    "karma-htmlfile-reporter": "^0.3.4",
+    "karma-jasmine": "^1.0.2",
+    "karma-jasmine-html-reporter": "^0.2.2",
     "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
     "typings": "^1.4.0"

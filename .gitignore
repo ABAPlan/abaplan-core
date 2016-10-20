@@ -4,5 +4,7 @@ typings
 *.js
 *.js.map
 !systemjs.config.js
+!karma-test-shim.js
+!karma.conf.js
 .idea
 abaplan-core.iml
