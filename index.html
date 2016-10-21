@@ -18,8 +18,72 @@
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
 
+    <!-- Third party libraries -->
+    <!-- load Esri library -->
+    <script src="//js.arcgis.com/3.18/"></script>
+    <link rel="stylesheet" href="//js.arcgis.com/3.18/esri/css/esri.css">
+
+    <!-- load esri-system-js library -->
+    <script src="node_modules/esri-system-js/dist/esriSystem.js"></script>
+    <!-- 1. Configure and load ESRI libraries -->
     <script>
-      System.import('app').catch(function(err){ console.error(err); });
+      window.dojoConfig = {
+        async: true
+      };
+    </script>
+    <script>
+
+      // configure system.js
+      System.config({
+        packages: {
+          app: {
+            defaultExtension: 'js'
+          }
+        }
+      });
+
+      // load esri modules needed by this application
+      // and then regsiter each as it's own SystemJS module
+      esriSystem.register(
+              // array of Esri module names to load and then register with SystemJS
+              [
+                'esri/map',
+                'esri/request',
+                'esri/layers/layer',
+                'esri/symbols/PictureMarkerSymbol',
+                'esri/symbols/SimpleLineSymbol',
+                'esri/symbols/SimpleFillSymbol',
+                'esri/symbols/PictureFillSymbol',
+                'esri/renderers/UniqueValueRenderer',
+                'esri/layers/FeatureLayer',
+                'esri/Color',
+                "esri/renderers/SimpleRenderer"
+
+                //, "esri/urlUtils"
+              ],
+
+              // optional callback function
+              function() {
+                // then bootstrap application
+                System.import('app').catch(function(err){ console.error(err); });
+              }
+      );
+      /*
+              ,
+              // options to register a new, single SystemJS module
+              {
+                // name of SystemJS module that you will import from
+                outModuleName: 'esri-mods',
+                // by default each module will use everything after the last '/' in their name
+                // however you can override that for specific modules here
+                moduleNameOverrides: {
+                  'esri/request': 'esriRequest'
+                }
+              });
+              */
+    </script>
+    <script>
+      //System.import('app').catch(function(err){ console.error(err); });
     </script>
   </head>
 
