@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Map, MapType } from './map';
+import ArcgisMap = require('esri/map');
+
+import Extent = require('esri/geometry/Extent');
+import { LayerType } from './layer';
+
 
 @Injectable()
 export class MapService {
@@ -32,5 +37,9 @@ export class MapService {
 
   delete(id: number) {}
 
+  static create(domName: string, extent: Extent): ArcgisMap {
+    arcgisMap = new ArcgisMap(domName);
+
+  }
 
 }

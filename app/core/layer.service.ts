@@ -13,12 +13,7 @@ import FeatureLayer = require('esri/layers/FeatureLayer');
 import SimpleRenderer = require('esri/renderers/SimpleRenderer');
 import Color = require('esri/Color');
 
-export type LayerType = Default | City | Square | Osm;
-interface Default { kind: "default"; }
-interface City { kind: "city"; }
-interface Square { kind: "square"; }
-interface Osm { kind: "osm"; }
-
+import { LayerType } from './layer';
 
 @Injectable()
 export class LayerService {
