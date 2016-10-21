@@ -2,7 +2,6 @@
 
 import { Injectable } from '@angular/core';
 
-//import { Layer } from 'esri-mods';
 import Layer = require('esri/layers/layer');
 import SimpleLineSymbol = require('esri/symbols/SimpleLineSymbol');
 import SimpleFillSymbol = require('esri/symbols/SimpleFillSymbol');
@@ -12,7 +11,6 @@ import UniqueValueRenderer = require('esri/renderers/UniqueValueRenderer');
 import FeatureLayer = require('esri/layers/FeatureLayer');
 import SimpleRenderer = require('esri/renderers/SimpleRenderer');
 import Color = require('esri/Color');
-
 import { LayerType } from './layer';
 
 @Injectable()
