@@ -50,6 +50,7 @@
                 'esri/map',
                 'esri/request',
                 'esri/layers/layer',
+                'esri/layers/OpenStreetMapLayer',
                 'esri/symbols/PictureMarkerSymbol',
                 'esri/symbols/SimpleLineSymbol',
                 'esri/symbols/SimpleFillSymbol',
@@ -57,7 +58,8 @@
                 'esri/renderers/UniqueValueRenderer',
                 'esri/layers/FeatureLayer',
                 'esri/Color',
-                "esri/renderers/SimpleRenderer"
+                "esri/renderers/SimpleRenderer",
+                "esri/geometry/Extent"
 
                 //, "esri/urlUtils"
               ],
@@ -66,11 +68,8 @@
               function() {
                 // then bootstrap application
                 System.import('app').catch(function(err){ console.error(err); });
-              }
-      );
-      /*
-              ,
-              // options to register a new, single SystemJS module
+              });
+              /*,
               {
                 // name of SystemJS module that you will import from
                 outModuleName: 'esri-mods',

@@ -12,6 +12,7 @@ import FeatureLayer = require('esri/layers/FeatureLayer');
 import SimpleRenderer = require('esri/renderers/SimpleRenderer');
 import Color = require('esri/Color');
 import { LayerType } from './layer';
+import OpenStreetMapLayer = require("esri/layers/OpenStreetMapLayer");
 
 @Injectable()
 export class LayerService {
@@ -19,6 +20,12 @@ export class LayerService {
   constructor() {}
 
   createLayer(layerType: LayerType): Layer {
+
+    if (layerType.kind === 'osm'){
+      const layer = new OpenStreetMapLayer();
+      layer.setMaxScale(25);
+      return layer;
+    }
 
     var defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
     var renderer = new UniqueValueRenderer(defaultSymbol, "type");
