@@ -1,8 +1,13 @@
 <div class='container'>
     <h1>{{title}}</h1>
-    <tabset>
-        <tab *ngFor="let tab of tabs" heading="{{tab.heading}}">
-            <aba-map></aba-map>
-        </tab>
-    </tabset>
+    <h4>{{ activeTab }}</h4>
+    <div class="btn-group">
+        <button
+                *ngFor="let tab of tabs"
+                class="btn btn-primary"
+                [class.active]="isActive(tab)"
+                (click)="onSelect(tab)"> {{ tab.heading }}
+        </button>
+    </div>
+    <aba-map></aba-map>
 </div>

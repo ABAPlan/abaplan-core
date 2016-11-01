@@ -5,12 +5,16 @@ import { Component } from '@angular/core';
   selector: 'aba-plan',
   templateUrl: 'app.component.html'
 })
+
+
 export class AppComponent {
+
   title = "AbaPlan";
 
-  constructor() {}
-
   public tabs: Array<any> = [
+    {
+      heading: 'Plan OSM',
+    },
     {
       heading: 'Plan de quartier',
     },
@@ -19,4 +23,17 @@ export class AppComponent {
     }
   ];
 
+  public activeTab: string = this.tabs[0].heading;
+
+  public isActive(tab: any) {
+    return tab.heading === this.activeTab;
+  }
+
+  public onSelect(tab: any) {
+    this.activeTab = tab.heading;
+  }
+
+  constructor() {}
+
 }
+
