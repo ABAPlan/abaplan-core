@@ -7,5 +7,6 @@ typings
 !systemjs.config.extras.js
 !karma-test-shim.js
 !karma.conf.js
+!webpack.config.js
 .idea
 abaplan-core.iml

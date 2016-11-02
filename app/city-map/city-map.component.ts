@@ -3,7 +3,6 @@ import { OptionMap }                from '../core/map';
 import { MapService }         from '../core/map.service';
 
 @Component({
-  moduleId: module.id,
   selector: 'aba-map',
   templateUrl: 'city-map.component.html'
 })
