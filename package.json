@@ -4,9 +4,8 @@
   "description": "Abaplan core project",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
-    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
-    "start2": "& concurrently \"tsc -w\" \"lite-server\" ",
+    "test": "webpack && \"karma start karma.conf.js\"",
+    "start": "webpack && concurrently \"webpack --watch\" \"lite-server\" ",
     "lite": "lite-server",
     "postinstall": "typings install",
     "tsc": "tsc",
