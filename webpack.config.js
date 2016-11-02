@@ -28,19 +28,18 @@ module.exports = {
         libraryTarget: "amd"
     },
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.html']
     },
     module: {
         loaders: [
             {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-                exclude: ''
+                test: /\.ts$/,
+                loaders: ['ts-loader', 'angular2-template-loader'],
+                exclude: [/\.(spec|e2e)\.ts$/]
             },
-            // css
-            {
-                test: /\.css$/,
-                loader: "style-loader!css-loader"
+            { 
+                test: /\.(html|css)$/, 
+                loader: 'raw-loader'
             }
         ]
     },
