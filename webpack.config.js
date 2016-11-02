@@ -61,5 +61,6 @@ module.exports = {
             callback();
         }
     ],
+    debug: true,
     devtool: 'source-map'
 };
