@@ -19,26 +19,28 @@ describe('MapService', () => {
     });
 
     // Test for Observable
-    it('should get map #2',
-        async(inject([MapService], (service: MapService) => {
+    it('should get map #2', (done) =>
+        inject([MapService], (service: MapService) => {
             // Return promise
             return new Promise((pass, fail) => {
               service.map(2).subscribe(
                   // Pass
                  (map : OptionMap) => {
                      expect(map).toBeDefined();
+                     done()
                  },
                  // Fail
                  (error) => {
                      fail(error);
+                     done()
                  });
              });
 
-       }))
+       })()
     );
 
-    it('should get maps',
-        async(inject([MapService], (service: MapService) => {
+    it('should get maps', (done) =>
+        inject([MapService], (service: MapService) => {
             // Return promise
             return new Promise((pass, fail) => {
               service.maps().subscribe(
@@ -46,13 +48,14 @@ describe('MapService', () => {
                  (maps : OptionMap[]) => {
                      expect(maps).toBeDefined();
                      expect(maps.length).toBeGreaterThan(1);
+                     done();
                  },
                  // Fail
                  (error) => {
                      fail(error);
+                     done();
                  });
              });
-
-       }))
+       })()
     );
 });
