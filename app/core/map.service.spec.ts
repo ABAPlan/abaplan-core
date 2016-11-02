@@ -1,4 +1,4 @@
-import { OptionMap, MapType } from './map';
+import { OptionMap } from './map';
 import { MapService }   from './map.service';
 import {InMemoryDataService } from './in-memory-data.service';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';

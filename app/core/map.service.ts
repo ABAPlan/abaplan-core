@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { OptionMap, MapType } from './map';
+import { OptionMap } from './map';
+import { LayerType } from './layer';
 
 
 @Injectable()
@@ -17,7 +18,7 @@ export class MapService {
     title: string = "",
     height: number,
     width: number,
-    mapType: MapType,
+    mapType: LayerType,
     creatorId: number,
     graphics: string = ""
   ) {

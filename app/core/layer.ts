@@ -8,12 +8,11 @@ import UniqueValueRenderer = require('esri/renderers/UniqueValueRenderer');
 import FeatureLayer = require('esri/layers/FeatureLayer');
 import SimpleRenderer = require('esri/renderers/SimpleRenderer');
 import Color = require('esri/Color');
-import { LayerType } from './layer';
 
 export type LayerType = City | Square | Osm;
-interface City { kind: "city"; }
-interface Square { kind: "square"; }
-interface Osm { kind: "osm"; }
+export interface City { kind: "city"; }
+export interface Square { kind: "square"; }
+export interface Osm { kind: "osm"; }
 
 export type AbaLayer = OsmLayer | CityBrailleLayer | SquareBrailleLayer;
 

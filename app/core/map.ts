@@ -3,12 +3,7 @@ import Graphic = require('esri/graphic');
 import Extent = require('esri/geometry/Extent');
 import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
 
-import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType} from './layer';
-
-// Enum for the kind of map
-export type MapType = City | Square;
-interface City { kind: "city"; }
-interface Square { kind: "square"; }
+import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm} from './layer';
 
 
 export class OptionMap {
@@ -16,7 +11,7 @@ export class OptionMap {
     public uid: number,
     public height: number,
     public width: number,
-    public mapType: MapType,
+    public mapType: LayerType,
     public extent: string,
     public title?: string,
     public owner?: number,
@@ -60,7 +55,7 @@ export class AbaMap extends ArcgisMap {
     this.layers.push(new CityBrailleLayer());
     this.layers.push(new SquareBrailleLayer());
 
-    this.setLayerVisible({ kind: 'osm' });
+    this.setLayerVisible(<Osm>{});
 
     this.addLayers(this.layers);
 
