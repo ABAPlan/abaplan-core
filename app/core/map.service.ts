@@ -18,7 +18,7 @@ export class MapService {
     title: string = "",
     height: number,
     width: number,
-    mapType: LayerType,
+    layerType: LayerType,
     creatorId: number,
     graphics: string = ""
   ) {
