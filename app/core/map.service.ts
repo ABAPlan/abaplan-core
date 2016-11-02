@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { OptionMap } from './map';
+import {OptionMap, AbaMap } from './map';
 import { LayerType } from './layer';
 
 
@@ -14,15 +14,20 @@ export class MapService {
   constructor(private http: Http) {
   }
 
-  add(
-    title: string = "",
-    height: number,
-    width: number,
-    layerType: LayerType,
-    creatorId: number,
-    graphics: string = ""
-  ) {
-    // TODO: compute hash, id, date and return an Observable<OptionMap>
+  add(abaMap: AbaMap) {
+    /*
+
+     Comment (JCA) : All these attributes could be access from AbaMap (extending ArcgisMap)
+
+     title: string = "",
+     height: number,
+     width: number,
+     layerType: LayerType,
+     creatorId: number,
+     graphics: string = ""
+     )
+     */
+
   }
 
   map(id: number): Observable<OptionMap> {
