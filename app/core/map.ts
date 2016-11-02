@@ -11,7 +11,7 @@ export class OptionMap {
     public uid: number,
     public height: number,
     public width: number,
-    public mapType: LayerType,
+    public layerType: LayerType,
     public extent: string,
     public title?: string,
     public owner?: number,
@@ -79,7 +79,7 @@ export class AbaMap extends ArcgisMap {
     abaMap.height = optionMap.height;
     abaMap.width = optionMap.width;
 
-    abaMap.setLayerVisible(optionMap.mapType);
+    abaMap.setLayerVisible(optionMap.layerType);
 
     abaMap.title = optionMap.title;
     abaMap.owner = optionMap.owner;

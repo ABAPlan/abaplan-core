@@ -8,7 +8,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 1,
         height: 800,
         width: 1176,
-        mapType: { kind: "city" },
+        layerType: { kind: "city" },
         extent: `{
           "xmin":723897.60918677,
           "ymin":5879140.8778488,
@@ -26,7 +26,7 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 2,
         height: 800,
         width: 1176,
-        mapType: { kind: "city" },
+        layerType: { kind: "city" },
         extent: `{
           "xmin":723897.60918677,
           "ymin":5879140.8778488,
