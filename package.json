@@ -26,6 +26,7 @@
     "dist"
   ],
   "author": "Joel Cavat",
+  "contributors": ["Joel Cavat", "Maxiume Burri"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ABAPlan/abaplan-core/issues"
