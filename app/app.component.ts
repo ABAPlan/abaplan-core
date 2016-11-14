@@ -39,9 +39,12 @@ export class AppComponent {
     this.mapComponent.setLayerType(tab);
   }
 
+  ngAfterViewInit() {
+    // Init first tab
+    this.onSelect(this.tabs[0]);
+  }
+
   constructor() {
-    // Select first tab
-    // this.onSelect(this.tabs[0]);
   }
 
 }
