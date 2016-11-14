@@ -40,7 +40,7 @@ export class AppComponent {
   }
 
   ngAfterViewInit() {
-    // Init first tab
+    // Init default tab to first
     this.onSelect(this.tabs[0]);
   }
 
