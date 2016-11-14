@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { LayerType } from './core/layer';
+import { CityMapComponent } from './city-map/city-map.component'
 
 @Component({
   selector: 'aba-plan',
@@ -9,16 +11,20 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   title = "AbaPlan";
+  @ViewChild(CityMapComponent) mapComponent:CityMapComponent;
 
   public tabs: Array<any> = [
     {
       heading: 'Plan OSM',
+      kind : 'osm'
     },
     {
       heading: 'Plan de quartier',
+      kind : 'square'
     },
     {
       heading: 'Plan de ville',
+      kind : 'city'
     }
   ];
 
@@ -30,9 +36,12 @@ export class AppComponent {
 
   public onSelect(tab: any) {
     this.activeTab = tab.heading;
+    this.mapComponent.setLayerType(tab);
   }
 
-  constructor() {}
+  constructor() {
+    // Select first tab
+    // this.onSelect(this.tabs[0]);
+  }
 
 }
-

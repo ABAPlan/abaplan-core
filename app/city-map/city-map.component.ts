@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { OptionMap, AbaMap }                from '../core/map';
-import { MapService }         from '../core/map.service';
+import { Component, OnInit, Input} from '@angular/core';
+import { OptionMap, AbaMap } from '../core/map';
+import { LayerType } from '../core/layer';
+import { MapService } from '../core/map.service';
 
 @Component({
   selector: 'aba-map',
@@ -34,6 +35,10 @@ export class CityMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMaps();
+  }
+
+  setLayerType(layerType : LayerType): void {
+    this.map.setLayerVisible(layerType);
   }
 
 }
