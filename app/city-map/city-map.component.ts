@@ -22,10 +22,10 @@ export class CityMapComponent implements OnInit {
               this.optionMaps = optionMaps;
 
               // Show nothing
-              // this.map = AbaMap.fromOptionMap("esri-map", optionMaps[1]);
+              this.map = AbaMap.fromOptionMap("esri-map", this.optionMaps[0]);
 
               // Show bad map
-              this.map = new AbaMap("esri-map");
+              //this.map = new AbaMap("esri-map");
 
               console.log(this.optionMaps);
           }

@@ -61,9 +61,9 @@ export class AbaMap extends ArcgisMap {
   }
 
   public setLayerVisible(layerType: LayerType) {
-    this.layerIds
-      .forEach( (layerId) =>
-        this.getLayer(layerId).setVisibility(layerId === layerType.kind)
+    this.layers
+      .forEach( (layer) =>
+        layer.setVisibility(layer.id === layerType.kind)
       );
   }
 
@@ -82,7 +82,7 @@ export class AbaMap extends ArcgisMap {
 
     if(optionMap.graphics) {
       const json: any = JSON.parse(optionMap.graphics);
-      json.graphics.forEach( (graphic) => abaMap.graphics.add(new Graphic(graphic)));
+      json.forEach( (graphic) => abaMap.graphics.add(new Graphic(graphic)));
     }
 
     abaMap.hash = optionMap.hash;
