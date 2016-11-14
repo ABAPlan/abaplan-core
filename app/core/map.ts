@@ -57,11 +57,7 @@ export class AbaMap extends ArcgisMap {
 
     this.addLayers(this.layers);
 
-    // !!! <Osm>{} => attribute kind is undefined...
     this.setLayerVisible({kind:"osm"});
-
-    // So set visibility of "osm"
-    // this.getLayer("osm").setVisibility(true);
   }
 
   public setLayerVisible(layerType: LayerType) {
