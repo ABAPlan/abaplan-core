@@ -69,7 +69,7 @@ export class AbaMap extends ArcgisMap {
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
 
-    const abaMap: AbaMap = new AbaMap(divId, new Extent(optionMap.extent));
+    const abaMap: AbaMap = new AbaMap(divId, new Extent(JSON.parse(optionMap.extent)));
 
     abaMap.uid = optionMap.uid;
     abaMap.height = optionMap.height;
