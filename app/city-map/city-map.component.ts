@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OptionMap }                from '../core/map';
+import { OptionMap, AbaMap }                from '../core/map';
 import { MapService }         from '../core/map.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { MapService }         from '../core/map.service';
 export class CityMapComponent implements OnInit {
 
   optionMaps: OptionMap[];
+  map : AbaMap;
 
   constructor(private mapService: MapService) { }
 
@@ -20,6 +21,7 @@ export class CityMapComponent implements OnInit {
           optionMaps => this.optionMaps = optionMaps
         );
     console.log(this.optionMaps);
+    this.map = new AbaMap("aba-map");
   }
 
   ngOnInit(): void {

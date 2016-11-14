@@ -55,19 +55,20 @@ export class AbaMap extends ArcgisMap {
     this.layers.push(new CityBrailleLayer());
     this.layers.push(new SquareBrailleLayer());
 
-    this.setLayerVisible(<Osm>{});
-
     this.addLayers(this.layers);
 
+    //this.setLayerVisible(<Osm>{});
+     this.getLayer["osm"].setVisibility(true);
   }
 
   public setLayerVisible(layerType: LayerType) {
 
     this.layerIds
-      .filter( (layerId) => layerId !== layerType.kind)
-      .forEach( (layerId) => this.getLayer[layerId].setVisibility(false));
-
-    this.getLayer(layerType.kind).setVisibility(true);
+      .forEach( (layerId) => {
+        this.getLayer[layerId].setVisibility(layerId === layerType.kind)
+      });
+    console.log(layerType);
+    //this.getLayer(layerType).setVisibility(true);
 
   }
 
