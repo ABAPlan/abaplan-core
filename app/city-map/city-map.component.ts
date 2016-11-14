@@ -18,10 +18,18 @@ export class CityMapComponent implements OnInit {
     this.mapService
         .maps()
         .subscribe(
-          optionMaps => this.optionMaps = optionMaps
+          optionMaps => {
+              this.optionMaps = optionMaps;
+
+              // Show nothing
+              // this.map = AbaMap.fromOptionMap("esri-map", optionMaps[1]);
+
+              // Show bad map
+              this.map = new AbaMap("esri-map");
+
+              console.log(this.optionMaps);
+          }
         );
-    console.log(this.optionMaps);
-    this.map = new AbaMap("aba-map");
   }
 
   ngOnInit(): void {
