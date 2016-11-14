@@ -57,19 +57,17 @@ export class AbaMap extends ArcgisMap {
 
     this.addLayers(this.layers);
 
-    //this.setLayerVisible(<Osm>{});
-     this.getLayer["osm"].setVisibility(true);
+    // !!! <Osm>{} => attribute kind is undefined...
+    this.setLayerVisible(<Osm>{});
+    // So set visibility of "osm"
+    this.getLayer("osm").setVisibility(true);
   }
 
   public setLayerVisible(layerType: LayerType) {
-
     this.layerIds
-      .forEach( (layerId) => {
-        this.getLayer[layerId].setVisibility(layerId === layerType.kind)
-      });
-    console.log(layerType);
-    //this.getLayer(layerType).setVisibility(true);
-
+      .forEach( (layerId) =>
+        this.getLayer(layerId).setVisibility(layerId === layerType.kind)
+      );
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
@@ -139,13 +137,3 @@ export class AbaMapWithInfo extends AbaMap {
 
 
 */
-
-
-
-
-
-
-
-
-
-
