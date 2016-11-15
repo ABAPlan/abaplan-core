@@ -28,7 +28,7 @@ export class AppComponent {
     }
   ];
 
-  public activeTab: string = this.tabs[1];
+  public activeTab: string = this.tabs[0];
 
   public isActive(tab: any) {
     return tab === this.activeTab;
