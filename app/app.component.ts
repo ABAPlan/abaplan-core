@@ -28,20 +28,25 @@ export class AppComponent {
     }
   ];
 
-  public activeTab: string = this.tabs[0].heading;
+  public activeTab: string = this.tabs[1];
 
   public isActive(tab: any) {
-    return tab.heading === this.activeTab;
+    return tab === this.activeTab;
   }
 
   public onSelect(tab: any) {
-    this.activeTab = tab.heading;
-    this.mapComponent.setLayerType(tab);
+    this.activeTab = tab;
+    if(this.mapComponent)
+      this.mapComponent.setLayerType(tab);
+  }
+
+  public onMapInstancied(event : any){
+    this.onSelect(this.activeTab);
   }
 
   ngAfterViewInit() {
     // Init default tab to first
-    this.onSelect(this.tabs[0]);
+    this.onSelect(this.activeTab);
   }
 
   constructor() {

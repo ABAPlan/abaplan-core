@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
@@ -14,6 +14,9 @@ export class CityMapComponent implements OnInit {
 
   optionMaps: OptionMap[];
   map : AbaMap;
+  nextLayerType : LayerType;
+
+  @Output() mapInstancied = new EventEmitter();
 
   constructor(private mapService: MapService) { }
 
@@ -26,11 +29,7 @@ export class CityMapComponent implements OnInit {
 
               // Show nothing
               this.map = AbaMap.fromOptionMap("esri-map", this.optionMaps[0]);
-
-              // Show bad map
-              //this.map = new AbaMap("esri-map");
-
-              console.log(this.optionMaps);
+              this.mapInstancied.emit(this.map);
           }
         );
   }
@@ -39,8 +38,12 @@ export class CityMapComponent implements OnInit {
     this.getMaps();
   }
 
-  setLayerType(layerType : LayerType): void {
-    this.map.setLayerVisible(layerType);
+  setLayerType(layerType : LayerType): boolean {
+    if(this.map){
+      this.map.setLayerVisible(layerType);
+      return true;
+    }
+    return false;
   }
 
 }
