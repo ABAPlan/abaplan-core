@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "webpack && \"karma start karma.conf.js\"",
-    "start": "concurrently \"webpack --watch\" \"lite-server\" ",
+    "start": "concurrently \"webpack --watch --progress\" \"lite-server\" ",
     "lite": "lite-server",
     "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings",
-    "build": "webpack --config ./webpack.config.js"
+    "build": "webpack --config ./webpack.config.js",
+    "clean": "rm -r node_modules typings"
   },
   "repository": {
     "type": "git",
