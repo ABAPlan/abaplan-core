@@ -52,8 +52,8 @@ export class AbaMap extends ArcgisMap {
     this.setExtent(extent);
 
     this.layers.push(new OsmLayer());
-    this.layers.push(new CityBrailleLayer());
     this.layers.push(new SquareBrailleLayer());
+    this.layers.push(new CityBrailleLayer());
 
     this.addLayers(this.layers);
 
@@ -63,7 +63,7 @@ export class AbaMap extends ArcgisMap {
   public setLayerVisible(layerType: LayerType) {
     this.layers
       .forEach( (layer) =>
-        layer.setVisibility(layer.kind === layerType.kind)
+        layer.setVisibility(layer.id === layerType.kind)
       );
   }
 
@@ -93,44 +93,3 @@ export class AbaMap extends ArcgisMap {
   }
 }
 
-
-/*
-export class AbaMapWithInfo extends AbaMap {
-// Construct an AbaMap from OptionMap
-
-  private uid: number;
-  private title?: string;
-  private owner?: number;
-  private hash?: string;
-  private dateCreation?: string;
-
-  public constructor(divId: Node | string, optionMap: OptionMap) {
-
-    super(divId);
-    this.uid = optionMap.uid;
-    this.height = optionMap.height;
-    this.width = optionMap.width;
-
-    this.setLayerVisible(optionMap.mapType);
-
-    // TODO: convert extent to json
-    this.setExtent(new Extent(optionMap.extent));
-
-    this.title = optionMap.title;
-    this.owner = optionMap.owner;
-
-    if(optionMap.graphics) {
-      const json: any = JSON.parse(optionMap.graphics);
-      json.graphics.forEach( (graphic) => this.graphics.add(new Graphic(graphic)));
-    }
-
-    this.hash = optionMap.hash;
-
-    this.dateCreation = optionMap.dateCreation;
-
-  }
-
-}
-
-
-*/
