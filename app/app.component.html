@@ -1,13 +1,21 @@
 <div class='container'>
-    <h1>{{title}}</h1>
-    <h4>{{ activeTab.heading }}</h4>
-    <div class="btn-group">
-        <button
-                *ngFor="let tab of tabs"
-                class="btn btn-primary"
-                [class.active]="isActive(tab)"
-                (click)="onSelect(tab)"> {{ tab.heading }}
-        </button>
+    <div class="row show-grid">
+        <h1>{{title}}</h1>
+        <h4>{{ activeTab.heading }}</h4>
     </div>
-    <aba-map (mapInstancied)="onMapInstancied($event)" ></aba-map>
+    <div class="row show-grid">
+        <div class="btn-group">
+            <button
+                    *ngFor="let tab of tabs"
+                    class="btn btn-primary"
+                    [class.active]="isActive(tab)"
+                    (click)="onSelect(tab)"> {{ tab.heading }}
+            </button>
+        </div>
+    </div>
+    <div class="row show-grid">
+        <div class="col-md-11">
+            <aba-map (mapInstancied)="onMapInstancied($event)" ></aba-map>
+        </div>
+    </div>
 </div>

@@ -4,7 +4,8 @@ import { CityMapComponent } from './city-map/city-map.component'
 
 @Component({
   selector: 'aba-plan',
-  templateUrl: 'app.component.html'
+  templateUrl: 'app.component.html',
+  styles: ['.show-grid { margin-bottom:10px; }']
 })
 
 
