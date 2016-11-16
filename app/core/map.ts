@@ -52,28 +52,24 @@ export class AbaMap extends ArcgisMap {
     this.setExtent(extent);
 
     this.layers.push(new OsmLayer());
-    this.layers.push(new CityBrailleLayer());
     this.layers.push(new SquareBrailleLayer());
-
-    this.setLayerVisible(<Osm>{});
+    this.layers.push(new CityBrailleLayer());
 
     this.addLayers(this.layers);
 
+    this.setLayerVisible({kind:"osm"});
   }
 
   public setLayerVisible(layerType: LayerType) {
-
-    this.layerIds
-      .filter( (layerId) => layerId !== layerType.kind)
-      .forEach( (layerId) => this.getLayer[layerId].setVisibility(false));
-
-    this.getLayer(layerType.kind).setVisibility(true);
-
+    this.layers
+      .forEach( (layer) =>
+        layer.setVisibility(layer.id === layerType.kind)
+      );
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
 
-    const abaMap: AbaMap = new AbaMap(divId, new Extent(optionMap.extent));
+    const abaMap: AbaMap = new AbaMap(divId, new Extent(JSON.parse(optionMap.extent)));
 
     abaMap.uid = optionMap.uid;
     abaMap.height = optionMap.height;
@@ -86,7 +82,7 @@ export class AbaMap extends ArcgisMap {
 
     if(optionMap.graphics) {
       const json: any = JSON.parse(optionMap.graphics);
-      json.graphics.forEach( (graphic) => abaMap.graphics.add(new Graphic(graphic)));
+      json.forEach( (graphic) => abaMap.graphics.add(new Graphic(graphic)));
     }
 
     abaMap.hash = optionMap.hash;
@@ -96,55 +92,4 @@ export class AbaMap extends ArcgisMap {
 
   }
 }
-
-
-/*
-export class AbaMapWithInfo extends AbaMap {
-// Construct an AbaMap from OptionMap
-
-  private uid: number;
-  private title?: string;
-  private owner?: number;
-  private hash?: string;
-  private dateCreation?: string;
-
-  public constructor(divId: Node | string, optionMap: OptionMap) {
-
-    super(divId);
-    this.uid = optionMap.uid;
-    this.height = optionMap.height;
-    this.width = optionMap.width;
-
-    this.setLayerVisible(optionMap.mapType);
-
-    // TODO: convert extent to json
-    this.setExtent(new Extent(optionMap.extent));
-
-    this.title = optionMap.title;
-    this.owner = optionMap.owner;
-
-    if(optionMap.graphics) {
-      const json: any = JSON.parse(optionMap.graphics);
-      json.graphics.forEach( (graphic) => this.graphics.add(new Graphic(graphic)));
-    }
-
-    this.hash = optionMap.hash;
-
-    this.dateCreation = optionMap.dateCreation;
-
-  }
-
-}
-
-
-*/
-
-
-
-
-
-
-
-
-
 
