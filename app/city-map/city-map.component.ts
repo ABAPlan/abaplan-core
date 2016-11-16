@@ -14,7 +14,6 @@ export class CityMapComponent implements OnInit {
 
   optionMaps: OptionMap[];
   map : AbaMap;
-  nextLayerType : LayerType;
 
   @Output() mapInstancied = new EventEmitter();
 
@@ -27,9 +26,10 @@ export class CityMapComponent implements OnInit {
           optionMaps => {
               this.optionMaps = optionMaps;
 
-              // Show nothing
-              this.map = AbaMap.fromOptionMap("esri-map", this.optionMaps[0]);
-              this.mapInstancied.emit(this.map);
+              // Show first map for the moment
+              const optionMap : OptionMap = this.optionMaps[0];
+              this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+              this.mapInstancied.emit(optionMap);
           }
         );
   }

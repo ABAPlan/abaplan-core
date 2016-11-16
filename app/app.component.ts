@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { LayerType } from './core/layer';
 import { CityMapComponent } from './city-map/city-map.component'
+import { OptionMap } from './core/map';
 
 @Component({
   selector: 'aba-plan',
@@ -35,18 +36,31 @@ export class AppComponent {
   }
 
   public onSelect(tab: any) {
+    this.setActiveTab(tab);
+  }
+
+  public setActiveTab(tab: any){
     this.activeTab = tab;
     if(this.mapComponent)
       this.mapComponent.setLayerType(tab);
   }
 
-  public onMapInstancied(event : any){
-    this.onSelect(this.activeTab);
+  public selectTabByLayerType(layerType : LayerType) : void{
+    // Find first layer type tabs
+    this.tabs.forEach( (tab) => {
+        if(tab.kind == layerType.kind)
+          this.setActiveTab(tab)
+      }
+    );
+  }
+
+  public onMapInstancied(optionMap : OptionMap){
+    this.selectTabByLayerType(optionMap.layerType);
   }
 
   ngAfterViewInit() {
     // Init default tab to first
-    this.onSelect(this.activeTab);
+    this.setActiveTab(this.tabs[0]);
   }
 
   constructor() {
