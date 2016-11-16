@@ -23,8 +23,7 @@ module.exports = {
         ]
     },
     output: {
-        filename: './dist/[name].bundle.js',
-        publicPath: './',
+        filename: 'dist/[name].bundle.js',
         libraryTarget: "amd"
     },
     resolve: {
@@ -37,8 +36,8 @@ module.exports = {
                 loaders: ['ts-loader', 'angular2-template-loader'],
                 exclude: [/\.(spec|e2e)\.ts$/]
             },
-            { 
-                test: /\.(html|css)$/, 
+            {
+                test: /\.(html|css)$/,
                 loader: 'raw-loader'
             }
         ]
