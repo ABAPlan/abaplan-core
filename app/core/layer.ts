@@ -8,6 +8,7 @@ import UniqueValueRenderer = require('esri/renderers/UniqueValueRenderer');
 import FeatureLayer = require('esri/layers/FeatureLayer');
 import SimpleRenderer = require('esri/renderers/SimpleRenderer');
 import Color = require('esri/Color');
+import urlUtils = require('esri/urlUtils');
 
 export type LayerType = City | Square | Osm;
 export interface City { kind: "city"; }
@@ -15,6 +16,13 @@ export interface Square { kind: "square"; }
 export interface Osm { kind: "osm"; }
 
 export type AbaLayer = OsmLayer | CityBrailleLayer | SquareBrailleLayer;
+
+urlUtils.addProxyRule({
+  urlPrefix: "https://hepiageo.hesge.ch",
+  //proxyUrl : "http://localhost:8880/proxy/proxy.php"
+  proxyUrl : "https://audiotactile.ovh/proxy/proxy.php"
+});
+
 
 const surface = {
   hard: [
@@ -53,21 +61,26 @@ const surface = {
 };
 
 const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color('black'));
-const BUILDING_SYMBOL = new PictureFillSymbol("src/traitilles.png", null, 15, 15);
-const WATER_SYMBOL = new PictureFillSymbol("src/cercle.png", null, 15, 15);
-const GREEN_SYMBOL = new PictureFillSymbol("src/traitilles.png", null, 25, 25);
+
+const url_traitilles = "./traitilles.png";// require("file!./img/traitilles.png");
+const url_cercle = "./cercle.png"; // require("file!./img/cercle.png");
+
+const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, null, 15, 15);
+const WATER_SYMBOL = new PictureFillSymbol(url_cercle, null, 15, 15);
+const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, null, 25, 25);
 
 const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/3";
 
-
 export class CityBrailleLayer extends FeatureLayer {
+
+  public kind: string = "city"
 
   constructor() {
 
     super(URL_FEATURE_LAYER, {
-      //id: 'cs_surfaceCS',
-      id: 'city',
-      outFields: ["type"],
+      id: 'cs_surfaceCS' //,
+      //id: 'city',
+      //outFields: ["type"],
     });
 
     const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
@@ -87,10 +100,12 @@ export class CityBrailleLayer extends FeatureLayer {
 }
 
 export class SquareBrailleLayer extends FeatureLayer {
+  public kind: string = "square";
   constructor() {
 
     super(URL_FEATURE_LAYER, {
-      id: 'square',
+      id: 'cs_surfaceCS',
+      //id: 'square',
       outFields: ["type"],
     });
 
@@ -113,9 +128,9 @@ export class SquareBrailleLayer extends FeatureLayer {
 }
 
 export class OsmLayer extends OpenStreetMapLayer {
+  public kind: string = "osm";
   constructor() {
     super();
-    this.id = "osm";
     this.setMaxScale(25);
   }
 }
