@@ -14,7 +14,7 @@ export class AppComponent {
   title = "AbaPlan";
   @ViewChild(CityMapComponent) mapComponent:CityMapComponent;
 
-  public tabs: Array<any> = [
+  private tabs: Array<any> = [
     {
       heading: 'Plan OSM',
       kind : 'osm'
@@ -29,7 +29,7 @@ export class AppComponent {
     }
   ];
 
-  public activeTab: string = this.tabs[0];
+  private activeTab: string = this.tabs[0];
 
   public isActive(tab: any) {
     return tab === this.activeTab;
