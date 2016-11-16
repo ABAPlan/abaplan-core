@@ -1,6 +1,6 @@
 <div class='container'>
     <h1>{{title}}</h1>
-    <h4>{{ activeTab }}</h4>
+    <h4>{{ activeTab.heading }}</h4>
     <div class="btn-group">
         <button
                 *ngFor="let tab of tabs"
@@ -9,5 +9,5 @@
                 (click)="onSelect(tab)"> {{ tab.heading }}
         </button>
     </div>
-    <aba-map></aba-map>
+    <aba-map (mapInstancied)="onMapInstancied($event)" ></aba-map>
 </div>
