@@ -62,8 +62,8 @@ const surface = {
 
 const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color('black'));
 
-const url_traitilles = "./traitilles.png";// require("file!./img/traitilles.png");
-const url_cercle = "./cercle.png"; // require("file!./img/cercle.png");
+const url_traitilles = require("file!./img/traitilles.png");
+const url_cercle = require("file!./img/cercle.png");
 
 const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, null, 15, 15);
 const WATER_SYMBOL = new PictureFillSymbol(url_cercle, null, 15, 15);
@@ -73,14 +73,10 @@ const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiot
 
 export class CityBrailleLayer extends FeatureLayer {
 
-  public kind: string = "city"
-
   constructor() {
 
     super(URL_FEATURE_LAYER, {
-      id: 'cs_surfaceCS' //,
-      //id: 'city',
-      //outFields: ["type"],
+      id: 'city',
     });
 
     const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
@@ -100,24 +96,22 @@ export class CityBrailleLayer extends FeatureLayer {
 }
 
 export class SquareBrailleLayer extends FeatureLayer {
-  public kind: string = "square";
+
   constructor() {
 
     super(URL_FEATURE_LAYER, {
-      id: 'cs_surfaceCS',
-      //id: 'square',
-      outFields: ["type"],
+      id: 'square',
     });
 
     const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
-    const champs = surface.building.concat(surface.hard, surface.water, surface.green, surface.linear);
+    const champs = surface.building.concat(surface.hard,surface.linear, surface.water, surface.green );
     const LINEAR_SYMBOL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 10);
 
+    surface.water.forEach( (value) => renderer.addValue(value, WATER_SYMBOL) );
     surface.building.forEach( (value) => renderer.addValue(value, BUILDING_SYMBOL));
     surface.hard.forEach( (value) => renderer.addValue(value, HARD_SYMBOL));
-    surface.water.forEach( (value) => renderer.addValue(value, WATER_SYMBOL) );
     surface.green.forEach( (value) => renderer.addValue(value, GREEN_SYMBOL) );
     surface.linear.forEach( (value) => renderer.addValue(value, LINEAR_SYMBOL));
 
@@ -128,7 +122,7 @@ export class SquareBrailleLayer extends FeatureLayer {
 }
 
 export class OsmLayer extends OpenStreetMapLayer {
-  public kind: string = "osm";
+  public id: string = "osm";
   constructor() {
     super();
     this.setMaxScale(25);
