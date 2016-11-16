@@ -6,7 +6,7 @@ import { MapService } from '../core/map.service';
 @Component({
   selector: 'aba-map',
   templateUrl: 'city-map.component.html',
-  styles: ['#esri-map { width: 1176px; height: 800px; }']
+  styles: ['#esri-map { width: 1029px; height: 700px; }']
 })
 
 

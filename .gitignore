@@ -10,3 +10,4 @@ typings
 !webpack.config.js
 .idea
 abaplan-core.iml
+/*.png
