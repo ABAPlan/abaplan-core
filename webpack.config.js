@@ -40,10 +40,6 @@ module.exports = {
             { 
                 test: /\.(html|css)$/, 
                 loader: 'raw-loader'
-            },
-            {
-                test: /\.png$/,
-                loader: "url-loader?mimetype=image/png"
             }
         ]
     },
