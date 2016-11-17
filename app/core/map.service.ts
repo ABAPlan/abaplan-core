@@ -3,54 +3,33 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import {OptionMap, AbaMap } from './map';
 import { LayerType } from './layer';
-import Sqlite = require('sqlite');
+var sqlite3 = require('sqlite3').verbose();
+
 
 @Injectable()
 export class MapService {
 
   private mapsUrl = "app/maps";
   private divId: Node | string = 'map-div';
-  private database: any;
+  private db: any;
 
   constructor(private http: Http) {
-
-    (new Sqlite("audiotaczhadmin")).then(db => {
-        this.database = db;
-     }, error => {
-          console.log("OPEN DB ERROR", error);
-     });
+    this.db = new sqlite3.Database(':memory:');
+    this.db.run("CREATE TABLE `maps` ( `uid` INTEGER PRIMARY KEY AUTOINCREMENT, `creatorId` INTEGER, `public` INTEGER, `title` TEXT, `width` INTEGER, `height` INTEGER, `extent` TEXT, `hash` TEXT, `graphics` TEXT, `city` INTEGER, `creationDate` TEXT );");
   }
 
   add(abaMap: AbaMap) {
-    /*
-    SQL lite with angular 2
-     Comment (JCA) : All these attributes could be access from AbaMap (extending ArcgisMap)
+     //Const
+     const pub= 1;
+     const city = 0;
 
-     title: string = "",
-     height: number,
-     width: number,
-     layerType: LayerType,
-     creatorId: number,
-     graphics: string = ""
-     esri this.graphics
-     )
-     */
-     var pub= 1; //??????
-     var city = 0;
+     //Graph Json to String
+     let jsonGraph ="";
+     abaMap.graphics.graphics.forEach((graphic) => jsonGraph+=graphic.toJson());
 
-     var jsonGraph ="";
-     var i = 0;
-     while(typeof abaMap.graphics[i] !== 'undefined'){
-       i++;
-       jsonGraph += abaMap.graphics[i].ToJson;
-     }
-
-     var insert = "INSERT INTO people (uid,creatorId,public,title,width,height,extent,hash,graphics,city,creationDate) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-     this.database.execSQL(insert, [abaMap.uid,abaMap.owner,pub,abaMap.title,abaMap.width,abaMap.height,abaMap.extent,abaMap.hash,jsonGraph,city,abaMap.dateCreation]).then(id => {
-           console.log("INSERT OK", id);
-       }, error => {
-           console.log("INSERT ERROR", error);
-       });
+     let stmt = this.db.prepare("INSERT INTO people (uid,creatorId,public,title,width,height,extent,hash,graphics,city,creationDate) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+     stmt.run(abaMap.uid,abaMap.owner,pub,abaMap.title,abaMap.width,abaMap.height,abaMap.extent,abaMap.hash,jsonGraph,city,abaMap.dateCreation);
+     stmt.finalize();
   }
 
   map(id: number): Observable<OptionMap> {
