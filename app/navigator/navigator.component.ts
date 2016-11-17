@@ -6,7 +6,7 @@ import ArcgisSearch = require('esri/dijit/Search');
 
 @Component({
   selector: 'aba-map',
-  templateUrl: 'city-map.component.html',
+  templateUrl: 'navigator.component.html',
   styles: ['#esri-map { width: 1176px; height: 800px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
 })
 

@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
 
 /* Feature Modules */
 import { CoreModule } from './core/core.module';
-import  { CityMapModule } from './city-map/city-map.module';
-import  { CityMapComponent } from './city-map/city-map.component';
+import  { CityMapModule } from './navigator/navigator.module';
+import  { CityMapComponent } from './navigator/navigator.component';
 
 /* Routing Module */
 // import { AppRoutingModule } from './app-routing.module';

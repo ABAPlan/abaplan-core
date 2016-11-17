@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { LayerType } from './core/layer';
-import { CityMapComponent } from './city-map/city-map.component'
+import { CityMapComponent } from './navigator/navigator.component'
 import { OptionMap } from './core/map';
 
 @Component({
