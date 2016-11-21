@@ -3,6 +3,7 @@ import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
+const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
 @Component({
   selector: 'aba-map',
@@ -16,6 +17,9 @@ export class CityMapComponent implements OnInit {
   optionMaps: OptionMap[];
   map : AbaMap;
   search: ArcgisSearch;
+
+  mapLoading : boolean = false;
+  imgLoading : string = img_loading;
 
   @Output() mapInstancied = new EventEmitter();
 
@@ -47,6 +51,9 @@ export class CityMapComponent implements OnInit {
 
   initMap(optionMap: OptionMap): void {
     this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+    this.map.on("update-start", () => this.mapLoading = true);
+    this.map.on("update-end", () => this.mapLoading = false);
+
     this.search = new ArcgisSearch(
       {
         map: this.map,
