@@ -9,5 +9,11 @@
     <div id="search"></div>
 </div>
 <div class="row">
-    <div id="esri-map"></div>
+    <div id="esri-map">
+      <!---->
+      <img  [hidden]="!mapLoading"
+            src='{{imgLoading}}'
+            style="z-index: 100; position: absolute; left: 50%; top: 50%;" 
+      />
+    </div>
 </div>
