@@ -3,7 +3,7 @@ import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
-const img_loading = require("file?name=./assets/[name].[ext]!./img/gears.gif");
+const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
 @Component({
   selector: 'aba-map',
