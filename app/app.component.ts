@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { LayerType } from './core/layer';
 import { CityMapComponent } from './navigator/navigator.component'
 import { OptionMap } from './core/map';
+import {ToolbarMapComponent} from "./toolbar/toolbar.component";
 
 
 interface IButtonInfo { heading: string }
@@ -16,6 +17,7 @@ type ButtonInfo = LayerType & IButtonInfo;
 export class AppComponent {
 
   @ViewChild(CityMapComponent) mapComponent: CityMapComponent;
+  @ViewChild(ToolbarMapComponent) toolbarMapComponent: ToolbarMapComponent;
 
   title = "AbaPlan";
 
@@ -39,7 +41,7 @@ export class AppComponent {
   constructor() {}
 
 
-  public onSelect(btnInfo: ButtonInfo) {
+  public onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
   }
 
@@ -69,6 +71,13 @@ export class AppComponent {
   ngAfterViewInit() {
     // Init default btnInfo to first
     this.setActive(this._btnInfos[0]);
+  }
+
+  public isEditableMode(): boolean {
+    if(this.toolbarMapComponent){
+      return this.toolbarMapComponent.isEditableMode();
+    }
+    return false;
   }
 
 }

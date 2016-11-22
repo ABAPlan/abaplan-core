@@ -6,11 +6,11 @@
     <div class="row show-grid">
         <div class="btn-group">
             <button
-                    *ngFor="let tab of tabs"
+                    *ngFor="let tab of _btnInfos"
                     class="btn btn-primary"
                     [class.active]="isActive(tab)"
-                    (click)="onSelect(tab)"> {{ tab.heading }}
-                <!-- [disabled]="isEditableMode()" -->
+                    [disabled]="isEditableMode()"
+                    (click)="onClick(tab)"> {{ tab.heading }}
             </button>
         </div>
     </div>
