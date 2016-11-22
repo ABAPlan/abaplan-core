@@ -9,50 +9,19 @@
                     *ngFor="let tab of tabs"
                     class="btn btn-primary"
                     [class.active]="isActive(tab)"
-                    [disabled]="isEditableMode()"
                     (click)="onSelectTab(tab)"> {{ tab.heading }}
-            </button>
-        </div>
-        <div class="btn-group">
-            <button
-                *ngIf="!isEditableMode()"
-                class="btn btn-primary"
-                [disabled]="!isEditableEditButton()"
-                (click)="changeEditableState()">Editer
-            </button>
-            <button
-                    *ngIf="isEditableMode()"
-                    class="btn btn-success"
-                    (click)="changeEditableState()">Naviguer
+                <!-- [disabled]="isEditableMode()" -->
             </button>
         </div>
     </div>
 
-    <div class="row show-grid">
-        <div class="btn-group" *ngIf="isEditableMode()">
-            <button
-                    *ngFor="let tool of drawTools"
-                    class="btn btn-primary"
-                    [class.active]="isActiveDrawTool(tool)">{{ tool.heading }}
-            </button>
-        </div>
-        <div class="btn-group" *ngIf="isEditableMode()">
-            <button
-                    *ngFor="let tool of editTools"
-                    class="btn btn-primary"
-                    [class.active]="isActiveEditTool(tool)">{{ tool.heading }}
-            </button>
-        </div>
-        <div class="btn-group" *ngIf="isEditableMode()">
-            <button class="btn btn-primary">Imprimer
-            </button>
-        </div>
-    </div>
+    <aba-toolbar-map></aba-toolbar-map>
 
     <div class="row show-grid">
         <div class="col-md-12">
             <aba-map (mapInstancied)="onMapInstancied($event)" ></aba-map>
         </div>
     </div>
+
 
 </div>

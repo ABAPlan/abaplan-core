@@ -15,6 +15,8 @@ import { CoreModule } from './core/core.module';
 import  { CityMapModule } from './navigator/navigator.module';
 import  { CityMapComponent } from './navigator/navigator.component';
 
+import { ToolbarMapComponent } from './toolbar/toolbar.component';
+
 /* Routing Module */
 // import { AppRoutingModule } from './app-routing.module';
 
@@ -26,7 +28,7 @@ import  { CityMapComponent } from './navigator/navigator.component';
     CoreModule,
     TabsModule
   ],
-  declarations: [ AppComponent, CityMapComponent ],
+  declarations: [ AppComponent, CityMapComponent, ToolbarMapComponent ],
   bootstrap:    [ AppComponent ]
 })
 
