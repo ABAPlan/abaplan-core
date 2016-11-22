@@ -3,9 +3,9 @@
         <button
                 *ngIf="!isEditableMode()"
                 class="btn btn-primary"
+                [disabled]="!isEditableEditButton()"
                 (click)="changeEditableState()">Editer
         </button>
-        <!--  [disabled]="!isEditableEditButton()" -->
 
         <button
                 *ngIf="isEditableMode()"

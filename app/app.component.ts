@@ -3,20 +3,23 @@ import { LayerType } from './core/layer';
 import { CityMapComponent } from './navigator/navigator.component'
 import { OptionMap } from './core/map';
 
+
+interface IButtonInfo { heading: string }
+type ButtonInfo = LayerType & IButtonInfo;
+
+
 @Component({
-selector: 'aba-plan',
-templateUrl: 'app.component.html',
-styles: ['.show-grid { margin-bottom:10px; }']
+  selector: 'aba-plan',
+  templateUrl: 'app.component.html',
+  styles: ['.show-grid { margin-bottom:10px; }']
 })
-
-
 export class AppComponent {
+
+  @ViewChild(CityMapComponent) mapComponent: CityMapComponent;
 
   title = "AbaPlan";
 
-  @ViewChild(CityMapComponent) mapComponent:CityMapComponent;
-
-  private tabs: Array<any> = [
+  private _btnInfos: Array<ButtonInfo> = [
     {
       heading: 'Plan OSM',
       kind : 'osm'
@@ -30,29 +33,31 @@ export class AppComponent {
       kind : 'city'
     }
   ];
-  private activeTab = this.tabs[0];
+  private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
 
+  constructor() {}
 
-  public isActive(tab: any) {
-    return tab === this.activeTab;
+
+  public onSelect(btnInfo: ButtonInfo) {
+    this.setActive(btnInfo);
   }
 
-  public onSelectTab(tab: any) {
-    this.setActiveTab(tab);
+  public isActive(btnInfo: ButtonInfo) {
+    return btnInfo === this._activeButtonInfo;
   }
 
-  public setActiveTab(tab: any){
-    this.activeTab = tab;
-    if(this.mapComponent)
-      this.mapComponent.setLayerType(tab);
+  public setActive(btnInfo: ButtonInfo){
+    this._activeButtonInfo = btnInfo;
+    if (this.mapComponent)
+      this.mapComponent.setLayerType(btnInfo);
   }
 
   public selectTabByLayerType(layerType : LayerType) : void{
-    // Find first layer type tabs
-    this.tabs.forEach( (tab) => {
-        if(tab.kind == layerType.kind)
-          this.setActiveTab(tab)
+    // Find first layer type _btnInfos
+    this._btnInfos.forEach( (btnInfo) => {
+        if (btnInfo.kind == layerType.kind)
+          this.setActive(btnInfo)
       }
     );
   }
@@ -62,12 +67,8 @@ export class AppComponent {
   }
 
   ngAfterViewInit() {
-    // Init default tab to first
-    this.setActiveTab(this.tabs[0]);
-  }
-
-
-  constructor() {
+    // Init default btnInfo to first
+    this.setActive(this._btnInfos[0]);
   }
 
 }

@@ -1,4 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+
+
+
 
 @Component({
   selector: 'aba-toolbar-map',
@@ -6,6 +9,8 @@ import { Component } from "@angular/core";
   styles: ['.show-grid { margin-bottom:10px; }']
 })
 export class ToolbarMapComponent {
+
+  @Input() activeTab: any;
 
   private drawTools: Array<any> = [
     {
@@ -36,8 +41,8 @@ export class ToolbarMapComponent {
   editableMode: boolean = false;
 
   constructor(){
-
   }
+
   public isActiveDrawTool(tool: any) {
     return tool === this.activeDrawTool;
   }
@@ -52,11 +57,12 @@ export class ToolbarMapComponent {
     return this.editableMode;
   }
 
-  /*
   public isEditableEditButton(): boolean {
-    return this.activeTab.kind !== 'osm';
+    if(this.activeTab){
+      return this.activeTab.kind !== 'osm';
+    }
+    return false;
   }
-  */
 }
 
 

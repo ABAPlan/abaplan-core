@@ -1,7 +1,7 @@
 <div class='container'>
     <div class="row show-grid">
         <h1>{{title}}</h1>
-        <h4>{{ activeTab.heading }}</h4>
+        <h4>{{ _activeButtonInfo.heading }}</h4>
     </div>
     <div class="row show-grid">
         <div class="btn-group">
@@ -9,13 +9,13 @@
                     *ngFor="let tab of tabs"
                     class="btn btn-primary"
                     [class.active]="isActive(tab)"
-                    (click)="onSelectTab(tab)"> {{ tab.heading }}
+                    (click)="onSelect(tab)"> {{ tab.heading }}
                 <!-- [disabled]="isEditableMode()" -->
             </button>
         </div>
     </div>
 
-    <aba-toolbar-map></aba-toolbar-map>
+    <aba-toolbar-map [activeTab]="_activeButtonInfo"></aba-toolbar-map>
 
     <div class="row show-grid">
         <div class="col-md-12">

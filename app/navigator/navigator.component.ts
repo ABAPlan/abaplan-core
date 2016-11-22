@@ -23,6 +23,7 @@ export class CityMapComponent implements OnInit {
 
   @Output() mapInstancied = new EventEmitter();
 
+
   constructor(private mapService: MapService) {
   }
 
