@@ -16,18 +16,22 @@
 
     <div class="btn-group" *ngIf="isEditableMode()">
         <button
-                *ngFor="let tool of drawTools"
+                *ngFor="let tool of drawTools()"
                 class="btn btn-primary"
-                [class.active]="isActiveDrawTool(tool)">{{ tool.heading }}
+                (click)="onClick(tool)"
+                [class.active]="isActive(tool)">{{ tool.heading }}
         </button>
     </div>
+
     <div class="btn-group" *ngIf="isEditableMode()">
         <button
-                *ngFor="let tool of editTools"
+                *ngFor="let tool of editTools()"
                 class="btn btn-primary"
-                [class.active]="isActiveEditTool(tool)">{{ tool.heading }}
+                (click)="onClick(tool)"
+                [class.active]="isActive(tool)">{{ tool.heading }}
         </button>
     </div>
+
     <div class="btn-group" *ngIf="isEditableMode()">
         <button class="btn btn-primary">Imprimer
         </button>

@@ -1,7 +1,10 @@
 import { Component, Input } from "@angular/core";
+import { LayerType } from '../core/layer';
 
-
-
+interface ITool { heading: string }
+type Tool = (DrawTool | EditTool) & ITool;
+interface DrawTool { kind: 'draw' }
+interface EditTool { kind: 'edit' }
 
 @Component({
   selector: 'aba-toolbar-map',
@@ -10,51 +13,66 @@ import { Component, Input } from "@angular/core";
 })
 export class ToolbarMapComponent {
 
-  @Input() activeTab: any;
+  @Input() activeTab: LayerType;
 
-  private drawTools: Array<any> = [
+  private tools: Array<Tool> = [
     {
-      heading: "Cercle"
+      heading: "Cercle",
+      kind: 'draw'
     },
     {
-      heading: "Polygone"
+      heading: "Polygone",
+      kind: 'draw'
     },
     {
-      heading: "Traitillés"
+      heading: "Traitillés",
+      kind: 'draw'
     },
     {
-      heading: "Passage piétons"
-    }
+      heading: "Passage piétons",
+      kind: 'draw'
+    },
+    {
+      heading: "Sélectionner",
+      kind: 'edit'
+    },
+    {
+      heading: "Supprimer",
+      kind: 'edit'
+    },
   ];
-  private activeDrawTool;
+  private activeTool?: Tool;
 
-  private editTools: Array<any> = [
-    {
-      heading: "Sélectionner"
-    },
-    {
-      heading: "Supprimer"
-    },
-  ];
-  private activeEditTool;
 
-  editableMode: boolean = false;
+  constructor(){ }
 
-  constructor(){
+
+  private drawTools(): Array<Tool> {
+    return this.tools.filter( (tool) => tool.kind === 'draw');
   }
 
-  public isActiveDrawTool(tool: any) {
-    return tool === this.activeDrawTool;
+  private editTools(): Array<Tool> {
+    return this.tools.filter( (tool) => tool.kind === 'edit');
   }
-  public isActiveEditTool(tool: any) {
-    return tool === this.activeEditTool;
+
+  public isActive(tool: Tool){
+    return tool === this.activeTool;
   }
+
+  public onClick(tool: Tool) {
+    this.activeTool = tool;
+  }
+
   public changeEditableState(): void {
-    this.editableMode = !this.editableMode;
+    if ( this.isEditableMode() ){
+      this.activeTool = undefined;
+    }else{
+      this.activeTool = this.tools[0];
+    }
   }
 
   public isEditableMode(): boolean {
-    return this.editableMode;
+    return this.activeTool !== undefined;
   }
 
   public isEditableEditButton(): boolean {
