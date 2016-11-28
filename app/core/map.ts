@@ -43,8 +43,11 @@ export class AbaMap extends ArcgisMap {
 
     super(divId, { logo: false, slider: false });
     this.draw = new Draw(this);
-    this.draw.on("draw-complete", function(event){
+    this.draw.on("draw-complete", (event) => {
       console.log(event);
+      let symbol = new SimpleLineSymbol();
+      symbol.setStyle(SimpleLineSymbol.STYLE_LONGDASH);
+      this.graphics.add(new Graphic(event.geometry, symbol));
     });
     if(!extent){
       extent = new Extent({
