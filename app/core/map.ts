@@ -5,6 +5,10 @@ import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
 
 import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm} from './layer';
 
+import Draw = require('esri/toolbars/draw');
+import SimpleLineSymbol = require('esri/symbols/SimpleLineSymbol');
+import PictureFillSymbol = require('esri/symbols/PictureFillSymbol');
+import SimpleFillSymbol = require('esri/symbols/SimpleFillSymbol');
 
 export class OptionMap {
   public constructor(
@@ -26,6 +30,8 @@ export class AbaMap extends ArcgisMap {
 
   private layers: AbaLayer[] = [];
 
+  private draw: Draw;
+
   public uid?: number;
   public title?: string;
   public owner?: number;
@@ -36,7 +42,10 @@ export class AbaMap extends ArcgisMap {
   public constructor(divId: Node | string, extent?: Extent) {
 
     super(divId, { logo: false, slider: false });
-
+    this.draw = new Draw(this);
+    this.draw.on("draw-complete", function(event){
+      console.log(event);
+    });
     if(!extent){
       extent = new Extent({
         xmin: 780000.0,
@@ -58,6 +67,8 @@ export class AbaMap extends ArcgisMap {
     this.addLayers(this.layers);
 
     this.setLayerVisible({kind:"osm"});
+
+    this.draw.activate(Draw.CIRCLE);
   }
 
   public setLayerVisible(layerType: LayerType) {
@@ -92,4 +103,3 @@ export class AbaMap extends ArcgisMap {
 
   }
 }
-
