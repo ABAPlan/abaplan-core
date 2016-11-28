@@ -22,7 +22,7 @@ export class CityMapComponent implements OnInit {
   imgLoading : string = img_loading;
 
   @Output() mapInstancied = new EventEmitter();
-
+  @Input() editableMode : boolean;
 
   constructor(private mapService: MapService) {
   }
@@ -40,6 +40,12 @@ export class CityMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMaps();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.editableMode && this.map){
+      this.map.setEditableMode(this.editableMode);
+    }
   }
 
   setLayerType(layerType : LayerType): boolean {

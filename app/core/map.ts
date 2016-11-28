@@ -71,7 +71,6 @@ export class AbaMap extends ArcgisMap {
 
     this.setLayerVisible({kind:"osm"});
 
-    this.draw.activate(Draw.CIRCLE);
   }
 
   public setLayerVisible(layerType: LayerType) {
@@ -79,6 +78,13 @@ export class AbaMap extends ArcgisMap {
       .forEach( (layer) =>
         layer.setVisibility(layer.id === layerType.kind)
       );
+  }
+
+  public setEditableMode(editableMode : boolean){
+    if(editableMode)
+      this.draw.activate(Draw.CIRCLE);
+    else
+      this.draw.deactivate();
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
