@@ -20,7 +20,8 @@
     <div class="row show-grid">
         <div class="col-md-12">
             <aba-map (mapInstancied)="onMapInstancied($event)"
-                      [editableMode]="isEditableMode()"></aba-map>
+                      [editableMode]="isEditableMode()"
+                      [geometryType]="getGeometryType()"></aba-map>
         </div>
     </div>
 

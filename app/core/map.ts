@@ -87,6 +87,10 @@ export class AbaMap extends ArcgisMap {
       this.draw.deactivate();
   }
 
+  public setGeometryType(geometryType : string){
+      this.draw.activate(Draw[geometryType]);
+  }
+
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
 
     const abaMap: AbaMap = new AbaMap(divId, new Extent(JSON.parse(optionMap.extent)));

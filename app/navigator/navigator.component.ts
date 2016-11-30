@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
@@ -23,6 +23,7 @@ export class CityMapComponent implements OnInit {
 
   @Output() mapInstancied = new EventEmitter();
   @Input() editableMode : boolean;
+  @Input() geometryType : string;
 
   constructor(private mapService: MapService) {
   }
@@ -43,8 +44,11 @@ export class CityMapComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.editableMode && this.map){
+    if(changes['editableMode'] && this.map){
       this.map.setEditableMode(this.editableMode);
+    }
+    if(changes['geometryType'] && this.map){
+      this.map.setGeometryType(this.geometryType);
     }
   }
 

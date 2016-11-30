@@ -1,9 +1,14 @@
 import { Component, Input } from "@angular/core";
 import { LayerType } from '../core/layer';
 
-interface ITool { heading: string }
-type Tool = (DrawTool | EditTool) & ITool;
 interface DrawTool { kind: 'draw' }
+interface EditTool { kind: 'edit' }
+
+interface ITool { heading: string }
+
+
+type Tool = (DrawTool | EditTool) & ITool;
+interface DrawTool { kind: 'draw', geometryType : string }
 interface EditTool { kind: 'edit' }
 
 @Component({
@@ -18,19 +23,23 @@ export class ToolbarMapComponent {
   private tools: Array<Tool> = [
     {
       heading: "Cercle",
-      kind: 'draw'
+      kind: 'draw',
+      geometryType: 'CIRCLE'
     },
     {
       heading: "Polygone",
-      kind: 'draw'
+      kind: 'draw',
+      geometryType: 'FREEHAND_POLYGON'
     },
     {
       heading: "Traitillés",
-      kind: 'draw'
+      kind: 'draw',
+      geometryType: 'FREEHAND_POLYLINE'
     },
     {
       heading: "Passage piétons",
-      kind: 'draw'
+      kind: 'draw',
+      geometryType: 'EXTENT'
     },
     {
       heading: "Sélectionner",
@@ -75,6 +84,19 @@ export class ToolbarMapComponent {
     return this.activeTool !== undefined;
   }
 
+  public getActiveToolKind(): string{
+    if(this.activeTool)
+      return this.activeTool.kind;
+  }
+
+  public getGeometryType(): string{
+    if(this.activeTool && this.activeTool.kind === "draw"){
+      let tool : DrawTool = <DrawTool>this.activeTool;
+      return tool.geometryType;
+    }
+    else return undefined;
+  }
+
   public isEditableEditButton(): boolean {
     if(this.activeTab){
       return this.activeTab.kind !== 'osm';
@@ -82,5 +104,3 @@ export class ToolbarMapComponent {
     return false;
   }
 }
-
-
