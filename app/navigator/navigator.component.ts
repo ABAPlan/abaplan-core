@@ -5,6 +5,8 @@ import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
+import { DrawType } from '../core/map';
+
 @Component({
   selector: 'aba-map',
   templateUrl: 'navigator.component.html',
@@ -23,7 +25,7 @@ export class CityMapComponent implements OnInit {
 
   @Output() mapInstancied = new EventEmitter();
   @Input() editableMode : boolean;
-  @Input() geometryType : string;
+  @Input() drawType : string;
 
   constructor(private mapService: MapService) {
   }
@@ -47,8 +49,8 @@ export class CityMapComponent implements OnInit {
     if(changes['editableMode'] && this.map){
       this.map.setEditableMode(this.editableMode);
     }
-    if(changes['geometryType'] && this.map){
-      this.map.setGeometryType(this.geometryType);
+    if(changes['drawType'] && this.map){
+      this.map.setDrawType(<DrawType>{kind:this.drawType});
     }
   }
 

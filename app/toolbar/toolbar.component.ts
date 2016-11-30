@@ -1,14 +1,14 @@
 import { Component, Input } from "@angular/core";
 import { LayerType } from '../core/layer';
+import { DrawType } from '../core/map';
 
 interface DrawTool { kind: 'draw' }
 interface EditTool { kind: 'edit' }
 
 interface ITool { heading: string }
 
-
 type Tool = (DrawTool | EditTool) & ITool;
-interface DrawTool { kind: 'draw', geometryType : string }
+interface DrawTool { kind: 'draw', drawType : DrawType }
 interface EditTool { kind: 'edit' }
 
 @Component({
@@ -24,22 +24,22 @@ export class ToolbarMapComponent {
     {
       heading: "Cercle",
       kind: 'draw',
-      geometryType: 'CIRCLE'
+      drawType : <DrawType>{ kind: 'circle' }
     },
     {
       heading: "Polygone",
       kind: 'draw',
-      geometryType: 'FREEHAND_POLYGON'
+      drawType : <DrawType>{ kind: 'polygon' }
     },
     {
       heading: "Traitillés",
       kind: 'draw',
-      geometryType: 'FREEHAND_POLYLINE'
+      drawType : <DrawType>{ kind: 'line' }
     },
     {
       heading: "Passage piétons",
       kind: 'draw',
-      geometryType: 'EXTENT'
+      drawType : <DrawType>{ kind: 'pedestrian' }
     },
     {
       heading: "Sélectionner",
@@ -89,10 +89,10 @@ export class ToolbarMapComponent {
       return this.activeTool.kind;
   }
 
-  public getGeometryType(): string{
+  public getDrawType(): string{
     if(this.activeTool && this.activeTool.kind === "draw"){
       let tool : DrawTool = <DrawTool>this.activeTool;
-      return tool.geometryType;
+      return tool.drawType.kind;
     }
     else return undefined;
   }

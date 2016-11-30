@@ -9,6 +9,25 @@ import Draw = require('esri/toolbars/draw');
 import SimpleLineSymbol = require('esri/symbols/SimpleLineSymbol');
 import PictureFillSymbol = require('esri/symbols/PictureFillSymbol');
 import SimpleFillSymbol = require('esri/symbols/SimpleFillSymbol');
+import Symbol = require('esri/symbols/Symbol');
+import Color = require('esri/Color');
+
+
+interface CircleDrawType { kind: 'circle' }
+interface PolygonDrawType { kind: 'polygon' }
+interface LineDrawType { kind: 'line' }
+interface PedestrianDrawType { kind: 'pedestrian' }
+
+export type DrawType =
+  ( CircleDrawType  |
+    PolygonDrawType |
+    LineDrawType    |
+    PedestrianDrawType);
+
+interface DrawInfo {
+  symbol : Symbol;
+  geometryType : string;
+};
 
 export class OptionMap {
   public constructor(
@@ -30,7 +49,7 @@ export class AbaMap extends ArcgisMap {
 
   private layers: AbaLayer[] = [];
 
-  private draw: Draw;
+
 
   public uid?: number;
   public title?: string;
@@ -38,15 +57,49 @@ export class AbaMap extends ArcgisMap {
   public hash?: string;
   public dateCreation?: string;
 
+
+  private draw: Draw;
+  private currentDrawType : DrawType;
+
+  private drawTypes : { [name:string] : DrawInfo; } = {
+    'circle' : {
+      symbol :
+        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
+           new Color([0, 0, 0, 1])),
+      geometryType : "CIRCLE",
+
+    },
+    'polygon' : {
+      symbol :
+        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
+           new Color([0, 0, 0, 1])),
+      geometryType : "CIRCLE"
+    },
+    'line' : {
+      symbol :
+        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
+           new Color([0, 0, 0, 1])),
+      geometryType : "CIRCLE"
+    },
+    'pedestrian' : {
+      symbol :
+        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
+           new Color([0, 0, 0, 1])),
+      geometryType : "CIRCLE"
+    }
+  };
+
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent) {
 
     super(divId, { logo: false, slider: false });
+
+
     this.draw = new Draw(this);
     this.draw.on("draw-complete", (event) => {
       console.log(event);
-      let symbol = new SimpleLineSymbol();
-      symbol.setStyle(SimpleLineSymbol.STYLE_LONGDASH);
+
+      var symbol = this.drawTypes[this.currentDrawType.kind].symbol;
       this.graphics.add(new Graphic(event.geometry, symbol));
     });
     if(!extent){
@@ -87,8 +140,10 @@ export class AbaMap extends ArcgisMap {
       this.draw.deactivate();
   }
 
-  public setGeometryType(geometryType : string){
-      this.draw.activate(Draw[geometryType]);
+  public setDrawType(drawType : DrawType){
+    console.log(drawType);
+    this.currentDrawType = drawType;
+    this.draw.activate(Draw[this.drawTypes[drawType.kind].geometryType]);
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {

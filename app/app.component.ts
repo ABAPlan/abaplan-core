@@ -80,9 +80,9 @@ export class AppComponent {
     return false;
   }
 
-  public getGeometryType() : string {
+  public getDrawType() : string {
     if(this.toolbarMapComponent){
-      return this.toolbarMapComponent.getGeometryType();
+      return this.toolbarMapComponent.getDrawType();
     }
     return undefined;
   }
