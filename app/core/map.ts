@@ -71,15 +71,17 @@ export class AbaMap extends ArcgisMap {
     },
     'polygon' : {
       symbol :
-        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
-           new Color([0, 0, 0, 1])),
-      geometryType : "CIRCLE"
+        (new SimpleLineSymbol())
+                .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
+                .setWidth(3),
+      geometryType : "POLYLINE"
     },
     'line' : {
       symbol :
-        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
-           new Color([0, 0, 0, 1])),
-      geometryType : "CIRCLE"
+        (new SimpleLineSymbol())
+                .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
+                .setWidth(3),
+      geometryType : "FREEHAND_POLYLINE"
     },
     'pedestrian' : {
       symbol :
