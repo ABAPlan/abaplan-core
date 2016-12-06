@@ -107,27 +107,31 @@ export class SquareBrailleLayer extends FeatureLayer {
     const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
-    const champs = surface.green.concat(surface.building, surface.hard, surface.water, surface.linear);
-    const LINEAR_SYMBOL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 6);
+    //const champs = surface.green.concat(surface.building, surface.hard, surface.water, surface.linear);
+    const champs = surface.building.concat(surface.hard, surface.water, surface.linear);
+    const LINEAR_SYMBOL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3);
 
-    surface.linear.forEach( (value) => renderer.addValue(value, LINEAR_SYMBOL));
-    surface.green.forEach( (value) => renderer.addValue(value, GREEN_SYMBOL) );
-    surface.water.forEach( (value) => renderer.addValue(value, WATER_SYMBOL) );
-    surface.building.forEach( (value) => renderer.addValue(value, BUILDING_SYMBOL));
-    surface.hard.forEach( (value) => renderer.addValue(value, HARD_SYMBOL));
+    surface.linear.forEach((value) => renderer.addValue(value, LINEAR_SYMBOL));
+    //surface.green.forEach((value) => renderer.addValue(value, GREEN_SYMBOL));
+    surface.water.forEach((value) => renderer.addValue(value, WATER_SYMBOL));
+    surface.building.forEach((value) => renderer.addValue(value, BUILDING_SYMBOL));
+    surface.hard.forEach((value) => renderer.addValue(value, HARD_SYMBOL));
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
     //this.setDefinitionExpression("type='route_chemin' or type='chemin_de_fer'");
     this.setRenderer(renderer);
   }
 
-
-  onUpdate(){
-    console.log("update");
-  }
   onUpdateEnd(error, info){
-    this.graphics = this.graphics.filter( (g) => g.attributes.type === 'route_chemin');
-    console.log(this.graphics);
+
+    // Reorder paths
+    const graphics = this.graphics.filter((g) => g.attributes.type !== 'route_chemin').concat(this.graphics.filter((g) => g.attributes.type === 'route_chemin'));
+
+    const chemin = this.graphics.filter( (g) => g.attributes.type === 'route_chemin' );
+    chemin.forEach((g) => console.log(g.getShape()));
+    this.clear();
+    this.graphics = graphics;
+    this.redraw();
 
   }
 }
