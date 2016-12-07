@@ -27,6 +27,7 @@ export type DrawType =
 interface DrawInfo {
   symbol : Symbol;
   geometryType : string;
+  drawComplete(map : ArcgisMap, event) : void;
 };
 
 export class OptionMap {
@@ -67,27 +68,42 @@ export class AbaMap extends ArcgisMap {
         new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
            new Color([0, 0, 0, 1])),
       geometryType : "CIRCLE",
-
+      drawComplete(map : ArcgisMap, event) {
+        var symbol = this.symbol;
+        map.graphics.add(new Graphic(event.geometry, symbol));
+      }
     },
     'polygon' : {
       symbol :
         (new SimpleLineSymbol())
                 .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
                 .setWidth(3),
-      geometryType : "POLYLINE"
+      geometryType : "POLYLINE",
+      drawComplete(map : ArcgisMap, event) {
+        var symbol = this.symbol;
+        map.graphics.add(new Graphic(event.geometry, symbol));
+      }
     },
     'line' : {
       symbol :
         (new SimpleLineSymbol())
                 .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
                 .setWidth(3),
-      geometryType : "FREEHAND_POLYLINE"
+      geometryType : "FREEHAND_POLYLINE",
+      drawComplete(map : ArcgisMap, event) {
+        var symbol = this.symbol;
+        map.graphics.add(new Graphic(event.geometry, symbol));
+      }
     },
     'pedestrian' : {
       symbol :
         new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
            new Color([0, 0, 0, 1])),
-      geometryType : "LINE"
+      geometryType : "LINE",
+      drawComplete(map : ArcgisMap, event) {
+        var symbol = this.symbol;
+        map.graphics.add(new Graphic(event.geometry, symbol));
+      }
     }
   };
 
@@ -99,10 +115,10 @@ export class AbaMap extends ArcgisMap {
 
     this.draw = new Draw(this);
     this.draw.on("draw-complete", (event) => {
-      console.log(event);
+      // Draw Complete 
+      this.currentDrawInfo.drawComplete(this, event);
 
-      var symbol = this.currentDrawInfo.symbol;
-      this.graphics.add(new Graphic(event.geometry, symbol));
+      console.log(event);
     });
     if(!extent){
       extent = new Extent({
