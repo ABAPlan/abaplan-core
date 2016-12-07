@@ -209,14 +209,13 @@ export class AbaMap extends ArcgisMap {
       ),
     'polygon' : 
       new DrawInfoBasicGeometry(
-        "POLYLINE", 
-        (new SimpleLineSymbol())
-                .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
-                .setWidth(3)
+        "POLYGON", 
+        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
+           new Color([0, 0, 0, 1]))  
       ),
     'line' : 
       new DrawInfoBasicGeometry(
-        "FREEHAND_POLYLINE", 
+        "POLYLINE", 
         (new SimpleLineSymbol())
                 .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
                 .setWidth(3)
