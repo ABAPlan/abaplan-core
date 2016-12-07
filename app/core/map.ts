@@ -59,7 +59,7 @@ export class AbaMap extends ArcgisMap {
 
 
   private draw: Draw;
-  private currentDrawType : DrawType;
+  private currentDrawInfo : DrawInfo;
 
   private drawTypes : { [name:string] : DrawInfo; } = {
     'circle' : {
@@ -87,7 +87,7 @@ export class AbaMap extends ArcgisMap {
       symbol :
         new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
            new Color([0, 0, 0, 1])),
-      geometryType : "CIRCLE"
+      geometryType : "LINE"
     }
   };
 
@@ -101,7 +101,7 @@ export class AbaMap extends ArcgisMap {
     this.draw.on("draw-complete", (event) => {
       console.log(event);
 
-      var symbol = this.drawTypes[this.currentDrawType.kind].symbol;
+      var symbol = this.currentDrawInfo.symbol;
       this.graphics.add(new Graphic(event.geometry, symbol));
     });
     if(!extent){
@@ -144,8 +144,8 @@ export class AbaMap extends ArcgisMap {
 
   public setDrawType(drawType : DrawType){
     console.log(drawType);
-    this.currentDrawType = drawType;
-    this.draw.activate(Draw[this.drawTypes[drawType.kind].geometryType]);
+    this.currentDrawInfo = this.drawTypes[drawType.kind];
+    this.draw.activate(Draw[this.currentDrawInfo.geometryType]);
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
