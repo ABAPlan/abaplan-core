@@ -29,6 +29,9 @@ interface DrawInfo {
   drawComplete(map : ArcgisMap, event) : void;
 };
 
+/**
+ * Base class for basic geometry type
+ */
 class DrawInfoBasicGeometry implements DrawInfo{
   private symbol : Symbol;
   public geometryType : string;
