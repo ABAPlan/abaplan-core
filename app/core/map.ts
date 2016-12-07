@@ -50,7 +50,7 @@ class DrawInfoBasicGeometry implements DrawInfo{
 
 class DrawInfoPedestrian implements DrawInfo {
   public geometryType : string = "LINE";
-  public pedestrianFillSize : number = 20 /*- zoom*/;
+  public pedestrianFillSize : number = 20;
   constructor() {
 
   }
@@ -110,9 +110,10 @@ class DrawInfoPedestrian implements DrawInfo {
     var k = A.y - (m * A.x); // ordonnée à l'origine de la droite décrite par les points A et B
 
     // longueur et largeur d'une bande du passage piétons
-    console.log(this.pedestrianFillSize);
-    var l = 2.5 * this.pedestrianFillSize;
-    var h = 5 * this.pedestrianFillSize;
+    let pedestrianFillSizeZoom = this.pedestrianFillSize - arcgisMap.getZoom();
+    console.log(pedestrianFillSizeZoom);
+    var l = 2.5 * pedestrianFillSizeZoom;
+    var h = 5 * pedestrianFillSizeZoom;
 
     // Théorème de Thalès
     var x = h * (B.y - A.y) / AB;
@@ -236,6 +237,14 @@ export class AbaMap extends ArcgisMap {
 
       console.log(event);
     });
+
+    this.draw.on("draw-complete", (event) => {
+      // Draw Complete 
+      this.currentDrawInfo.drawComplete(this, event);
+
+      console.log(event);
+    });
+
     if(!extent){
       extent = new Extent({
         xmin: 780000.0,
