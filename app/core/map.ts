@@ -25,10 +25,24 @@ export type DrawType =
     PedestrianDrawType);
 
 interface DrawInfo {
-  symbol : Symbol;
   geometryType : string;
   drawComplete(map : ArcgisMap, event) : void;
 };
+
+class DrawInfoBasicGeometry implements DrawInfo{
+  private symbol : Symbol;
+  public geometryType : string;
+
+  constructor(geometryType : string, symbol: Symbol) {
+    this.geometryType = geometryType;
+    this.symbol = symbol;
+  }
+
+  drawComplete(map : ArcgisMap, event) {
+    map.graphics.add(new Graphic(event.geometry, this.symbol));
+  }
+}
+
 
 export class OptionMap {
   public constructor(
@@ -63,46 +77,30 @@ export class AbaMap extends ArcgisMap {
   private currentDrawInfo : DrawInfo;
 
   private drawTypes : { [name:string] : DrawInfo; } = {
-    'circle' : {
-      symbol :
+    'circle' : 
+      new DrawInfoBasicGeometry(
+        "CIRCLE", 
         new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
-           new Color([0, 0, 0, 1])),
-      geometryType : "CIRCLE",
-      drawComplete(map : ArcgisMap, event) {
-        var symbol = this.symbol;
-        map.graphics.add(new Graphic(event.geometry, symbol));
-      }
-    },
-    'polygon' : {
-      symbol :
+           new Color([0, 0, 0, 1]))  
+      ),
+    'polygon' : 
+      new DrawInfoBasicGeometry(
+        "POLYLINE", 
         (new SimpleLineSymbol())
                 .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
-                .setWidth(3),
-      geometryType : "POLYLINE",
-      drawComplete(map : ArcgisMap, event) {
-        var symbol = this.symbol;
-        map.graphics.add(new Graphic(event.geometry, symbol));
-      }
-    },
-    'line' : {
-      symbol :
+                .setWidth(3)
+      ),
+    'line' : 
+      new DrawInfoBasicGeometry(
+        "FREEHAND_POLYLINE", 
         (new SimpleLineSymbol())
                 .setStyle(SimpleLineSymbol.STYLE_LONGDASH)
-                .setWidth(3),
-      geometryType : "FREEHAND_POLYLINE",
-      drawComplete(map : ArcgisMap, event) {
-        var symbol = this.symbol;
-        map.graphics.add(new Graphic(event.geometry, symbol));
-      }
-    },
+                .setWidth(3)
+      ),
     'pedestrian' : {
-      symbol :
-        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null,
-           new Color([0, 0, 0, 1])),
       geometryType : "LINE",
       drawComplete(map : ArcgisMap, event) {
-        var symbol = this.symbol;
-        map.graphics.add(new Graphic(event.geometry, symbol));
+        console.log("Not implemented");
       }
     }
   };
