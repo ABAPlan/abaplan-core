@@ -80,4 +80,11 @@ export class AppComponent {
     return false;
   }
 
+  public getDrawType() : string {
+    if(this.toolbarMapComponent){
+      return this.toolbarMapComponent.getDrawType();
+    }
+    return undefined;
+  }
+
 }

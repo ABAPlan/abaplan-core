@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
 import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
+
+import { DrawType } from '../core/map';
 
 @Component({
   selector: 'aba-map',
@@ -22,7 +24,8 @@ export class CityMapComponent implements OnInit {
   imgLoading : string = img_loading;
 
   @Output() mapInstancied = new EventEmitter();
-
+  @Input() editableMode : boolean;
+  @Input() drawType : string;
 
   constructor(private mapService: MapService) {
   }
@@ -40,6 +43,16 @@ export class CityMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMaps();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['editableMode'] && this.map){
+      this.map.setEditableMode(this.editableMode);
+    }
+    if(changes['drawType'] && this.map){
+      if(this.drawType !== undefined)
+        this.map.setDrawType(<DrawType>{kind:this.drawType});
+    }
   }
 
   setLayerType(layerType : LayerType): boolean {
