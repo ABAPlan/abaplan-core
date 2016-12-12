@@ -45,6 +45,12 @@ export class AppComponent {
     this.setActive(btnInfo);
   }
 
+  public onUpdateTool() {
+    this.mapComponent.setDrawType(
+      this.toolbarMapComponent.getDrawType()
+    );
+  }
+
   public isActive(btnInfo: ButtonInfo) {
     return btnInfo === this._activeButtonInfo;
   }

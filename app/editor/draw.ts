@@ -6,6 +6,7 @@ import SimpleFillSymbol = require('esri/symbols/SimpleFillSymbol');
 import Symbol = require('esri/symbols/Symbol');
 import Color = require('esri/Color');
 import Polygon = require('esri/geometry/Polygon');
+import Draw = require('esri/toolbars/draw');
 
 export interface DrawInfo {
   geometryType : string;
@@ -35,10 +36,10 @@ export class DrawInfoCircle extends DrawInfoBasicGeometry {
         if(!color)
             color = new Color([0, 0, 0, 1]);
 
-        super("CIRCLE", 
+        super(Draw.CIRCLE,
               new SimpleFillSymbol(
-                  SimpleFillSymbol.STYLE_SOLID, 
-                  null, 
+                  SimpleFillSymbol.STYLE_SOLID,
+                  null,
                   color)
         );
     }
@@ -49,7 +50,7 @@ export class DrawInfoPolyline extends DrawInfoBasicGeometry {
         if(!color)
             color = new Color([0, 0, 0, 1]);
 
-        super("POLYLINE", 
+        super(Draw.POLYLINE,
               new SimpleLineSymbol(
                   SimpleLineSymbol.STYLE_LONGDASH,
                   color,
@@ -64,17 +65,17 @@ export class DrawInfoPolygon extends DrawInfoBasicGeometry {
         if(!color)
             color = new Color([0, 0, 0, 1]);
 
-        super("POLYGON", 
+        super(Draw.POLYGON,
               new SimpleFillSymbol(
-                  SimpleFillSymbol.STYLE_SOLID, 
-                  null, 
+                  SimpleFillSymbol.STYLE_SOLID,
+                  null,
                   color)
         );
     }
 }
 
 export class DrawInfoPedestrian implements DrawInfo {
-  public geometryType : string = "LINE";
+  public geometryType : string = Draw.LINE;
   public pedestrianFillSize : number = 20;
   constructor() {
 
@@ -94,7 +95,7 @@ export class DrawInfoPedestrian implements DrawInfo {
   }
 
   /**
-  * Calcul de la prochaine coordonnées d'un point du passage 
+  * Calcul de la prochaine coordonnées d'un point du passage
   * Piétons tel que la distance soit toujours constante
   * Résoudre les équations y = mx + k et d = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2))
   */
@@ -131,7 +132,7 @@ export class DrawInfoPedestrian implements DrawInfo {
     // Distance entre les deux points composant le segment de droite dessiné
     var AB = Math.sqrt(Math.pow(B.x - A.x, 2) + Math.pow(B.y - A.y, 2));
     // Pente entre les points A et B
-    var m = (B.y - A.y) / (B.x - A.x); 
+    var m = (B.y - A.y) / (B.x - A.x);
     var k = A.y - (m * A.x); // ordonnée à l'origine de la droite décrite par les points A et B
 
     // longueur et largeur d'une bande du passage piétons
@@ -143,7 +144,7 @@ export class DrawInfoPedestrian implements DrawInfo {
     // Théorème de Thalès
     var x = h * (B.y - A.y) / AB;
     var y = h * (B.x - A.x) / AB;
-    
+
     console.log(Math.round(AB / l));
 
     var C = { x: A.x - x, y: A.y + y };
@@ -153,7 +154,7 @@ export class DrawInfoPedestrian implements DrawInfo {
     var geometries = [];
     for (var i = 0; i < Math.round(AB / l) ; i++) {
       // Calcul des points du rectangle autour du segment de droite
-      
+
       k = C.y - (m * C.x);
       C = this.nextCoord(C, l, m, k, A, B);
       D = this.nextCoord(C, l, m, k, A, B);
@@ -184,7 +185,7 @@ export class DrawInfoPedestrian implements DrawInfo {
     console.log(geometries.length + " polygon required to draw this pedestrian pathways");
     console.log(geometries.length);
 
-    // Créé une geometrie avec tous les polygones, mais on ne peut plus avoir une alternance de noir/blanc 
+    // Créé une geometrie avec tous les polygones, mais on ne peut plus avoir une alternance de noir/blanc
     // puisqu'un seul polygone avec un symbole
     //geometry = geometryEngine.union(geometries);
     //this.arcgisMap.graphics.add(new Graphic(geometry, symbol, { "shape": this.currentToolname, "texture": this.fillType, "passage_pieton": true }));

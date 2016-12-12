@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { LayerType } from '../core/layer';
 import { DrawType } from '../core/map';
 
@@ -19,6 +19,7 @@ interface EditTool { kind: 'edit' }
 export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
+  @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
 
   private tools: Array<Tool> = [
     {
@@ -70,6 +71,7 @@ export class ToolbarMapComponent {
 
   public onClick(tool: Tool) {
     this.activeTool = tool;
+    this.onUpdateTool.emit(tool);
   }
 
   public changeEditableState(): void {
