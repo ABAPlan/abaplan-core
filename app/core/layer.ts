@@ -157,11 +157,19 @@ export class SquareBrailleLayer extends FeatureLayer {
     return -1;
   }
 
+
+
   onGraphicAdd(graphic){
+
     if (graphic.attributes.type === 'route_chemin'){
-      const set = _.flatten(graphic.geometry.rings[0].map( g => [g, g])).slice(1);
-      set.pop();
-      graphic.geometry.rings = _.chunk(set, 2);
+      const xs = [];
+      graphic.geometry.rings.forEach(r => {
+        const set = _.flatten(r.map( g => [g, g])).slice(1);
+        set.pop();
+        xs.push(_.chunk(set, 2));
+      });
+      graphic.geometry.rings = _.flatten(xs);
+      console.log(graphic.geometry.rings);
     }
   }
 
@@ -169,127 +177,24 @@ export class SquareBrailleLayer extends FeatureLayer {
 
     // Reorder paths
     this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() !== null).forEach(g => g.getShape().moveToFront());
+
     const graphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() );
-    /*
-    const coordinates = graphics.map( g => _.flatten(g.geometry.toJson().rings).map( ([x, y]) => {  return {"x": x, "y": y}; } ) );
-    const conflicts = this.enumerate(coordinates.length).map( ([a, b]) => { return {'a': a, 'b': b, 'conflicts': _.intersectionWith(coordinates[a], coordinates[b], _.isEqual)} });
-    console.log(coordinates);
-    console.log(conflicts);
-    */
+    const isSameSegments = (s1, s2) => {
+      return (s1[0][0] === s2[0][0] && s1[0][1] == s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] == s2[1][1]) ||
+             (s1[0][0] === s2[1][0] && s1[0][1] == s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] == s2[0][1])
+    };
 
-    const isSameSegments = (s1, s2) => (s1[0][0] === s2[0][0] && s1[0][1] == s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] == s2[1][1]);
-    const isSame = (s1, s2) => isSameSegments(s1, s2) || isSameSegments(s2, s1);
-    const g1: any = graphics[0].geometry;
-    const g2: any = graphics[1].geometry;
-    const g3: any = graphics[2].geometry;
-    g1.rings.forEach( gg1 => g2.rings.forEach(gg2 => console.log(isSame(gg1, gg2))));
-    /*
-
-    console.log(_.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments));
-    console.log(_.intersectionWith(g1.geometry.rings, g3.geometry.rings, isSameSegments));
-    console.log(_.intersectionWith(g2.geometry.rings, g3.geometry.rings, isSameSegments));
-    console.log(graphics);
-    */
-
-
-
-
-
-
-
-
-
-
-
-
-
-    this.redraw();
-
-    //console.log(graphics);
-
-    //graphics.forEach( g=> console.log(g.geometry.toJson().rings ));
-    /*
-    conflicts.forEach( o  => {
-      let g1: any = this.graphics[o.a];
-      let g2: any = this.graphics[o.b];
-      //g1.geometry.rings.forEach(r => o.conflicts.forEach( c => console.log("(" + c.x + "," + c.y + "),(" + r[0] + "," + r[1] +")" )));
-      //g2.geometry.rings.forEach(r => o.conflicts.forEach( c => console.log("(" + c.x + "," + c.y + "),(" + r[0] + "," + r[1] +")" )));
-     // g2.geometry.rings.forEach(r => console.log(_.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0]))));
-     // _.remove(g1.geometry.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
-     // _.remove(g2.geometry.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
-      /*
-      g1.rings = _.filter(g1.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
-      g2.rings = _.filter(g2.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
-      console.log("---");
+    this.enumerate(graphics.length).forEach( ([a, b]) => {
+      console.log(a + " + " + b);
+      const g1: any = graphics[a];
+      const g2: any = graphics[b];
+      _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
+        _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
+        _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
+      })
     });
-  */
-    /*
-    let g = graphics[0];
 
-
-    let shape = g.getShape();
-
-    shape.setStroke({color: "#333", style: "Dash", cap: "round"});
-    console.log(shape);
-    shape.segments = shape.segments[0];
-    console.log(shape);
-
-    g.getShape().setShape(shape);
-    */
-
-
-
-    /*
-    console.log( g._shape);
-    g._shape.shape.path = g._shape.shape.path.slice(0, g._shape.shape.path.length);
-    // g._shape = Object.assign({}, g._shape);
-    console.log(g._shape.shape);
-    console.log( g._shape);
-    console.log(g);
-    */
-
-  //  g.geometry.type = 'polyline';
-//    g.geometry.paths = g.geometry.rings;
-
-
-
-
-//    this.clear();
-    //this.graphics = [];
-    //this.redraw();
-    //this.graphics = [g];
-    //this.redraw();
-
-    /*
-
-    let comparison = graphics.map( g =>  _.chunk(g.getShape().segments[0].args, 2).map( coord => coord[0] + " " + coord[1]));
-
-    let conflicts = [];
-    this.enumerate(comparison.length).forEach( ([x, y]) => conflicts.push(_.intersection(comparison[x], comparison[y])));
-
-    conflicts = conflicts.filter( c => c.length > 0 );
-    conflicts = conflicts.map( c => _.flatten(c.map( d => _.split(d, ' ')) ));
-    console.log(graphics[0]);
-    console.log(graphics[0].getShape().segments);
-    if (this.indexSubArray(graphics[0].getShape().segments[0].args, conflicts[0]) >= 0){
-      let indice = this.indexSubArray(graphics[0].getShape().segments[0].args, conflicts[0]);
-      let g : any = graphics[0].getShape();
-      console.log(indice);
-      g.segments[0].args = g.segments[0].args.slice(0, 9);
-      console.log(g);
-
-    }
-    console.log(this.indexSubArray(graphics[0].getShape().segments[0].args, conflicts[1]));
-
-    this.clear();
-
-    let g : any = graphics[0];
-    console.log(g.geometry.rings[0]);
-    g.geometry.rings[0] = _.slice(g.geometry.rings[0], 0, 19);
-    this.graphics = [graphics[0]];
     this.redraw();
-
-*/
 
   }
 }
