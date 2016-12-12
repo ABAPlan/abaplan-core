@@ -9,6 +9,9 @@ import FeatureLayer = require('esri/layers/FeatureLayer');
 import SimpleRenderer = require('esri/renderers/SimpleRenderer');
 import Color = require('esri/Color');
 import urlUtils = require('esri/urlUtils');
+import * as _ from "lodash";
+import Graphic = require("esri/graphic");
+import geometryEngine = require("esri/geometry/geometryEngine");
 
 export type LayerType = City | Square | Osm;
 export interface City { kind: "city"; }
@@ -104,7 +107,8 @@ export class SquareBrailleLayer extends FeatureLayer {
       id: 'square',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    //const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    const defaultSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, null, null);
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     //const champs = surface.green.concat(surface.building, surface.hard, surface.water, surface.linear);
@@ -122,16 +126,153 @@ export class SquareBrailleLayer extends FeatureLayer {
     this.setRenderer(renderer);
   }
 
+  enumerate(n) {
+
+    let ys = [];
+    let processed = [];
+    let xs = _.range(0, n);
+    xs.forEach( (x) => {
+      processed.push(x);
+      let zs = _.difference(xs, processed);
+      zs.forEach( (z) => ys.push([x, z]));
+    });
+    return ys;
+
+  }
+
+  indexSubArray(xs, ys) {
+    let xi = 0;
+    let yi = 0;
+    while ( xi < xs.length - ys.length){
+      if (xs[xi] === +ys[yi]){
+        yi += 1;
+        if (yi === ys.length) {
+          return xi;
+        }
+      } else {
+        yi = 0;
+      }
+      xi += 1;
+    }
+    return -1;
+  }
+
+  onGraphicAdd(graphic){
+    if (graphic.attributes.type === 'route_chemin'){
+      const set = _.flatten(graphic.geometry.rings[0].map( g => [g, g])).slice(1);
+      set.pop();
+      graphic.geometry.rings = _.chunk(set, 2);
+
+
+
+     // const set1 = _.chunk(graphic.geometry.rings[0], 2);
+      //const set2 = _.chunk(graphic.geometry.rings[0].slice(1), 2);
+
+
+
+
+
+//      console.log(graphic);
+    }
+  }
+
   onUpdateEnd(error, info){
 
     // Reorder paths
-    const graphics = this.graphics.filter((g) => g.attributes.type !== 'route_chemin').concat(this.graphics.filter((g) => g.attributes.type === 'route_chemin'));
+    this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() !== null).forEach(g => g.getShape().moveToFront());
 
-    const chemin = this.graphics.filter( (g) => g.attributes.type === 'route_chemin' );
-    chemin.forEach((g) => console.log(g.getShape()));
-    this.clear();
-    this.graphics = graphics;
+    const graphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() );
+    const coordinates = graphics.map( g => _.flatten(g.geometry.toJson().rings).map( ([x, y]) => {  return {"x": x, "y": y}; } ) );
+    const conflicts = this.enumerate(coordinates.length).map( ([a, b]) => { return {'a': a, 'b': b, 'conflicts': _.intersectionWith(coordinates[a], coordinates[b], _.isEqual)} });
+    console.log(coordinates);
+    console.log(conflicts);
+
+    //console.log(graphics);
+
+    //graphics.forEach( g=> console.log(g.geometry.toJson().rings ));
+    /*
+    conflicts.forEach( o  => {
+      let g1: any = this.graphics[o.a];
+      let g2: any = this.graphics[o.b];
+      //g1.geometry.rings.forEach(r => o.conflicts.forEach( c => console.log("(" + c.x + "," + c.y + "),(" + r[0] + "," + r[1] +")" )));
+      //g2.geometry.rings.forEach(r => o.conflicts.forEach( c => console.log("(" + c.x + "," + c.y + "),(" + r[0] + "," + r[1] +")" )));
+     // g2.geometry.rings.forEach(r => console.log(_.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0]))));
+     // _.remove(g1.geometry.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
+     // _.remove(g2.geometry.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
+      /*
+      g1.rings = _.filter(g1.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
+      g2.rings = _.filter(g2.rings, r => _.some(o.conflicts, c => (c.x === r[0] && c.y === r[1]) || (c.x === r[1] && c.y === r[0])));
+      console.log("---");
+    });
+  */
+    /*
+    let g = graphics[0];
+
+
+    let shape = g.getShape();
+
+    shape.setStroke({color: "#333", style: "Dash", cap: "round"});
+    console.log(shape);
+    shape.segments = shape.segments[0];
+    console.log(shape);
+
+    g.getShape().setShape(shape);
+    */
+
+
     this.redraw();
+
+    /*
+    console.log( g._shape);
+    g._shape.shape.path = g._shape.shape.path.slice(0, g._shape.shape.path.length);
+    // g._shape = Object.assign({}, g._shape);
+    console.log(g._shape.shape);
+    console.log( g._shape);
+    console.log(g);
+    */
+
+  //  g.geometry.type = 'polyline';
+//    g.geometry.paths = g.geometry.rings;
+
+
+
+
+//    this.clear();
+    //this.graphics = [];
+    //this.redraw();
+    //this.graphics = [g];
+    //this.redraw();
+
+    /*
+
+    let comparison = graphics.map( g =>  _.chunk(g.getShape().segments[0].args, 2).map( coord => coord[0] + " " + coord[1]));
+
+    let conflicts = [];
+    this.enumerate(comparison.length).forEach( ([x, y]) => conflicts.push(_.intersection(comparison[x], comparison[y])));
+
+    conflicts = conflicts.filter( c => c.length > 0 );
+    conflicts = conflicts.map( c => _.flatten(c.map( d => _.split(d, ' ')) ));
+    console.log(graphics[0]);
+    console.log(graphics[0].getShape().segments);
+    if (this.indexSubArray(graphics[0].getShape().segments[0].args, conflicts[0]) >= 0){
+      let indice = this.indexSubArray(graphics[0].getShape().segments[0].args, conflicts[0]);
+      let g : any = graphics[0].getShape();
+      console.log(indice);
+      g.segments[0].args = g.segments[0].args.slice(0, 9);
+      console.log(g);
+
+    }
+    console.log(this.indexSubArray(graphics[0].getShape().segments[0].args, conflicts[1]));
+
+    this.clear();
+
+    let g : any = graphics[0];
+    console.log(g.geometry.rings[0]);
+    g.geometry.rings[0] = _.slice(g.geometry.rings[0], 0, 19);
+    this.graphics = [graphics[0]];
+    this.redraw();
+
+*/
 
   }
 }
