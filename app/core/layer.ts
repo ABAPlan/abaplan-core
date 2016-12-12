@@ -162,17 +162,6 @@ export class SquareBrailleLayer extends FeatureLayer {
       const set = _.flatten(graphic.geometry.rings[0].map( g => [g, g])).slice(1);
       set.pop();
       graphic.geometry.rings = _.chunk(set, 2);
-
-
-
-     // const set1 = _.chunk(graphic.geometry.rings[0], 2);
-      //const set2 = _.chunk(graphic.geometry.rings[0].slice(1), 2);
-
-
-
-
-
-//      console.log(graphic);
     }
   }
 
@@ -180,12 +169,41 @@ export class SquareBrailleLayer extends FeatureLayer {
 
     // Reorder paths
     this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() !== null).forEach(g => g.getShape().moveToFront());
-
     const graphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() );
+    /*
     const coordinates = graphics.map( g => _.flatten(g.geometry.toJson().rings).map( ([x, y]) => {  return {"x": x, "y": y}; } ) );
     const conflicts = this.enumerate(coordinates.length).map( ([a, b]) => { return {'a': a, 'b': b, 'conflicts': _.intersectionWith(coordinates[a], coordinates[b], _.isEqual)} });
     console.log(coordinates);
     console.log(conflicts);
+    */
+
+    const isSameSegments = (s1, s2) => (s1[0][0] === s2[0][0] && s1[0][1] == s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] == s2[1][1]);
+    const isSame = (s1, s2) => isSameSegments(s1, s2) || isSameSegments(s2, s1);
+    const g1: any = graphics[0].geometry;
+    const g2: any = graphics[1].geometry;
+    const g3: any = graphics[2].geometry;
+    g1.rings.forEach( gg1 => g2.rings.forEach(gg2 => console.log(isSame(gg1, gg2))));
+    /*
+
+    console.log(_.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments));
+    console.log(_.intersectionWith(g1.geometry.rings, g3.geometry.rings, isSameSegments));
+    console.log(_.intersectionWith(g2.geometry.rings, g3.geometry.rings, isSameSegments));
+    console.log(graphics);
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+    this.redraw();
 
     //console.log(graphics);
 
@@ -220,7 +238,6 @@ export class SquareBrailleLayer extends FeatureLayer {
     */
 
 
-    this.redraw();
 
     /*
     console.log( g._shape);
