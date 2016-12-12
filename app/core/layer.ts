@@ -126,7 +126,8 @@ export class SquareBrailleLayer extends FeatureLayer {
     this.setRenderer(renderer);
   }
 
-  enumerate(n) {
+  // enumerate tuple of n combinations
+  enumerate(n: number): Array<any> {
 
     let ys = [];
     let processed = [];
@@ -140,25 +141,8 @@ export class SquareBrailleLayer extends FeatureLayer {
 
   }
 
-  indexSubArray(xs, ys) {
-    let xi = 0;
-    let yi = 0;
-    while ( xi < xs.length - ys.length){
-      if (xs[xi] === +ys[yi]){
-        yi += 1;
-        if (yi === ys.length) {
-          return xi;
-        }
-      } else {
-        yi = 0;
-      }
-      xi += 1;
-    }
-    return -1;
-  }
 
-
-
+  // Fires when a graphic is added to the layer
   onGraphicAdd(graphic){
 
     if (graphic.attributes.type === 'route_chemin'){
@@ -169,30 +153,34 @@ export class SquareBrailleLayer extends FeatureLayer {
         xs.push(_.chunk(set, 2));
       });
       graphic.geometry.rings = _.flatten(xs);
-      console.log(graphic.geometry.rings);
     }
   }
 
-  onUpdateEnd(error, info){
+  // Fires when a layer has finished updating its content
+  onUpdateEnd(){
 
-    // Reorder paths
-    this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() !== null).forEach(g => g.getShape().moveToFront());
-
-    const graphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() );
+    // Returns if two segments are identical
     const isSameSegments = (s1, s2) => {
       return (s1[0][0] === s2[0][0] && s1[0][1] == s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] == s2[1][1]) ||
-             (s1[0][0] === s2[1][0] && s1[0][1] == s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] == s2[0][1])
+        (s1[0][0] === s2[1][0] && s1[0][1] == s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] == s2[0][1])
     };
 
-    this.enumerate(graphics.length).forEach( ([a, b]) => {
-      console.log(a + " + " + b);
-      const g1: any = graphics[a];
-      const g2: any = graphics[b];
+    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() !== null );
+
+    // Detect and remove cut off paths:
+    // * Enumerates all combination of comparative paths
+    // * For each, detects segments' intersections and remove them
+    this.enumerate(pathsGraphics.length).forEach( ([a, b]) => {
+      const g1: any = pathsGraphics[a];
+      const g2: any = pathsGraphics[b];
       _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
         _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
         _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
       })
     });
+
+    // Reorder paths
+    pathsGraphics.forEach(g => g.getShape().moveToFront());
 
     this.redraw();
 
