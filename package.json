@@ -27,7 +27,10 @@
     "dist"
   ],
   "author": "Joel Cavat",
-  "contributors": ["Joel Cavat", "Maxiume Burri"],
+  "contributors": [
+    "Joel Cavat",
+    "Maxiume Burri"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ABAPlan/abaplan-core/issues"
@@ -43,10 +46,12 @@
     "@angular/platform-browser-dynamic": "~2.0.2",
     "@angular/router": "~3.0.2",
     "@angular/upgrade": "~2.0.2",
+    "@types/lodash": "^4.14.42",
     "angular-in-memory-web-api": "~0.1.15",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "esri-system-js": "^1.0.0-beta.0",
+    "lodash": "^4.17.2",
     "ng2-bootstrap": "^1.1.14",
     "raw-loader": "^0.5.1",
     "reflect-metadata": "^0.1.8",
