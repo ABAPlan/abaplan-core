@@ -66,7 +66,7 @@ export class AbaMap extends ArcgisMap {
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent) {
 
-    super(divId, { logo: false, slider: false });
+    super(divId, { logo: false, slider: true });
 
     if(!extent){
       extent = new Extent({
