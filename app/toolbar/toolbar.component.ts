@@ -7,14 +7,15 @@ interface EditTool { kind: 'edit' }
 
 interface ITool { heading: string }
 
-type Tool = (DrawTool | EditTool) & ITool;
+type Tool = (DrawTool | EditTool | ActionTool) & ITool;
 interface DrawTool { kind: 'draw', drawType : DrawType }
 interface EditTool { kind: 'edit' }
+interface ActionTool { kind: 'action' }
 
 @Component({
   selector: 'aba-toolbar-map',
   templateUrl: 'toolbar.component.html',
-  styles: ['.show-grid { margin-bottom:10px; }']
+  styles: ['.show-grid { margin-bottom:10px; } .btn-primary { padding-bottom:10px; }']
 })
 export class ToolbarMapComponent {
 
@@ -42,12 +43,28 @@ export class ToolbarMapComponent {
       drawType : <DrawType>{ kind: 'pedestrian' }
     },
     {
+      heading: "Déplacer",
+      kind: 'edit',
+      icon: 'glyphicon-move'
+    },
+    {
       heading: "Sélectionner",
       kind: 'edit'
     },
     {
       heading: "Supprimer",
-      kind: 'edit'
+      kind: 'edit',
+      icon: 'glyphicon-remove'
+    },
+    {
+      heading: "Imprimer",
+      kind: 'action',
+      icon: 'glyphicon-print'
+    },
+    {
+      heading: "Sauvegarder",
+      kind: 'action',
+      icon: 'glyphicon-floppy-save'
     },
   ];
   private activeTool?: Tool;
@@ -62,6 +79,10 @@ export class ToolbarMapComponent {
 
   private editTools(): Array<Tool> {
     return this.tools.filter( (tool) => tool.kind === 'edit');
+  }
+
+  private actionTools(): Array<Tool> {
+    return this.tools.filter( (tool) => tool.kind === 'action');
   }
 
   public isActive(tool: Tool){
