@@ -5,7 +5,7 @@ import { DrawType } from '../core/map';
 interface DrawTool { kind: 'draw' }
 interface EditTool { kind: 'edit' }
 
-interface ITool { heading: string }
+interface ITool { heading: string, icon?: string }
 
 type Tool = (DrawTool | EditTool | ActionTool) & ITool;
 interface DrawTool { kind: 'draw', drawType : DrawType }
