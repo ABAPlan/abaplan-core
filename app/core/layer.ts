@@ -74,6 +74,7 @@ const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, null, 25, 25);
 
 const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/3";
 
+
 export class CityBrailleLayer extends FeatureLayer {
 
   constructor() {
@@ -145,7 +146,8 @@ export class SquareBrailleLayer extends FeatureLayer {
   // Fires when a graphic is added to the layer
   onGraphicAdd(graphic){
 
-    if (graphic.attributes.type === 'route_chemin'){
+    if (graphic.attributes.type === 'route_chemin' || graphic.attributes.type === 'chemin_de_fer'){
+      console.log(graphic);
       const xs = [];
       graphic.geometry.rings.forEach(r => {
         const set = _.flatten(r.map( g => [g, g])).slice(1);
@@ -161,8 +163,8 @@ export class SquareBrailleLayer extends FeatureLayer {
 
     // Returns if two segments are identical
     const isSameSegments = (s1, s2) => {
-      return (s1[0][0] === s2[0][0] && s1[0][1] == s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] == s2[1][1]) ||
-        (s1[0][0] === s2[1][0] && s1[0][1] == s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] == s2[0][1])
+      return (s1[0][0] === s2[0][0] && s1[0][1] === s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] === s2[1][1]) ||
+        (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
     };
 
     const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() !== null );
