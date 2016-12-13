@@ -23,6 +23,20 @@ export class ToolbarMapComponent {
 
   private tools: Array<Tool> = [
     {
+      heading: "Déplacer",
+      kind: 'edit',
+      icon: 'glyphicon-move'
+    },
+    {
+      heading: "Sélectionner",
+      kind: 'edit'
+    },
+    {
+      heading: "Supprimer",
+      kind: 'edit',
+      icon: 'glyphicon-remove'
+    },
+    {
       heading: "Cercle",
       kind: 'draw',
       drawType : <DrawType>{ kind: 'circle' }
@@ -41,20 +55,6 @@ export class ToolbarMapComponent {
       heading: "Passage piétons",
       kind: 'draw',
       drawType : <DrawType>{ kind: 'pedestrian' }
-    },
-    {
-      heading: "Déplacer",
-      kind: 'edit',
-      icon: 'glyphicon-move'
-    },
-    {
-      heading: "Sélectionner",
-      kind: 'edit'
-    },
-    {
-      heading: "Supprimer",
-      kind: 'edit',
-      icon: 'glyphicon-remove'
     },
     {
       heading: "Imprimer",
