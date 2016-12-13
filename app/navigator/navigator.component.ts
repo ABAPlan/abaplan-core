@@ -46,17 +46,22 @@ export class CityMapComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['editableMode'] && this.map){
+    if (this.map){
+      this.map.setEditableMode(false);
+    } else {
+      return;
+    }
+    if (changes['editableMode']){
       this.map.setEditableMode(this.editableMode);
     }
-    if(changes['drawType'] && this.map){
+    if (changes['drawType']){
       if(this.drawType !== undefined)
         this.map.setDrawType(<DrawType>{kind:this.drawType});
     }
   }
 
   setLayerType(layerType : LayerType): boolean {
-    if(this.map){
+    if (this.map){
       this.map.setLayerVisible(layerType);
       return true;
     }
