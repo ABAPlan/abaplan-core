@@ -7,10 +7,10 @@ import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm
 
 import Draw = require('esri/toolbars/draw');
 
-import {DrawInfo, 
-        DrawInfoPedestrian, 
-        DrawInfoPolyline, 
-        DrawInfoPolygon, 
+import {DrawInfo,
+        DrawInfoPedestrian,
+        DrawInfoPolyline,
+        DrawInfoPolygon,
         DrawInfoCircle} from '../editor/draw'
 
 interface CircleDrawType { kind: 'circle' }
@@ -66,23 +66,7 @@ export class AbaMap extends ArcgisMap {
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent) {
 
-    super(divId, { logo: false, slider: true });
-
-
-    this.draw = new Draw(this);
-    this.draw.on("draw-complete", (event) => {
-      // Draw Complete 
-      this.currentDrawInfo.drawComplete(this, event);
-
-      console.log(event);
-    });
-
-    this.draw.on("draw-complete", (event) => {
-      // Draw Complete 
-      this.currentDrawInfo.drawComplete(this, event);
-
-      console.log(event);
-    });
+    super(divId, { logo: false, slider: false });
 
     if(!extent){
       extent = new Extent({
@@ -106,6 +90,10 @@ export class AbaMap extends ArcgisMap {
 
     this.setLayerVisible({kind:"osm"});
 
+    this.draw = new Draw(this);
+    this.draw.on("draw-complete", (event) => {
+      this.currentDrawInfo.drawComplete(this, event);
+    });
   }
 
   public setLayerVisible(layerType: LayerType) {
@@ -116,16 +104,20 @@ export class AbaMap extends ArcgisMap {
   }
 
   public setEditableMode(editableMode : boolean){
-    if(editableMode)
-      this.draw.activate(Draw.CIRCLE);
-    else
+    // Default draw type
+    this.currentDrawInfo = this.drawTypes['circle']; // TODO: fix bug circle first cause bug...
+
+    if(editableMode){
+      this.draw.activate(this.currentDrawInfo.geometryType);
+    }
+    else{
       this.draw.deactivate();
+    }
   }
 
   public setDrawType(drawType : DrawType){
-    console.log(drawType);
     this.currentDrawInfo = this.drawTypes[drawType.kind];
-    this.draw.activate(Draw[this.currentDrawInfo.geometryType]);
+    this.draw.activate(this.currentDrawInfo.geometryType);
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {

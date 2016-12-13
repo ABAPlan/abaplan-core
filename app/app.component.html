@@ -14,7 +14,9 @@
         </div>
     </div>
 
-    <aba-toolbar-map [activeTab]="_activeButtonInfo"></aba-toolbar-map>
+    <aba-toolbar-map
+      [activeTab]="_activeButtonInfo"
+      (onUpdateTool)="onUpdateTool($event)" ></aba-toolbar-map>
 
     <div class="row show-grid">
         <div class="col-md-12">
