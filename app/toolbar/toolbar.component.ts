@@ -67,7 +67,7 @@ export class ToolbarMapComponent {
       icon: 'glyphicon-floppy-save'
     },
   ];
-  private activeTool?: Tool;
+  private activeTool?: Tool = this.tools[0];
 
 
   constructor(){ }
@@ -94,15 +94,7 @@ export class ToolbarMapComponent {
   }
 
   public changeEditableState(): void {
-    if ( this.isEditableMode() ){
-      this.activeTool = undefined;
-    }else{
       this.activeTool = this.tools[0];
-    }
-  }
-
-  public isEditableMode(): boolean {
-    return this.activeTool !== undefined;
   }
 
   public getActiveToolKind(): string{

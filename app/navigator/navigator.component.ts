@@ -24,7 +24,6 @@ export class CityMapComponent implements OnInit {
   imgLoading : string = img_loading;
 
   @Output() mapInstancied = new EventEmitter();
-  @Input() editableMode : boolean;
   @Input() drawType : string;
 
   constructor(private mapService: MapService) {
@@ -51,11 +50,6 @@ export class CityMapComponent implements OnInit {
     } else {
       return;
     }
-    /*
-    if (changes['editableMode']){
-      this.map.setEditableMode(this.editableMode);
-    }
-    */
     if (changes['drawType']){
       if(this.drawType !== undefined)
         this.map.setDrawType(<DrawType>{kind:this.drawType});

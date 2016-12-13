@@ -9,7 +9,6 @@
                     *ngFor="let tab of _btnInfos"
                     class="btn btn-primary"
                     [class.active]="isActive(tab)"
-                    [disabled]="isEditableMode()"
                     (click)="onClick(tab)"> {{ tab.heading }}
             </button>
         </div>
@@ -20,7 +19,6 @@
     <div class="row show-grid">
         <div class="col-md-12">
             <aba-map (mapInstancied)="onMapInstancied($event)"
-                      [editableMode]="isEditableMode()"
                       [drawType]="getDrawType()"></aba-map>
         </div>
     </div>

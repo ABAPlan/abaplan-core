@@ -73,13 +73,6 @@ export class AppComponent {
     this.setActive(this._btnInfos[0]);
   }
 
-  public isEditableMode(): boolean {
-    if(this.toolbarMapComponent){
-      return this.toolbarMapComponent.isEditableMode();
-    }
-    return false;
-  }
-
   public getDrawType() : string {
     if(this.toolbarMapComponent){
       return this.toolbarMapComponent.getDrawType();

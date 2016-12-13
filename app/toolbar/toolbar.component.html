@@ -1,20 +1,6 @@
 <div class="row show-grid">
+
     <div class="btn-group">
-        <button
-                *ngIf="!isEditableMode()"
-                class="btn btn-primary"
-                [disabled]="!isEditableEditButton()"
-                (click)="changeEditableState()">Editer
-        </button>
-
-        <button
-                *ngIf="isEditableMode()"
-                class="btn btn-success"
-                (click)="changeEditableState()">Naviguer
-        </button>
-    </div>
-
-    <div class="btn-group" *ngIf="isEditableMode()">
         <button
                 *ngFor="let tool of editTools()"
                 class="btn btn-primary"
@@ -26,7 +12,7 @@
         </button>
     </div>
 
-    <div class="btn-group" *ngIf="isEditableMode()">
+    <div class="btn-group">
         <button
                 *ngFor="let tool of drawTools()"
                 class="btn btn-primary"
@@ -38,7 +24,7 @@
         </button>
     </div>
 
-    <div class="btn-group" *ngIf="isEditableMode()">
+    <div class="btn-group">
         <button
                 *ngFor="let tool of actionTools()"
                 class="btn btn-primary"
