@@ -143,8 +143,7 @@ export class SquareBrailleLayer extends FeatureLayer {
   }
 
 
-  // Fires when a graphic is added to the layer
-  onGraphicAdd(graphic){
+  transform(graphic){
 
     if (graphic.attributes.type === 'route_chemin' || graphic.attributes.type === 'chemin_de_fer'){
       console.log(graphic);
@@ -167,7 +166,8 @@ export class SquareBrailleLayer extends FeatureLayer {
         (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
     };
 
-    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' && g.getShape() !== null );
+    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' );
+    pathsGraphics.forEach( g => this.transform(g) );
 
     // Detect and remove cut off paths:
     // * Enumerates all combination of comparative paths
@@ -182,7 +182,7 @@ export class SquareBrailleLayer extends FeatureLayer {
     });
 
     // Reorder paths
-    pathsGraphics.forEach(g => g.getShape().moveToFront());
+    pathsGraphics.filter(g => g.getShape() !== null).forEach(g => g.getShape().moveToFront());
 
     this.redraw();
 
