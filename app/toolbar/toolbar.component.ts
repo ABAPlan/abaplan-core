@@ -108,6 +108,7 @@ export class ToolbarMapComponent {
   public getActiveToolKind(): string{
     if(this.activeTool)
       return this.activeTool.kind;
+    //TODO: ELSE ?
   }
 
   public getDrawType(): string{

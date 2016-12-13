@@ -16,7 +16,7 @@
 
     <div class="btn-group" *ngIf="isEditableMode()">
         <button
-                *ngFor="let tool of drawTools()"
+                *ngFor="let tool of editTools()"
                 class="btn btn-primary"
                 (click)="onClick(tool)"
                 [class.active]="isActive(tool)">
@@ -28,7 +28,7 @@
 
     <div class="btn-group" *ngIf="isEditableMode()">
         <button
-                *ngFor="let tool of editTools()"
+                *ngFor="let tool of drawTools()"
                 class="btn btn-primary"
                 (click)="onClick(tool)"
                 [class.active]="isActive(tool)">
