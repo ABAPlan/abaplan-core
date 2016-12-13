@@ -49,7 +49,7 @@ export class CityMapComponent implements OnInit {
     if(changes['editableMode'] && this.map){
       this.map.setEditableMode(this.editableMode);
     }
-    else if(changes['drawType'] && this.map){
+    if(changes['drawType'] && this.map){
       if(this.drawType !== undefined)
         this.map.setDrawType(<DrawType>{kind:this.drawType});
     }
