@@ -9,12 +9,12 @@ import { DrawType } from '../core/map';
 
 @Component({
   selector: 'aba-map',
-  templateUrl: 'navigator.component.html',
+  templateUrl: 'map.component.html',
   styles: ['#esri-map { width: 1176px; height: 800px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
 })
 
 
-export class CityMapComponent implements OnInit {
+export class MapComponent implements OnInit {
 
   optionMaps: OptionMap[];
   map : AbaMap;

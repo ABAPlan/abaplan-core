@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
 
 /* Feature Modules */
 import { CoreModule } from './core/core.module';
-import  { CityMapModule } from './navigator/navigator.module';
-import  { CityMapComponent } from './navigator/navigator.component';
+import  { MapModule } from './map/map.module';
+import  { MapComponent } from './map/map.component';
 
 import { ToolbarMapComponent } from './toolbar/toolbar.component';
 
@@ -24,11 +24,11 @@ import { ToolbarMapComponent } from './toolbar/toolbar.component';
 @NgModule({
   imports:      [
     BrowserModule,
-    CityMapModule,
+    MapModule,
     CoreModule,
     TabsModule
   ],
-  declarations: [ AppComponent, CityMapComponent, ToolbarMapComponent ],
+  declarations: [ AppComponent, MapComponent, ToolbarMapComponent ],
   bootstrap:    [ AppComponent ]
 })
 
