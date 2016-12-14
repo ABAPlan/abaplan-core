@@ -9,4 +9,4 @@ import { MapService }       from '../core/map.service';
   declarations: [ ],
   providers:    [ MapService ]
 })
-export class CityMapModule { }
+export class MapModule { }

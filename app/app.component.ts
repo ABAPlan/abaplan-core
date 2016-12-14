@@ -1,6 +1,6 @@
 import { Component, ViewChild, Input } from '@angular/core';
 import { LayerType } from './core/layer';
-import { CityMapComponent } from './navigator/navigator.component'
+import { MapComponent } from './map/map.component'
 import { OptionMap } from './core/map';
 import {ToolbarMapComponent} from "./toolbar/toolbar.component";
 
@@ -16,7 +16,7 @@ type ButtonInfo = LayerType & IButtonInfo;
 })
 export class AppComponent {
 
-  @ViewChild(CityMapComponent) mapComponent: CityMapComponent;
+  @ViewChild(MapComponent) mapComponent: MapComponent;
   @ViewChild(ToolbarMapComponent) toolbarMapComponent: ToolbarMapComponent;
 
   title = "AbaPlan";
