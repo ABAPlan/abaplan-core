@@ -5,7 +5,7 @@ import { DrawType } from '../core/map';
 interface DrawTool { kind: 'draw' }
 interface EditTool { kind: 'edit' }
 
-interface ITool { heading: string, icon?: string }
+interface ITool { heading: string, icon?: string, image?: string }
 
 type Tool = (DrawTool | EditTool | ActionTool) & ITool;
 interface DrawTool { kind: 'draw', drawType : DrawType }
@@ -15,7 +15,7 @@ interface ActionTool { kind: 'action' }
 @Component({
   selector: 'aba-toolbar-map',
   templateUrl: 'toolbar.component.html',
-  styles: ['.show-grid { margin-bottom:10px; } .btn-primary { padding-bottom:10px; }']
+  styles: ['.show-grid { margin-bottom:10px; } .btn-primary { padding: 5px 10px 5px 10px; } img{ width: 20px}']
 })
 export class ToolbarMapComponent {
 
@@ -50,7 +50,8 @@ export class ToolbarMapComponent {
     {
       heading: "Traitillés",
       kind: 'draw',
-      drawType : <DrawType>{ kind: 'line' }
+      drawType : <DrawType>{ kind: 'line' },
+      image: require("file?name=./assets/[name].[ext]!./img/pedestrian.png")
     },
     {
       heading: "Passage piétons",
@@ -68,7 +69,7 @@ export class ToolbarMapComponent {
       icon: 'glyphicon-floppy-save'
     },
   ];
-  private activeTool?: Tool = this.tools[0];
+  private activeTool: Tool = this.tools[0];
 
 
   constructor(){ }
@@ -100,13 +101,11 @@ export class ToolbarMapComponent {
   }
 
   public getActiveToolKind(): string{
-    if(this.activeTool)
-      return this.activeTool.kind;
-    //TODO: ELSE ?
+    return this.activeTool.kind;
   }
 
   public getDrawType(): string{
-    if(this.activeTool && this.activeTool.kind === "draw"){
+    if(this.activeTool.kind === "draw"){
       let tool : DrawTool = <DrawTool>this.activeTool;
       return tool.drawType.kind;
     }

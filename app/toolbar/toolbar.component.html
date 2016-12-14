@@ -3,36 +3,32 @@
     <div class="btn-group">
         <button
                 *ngFor="let tool of editTools()"
-                class="btn btn-primary"
+                class="btn btn-primary btn-md glyphicon area-hidden='true' {{tool.icon}}"
                 (click)="onClick(tool)"
                 [class.active]="isActive(tool)">
-            <span class="glyphicon area-hidden='true' {{ tool.icon }}">
             {{ tool.heading }}
-            </span>
         </button>
     </div>
 
     <div class="btn-group">
         <button
                 *ngFor="let tool of drawTools()"
-                class="btn btn-primary"
+                class="btn btn-primary btn-md glyphicon area-hidden='true' {{tool.icon}}"
+                (click)="onClick(tool)"
                 (click)="onClick(tool)"
                 [class.active]="isActive(tool)">
-            <span class="glyphicon area-hidden='true' {{ tool.icon }}">
+            <img src="{{ tool.image }}">
             {{ tool.heading }}
-            </span>
         </button>
     </div>
 
     <div class="btn-group">
         <button
                 *ngFor="let tool of actionTools()"
-                class="btn btn-primary"
+                class="btn btn-primary btn-md"
                 (click)="onClick(tool)"
                 [class.active]="isActive(tool)">
-        <span class="glyphicon area-hidden='true' {{ tool.icon }}">
             {{ tool.heading }}
-            </span>
         </button>
     </div>
 
