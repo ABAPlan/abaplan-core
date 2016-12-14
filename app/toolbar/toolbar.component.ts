@@ -5,7 +5,7 @@ import { DrawType } from '../core/map';
 interface DrawTool { kind: 'draw' }
 interface EditTool { kind: 'edit' }
 
-interface ITool { heading: string, icon?: string, image?: string }
+interface ITool { heading: string, image?: string }
 
 type Tool = (DrawTool | EditTool | ActionTool) & ITool;
 interface DrawTool { kind: 'draw', drawType : DrawType }
@@ -15,7 +15,7 @@ interface ActionTool { kind: 'action' }
 @Component({
   selector: 'aba-toolbar-map',
   templateUrl: 'toolbar.component.html',
-  styles: ['.show-grid { margin-bottom:10px; } .btn-primary { padding: 5px 10px 5px 10px; } img{ width: 20px}']
+  styleUrls: ['toolbar.component.css']
 })
 export class ToolbarMapComponent {
 
@@ -26,47 +26,51 @@ export class ToolbarMapComponent {
     {
       heading: "Déplacer",
       kind: 'edit',
-      icon: 'glyphicon-move'
+      image: require("file?name=./assets/[name].[ext]!./img/move.png")
     },
     {
       heading: "Sélectionner",
-      kind: 'edit'
+      kind: 'edit',
+      image: require("file?name=./assets/[name].[ext]!./img/select.png")
     },
     {
       heading: "Supprimer",
       kind: 'edit',
-      icon: 'glyphicon-remove'
+      image: require("file?name=./assets/[name].[ext]!./img/delete.png")
     },
     {
       heading: "Cercle",
       kind: 'draw',
-      drawType : <DrawType>{ kind: 'circle' }
+      drawType : <DrawType>{ kind: 'circle' },
+      image: require("file?name=./assets/[name].[ext]!./img/circle.png")
     },
     {
       heading: "Polygone",
       kind: 'draw',
-      drawType : <DrawType>{ kind: 'polygon' }
+      drawType : <DrawType>{ kind: 'polygon' },
+      image: require("file?name=./assets/[name].[ext]!./img/polygon.png")
     },
     {
       heading: "Traitillés",
       kind: 'draw',
       drawType : <DrawType>{ kind: 'line' },
-      image: require("file?name=./assets/[name].[ext]!./img/pedestrian.png")
+      image: require("file?name=./assets/[name].[ext]!./img/dotted.png")
     },
     {
       heading: "Passage piétons",
       kind: 'draw',
-      drawType : <DrawType>{ kind: 'pedestrian' }
+      drawType : <DrawType>{ kind: 'pedestrian' },
+      image: require("file?name=./assets/[name].[ext]!./img/pedestrian.png")
     },
     {
       heading: "Imprimer",
       kind: 'action',
-      icon: 'glyphicon-print'
+      image: require("file?name=./assets/[name].[ext]!./img/print.png")
     },
     {
       heading: "Sauvegarder",
       kind: 'action',
-      icon: 'glyphicon-floppy-save'
+      image: require("file?name=./assets/[name].[ext]!./img/save.png")
     },
   ];
   private activeTool: Tool = this.tools[0];
