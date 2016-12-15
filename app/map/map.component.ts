@@ -11,7 +11,7 @@ import { DrawType } from '../core/map';
   selector: 'aba-map',
   templateUrl: 'map.component.html',
   //styles: ['#esri-map { width: 1176px; height: 800px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
-  styles: ['#esri-map { width: 1029px; height: 700px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
+  styles: ['#esri-map { width: 1058px; height: 720px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
 })
 
 

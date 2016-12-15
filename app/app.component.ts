@@ -12,7 +12,7 @@ type ButtonInfo = LayerType & IButtonInfo;
 @Component({
   selector: 'aba-plan',
   templateUrl: 'app.component.html',
-  styles: ['.show-grid { margin-bottom:10px; } aba-map { float: left; } aba-toolbar-map { float: left; width: 55px; padding-top: 38px;}']
+  styleUrls: ['app.component.css']
 })
 export class AppComponent {
 
