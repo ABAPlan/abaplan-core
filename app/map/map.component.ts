@@ -10,7 +10,8 @@ import { DrawType } from '../core/map';
 @Component({
   selector: 'aba-map',
   templateUrl: 'map.component.html',
-  styles: ['#esri-map { width: 1176px; height: 800px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
+  //styles: ['#esri-map { width: 1176px; height: 800px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
+  styles: ['#esri-map { width: 1029px; height: 700px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
 })
 
 

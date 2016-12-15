@@ -3,27 +3,30 @@
         <h1>{{title}}</h1>
         <h4>{{ _activeButtonInfo.heading }}</h4>
     </div>
-    <div class="row show-grid">
-        <div class="btn-group">
-            <button
-                    *ngFor="let tab of _btnInfos"
-                    class="btn btn-primary"
-                    [class.active]="isActive(tab)"
-                    (click)="onClick(tab)"> {{ tab.heading }}
-            </button>
-        </div>
-    </div>
 
-    <aba-toolbar-map
-      [activeTab]="_activeButtonInfo"
-      (onUpdateTool)="onUpdateTool($event)" ></aba-toolbar-map>
 
-    <div class="row show-grid">
-        <div class="col-md-12">
-            <aba-map (mapInstancied)="onMapInstancied($event)"
-                      [drawType]="getDrawType()"></aba-map>
+
+        <div class="row show-grid">
+            <div class="btn-group">
+                <button
+                        *ngFor="let tab of _btnInfos"
+                        class="btn btn-primary"
+                        [class.active]="isActive(tab)"
+                        (click)="onClick(tab)"> {{ tab.heading }}
+                </button>
+            </div>
         </div>
-    </div>
+
+        <div class="row show-grid">
+            <div class="col-md-12">
+                <aba-map (mapInstancied)="onMapInstancied($event)"
+                         [drawType]="getDrawType()"></aba-map>
+            <aba-toolbar-map
+                    [activeTab]="_activeButtonInfo"
+                    (onUpdateTool)="onUpdateTool($event)" ></aba-toolbar-map>
+
+            </div>
+        </div>
 
 
 </div>
