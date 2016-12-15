@@ -12,6 +12,7 @@ import urlUtils = require('esri/urlUtils');
 import * as _ from "lodash";
 import Graphic = require("esri/graphic");
 import geometryEngine = require("esri/geometry/geometryEngine");
+import esriConfig = require('esri/config');
 
 export type LayerType = City | Square | Osm;
 export interface City { kind: "city"; }
@@ -19,6 +20,8 @@ export interface Square { kind: "square"; }
 export interface Osm { kind: "osm"; }
 
 export type AbaLayer = OsmLayer | CityBrailleLayer | SquareBrailleLayer;
+
+//esriConfig.defaults.io.corsDetection = false;
 
 urlUtils.addProxyRule({
   urlPrefix: "https://hepiageo.hesge.ch",
