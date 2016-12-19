@@ -42,19 +42,11 @@ export class AbaDraw extends ArcgisDraw {
     this.currentDrawInfo.drawComplete(this.map, event);
   }
 
-  public setEditableMode(editableMode : boolean) {
-    // Default draw type
-    this.currentDrawInfo = this.drawTypes['circle']; // TODO: fix bug circle first cause bug...
-
-    if(editableMode){
-      this.activate(this.currentDrawInfo.geometryType);
-    }
-    else{
-      this.deactivate();
-    }
+  public disable() {
+    this.deactivate();
   }
 
-  public setDrawType(drawType : DrawType) {
+  public enable(drawType : DrawType) {
     this.currentDrawInfo = this.drawTypes[drawType.kind];
     this.activate(this.currentDrawInfo.geometryType);
   }

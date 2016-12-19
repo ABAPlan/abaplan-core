@@ -48,18 +48,6 @@ export class MapComponent implements OnInit {
     this.getMaps();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.map){
-      this.map.setEditableMode(false);
-    } else {
-      return;
-    }
-    if (changes['drawType']){
-      if(this.drawType !== undefined)
-        this.map.setDrawType(<DrawType>{kind:this.drawType});
-    }
-  }
-
   setLayerType(layerType : LayerType): boolean {
     if (this.map){
       this.map.setLayerVisible(layerType);

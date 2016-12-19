@@ -3,12 +3,20 @@ import Graphic = require('esri/graphic');
 import Extent = require('esri/geometry/Extent');
 import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
 
+/*
 import {AbaDraw, DrawType} from '../editor/drawMap';
 import {DrawInfo,
         DrawInfoPedestrian,
         DrawInfoPolyline,
         DrawInfoPolygon,
         DrawInfoCircle} from '../editor/draw'
+public setEditableMode(editableMode : boolean){
+  this.draw.setEditableMode(editableMode);
+}
+
+public setDrawType(drawType : DrawType){
+  this.draw.setDrawType(drawType);
+}*/
 
 import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm} from './layer';
 
@@ -38,8 +46,6 @@ export class AbaMap extends ArcgisMap {
   public hash?: string;
   public dateCreation?: string;
 
-  private draw : AbaDraw;
-
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent) {
 
@@ -66,8 +72,6 @@ export class AbaMap extends ArcgisMap {
     this.addLayers(this.layers);
 
     this.setLayerVisible({kind:"osm"});
-
-    this.draw = new AbaDraw(this);
   }
 
   public setLayerVisible(layerType: LayerType) {
@@ -99,13 +103,5 @@ export class AbaMap extends ArcgisMap {
     abaMap.dateCreation = optionMap.dateCreation;
 
     return abaMap;
-  }
-
-  public setEditableMode(editableMode : boolean){
-    this.draw.setEditableMode(editableMode);
-  }
-
-  public setDrawType(drawType : DrawType){
-    this.draw.setDrawType(drawType);
   }
 }

@@ -26,7 +26,6 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   }
 
   drawComplete(map : ArcgisMap, event) {
-    console.log(event);
     map.graphics.add(new Graphic(event.geometry, this.symbol));
   }
 }

@@ -2,15 +2,13 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { LayerType } from '../core/layer';
 import { DrawType } from '../editor/drawMap';
 
-interface DrawTool { kind: 'draw' }
-interface EditTool { kind: 'edit' }
+export interface ITool { heading: string, image?: string }
 
-interface ITool { heading: string, image?: string }
+export interface DrawTool { kind: 'draw', drawType : DrawType }
+export interface ActionTool { kind: 'action' }
+export interface EditTool { kind: 'edit' }
 
-type Tool = (DrawTool | EditTool | ActionTool) & ITool;
-interface DrawTool { kind: 'draw', drawType : DrawType }
-interface EditTool { kind: 'edit' }
-interface ActionTool { kind: 'action' }
+export type Tool = (DrawTool | EditTool | ActionTool) & ITool;
 
 @Component({
   selector: 'aba-toolbar-map',
@@ -106,14 +104,6 @@ export class ToolbarMapComponent {
 
   public getActiveToolKind(): string{
     return this.activeTool.kind;
-  }
-
-  public getDrawType(): string{
-    if(this.activeTool.kind === "draw"){
-      let tool : DrawTool = <DrawTool>this.activeTool;
-      return tool.drawType.kind;
-    }
-    else return undefined;
   }
 
   public isEditableEditButton(): boolean {

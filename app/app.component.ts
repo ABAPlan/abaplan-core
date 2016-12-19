@@ -2,8 +2,13 @@ import { Component, ViewChild, Input } from '@angular/core';
 import { LayerType } from './core/layer';
 import { MapComponent } from './map/map.component'
 import { OptionMap } from './core/map';
-import {ToolbarMapComponent} from "./toolbar/toolbar.component";
+import {ToolbarMapComponent,
+        Tool,
+        DrawTool,
+        EditTool,
+        ActionTool} from "./toolbar/toolbar.component";
 
+import { AbaDraw } from './editor/drawMap';
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
@@ -20,6 +25,8 @@ export class AppComponent {
   @ViewChild(ToolbarMapComponent) toolbarMapComponent: ToolbarMapComponent;
 
   title = "AbaPlan";
+
+  draw : AbaDraw;
 
   private _btnInfos: Array<ButtonInfo> = [
     {
@@ -40,17 +47,32 @@ export class AppComponent {
 
   constructor() {}
 
-
   public onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
   }
 
-  public onUpdateTool() {
-    /*
-    this.mapComponent.setDrawType(
-      this.toolbarMapComponent.getDrawType()
-    );
-    */
+  public onUpdateTool(tool : Tool) {;
+    switch (tool.kind) {
+      case "draw" :
+        this.draw.enable(tool.drawType);
+      break;
+
+      case "edit" :
+        this.draw.disable();
+        console.warn("edit buttons not implemented");
+        console.log(tool);
+      break;
+
+      case "action" :
+        console.warn("action buttons not implemented");
+        console.log(tool);
+      break
+
+      default :
+        console.warn("default not implemented");
+        console.log(tool);
+      break;
+    }
   }
 
   public isActive(btnInfo: ButtonInfo) {
@@ -74,18 +96,11 @@ export class AppComponent {
 
   public onMapInstancied(optionMap : OptionMap){
     this.selectTabByLayerType(optionMap.layerType);
+    this.draw = new AbaDraw(this.mapComponent.map);
   }
 
   ngAfterViewInit() {
     // Init default btnInfo to first
     this.setActive(this._btnInfos[0]);
   }
-
-  public getDrawType() : string {
-    if(this.toolbarMapComponent){
-      return this.toolbarMapComponent.getDrawType();
-    }
-    return undefined;
-  }
-
 }
