@@ -3,26 +3,14 @@ import Graphic = require('esri/graphic');
 import Extent = require('esri/geometry/Extent');
 import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
 
-import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm} from './layer';
-
-import Draw = require('esri/toolbars/draw');
-
+import {AbaDraw, DrawType} from '../editor/drawMap';
 import {DrawInfo,
         DrawInfoPedestrian,
         DrawInfoPolyline,
         DrawInfoPolygon,
         DrawInfoCircle} from '../editor/draw'
 
-interface CircleDrawType { kind: 'circle' }
-interface PolygonDrawType { kind: 'polygon' }
-interface LineDrawType { kind: 'line' }
-interface PedestrianDrawType { kind: 'pedestrian' }
-
-export type DrawType =
-  ( CircleDrawType  |
-    PolygonDrawType |
-    LineDrawType    |
-    PedestrianDrawType);
+import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm} from './layer';
 
 export class OptionMap {
   public constructor(
@@ -44,24 +32,13 @@ export class AbaMap extends ArcgisMap {
 
   private layers: AbaLayer[] = [];
 
-
-
   public uid?: number;
   public title?: string;
   public owner?: number;
   public hash?: string;
   public dateCreation?: string;
 
-
-  private draw: Draw;
-  private currentDrawInfo : DrawInfo;
-
-  private drawTypes : { [name:string] : DrawInfo; } = {
-    'circle' : new DrawInfoCircle(),
-    'polygon' : new DrawInfoPolygon(),
-    'line' : new DrawInfoPolyline(),
-    'pedestrian' : new DrawInfoPedestrian()
-  };
+  private draw : AbaDraw;
 
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent) {
@@ -90,10 +67,7 @@ export class AbaMap extends ArcgisMap {
 
     this.setLayerVisible({kind:"osm"});
 
-    this.draw = new Draw(this);
-    this.draw.on("draw-complete", (event) => {
-      this.currentDrawInfo.drawComplete(this, event);
-    });
+    this.draw = new AbaDraw(this);
   }
 
   public setLayerVisible(layerType: LayerType) {
@@ -101,23 +75,6 @@ export class AbaMap extends ArcgisMap {
       .forEach( (layer) =>
         layer.setVisibility(layer.id === layerType.kind)
       );
-  }
-
-  public setEditableMode(editableMode : boolean){
-    // Default draw type
-    this.currentDrawInfo = this.drawTypes['circle']; // TODO: fix bug circle first cause bug...
-
-    if(editableMode){
-      this.draw.activate(this.currentDrawInfo.geometryType);
-    }
-    else{
-      this.draw.deactivate();
-    }
-  }
-
-  public setDrawType(drawType : DrawType){
-    this.currentDrawInfo = this.drawTypes[drawType.kind];
-    this.draw.activate(this.currentDrawInfo.geometryType);
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
@@ -142,6 +99,13 @@ export class AbaMap extends ArcgisMap {
     abaMap.dateCreation = optionMap.dateCreation;
 
     return abaMap;
+  }
 
+  public setEditableMode(editableMode : boolean){
+    this.draw.setEditableMode(editableMode);
+  }
+
+  public setDrawType(drawType : DrawType){
+    this.draw.setDrawType(drawType);
   }
 }

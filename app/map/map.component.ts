@@ -5,7 +5,7 @@ import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
-import { DrawType } from '../core/map';
+import { DrawType } from '../editor/drawMap';
 
 @Component({
   selector: 'aba-map',

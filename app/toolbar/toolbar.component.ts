@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { LayerType } from '../core/layer';
-import { DrawType } from '../core/map';
+import { DrawType } from '../editor/drawMap';
 
 interface DrawTool { kind: 'draw' }
 interface EditTool { kind: 'edit' }
