@@ -97,6 +97,7 @@ export class DrawInfoPedestrian implements DrawInfo {
   * Calcul de la prochaine coordonnées d'un point du passage
   * Piétons tel que la distance soit toujours constante
   * Résoudre les équations y = mx + k et d = sqrt(pow(x2-x1, 2) + pow(y2-y1, 2))
+  * (rch)
   */
   nextCoord (A, l, m, k, D1, D2) {
     var a = Math.pow(m, 2) + 1;
@@ -126,17 +127,60 @@ export class DrawInfoPedestrian implements DrawInfo {
     return { x: x, y: y };
   }
 
+
+  /* no comment by the original author
+   * (rch)
+   */
   createPedestrianPathway (A, B, spatialRef, arcgisMap) {
+
+
+    let pedestrianFillSizeZoom = this.pedestrianFillSize - arcgisMap.getZoom();
+    let h = 5 * pedestrianFillSizeZoom;
+
+    let OA = [A.x, A.y];
+    let OB = [B.x, B.y];
+    let OC = [B.x + 10, B.y + 10];
+    let OD = [A.x + 10, A.y + 10];
+
+
+
+    var geometry = new Polygon([OA, OB, OC, OD]);
+    geometry.setSpatialReference(spatialRef);
+
+    let symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1]));
+
+    arcgisMap.graphics.add(new Graphic(geometry, symbol, {
+      "shape": this.geometryType,
+      "texture": symbol,
+      "passage_pieton": true
+    }));
+
+
+
+  }
+
+
+
+
+
+
+    /*
+
+
 
     // Distance entre les deux points composant le segment de droite dessiné
     var AB = Math.sqrt(Math.pow(B.x - A.x, 2) + Math.pow(B.y - A.y, 2));
+
+    console.log("--------------");
+    console.log(AB);
+
+
     // Pente entre les points A et B
     var m = (B.y - A.y) / (B.x - A.x);
     var k = A.y - (m * A.x); // ordonnée à l'origine de la droite décrite par les points A et B
 
     // longueur et largeur d'une bande du passage piétons
     let pedestrianFillSizeZoom = this.pedestrianFillSize - arcgisMap.getZoom();
-    console.log(pedestrianFillSizeZoom);
     var l = 2.5 * pedestrianFillSizeZoom;
     var h = 5 * pedestrianFillSizeZoom;
 
@@ -144,14 +188,18 @@ export class DrawInfoPedestrian implements DrawInfo {
     var x = h * (B.y - A.y) / AB;
     var y = h * (B.x - A.x) / AB;
 
-    console.log(Math.round(AB / l));
+
+
+    //console.log(Math.round(AB / l));
+    let nbRectangles = Math.round(AB / l);
+    nbRectangles = nbRectangles % 2 == 0 ? nbRectangles + 1 : nbRectangles;
 
     var C = { x: A.x - x, y: A.y + y };
     var D = { x: 0, y: 0 };
     var E = { x: 0, y: 0 };
     var F = { x: A.x + x, y: A.y - y };
     var geometries = [];
-    for (var i = 0; i < Math.round(AB / l) ; i++) {
+    for (var i = 0; i < nbRectangles ; i++) {
       // Calcul des points du rectangle autour du segment de droite
 
       k = C.y - (m * C.x);
@@ -163,20 +211,20 @@ export class DrawInfoPedestrian implements DrawInfo {
       E = this.nextCoord(F, l, m, k, A, B);
 
       // Création du rectangle autour de la droite
-      var geometry = new Polygon([[C.x, C.y], [D.x, D.y], [E.x, E.y], [F.x, F.y], [C.x, C.y]]);
+      var geometry = new Polygon([[C.x, C.y], [D.x, D.y], [E.x, E.y], [F.x, F.y]]);
       geometry.setSpatialReference(spatialRef);
-      var symbol;
-      if((i+1)%2){
-        symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1]));
-      }else{
-        symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 255, 255, 1]));
-      }
+
+      let symbol = (i+1)%2 ?
+        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1])) :
+        new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 255, 255, 1]));
+
 
       geometries.push(geometry);
-      //console.log(EditTools.getNbPP());
 
-      arcgisMap.graphics.add(new Graphic(geometry, symbol, { "shape": this.geometryType, "texture": symbol, "passage_pieton": true/*, "id": EditTools.getNbPP()*/ }));
 
+     // arcgisMap.graphics.add(new Graphic(geometry, symbol, { "shape": this.geometryType, "texture": symbol, "passage_pieton": true }));
+
+  /*
     }
 
     //////// EditTools.ppAdded();
@@ -189,6 +237,7 @@ export class DrawInfoPedestrian implements DrawInfo {
     //geometry = geometryEngine.union(geometries);
     //this.arcgisMap.graphics.add(new Graphic(geometry, symbol, { "shape": this.currentToolname, "texture": this.fillType, "passage_pieton": true }));
 
-  };
+  }
 
+   */
 }
