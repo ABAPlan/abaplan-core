@@ -120,13 +120,11 @@ export class SquareBrailleLayer extends FeatureLayer {
     const LINEAR_SYMBOL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3);
 
     surface.linear.forEach((value) => renderer.addValue(value, LINEAR_SYMBOL));
-    //surface.green.forEach((value) => renderer.addValue(value, GREEN_SYMBOL));
     surface.water.forEach((value) => renderer.addValue(value, WATER_SYMBOL));
     surface.building.forEach((value) => renderer.addValue(value, BUILDING_SYMBOL));
     surface.hard.forEach((value) => renderer.addValue(value, HARD_SYMBOL));
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
-    //this.setDefinitionExpression("type='route_chemin' or type='chemin_de_fer'");
     this.setRenderer(renderer);
   }
 
@@ -146,12 +144,22 @@ export class SquareBrailleLayer extends FeatureLayer {
   }
 
 
-  transform(graphic){
+  /* this function mutate a graphic to transform a list of coordinates representing a rings to a list of
+   * segments. Thanks to this, we can remove segments intersections later.
+   * Because some fields are not accessible for the Esri/Graphic type, we get it as an pojo js object
+   * (jca)
+   */
+  transform(graphic: any): void {
 
     if (graphic.attributes.type === 'route_chemin' || graphic.attributes.type === 'chemin_de_fer'){
-      console.log(graphic);
       const xs = [];
-      graphic.geometry.rings.forEach(r => {
+
+      // Esri lib doesn't refresh all element on a map, we have to keep the original reference of the rings as a
+      // good comparator
+      if (graphic.geometry.originalRings === undefined) {
+        graphic.geometry.originalRings = graphic.geometry.rings;
+      }
+      graphic.geometry.originalRings.forEach(r => {
         const set = _.flatten(r.map( g => [g, g])).slice(1);
         set.pop();
         xs.push(_.chunk(set, 2));
@@ -160,7 +168,10 @@ export class SquareBrailleLayer extends FeatureLayer {
     }
   }
 
-  // Fires when a layer has finished updating its content
+  /* Fires when a layer has finished updating its content
+   * We compare way-objects segments and remove those which intersect
+   * (jca)
+   */
   onUpdateEnd(){
 
     // Returns if two segments are identical
@@ -169,7 +180,7 @@ export class SquareBrailleLayer extends FeatureLayer {
         (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
     };
 
-    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' );
+    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' || g.attributes.type === 'chemin_de_fer');
     pathsGraphics.forEach( g => this.transform(g) );
 
     // Detect and remove cut off paths:
