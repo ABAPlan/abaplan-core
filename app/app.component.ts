@@ -54,7 +54,8 @@ export class AppComponent {
   public onUpdateTool(tool : Tool) {;
     switch (tool.kind) {
       case "draw" :
-        this.draw.enable(tool.drawType);
+        const drawTool = tool as DrawTool;
+        this.draw.enable(drawTool.drawType);
       break;
 
       case "edit" :
