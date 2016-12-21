@@ -51,7 +51,7 @@ export class AppComponent {
     this.setActive(btnInfo);
   }
 
-  public onUpdateTool(tool : Tool) {;
+  public onUpdateTool(tool : Tool) {
     switch (tool.kind) {
       case "draw" :
         const drawTool = tool as DrawTool;
