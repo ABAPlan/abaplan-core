@@ -7,6 +7,10 @@ import Symbol = require('esri/symbols/Symbol');
 import Color = require('esri/Color');
 import Polygon = require('esri/geometry/Polygon');
 import Draw = require('esri/toolbars/draw');
+import * as _ from "lodash";
+
+//import * as Vector from '../core/vector2d';
+import { Vector2d, subVec, addVec, norm, multVec, perp, clone } from '../core/vector2d';
 
 export interface DrawInfo {
   geometryType : string;
@@ -131,31 +135,46 @@ export class DrawInfoPedestrian implements DrawInfo {
   /* no comment by the original author
    * (rch)
    */
-  createPedestrianPathway (A, B, spatialRef, arcgisMap) {
+  createPedestrianPathway (origin, destination, spatialRef, arcgisMap) {
+
+    const pedestrianWidth = 5;
+
+    let A: Vector2d = clone(origin);
+    let C: Vector2d = clone(destination);
+    let B: Vector2d = clone(A);
+    let D: Vector2d = clone(C);
+
+    const AC: Vector2d = subVec(C, A);
+    const BD: Vector2d = perp(AC);
+
+    const lengthBD = norm(BD);
+    const lengthAC = norm(AC);
+    const unitBD = multVec(pedestrianWidth/lengthBD, BD);
+    const unitAC = multVec(pedestrianWidth/lengthAC, AC);
+    console.log(unitAC);
+    console.log(norm(unitAC));
+
+    const nbIter = Math.floor( lengthAC / 2.5 );
+    _.range(nbIter).forEach(
+      index => console.log(index)
+    );
+
+    A = subVec(A, unitBD);
+    B = addVec(B, unitBD);
+    C = addVec(C, unitBD);
+    D = subVec(D, unitBD);
 
 
-    let pedestrianFillSizeZoom = this.pedestrianFillSize - arcgisMap.getZoom();
-    let h = 5 * pedestrianFillSizeZoom;
-
-    let OA = [A.x, A.y];
-    let OB = [B.x, B.y];
-    let OC = [B.x + 10, B.y + 10];
-    let OD = [A.x + 10, A.y + 10];
-
-
-
-    var geometry = new Polygon([OA, OB, OC, OD]);
+    const geometry: Polygon = new Polygon([[A.x, A.y], [B.x, B.y], [C.x, C.y], [D.x, D.y]]);
     geometry.setSpatialReference(spatialRef);
 
-    let symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1]));
+    const symbol: SimpleFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1]));
 
     arcgisMap.graphics.add(new Graphic(geometry, symbol, {
       "shape": this.geometryType,
       "texture": symbol,
       "passage_pieton": true
     }));
-
-
 
   }
 
