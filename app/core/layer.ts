@@ -151,21 +151,19 @@ export class SquareBrailleLayer extends FeatureLayer {
    */
   transform(graphic: any): void {
 
-    if (graphic.attributes.type === 'route_chemin' || graphic.attributes.type === 'chemin_de_fer'){
-      const xs = [];
+    const xs = [];
 
-      // Esri lib doesn't refresh all element on a map, we have to keep the original reference of the rings as a
-      // good comparator
-      if (graphic.geometry.originalRings === undefined) {
-        graphic.geometry.originalRings = graphic.geometry.rings;
-      }
-      graphic.geometry.originalRings.forEach(r => {
-        const set = _.flatten(r.map( g => [g, g])).slice(1);
-        set.pop();
-        xs.push(_.chunk(set, 2));
-      });
-      graphic.geometry.rings = _.flatten(xs);
+    // Esri lib doesn't refresh all element on a map, we have to keep the original reference of the rings as a
+    // good comparator
+    if (graphic.geometry.originalRings === undefined) {
+      graphic.geometry.originalRings = graphic.geometry.rings;
     }
+    graphic.geometry.originalRings.forEach(r => {
+      const set = _.flatten(r.map( g => [g, g])).slice(1);
+      set.pop();
+      xs.push(_.chunk(set, 2));
+    });
+    graphic.geometry.rings = _.flatten(xs);
   }
 
   /* Fires when a layer has finished updating its content
@@ -180,7 +178,7 @@ export class SquareBrailleLayer extends FeatureLayer {
         (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
     };
 
-    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin' || g.attributes.type === 'chemin_de_fer');
+    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin');
     pathsGraphics.forEach( g => this.transform(g) );
 
     // Detect and remove cut off paths:
