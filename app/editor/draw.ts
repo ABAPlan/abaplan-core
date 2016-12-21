@@ -140,32 +140,37 @@ export class DrawInfoPedestrian implements DrawInfo {
     const pedestrianWidth = 5;
 
     let A: Vector2d = clone(origin);
-    let C: Vector2d = clone(destination);
-    let B: Vector2d = clone(A);
-    let D: Vector2d = clone(C);
+    let B: Vector2d = clone(destination);
 
-    const AC: Vector2d = subVec(C, A);
-    const BD: Vector2d = perp(AC);
+    const AB: Vector2d = subVec(B, A);
+    const perpAB: Vector2d = perp(AB);
 
-    const lengthBD = norm(BD);
-    const lengthAC = norm(AC);
-    const unitBD = multVec(pedestrianWidth/lengthBD, BD);
-    const unitAC = multVec(pedestrianWidth/lengthAC, AC);
-    console.log(unitAC);
-    console.log(norm(unitAC));
+    const lengthAB = norm(AB);
+    const lengthPerpAB = norm(perpAB);
+    const unitPerpAB = multVec(pedestrianWidth/lengthPerpAB, perpAB);
+    const unitAB = multVec(pedestrianWidth/lengthAB, AB);
 
-    const nbIter = Math.floor( lengthAC / 2.5 );
+    const nbIter = Math.floor( lengthAB / 2.5 );
     _.range(nbIter).forEach(
       index => console.log(index)
+
+
+
+
+
+
+
+
+
     );
 
-    A = subVec(A, unitBD);
-    B = addVec(B, unitBD);
-    C = addVec(C, unitBD);
-    D = subVec(D, unitBD);
+    let C1 = subVec(A, unitPerpAB);
+    let C2 = addVec(A, unitPerpAB);
+    let A_ = addVec(A, unitAB);
+    let C3 = addVec(A_, unitPerpAB);
+    let C4 = subVec(A_, unitPerpAB);
 
-
-    const geometry: Polygon = new Polygon([[A.x, A.y], [B.x, B.y], [C.x, C.y], [D.x, D.y]]);
+    const geometry: Polygon = new Polygon([[C1.x, C1.y], [C2.x, C2.y], [C3.x, C3.y], [C4.x, C4.y]]);
     geometry.setSpatialReference(spatialRef);
 
     const symbol: SimpleFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1]));
