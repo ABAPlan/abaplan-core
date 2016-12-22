@@ -114,7 +114,7 @@ export class DrawInfoPedestrian implements DrawInfo {
     const lengthAB = norm(AB);
     const lengthPerpAB = norm(perpAB);
 
-    let nbIter = Math.floor( lengthAB / 2.5 );
+    let nbIter = Math.max(3, Math.floor( lengthAB / 2.5 ));
     nbIter = nbIter % 2 == 0 ? nbIter+1 : nbIter;
 
     const unitPerpAB = multVec(pedestrianWidth/lengthPerpAB, perpAB);
