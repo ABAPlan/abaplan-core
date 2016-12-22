@@ -2,6 +2,7 @@ import ArcgisMap = require('esri/map');
 import Graphic = require('esri/graphic');
 import Extent = require('esri/geometry/Extent');
 import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
+import * as _ from "lodash";
 
 /*
 import {AbaDraw, DrawType} from '../editor/drawMap';
@@ -18,7 +19,7 @@ public setDrawType(drawType : DrawType){
   this.draw.setDrawType(drawType);
 }*/
 
-import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm} from './layer';
+import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm, StairsBrailleLayer} from './layer';
 
 export class OptionMap {
   public constructor(
@@ -68,6 +69,7 @@ export class AbaMap extends ArcgisMap {
     this.layers.push(new OsmLayer());
     this.layers.push(new SquareBrailleLayer());
     this.layers.push(new CityBrailleLayer());
+    this.layers.push(new StairsBrailleLayer());
 
     this.addLayers(this.layers);
 
@@ -76,8 +78,10 @@ export class AbaMap extends ArcgisMap {
 
   public setLayerVisible(layerType: LayerType) {
     this.layers
-      .forEach( (layer) =>
-        layer.setVisibility(layer.id === layerType.kind)
+      .forEach( (layer) => {
+          console.log(layer.id + ": " + _.includes(layer.id, layerType.kind));
+          layer.setVisibility(_.includes(layer.id, layerType.kind));
+      }
       );
   }
 

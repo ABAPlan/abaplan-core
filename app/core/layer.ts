@@ -75,14 +75,16 @@ const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, null, 15, 15);
 const WATER_SYMBOL = new PictureFillSymbol(url_cercle, null, 15, 15);
 const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, null, 25, 25);
 
-const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/3";
+const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/";
+const URL_FEATURE_LAYER_SURFACE = URL_FEATURE_LAYER + '3';
+const URL_FEATURE_LAYER_LINEAR = URL_FEATURE_LAYER + '1';
 
 
 export class CityBrailleLayer extends FeatureLayer {
 
   constructor() {
 
-    super(URL_FEATURE_LAYER, {
+    super(URL_FEATURE_LAYER_SURFACE, {
       id: 'city',
     });
 
@@ -107,7 +109,7 @@ export class SquareBrailleLayer extends FeatureLayer {
 
   constructor() {
 
-    super(URL_FEATURE_LAYER, {
+    super(URL_FEATURE_LAYER_SURFACE, {
       id: 'square',
     });
 
@@ -166,11 +168,10 @@ export class SquareBrailleLayer extends FeatureLayer {
     graphic.geometry.rings = _.flatten(xs);
   }
 
-  /* Fires when a layer has finished updating its content
-   * We compare way-objects segments and remove those which intersect
-   * (jca)
-   */
-  onUpdateEnd(){
+  // Detect and remove cut off paths:
+  // * Enumerates all combination of comparative paths
+  // * For each, detects segments' intersections and remove them
+  removeInterection(xs: Graphic[]) {
 
     // Returns if two segments are identical
     const isSameSegments = (s1, s2) => {
@@ -178,22 +179,34 @@ export class SquareBrailleLayer extends FeatureLayer {
         (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
     };
 
-    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin');
-    pathsGraphics.forEach( g => this.transform(g) );
-
-    // Detect and remove cut off paths:
-    // * Enumerates all combination of comparative paths
-    // * For each, detects segments' intersections and remove them
-    this.enumerate(pathsGraphics.length).forEach( ([a, b]) => {
-      const g1: any = pathsGraphics[a];
-      const g2: any = pathsGraphics[b];
+    this.enumerate(xs.length).forEach( ([a, b]) => {
+      const g1: any = xs[a];
+      const g2: any = xs[b];
       _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
         _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
         _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
       })
     });
 
+  }
+
+  /* Fires when a layer has finished updating its content
+   * We compare way-objects segments and remove those which intersect
+   * (jca)
+   */
+  onUpdateEnd(){
+
+    const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin');
+    pathsGraphics.forEach( g => this.transform(g) );
+
+    const railwaysGraphics = this.graphics.filter( g => g.attributes.type === 'chemin_de_fer');
+    railwaysGraphics.forEach( g => this.transform(g) );
+
+    this.removeInterection(pathsGraphics);
+    this.removeInterection(railwaysGraphics);
+
     // Reorder paths
+    railwaysGraphics.filter(g => g.getShape() !== null).forEach(g => g.getShape().moveToFront());
     pathsGraphics.filter(g => g.getShape() !== null).forEach(g => g.getShape().moveToFront());
 
     this.redraw();
@@ -201,6 +214,32 @@ export class SquareBrailleLayer extends FeatureLayer {
   }
 }
 
+export class StairsBrailleLayer extends FeatureLayer {
+
+  constructor() {
+
+    super(URL_FEATURE_LAYER_LINEAR, {
+      id: 'square_stairs',
+    });
+
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    const renderer = new UniqueValueRenderer(defaultSymbol, "type");
+
+    const object1 = 'escalier_important';
+    const object2 = 'voie_ferree';
+    const object3 = 'tunnel_passage_inferieur_galerie';
+    const champs = [object1, object2, object3];
+
+    renderer.addValue(object1, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
+    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3))
+    renderer.addValue(object3, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
+
+    this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
+    this.setRenderer(renderer);
+
+  }
+
+}
 export class OsmLayer extends OpenStreetMapLayer {
   public id: string = "osm";
   constructor() {
