@@ -69,7 +69,7 @@ export class AbaMap extends ArcgisMap {
     this.layers.push(new OsmLayer());
     this.layers.push(new SquareBrailleLayer());
     this.layers.push(new CityBrailleLayer());
-    this.layers.push(new StairsBrailleLayer());
+    //this.layers.push(new StairsBrailleLayer());
 
     this.addLayers(this.layers);
 
