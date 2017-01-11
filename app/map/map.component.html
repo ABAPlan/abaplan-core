@@ -16,6 +16,16 @@
             class="center-div"
       />
 
+      <p  
+       [hidden]="!needZoom"
+        style="
+        margin-top:290px;
+        text-align: center;"
 
+        class="center-div">
+          <i class="glyphicon glyphicon glyphicon-zoom-in" 
+          style="font-size:100px;"></i> <br/>
+            Veuillez zoomer plus {{mapLoading}} {{needZoom}}
+      </p>
     </div>
 </div>
