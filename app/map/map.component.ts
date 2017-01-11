@@ -28,6 +28,8 @@ export class MapComponent implements OnInit {
   @Output() mapInstancied = new EventEmitter();
   @Input() drawType : string;
 
+  readonly ZOOM_LEVEL_MINIMUM : number = 16;
+
   constructor(private mapService: MapService) {
   }
 
@@ -59,11 +61,10 @@ export class MapComponent implements OnInit {
     this.map.on("update-start", () => this.mapLoading = true);
     this.map.on("update-end", () => this.mapLoading = false);
 
-    // Zoom max >= 16
     this.map.on("zoom-end", (event: { level : number}) => {
         if(event.level){
           // Show or hide 'need zoom' message
-          this.needZoom = (event.level < 16);
+          this.needZoom = (event.level < this.ZOOM_LEVEL_MINIMUM);
 
           // If yes, stop loading
           if(this.needZoom)
