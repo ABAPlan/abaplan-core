@@ -3,8 +3,25 @@
     height: 720px;
     border-style: solid;
     border-width: 2px;
+    position:relative;
 }
 
 .row {
     padding-bottom: 4px;
+}
+
+.need-zoom {
+    background: repeating-linear-gradient(   
+        45deg,  
+        #ffffff,   
+        #ffffff 10px,   
+        #9a9a9a 10px,
+        #9a9a9a 20px );
+}
+
+.center-div {
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
 }
