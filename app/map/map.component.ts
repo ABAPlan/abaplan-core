@@ -61,6 +61,7 @@ export class MapComponent implements OnInit {
     this.map.on("update-start", () => this.mapLoading = true);
     this.map.on("update-end", () => this.mapLoading = false);
 
+    // Zoom restriction
     this.map.on("zoom-end", (event: { level : number}) => {
         if(event.level){
           // Show or hide 'need zoom' message
@@ -70,7 +71,6 @@ export class MapComponent implements OnInit {
           if(this.needZoom)
             this.mapLoading = false; 
         }
-        console.log(event);
       }
     );
 
