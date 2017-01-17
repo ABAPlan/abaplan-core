@@ -130,21 +130,6 @@ export class SquareBrailleLayer extends FeatureLayer {
     this.setRenderer(renderer);
   }
 
-  // enumerate tuple of n combinations
-  enumerate(n: number): Array<any> {
-
-    let ys = [];
-    let processed = [];
-    let xs = _.range(0, n);
-    xs.forEach( (x) => {
-      processed.push(x);
-      let zs = _.difference(xs, processed);
-      zs.forEach( (z) => ys.push([x, z]));
-    });
-    return ys;
-
-  }
-
 
   /* this function mutate a graphic to transform a list of coordinates representing a rings to a list of
    * segments. Thanks to this, we can remove segments intersections later.
@@ -159,6 +144,7 @@ export class SquareBrailleLayer extends FeatureLayer {
     // good comparator
     if (graphic.geometry.originalRings === undefined) {
       graphic.geometry.originalRings = graphic.geometry.rings;
+      console.log(graphic.geometry.originalRings);
     }
     graphic.geometry.originalRings.forEach(r => {
       const set = _.flatten(r.map( g => [g, g])).slice(1);
@@ -168,33 +154,51 @@ export class SquareBrailleLayer extends FeatureLayer {
     graphic.geometry.rings = _.flatten(xs);
   }
 
-  // Detect and remove cut off paths:
-  // * Enumerates all combination of comparative paths
-  // * For each, detects segments' intersections and remove them
-  removeInterection(xs: Graphic[]) {
-
-    // Returns if two segments are identical
-    const isSameSegments = (s1, s2) => {
-      return (s1[0][0] === s2[0][0] && s1[0][1] === s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] === s2[1][1]) ||
-        (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
-    };
-
-    this.enumerate(xs.length).forEach( ([a, b]) => {
-      const g1: any = xs[a];
-      const g2: any = xs[b];
-      _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
-        _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
-        _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
-      })
-    });
-
-  }
-
   /* Fires when a layer has finished updating its content
    * We compare way-objects segments and remove those which intersect
    * (jca)
    */
   onUpdateEnd(){
+
+    // Detect and remove cut off paths:
+    // * Enumerates all combination of comparative paths
+    // * For each, detects segments' intersections and remove them
+    function removeIntersection(xs: Graphic[]) {
+
+      // enumerate tuple of n combinations
+      function enumerate(n: number): Array<any> {
+
+        let ys = [];
+        let processed = [];
+        let xs = _.range(0, n);
+        xs.forEach( (x) => {
+          processed.push(x);
+          let zs = _.difference(xs, processed);
+          zs.forEach( (z) => ys.push([x, z]));
+        });
+        return ys;
+
+      }
+
+      // Returns if two segments are identical
+      const isSameSegments = (s1, s2) => {
+        return (s1[0][0] === s2[0][0] && s1[0][1] === s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] === s2[1][1]) ||
+          (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
+      };
+
+      enumerate(xs.length).forEach( ([a, b]) => {
+        const g1: any = xs[a];
+        const g2: any = xs[b];
+        console.log("(" + a + ", " + b + ")" + g1.geometry.rings.length + ", " + g2.geometry.rings.length);
+        _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
+          console.log("  remove " + s1);
+          _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
+          _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
+        })
+      });
+
+    }
+
 
     const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin');
     pathsGraphics.forEach( g => this.transform(g) );
@@ -202,8 +206,8 @@ export class SquareBrailleLayer extends FeatureLayer {
     const railwaysGraphics = this.graphics.filter( g => g.attributes.type === 'chemin_de_fer');
     railwaysGraphics.forEach( g => this.transform(g) );
 
-    this.removeInterection(pathsGraphics);
-    this.removeInterection(railwaysGraphics);
+    removeIntersection(pathsGraphics);
+    removeIntersection(railwaysGraphics);
 
     // Reorder paths
     railwaysGraphics.filter(g => g.getShape() !== null).forEach(g => g.getShape().moveToFront());
