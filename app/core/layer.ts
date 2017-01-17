@@ -144,7 +144,10 @@ export class SquareBrailleLayer extends FeatureLayer {
     // good comparator
     if (graphic.geometry.originalRings === undefined) {
       graphic.geometry.originalRings = graphic.geometry.rings;
-      console.log(graphic.geometry.originalRings);
+      graphic.geometry.xmin = _.minBy(graphic.geometry.originalRings[0], g => g[0] )[0];
+      graphic.geometry.xmax = _.maxBy(graphic.geometry.originalRings[0], g => g[0] )[0];
+      graphic.geometry.ymin = _.minBy(graphic.geometry.originalRings[0], g => g[1] )[1];
+      graphic.geometry.ymax = _.maxBy(graphic.geometry.originalRings[0], g => g[1] )[1];
     }
     graphic.geometry.originalRings.forEach(r => {
       const set = _.flatten(r.map( g => [g, g])).slice(1);
@@ -152,6 +155,7 @@ export class SquareBrailleLayer extends FeatureLayer {
       xs.push(_.chunk(set, 2));
     });
     graphic.geometry.rings = _.flatten(xs);
+    console.log( graphic.geometry.rings );
   }
 
   /* Fires when a layer has finished updating its content
@@ -186,15 +190,48 @@ export class SquareBrailleLayer extends FeatureLayer {
           (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
       };
 
+      const intersect = (s1min, s1max, s2min, s2max) => {
+        const a = Math.max(s1min, s2min);
+        const b = Math.min(s1max, s2max);
+        if ( a < b ) {
+          return [a, b];
+        }else{
+          return [];
+        }
+      };
+
+
       enumerate(xs.length).forEach( ([a, b]) => {
         const g1: any = xs[a];
         const g2: any = xs[b];
-        console.log("(" + a + ", " + b + ")" + g1.geometry.rings.length + ", " + g2.geometry.rings.length);
-        _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
-          console.log("  remove " + s1);
-          _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
-          _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
-        })
+        console.log(g1.geometry.xmin + ", " + g1.geometry.xmax + ", " + g1.geometry.ymin + ", " + g1.geometry.ymax);
+        console.log(g2.geometry.xmin + ", " + g2.geometry.xmax + ", " + g2.geometry.ymin + ", " + g2.geometry.ymax);
+
+        const i1 = intersect(g1.geometry.xmin, g1.geometry.xmax, g2.geometry.xmin, g2.geometry.xmax );
+        const i2 = intersect(g1.geometry.ymin, g1.geometry.ymax, g2.geometry.ymin, g2.geometry.ymax );
+
+
+        console.log(i1);
+        console.log(i2);
+
+
+
+
+        if ( !(i1.length == 0 || i2.length == 0) ) {
+          console.log("plop");
+
+          _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
+            console.log("  remove " + s1);
+            _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
+            _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
+          })
+        }
+
+
+        console.log("----");
+
+
+
       });
 
     }
