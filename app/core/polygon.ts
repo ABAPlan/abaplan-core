@@ -13,7 +13,7 @@ type Segment = Vertex[];
 
 type Tuple = number[];
 
-// Detect and remove cut off paths:
+// Detect and remove cut off paths. Mutate the graphics.
 // * Enumerates all combination of comparative paths
 // * For each, detects segments' intersections and remove them
 export function removeCommonSegments(xs: Graphic[]) {
