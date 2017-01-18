@@ -165,8 +165,6 @@ export class SquareBrailleLayer extends FeatureLayer {
    */
   onUpdateEnd(){
 
-
-
     const pathsGraphics = this.graphics.filter( g => g.attributes.type === 'route_chemin');
     pathsGraphics.forEach( g => this.transform(g) );
 
