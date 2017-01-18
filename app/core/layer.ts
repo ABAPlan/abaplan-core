@@ -195,13 +195,11 @@ export class StairsBrailleLayer extends FeatureLayer {
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object1 = 'escalier_important';
-    const object2 = 'voie_ferree';
-    const object3 = 'tunnel_passage_inferieur_galerie';
-    const champs = [object1, object2, object3];
+    const object2 = 'tunnel_passage_inferieur_galerie';
+    const champs = [object1, object2];
 
     renderer.addValue(object1, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
-    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3))
-    renderer.addValue(object3, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
+    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
     this.setRenderer(renderer);
@@ -209,6 +207,29 @@ export class StairsBrailleLayer extends FeatureLayer {
   }
 
 }
+
+export class RailroadBrailleLayer extends FeatureLayer {
+
+  constructor() {
+
+    super(URL_FEATURE_LAYER_LINEAR, {
+      id: 'square_railroad',
+    });
+
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    const renderer = new UniqueValueRenderer(defaultSymbol, "type");
+
+    const object = 'voie_ferree';
+    const champs = [object];
+
+    renderer.addValue(object, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3))
+
+    this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
+    this.setRenderer(renderer);
+
+  }
+}
+
 export class OsmLayer extends OpenStreetMapLayer {
   public id: string = "osm";
   constructor() {

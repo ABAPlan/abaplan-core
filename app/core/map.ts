@@ -19,7 +19,7 @@ public setDrawType(drawType : DrawType){
   this.draw.setDrawType(drawType);
 }*/
 
-import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, OsmLayer, LayerType, Osm, StairsBrailleLayer} from './layer';
+import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, RailroadBrailleLayer, OsmLayer, LayerType, Osm, StairsBrailleLayer} from './layer';
 
 export class OptionMap {
   public constructor(
@@ -69,6 +69,8 @@ export class AbaMap extends ArcgisMap {
     this.layers.push(new OsmLayer());
     this.layers.push(new SquareBrailleLayer());
     this.layers.push(new CityBrailleLayer());
+
+    this.layers.push(new RailroadBrailleLayer());
     //this.layers.push(new StairsBrailleLayer());
 
     this.addLayers(this.layers);
