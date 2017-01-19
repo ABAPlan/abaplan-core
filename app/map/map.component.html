@@ -9,11 +9,23 @@
     <div id="search"></div>
 </div>
 <div class="row">
-    <div id="esri-map">
-      <!---->
+    <div id="esri-map" [ngClass]="{'need-zoom':needZoom}">
+
       <img  [hidden]="!mapLoading"
             src='{{imgLoading}}'
-            style="z-index: 100; position: absolute; left: 50%; top: 50%;margin:-92px;" 
+            class="center-div"
       />
+
+      <p  
+       [hidden]="!needZoom"
+        style="
+        margin-top:290px;
+        text-align: center;"
+
+        class="center-div">
+          <i class="glyphicon glyphicon glyphicon-zoom-in" 
+          style="font-size:100px;"></i> <br/>
+            Veuillez zoomer plus
+      </p>
     </div>
 </div>

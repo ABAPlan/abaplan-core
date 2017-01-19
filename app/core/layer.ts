@@ -14,6 +14,8 @@ import Graphic = require("esri/graphic");
 import geometryEngine = require("esri/geometry/geometryEngine");
 import esriConfig = require('esri/config');
 
+import { removeCommonSegments } from './polygon';
+
 export type LayerType = City | Square | Osm;
 export interface City { kind: "city"; }
 export interface Square { kind: "square"; }
@@ -130,21 +132,6 @@ export class SquareBrailleLayer extends FeatureLayer {
     this.setRenderer(renderer);
   }
 
-  // enumerate tuple of n combinations
-  enumerate(n: number): Array<any> {
-
-    let ys = [];
-    let processed = [];
-    let xs = _.range(0, n);
-    xs.forEach( (x) => {
-      processed.push(x);
-      let zs = _.difference(xs, processed);
-      zs.forEach( (z) => ys.push([x, z]));
-    });
-    return ys;
-
-  }
-
 
   /* this function mutate a graphic to transform a list of coordinates representing a rings to a list of
    * segments. Thanks to this, we can remove segments intersections later.
@@ -159,6 +146,10 @@ export class SquareBrailleLayer extends FeatureLayer {
     // good comparator
     if (graphic.geometry.originalRings === undefined) {
       graphic.geometry.originalRings = graphic.geometry.rings;
+      graphic.geometry.xmin = _.minBy(graphic.geometry.originalRings[0], g => g[0] )[0];
+      graphic.geometry.xmax = _.maxBy(graphic.geometry.originalRings[0], g => g[0] )[0];
+      graphic.geometry.ymin = _.minBy(graphic.geometry.originalRings[0], g => g[1] )[1];
+      graphic.geometry.ymax = _.maxBy(graphic.geometry.originalRings[0], g => g[1] )[1];
     }
     graphic.geometry.originalRings.forEach(r => {
       const set = _.flatten(r.map( g => [g, g])).slice(1);
@@ -166,28 +157,6 @@ export class SquareBrailleLayer extends FeatureLayer {
       xs.push(_.chunk(set, 2));
     });
     graphic.geometry.rings = _.flatten(xs);
-  }
-
-  // Detect and remove cut off paths:
-  // * Enumerates all combination of comparative paths
-  // * For each, detects segments' intersections and remove them
-  removeInterection(xs: Graphic[]) {
-
-    // Returns if two segments are identical
-    const isSameSegments = (s1, s2) => {
-      return (s1[0][0] === s2[0][0] && s1[0][1] === s2[0][1]) && (s1[1][0] === s2[1][0] && s1[1][1] === s2[1][1]) ||
-        (s1[0][0] === s2[1][0] && s1[0][1] === s2[1][1]) && (s1[1][0] === s2[0][0] && s1[1][1] === s2[0][1])
-    };
-
-    this.enumerate(xs.length).forEach( ([a, b]) => {
-      const g1: any = xs[a];
-      const g2: any = xs[b];
-      _.intersectionWith(g1.geometry.rings, g2.geometry.rings, isSameSegments).forEach( s1 => {
-        _.remove(g1.geometry.rings, s2 => isSameSegments(s1, s2));
-        _.remove(g2.geometry.rings, s2 => isSameSegments(s1, s2));
-      })
-    });
-
   }
 
   /* Fires when a layer has finished updating its content
@@ -202,8 +171,8 @@ export class SquareBrailleLayer extends FeatureLayer {
     const railwaysGraphics = this.graphics.filter( g => g.attributes.type === 'chemin_de_fer');
     railwaysGraphics.forEach( g => this.transform(g) );
 
-    this.removeInterection(pathsGraphics);
-    this.removeInterection(railwaysGraphics);
+    removeCommonSegments(pathsGraphics);
+    removeCommonSegments(railwaysGraphics);
 
     // Reorder paths
     railwaysGraphics.filter(g => g.getShape() !== null).forEach(g => g.getShape().moveToFront());
@@ -226,13 +195,11 @@ export class StairsBrailleLayer extends FeatureLayer {
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object1 = 'escalier_important';
-    const object2 = 'voie_ferree';
-    const object3 = 'tunnel_passage_inferieur_galerie';
-    const champs = [object1, object2, object3];
+    const object2 = 'tunnel_passage_inferieur_galerie';
+    const champs = [object1, object2];
 
     renderer.addValue(object1, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
-    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3))
-    renderer.addValue(object3, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
+    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
     this.setRenderer(renderer);
@@ -240,6 +207,29 @@ export class StairsBrailleLayer extends FeatureLayer {
   }
 
 }
+
+export class RailroadBrailleLayer extends FeatureLayer {
+
+  constructor() {
+
+    super(URL_FEATURE_LAYER_LINEAR, {
+      id: 'square_railroad',
+    });
+
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    const renderer = new UniqueValueRenderer(defaultSymbol, "type");
+
+    const object = 'voie_ferree';
+    const champs = [object];
+
+    renderer.addValue(object, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3))
+
+    this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
+    this.setRenderer(renderer);
+
+  }
+}
+
 export class OsmLayer extends OpenStreetMapLayer {
   public id: string = "osm";
   constructor() {

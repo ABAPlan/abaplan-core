@@ -11,10 +11,6 @@ import { DrawType } from '../editor/drawMap';
   selector: 'aba-map',
   templateUrl: 'map.component.html',
   styleUrls: ['map.component.css']
-  //styles: ['#esri-map { width: 1176px; height: 800px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
-  //styles: ['#esri-map { width: 1058px; height: 720px; border-style: solid; border-width: 2px;} .row { padding-bottom: 4px; }']
-  //styles: ['#esri-map { width: 1646; height: 1120px; border-style: solid; border-width: 2px; zoom: 0.6;} .row { padding-bottom: 4px; } .esriPopupWrapper { zoom: 2;}']
-
 })
 
 
@@ -27,8 +23,12 @@ export class MapComponent implements OnInit {
   mapLoading : boolean = false;
   imgLoading : string = img_loading;
 
+  needZoom : boolean = false;
+
   @Output() mapInstancied = new EventEmitter();
   @Input() drawType : string;
+
+  readonly ZOOM_LEVEL_MINIMUM : number = 16;
 
   constructor(private mapService: MapService) {
   }
@@ -60,6 +60,20 @@ export class MapComponent implements OnInit {
     this.map = AbaMap.fromOptionMap("esri-map", optionMap);
     this.map.on("update-start", () => this.mapLoading = true);
     this.map.on("update-end", () => this.mapLoading = false);
+
+    // Zoom restriction
+    this.map.on("zoom-end", (event: { level : number}) => {
+        if(event.level){
+          // Show or hide 'need zoom' message
+          this.needZoom = (event.level < this.ZOOM_LEVEL_MINIMUM);
+
+          // If yes, stop loading
+          if(this.needZoom)
+            this.mapLoading = false; 
+        }
+      }
+    );
+
 
     this.search = new ArcgisSearch(
       {
