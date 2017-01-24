@@ -19,7 +19,7 @@ public setDrawType(drawType : DrawType){
   this.draw.setDrawType(drawType);
 }*/
 
-import {AbaLayer, CityBrailleLayer, SquareBrailleLayer, RailroadBrailleLayer, OsmLayer, LayerType, Osm, StairsBrailleLayer} from './layer';
+import { RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType } from './layer';
 
 export class OptionMap {
   public constructor(
@@ -39,7 +39,7 @@ export class OptionMap {
 
 export class AbaMap extends ArcgisMap {
 
-  private layers: AbaLayer[] = [];
+  private layers: RootLayer[] = [];
 
   public uid?: number;
   public title?: string;
@@ -66,14 +66,14 @@ export class AbaMap extends ArcgisMap {
 
     this.setExtent(extent);
 
-    this.layers.push(new OsmLayer());
-    this.layers.push(new SquareBrailleLayer());
-    this.layers.push(new CityBrailleLayer());
+    this.layers.push(new OsmRootLayer());
+    this.layers.push(new SquareRootBrailleLayer());
+    this.layers.push(new CityRootBrailleLayer());
 
-    this.layers.push(new RailroadBrailleLayer());
+   // this.layers.push(new RailroadBrailleLayer());
     //this.layers.push(new StairsBrailleLayer());
 
-    this.addLayers(this.layers);
+    this.addLayers(_.flatten(this.layers.map ( l => l.layers() )));
 
     this.setLayerVisible({kind:"osm"});
   }
@@ -81,7 +81,7 @@ export class AbaMap extends ArcgisMap {
   public setLayerVisible(layerType: LayerType) {
     this.layers
       .forEach( (layer) => {
-          layer.setVisibility(_.includes(layer.id, layerType.kind));
+          layer.setVisibility( layerType.kind === layer.id );
       }
       );
   }

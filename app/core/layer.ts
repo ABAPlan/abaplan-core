@@ -15,13 +15,14 @@ import geometryEngine = require("esri/geometry/geometryEngine");
 import esriConfig = require('esri/config');
 
 import { removeCommonSegments } from './polygon';
+import {LayerOptions} from "esri";
 
 export type LayerType = City | Square | Osm;
 export interface City { kind: "city"; }
 export interface Square { kind: "square"; }
 export interface Osm { kind: "osm"; }
 
-export type AbaLayer = OsmLayer | CityBrailleLayer | SquareBrailleLayer;
+export type AbaLayer = OsmRootLayer | CityRootBrailleLayer | SquareRootBrailleLayer;
 
 //esriConfig.defaults.io.corsDetection = false;
 
@@ -81,8 +82,58 @@ const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiot
 const URL_FEATURE_LAYER_SURFACE = URL_FEATURE_LAYER + '3';
 const URL_FEATURE_LAYER_LINEAR = URL_FEATURE_LAYER + '1';
 
+/**
+ * Base class for a layer view in the ArcgisMap dom
+ */
+export abstract class RootLayer extends Layer {
+  protected subLayers: Layer[] = [];
+  constructor(lt: LayerType){
+    super( {id: lt.kind } as LayerOptions );
+  }
+  public setVisibility(state: boolean): void {
+    this.subLayers.forEach( layer => layer.setVisibility(state));
+  }
+  public layers(): Layer[] {
+    return this.subLayers;
+  }
+}
 
-export class CityBrailleLayer extends FeatureLayer {
+/**
+ * ArcgisMap Layer for City Braille representation
+ */
+export class CityRootBrailleLayer extends RootLayer {
+
+  constructor(){
+    super( {kind: 'city'} );
+    this.subLayers.push(new CityBrailleSubLayer());
+  }
+}
+
+/**
+ * ArcgisMap Layer for Square Braille representation
+ */
+export class SquareRootBrailleLayer extends RootLayer {
+  constructor(){
+    super( {kind: 'square'} );
+    this.subLayers.push(new SquareBrailleSubLayer());
+    this.subLayers.push(new RailroadBrailleSubLayer());
+  }
+}
+
+/**
+ * ArcgisMap Layer for OpenStreet Map representation
+ */
+export class OsmRootLayer extends RootLayer {
+  constructor(){
+    super( {kind: 'osm'} );
+    this.subLayers.push(new OsmSubLayer());
+  }
+}
+
+/**
+ * Sublayer for city details
+ */
+class CityBrailleSubLayer extends FeatureLayer {
 
   constructor() {
 
@@ -107,7 +158,10 @@ export class CityBrailleLayer extends FeatureLayer {
 
 }
 
-export class SquareBrailleLayer extends FeatureLayer {
+/**
+ * Sublayer for square details
+ */
+class SquareBrailleSubLayer extends FeatureLayer {
 
   constructor() {
 
@@ -183,12 +237,15 @@ export class SquareBrailleLayer extends FeatureLayer {
   }
 }
 
-export class StairsBrailleLayer extends FeatureLayer {
+/**
+ * Sublayer for stairs details
+ */
+class StairsBrailleLayer extends FeatureLayer {
 
   constructor() {
 
     super(URL_FEATURE_LAYER_LINEAR, {
-      id: 'square_stairs',
+      id: 'stairs',
     });
 
     const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
@@ -198,8 +255,8 @@ export class StairsBrailleLayer extends FeatureLayer {
     const object2 = 'tunnel_passage_inferieur_galerie';
     const champs = [object1, object2];
 
-    renderer.addValue(object1, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
-    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
+    renderer.addValue(object1, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1));
+    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1));
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
     this.setRenderer(renderer);
@@ -208,12 +265,15 @@ export class StairsBrailleLayer extends FeatureLayer {
 
 }
 
-export class RailroadBrailleLayer extends FeatureLayer {
+/**
+ * Sublayer for railroad details
+ */
+class RailroadBrailleSubLayer extends FeatureLayer {
 
   constructor() {
 
     super(URL_FEATURE_LAYER_LINEAR, {
-      id: 'square_railroad',
+      id: 'railroad',
     });
 
     const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
@@ -222,7 +282,7 @@ export class RailroadBrailleLayer extends FeatureLayer {
     const object = 'voie_ferree';
     const champs = [object];
 
-    renderer.addValue(object, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3))
+    renderer.addValue(object, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3));
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
     this.setRenderer(renderer);
@@ -230,7 +290,7 @@ export class RailroadBrailleLayer extends FeatureLayer {
   }
 }
 
-export class OsmLayer extends OpenStreetMapLayer {
+class OsmSubLayer extends OpenStreetMapLayer {
   public id: string = "osm";
   constructor() {
     super();
