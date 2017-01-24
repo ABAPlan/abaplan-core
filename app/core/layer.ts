@@ -255,8 +255,8 @@ class StairsBrailleLayer extends FeatureLayer {
     const object2 = 'tunnel_passage_inferieur_galerie';
     const champs = [object1, object2];
 
-    renderer.addValue(object1, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
-    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1))
+    renderer.addValue(object1, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1));
+    renderer.addValue(object2, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 1));
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
     this.setRenderer(renderer);
