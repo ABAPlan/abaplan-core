@@ -282,7 +282,7 @@ class RailroadBrailleSubLayer extends FeatureLayer {
     const object = 'voie_ferree';
     const champs = [object];
 
-    renderer.addValue(object, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3))
+    renderer.addValue(object, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3));
 
     this.setDefinitionExpression("type='" + champs.join("' or type='") + "'");
     this.setRenderer(renderer);
