@@ -66,6 +66,11 @@ export class ToolbarMapComponent {
       image: require("file?name=./assets/[name].[ext]!./img/print.png")
     },
     {
+      heading: "Ouvrir",
+      kind: 'action',
+      image: require("file?name=./assets/[name].[ext]!./img/open.png")
+    },
+    {
       heading: "Sauvegarder",
       kind: 'action',
       image: require("file?name=./assets/[name].[ext]!./img/save.png")
