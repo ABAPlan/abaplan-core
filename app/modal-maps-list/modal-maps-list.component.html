@@ -2,13 +2,30 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Listes des cartes</h5>
+        <h1 class="modal-title">Listes des cartes</h1>
         <button type="button" class="close" (click)="close()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+          <hr>
+        Rechercher: <input placeholder="Titre ou id" (change)="onChange($event.target.value)"/>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Date de création</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let m of filteredMaps">
+            <td>{{ m.uid }}</td>
+            <td>{{ m.title }}</td>
+            <td>{{ m.creationDate }}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-primary">Save changes</button> -->

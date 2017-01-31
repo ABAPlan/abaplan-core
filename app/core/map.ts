@@ -37,7 +37,7 @@ export class OptionMap {
     public owner?: number,
     public graphics?: string,
     public hash?: string,
-    public dateCreation?: string,
+    public creationDate?: string,
     public layerType?: LayerType
   ) {}
 
@@ -51,7 +51,7 @@ export class AbaMap extends ArcgisMap {
   public title?: string;
   public owner?: number;
   public hash?: string;
-  public dateCreation?: string;
+  public creationDate?: string;
 
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent) {
@@ -115,7 +115,7 @@ export class AbaMap extends ArcgisMap {
     }
 
     abaMap.hash = optionMap.hash;
-    abaMap.dateCreation = optionMap.dateCreation;
+    abaMap.creationDate = optionMap.creationDate;
 
     return abaMap;
   }
