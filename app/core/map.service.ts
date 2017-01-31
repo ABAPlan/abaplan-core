@@ -8,7 +8,8 @@ import { LayerType } from './layer';
 @Injectable()
 export class MapService {
 
-  private mapsUrl = "app/maps";
+  //private mapsUrl = "app/maps";
+  private mapsUrl = "https://audiotactile.ovh/proxy/index.php/";
   private divId: Node | string = 'map-div';
 
   constructor(private http: Http) {
@@ -32,13 +33,13 @@ export class MapService {
 
   map(id: number): Observable<OptionMap> {
     return this.http.get(
-      this.mapsUrl + `/${id}`).map(
-        (r: Response) => r.json().data as OptionMap
+      this.mapsUrl + `maps/${id}`).map(
+        (r: Response) => r.json() as OptionMap
     );
   }
 
   maps(): Observable<OptionMap[]> {
-    return this.http.get(this.mapsUrl).map( (r: Response) => r.json().data as OptionMap[] );
+    return this.http.get(this.mapsUrl + 'maps').map( (r: Response) => r.json() as OptionMap[] );
   }
 
   delete(id: number) {}

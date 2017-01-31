@@ -19,20 +19,26 @@ public setDrawType(drawType : DrawType){
   this.draw.setDrawType(drawType);
 }*/
 
-import { RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType } from './layer';
+import {RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType, Square, City} from './layer';
+
+const LayerTypeId: { [id: number]: LayerType } = {
+  0: { kind: "square" },
+  1: { kind: "city" }
+};
 
 export class OptionMap {
   public constructor(
     public uid: number,
     public height: number,
     public width: number,
-    public layerType: LayerType,
+    public city: number,
     public extent: string,
     public title?: string,
     public owner?: number,
     public graphics?: string,
     public hash?: string,
     public dateCreation?: string,
+    public layerType?: LayerType
   ) {}
 
 }
@@ -79,6 +85,7 @@ export class AbaMap extends ArcgisMap {
   }
 
   public setLayerVisible(layerType: LayerType) {
+    console.log(layerType);
     this.layers
       .forEach( (layer) => {
           layer.setVisibility( layerType.kind === layer.id );
@@ -88,12 +95,15 @@ export class AbaMap extends ArcgisMap {
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
 
+    console.log(optionMap);
     const abaMap: AbaMap = new AbaMap(divId, new Extent(JSON.parse(optionMap.extent)));
 
     abaMap.uid = optionMap.uid;
     abaMap.height = optionMap.height;
     abaMap.width = optionMap.width;
 
+    console.log(optionMap.city);
+    optionMap.layerType = LayerTypeId[optionMap.city];
     abaMap.setLayerVisible(optionMap.layerType);
 
     abaMap.title = optionMap.title;

@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ViewChild } from "@angular/core";
 import { LayerType } from '../core/layer';
 import { DrawType } from '../editor/drawMap';
+
+import { ModalMapComponent } from '../modal-maps-list/modal-maps-list.component';
 
 export interface ITool { heading: string, image?: string }
 
@@ -19,6 +21,10 @@ export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
+
+  @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
+
+  private modalComponentVisible = false;
 
   private tools: Array<Tool> = [
     {
@@ -99,8 +105,12 @@ export class ToolbarMapComponent {
   }
 
   public onClick(tool: Tool) {
+    console.log(tool);
     this.activeTool = tool;
     this.onUpdateTool.emit(tool);
+    if (tool.heading === 'Ouvrir'){
+      this.modalMapComponent.open();
+    }
   }
 
   public changeEditableState(): void {

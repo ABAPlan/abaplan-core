@@ -16,6 +16,7 @@ import  { MapModule } from './map/map.module';
 import  { MapComponent } from './map/map.component';
 
 import { ToolbarMapComponent } from './toolbar/toolbar.component';
+import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 
 /* Routing Module */
 // import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +29,7 @@ import { ToolbarMapComponent } from './toolbar/toolbar.component';
     CoreModule,
     TabsModule
   ],
-  declarations: [ AppComponent, MapComponent, ToolbarMapComponent ],
+  declarations: [ AppComponent, MapComponent, ToolbarMapComponent, ModalMapComponent ],
   bootstrap:    [ AppComponent ]
 })
 

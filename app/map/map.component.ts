@@ -12,8 +12,6 @@ import { DrawType } from '../editor/drawMap';
   templateUrl: 'map.component.html',
   styleUrls: ['map.component.css']
 })
-
-
 export class MapComponent implements OnInit {
 
   optionMaps: OptionMap[];
@@ -35,11 +33,13 @@ export class MapComponent implements OnInit {
 
   getMaps(): void {
     this.mapService
-        .maps()
+        .map(160)
         .subscribe(
-          optionMaps => {
-            this.optionMaps = optionMaps;
-            this.initMap(this.optionMaps[0]);
+          optionMap => {
+            //this.optionMaps = optionMaps;
+            console.log("-----------_");
+            console.log(optionMap);
+            this.initMap(optionMap);
           }
         );
   }
