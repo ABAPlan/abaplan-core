@@ -5,6 +5,11 @@ import {OptionMap, AbaMap } from './map';
 import { LayerType } from './layer';
 
 
+const LayerTypeId: { [id: number]: LayerType } = {
+  0: { kind: "square" },
+  1: { kind: "city" }
+};
+
 @Injectable()
 export class MapService {
 
@@ -34,14 +39,24 @@ export class MapService {
   map(id: number): Observable<OptionMap> {
     return this.http.get(
       this.mapsUrl + `maps/${id}`).map(
-        (r: Response) => r.json() as OptionMap
+        (r: Response) => this.build(r.json())
     );
   }
 
   maps(): Observable<OptionMap[]> {
-    return this.http.get(this.mapsUrl + 'maps').map( (r: Response) => r.json() as OptionMap[] );
+    return this.http.get(this.mapsUrl + 'maps').map( (r: Response) => {
+      let os = r.json() as OptionMap[]
+      return os.map(o => this.build(o) );
+    } );
   }
 
   delete(id: number) {}
 
+  /**
+   * Build a complete OptionMap from the basic OptionMap
+   */
+  private build(optionMap: OptionMap): OptionMap {
+    optionMap.layerType = LayerTypeId[optionMap.city];
+    return optionMap;
+  }
 }

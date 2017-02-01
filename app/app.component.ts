@@ -100,6 +100,10 @@ export class AppComponent {
     this.draw = new AbaDraw(this.mapComponent.map);
   }
 
+  private updateMapId(id: number): void {
+    this.mapComponent.selectMapId(id);
+  }
+
   ngAfterViewInit() {
     // Init default btnInfo to first
     this.setActive(this._btnInfos[0]);

@@ -1,6 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { MapService } from "../core/map.service";
-import {OptionMap} from "../core/map";
+import { OptionMap } from "../core/map";
 
 
 @Component({
@@ -11,9 +11,9 @@ import {OptionMap} from "../core/map";
 export class ModalMapComponent {
 
   @Input('visible') visible: boolean = false;
+  @Output() onSelectChoice: EventEmitter<number> = new EventEmitter();
 
   private maps: OptionMap[] = [];
-  private search: string = "";
   private filteredMaps: OptionMap[] = this.maps;
 
   constructor(private mapService: MapService) {
@@ -48,10 +48,9 @@ export class ModalMapComponent {
     }
   }
 
-  /*
-  private filteredMaps(query: string): OptionMap[] {
-    console.log(query);
-    return this.maps.filter( m => m.title.includes(query) || m.uid.toString().includes(query));
+  private onClick(id: number): void {
+    this.close();
+    this.onSelectChoice.emit(id);
   }
-  */
+
 }

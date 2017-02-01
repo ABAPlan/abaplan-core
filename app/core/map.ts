@@ -21,11 +21,6 @@ public setDrawType(drawType : DrawType){
 
 import {RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType, Square, City} from './layer';
 
-const LayerTypeId: { [id: number]: LayerType } = {
-  0: { kind: "square" },
-  1: { kind: "city" }
-};
-
 export class OptionMap {
   public constructor(
     public uid: number,
@@ -103,7 +98,6 @@ export class AbaMap extends ArcgisMap {
     abaMap.width = optionMap.width;
 
     console.log(optionMap.city);
-    optionMap.layerType = LayerTypeId[optionMap.city];
     abaMap.setLayerVisible(optionMap.layerType);
 
     abaMap.title = optionMap.title;

@@ -21,6 +21,7 @@ export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
+  @Output() onUpdateMap: EventEmitter<number> = new EventEmitter();
 
   @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
 
@@ -126,5 +127,9 @@ export class ToolbarMapComponent {
       return this.activeTab.kind !== 'osm';
     }
     return false;
+  }
+
+  private mapSelected(id: number): void {
+    this.onUpdateMap.emit(id);
   }
 }

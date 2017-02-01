@@ -6,6 +6,8 @@ import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
 import { DrawType } from '../editor/drawMap';
+import Extent = require("esri/geometry/Extent");
+import Graphic = require("esri/graphic");
 
 @Component({
   selector: 'aba-map',
@@ -31,7 +33,7 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService) {
   }
 
-  getMaps(): void {
+  getDefaultMap(): void {
     this.mapService
         .map(160)
         .subscribe(
@@ -45,7 +47,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getMaps();
+    this.getDefaultMap();
   }
 
   setLayerType(layerType : LayerType): boolean {
@@ -56,24 +58,27 @@ export class MapComponent implements OnInit {
     return false;
   }
 
-  initMap(optionMap: OptionMap): void {
-    this.map = AbaMap.fromOptionMap("esri-map", optionMap);
-    this.map.on("update-start", () => this.mapLoading = true);
-    this.map.on("update-end", () => this.mapLoading = false);
+  public selectMapId(id: number): void {
+    this.mapService.map(id).subscribe(
+      optionMap => {
 
-    // Zoom restriction
-    this.map.on("zoom-end", (event: { level : number}) => {
-        if(event.level){
-          // Show or hide 'need zoom' message
-          this.needZoom = (event.level < this.ZOOM_LEVEL_MINIMUM);
+        // Fixed: Must destroy before attributing a new instance
+        this.map.destroy();
+        this.map = AbaMap.fromOptionMap("esri-map", optionMap);
 
-          // If yes, stop loading
-          if(this.needZoom)
-            this.mapLoading = false; 
-        }
+        this.applyDefaultCallbackToTheMap();
+
+        this.setLayerType(optionMap.layerType);
+
       }
     );
+  }
 
+  initMap(optionMap: OptionMap): void {
+
+    this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+
+    this.applyDefaultCallbackToTheMap();
 
     this.search = new ArcgisSearch(
       {
@@ -85,6 +90,25 @@ export class MapComponent implements OnInit {
     );
 
     this.mapInstancied.emit(optionMap);
+  }
+
+  private applyDefaultCallbackToTheMap(): void {
+
+    this.map.on("update-start", () => this.mapLoading = true);
+    this.map.on("update-end", () => this.mapLoading = false);
+
+    // Zoom restriction
+    this.map.on("zoom-end", (event: { level : number}) => {
+        if(event.level){
+          // Show or hide 'need zoom' message
+          this.needZoom = (event.level < this.ZOOM_LEVEL_MINIMUM);
+
+          // If yes, stop loading
+          if(this.needZoom)
+            this.mapLoading = false;
+        }
+      }
+    );
   }
 
 }
