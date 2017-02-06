@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 /* Bootstrap modules */
-import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { TabsModule } from 'ng2-bootstrap';
 
 /* Rx tools */
 import 'rxjs/add/operator/map';

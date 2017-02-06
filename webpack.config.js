@@ -19,7 +19,7 @@ module.exports = {
             "@angular/platform-browser-dynamic",
             "@angular/router",
             "angular-in-memory-web-api",
-            "ng2-bootstrap/ng2-bootstrap"
+            "ng2-bootstrap"
         ]
     },
     output: {
