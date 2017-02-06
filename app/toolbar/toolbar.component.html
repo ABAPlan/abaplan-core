@@ -33,8 +33,7 @@
                 type="button"
                 *ngFor="let tool of actionTools()"
                 class="btn btn-primary btn-md"
-                (click)="onClick(tool)"
-                [class.active]="isActive(tool)">
+                (click)="onClick(tool)">
             <img src="{{ tool.image }}">
             <span class="tooltiptext">{{ tool.heading }}</span>
         </button>
