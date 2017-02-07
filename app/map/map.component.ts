@@ -5,6 +5,7 @@ import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
+import 'rxjs/add/operator/toPromise';
 import { DrawType } from '../editor/drawMap';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
@@ -113,6 +114,6 @@ export class MapComponent implements OnInit {
   }
   public saveMapWithTitle(title: string): void {
     this.map.title = title;
-    this.mapService.add(this.map.toOptionMap());
+    this.mapService.add(this.map.toOptionMap()).subscribe( i => this.map.uid = i );
   }
 }

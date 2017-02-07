@@ -91,14 +91,12 @@ export class AbaMap extends ArcgisMap {
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
 
-    console.log(optionMap);
     const abaMap: AbaMap = new AbaMap(divId, new Extent(JSON.parse(optionMap.extent)));
 
     abaMap.uid = optionMap.uid;
     abaMap.height = optionMap.height;
     abaMap.width = optionMap.width;
 
-    console.log(optionMap.city);
     abaMap.setLayerVisible(optionMap.layerType);
 
     abaMap.title = optionMap.title;

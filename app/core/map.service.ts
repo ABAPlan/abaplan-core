@@ -20,27 +20,11 @@ export class MapService {
   constructor(private http: Http) {
   }
 
-  add(optionMap: OptionMap) {
+  add(optionMap: OptionMap): Observable<number> {
 
-
-    console.log(optionMap);
-    let rep = this.http.post(
+    return this.http.post(
       this.mapsUrl, JSON.stringify(optionMap)
-    ).toPromise().then(data => console.log(data)).catch( err => console.log( err ));
-
-    console.log(rep);
-    /*
-
-     Comment (JCA) : All these attributes could be access from AbaMap (extending ArcgisMap)
-
-     title: string = "",
-     height: number,
-     width: number,
-     layerType: LayerType,
-     creatorId: number,
-     graphics: string = ""
-     )
-     */
+    ).map( r => r.json().id );
 
   }
 
