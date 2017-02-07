@@ -121,7 +121,7 @@ export class AbaMap extends ArcgisMap {
     optionMap.title = this.title;
 
     let graphics = this.graphics.graphics.filter( g => g.symbol !== undefined).map( g => g.toJson() );
-    optionMap.graphics = JSON.stringify(graphics);
+    optionMap.graphics = graphics as string;
 
     if ( this.isCityMap() ) {
       optionMap.city = 1;

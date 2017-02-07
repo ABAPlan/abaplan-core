@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import {OptionMap, AbaMap } from './map';
 import { LayerType } from './layer';
@@ -22,7 +22,13 @@ export class MapService {
 
   add(optionMap: OptionMap) {
 
+
     console.log(optionMap);
+    let rep = this.http.post(
+      this.mapsUrl, JSON.stringify(optionMap)
+    ).toPromise().then(data => console.log(data)).catch( err => console.log( err ));
+
+    console.log(rep);
     /*
 
      Comment (JCA) : All these attributes could be access from AbaMap (extending ArcgisMap)
