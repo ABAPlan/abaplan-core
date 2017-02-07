@@ -1,0 +1,61 @@
+<div class="modal fade in" [style.display]="isVisible() ? 'block' : 'none'">
+    <div class="modal-dialog" role="document">
+        <form (ngSubmit)="onSubmit()" #mapForm="ngForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Sauvegarder une carte</h1>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="title">Titre</label>
+                    <div class="col-md-6">
+                        <input id="title"
+                               [(ngModel)]="title"
+                               name="title"
+                               type="text"
+                               placeholder="Titre de la carte"
+                               class="form-control input-md"
+                               required>
+
+                    </div>
+
+                    <label class="col-md-4 control-label">Visibilité</label>
+                    <div class="col-md-4">
+                        <div class="radio">
+                            <label for="isPublic-0">
+                                <input type="radio" name="isPublic" id="isPublic-0" value="1" checked="checked">
+                                Carte publique
+                            </label>
+                        </div>
+                        <div class="radio" disabled>
+                            <label for="isPublic-1" title="Pour l'instant, il n'est pas possible d'enregistrer des cartes privées">
+                                <input type="radio" name="isPublic" id="isPublic-1" value="2" disabled>
+                                Carte privée
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+
+                <button
+                        type="submit"
+                        [disabled]="!mapForm.form.valid"
+                        class="btn btn-primary">Sauvegarder</button>
+                <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
+
+            </div>
+        </div>
+            </form>
+    </div>
+</div>
