@@ -15,6 +15,7 @@ export class ModalMapComponent {
 
   private maps: OptionMap[] = [];
   private filteredMaps: OptionMap[] = this.maps;
+  private queryInputValue: string = "";
 
   constructor(private mapService: MapService) {
     mapService.maps().subscribe(
@@ -36,8 +37,10 @@ export class ModalMapComponent {
   public open(): void {
     this.visible = true;
   }
-  public close(): void{
+  public close(): void {
+    this.filteredMaps = this.maps;
     this.visible = false;
+    this.queryInputValue = "";
   }
 
   private onChange(query: string): void {

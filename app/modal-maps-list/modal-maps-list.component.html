@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <hr>
-                Rechercher: <input placeholder="Titre ou id" (change)="onChange($event.target.value)"/>
+                Rechercher: <input placeholder="Titre ou id" [(ngModel)]="queryInputValue" (ngModelChange)="onChange($event)"/>
             </div>
             <div class="modal-body">
                 <table class="table table-striped">
