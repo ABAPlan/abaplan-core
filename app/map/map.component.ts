@@ -40,8 +40,6 @@ export class MapComponent implements OnInit {
         .subscribe(
           optionMap => {
             //this.optionMaps = optionMaps;
-            console.log("-----------_");
-            console.log(optionMap);
             this.initMap(optionMap);
           }
         );

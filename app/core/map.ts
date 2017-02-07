@@ -81,7 +81,6 @@ export class AbaMap extends ArcgisMap {
   }
 
   public setLayerVisible(layerType: LayerType) {
-    console.log(layerType);
     this.layers
       .forEach( (layer) => {
           layer.setVisibility( layerType.kind === layer.id );
