@@ -22,7 +22,10 @@
                 <aba-map (mapInstancied)="onMapInstancied($event)"></aba-map>
 
                 <aba-toolbar-map
-                        (onUpdateTool)="onUpdateTool($event)" ></aba-toolbar-map>
+                        (onUpdateTool)="onUpdateTool($event)"
+                        (onSelectMap)="updateMapId($event)"
+                        (onSetMapTitle)="updateMapTitle($event)"
+                ></aba-toolbar-map>
 
             </div>
         </div>

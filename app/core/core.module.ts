@@ -10,8 +10,8 @@ import { InMemoryDataService }  from './in-memory-data.service';
   imports: [
     CommonModule,
     HttpModule,
-    JsonpModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService)
+    JsonpModule
+    //, InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   declarations: [ ],
   exports:      [ ],

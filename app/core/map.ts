@@ -19,20 +19,22 @@ public setDrawType(drawType : DrawType){
   this.draw.setDrawType(drawType);
 }*/
 
-import { RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType } from './layer';
+import {RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType, Square, City} from './layer';
+import Layer = require("esri/layers/layer");
 
 export class OptionMap {
   public constructor(
-    public uid: number,
     public height: number,
     public width: number,
-    public layerType: LayerType,
+    public city: number,
     public extent: string,
+    public uid?: number,
     public title?: string,
     public owner?: number,
-    public graphics?: string,
+    public graphics?: any,
     public hash?: string,
-    public dateCreation?: string,
+    public creationDate?: string,
+    public layerType?: LayerType
   ) {}
 
 }
@@ -45,7 +47,7 @@ export class AbaMap extends ArcgisMap {
   public title?: string;
   public owner?: number;
   public hash?: string;
-  public dateCreation?: string;
+  public creationDate?: string;
 
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent) {
@@ -79,6 +81,7 @@ export class AbaMap extends ArcgisMap {
   }
 
   public setLayerVisible(layerType: LayerType) {
+    console.log(layerType);
     this.layers
       .forEach( (layer) => {
           layer.setVisibility( layerType.kind === layer.id );
@@ -105,8 +108,29 @@ export class AbaMap extends ArcgisMap {
     }
 
     abaMap.hash = optionMap.hash;
-    abaMap.dateCreation = optionMap.dateCreation;
+    abaMap.creationDate = optionMap.creationDate;
 
     return abaMap;
+  }
+
+  public toOptionMap(): OptionMap {
+
+    let optionMap: OptionMap = new OptionMap(this.height, this.width, 0, this.extent.toJson());
+    optionMap.title = this.title;
+
+    let graphics = this.graphics.graphics.filter( g => g.symbol !== undefined).map( g => g.toJson() );
+    optionMap.graphics = graphics;
+
+    if ( this.isCityMap() ) {
+      optionMap.city = 1;
+    } else {
+      optionMap.city = 0;
+    }
+
+    return optionMap;
+  }
+
+  public isCityMap(): boolean {
+    return this.layers.some( (l: RootLayer) => l.layers().some( (l: Layer) => l.id === 'city' && l.visible));
   }
 }

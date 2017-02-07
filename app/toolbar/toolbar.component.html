@@ -33,11 +33,13 @@
                 type="button"
                 *ngFor="let tool of actionTools()"
                 class="btn btn-primary btn-md"
-                (click)="onClick(tool)"
-                [class.active]="isActive(tool)">
+                (click)="onClick(tool)">
             <img src="{{ tool.image }}">
             <span class="tooltiptext">{{ tool.heading }}</span>
         </button>
     </div>
 
 </div>
+
+<aba-modal-maps (onSelectChoice)="mapSelected($event)"></aba-modal-maps>
+<aba-modal-save-map (onMapSubmit)="mapInsert($event)"></aba-modal-save-map>
