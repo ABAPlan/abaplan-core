@@ -31,7 +31,7 @@ export class OptionMap {
     public uid?: number,
     public title?: string,
     public owner?: number,
-    public graphics?: string,
+    public graphics?: any,
     public hash?: string,
     public creationDate?: string,
     public layerType?: LayerType
@@ -121,7 +121,7 @@ export class AbaMap extends ArcgisMap {
     optionMap.title = this.title;
 
     let graphics = this.graphics.graphics.filter( g => g.symbol !== undefined).map( g => g.toJson() );
-    optionMap.graphics = graphics as string;
+    optionMap.graphics = graphics;
 
     if ( this.isCityMap() ) {
       optionMap.city = 1;
