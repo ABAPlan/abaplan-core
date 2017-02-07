@@ -20,14 +20,15 @@ public setDrawType(drawType : DrawType){
 }*/
 
 import {RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType, Square, City} from './layer';
+import Layer = require("esri/layers/layer");
 
 export class OptionMap {
   public constructor(
-    public uid: number,
     public height: number,
     public width: number,
     public city: number,
     public extent: string,
+    public uid?: number,
     public title?: string,
     public owner?: number,
     public graphics?: string,
@@ -112,5 +113,26 @@ export class AbaMap extends ArcgisMap {
     abaMap.creationDate = optionMap.creationDate;
 
     return abaMap;
+  }
+
+  public toOptionMap(): OptionMap {
+
+    let optionMap: OptionMap = new OptionMap(this.height, this.width, 0, this.extent.toJson());
+    optionMap.title = this.title;
+
+    let graphics = this.graphics.graphics.filter( g => g.symbol !== undefined).map( g => g.toJson() );
+    optionMap.graphics = JSON.stringify(graphics);
+
+    if ( this.isCityMap() ) {
+      optionMap.city = 1;
+    } else {
+      optionMap.city = 0;
+    }
+
+    return optionMap;
+  }
+
+  public isCityMap(): boolean {
+    return this.layers.some( (l: RootLayer) => l.layers().some( (l: Layer) => l.id === 'city' && l.visible));
   }
 }

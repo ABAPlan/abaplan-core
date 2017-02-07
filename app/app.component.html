@@ -23,7 +23,9 @@
 
                 <aba-toolbar-map
                         (onUpdateTool)="onUpdateTool($event)"
-                        (onUpdateMap)="updateMapId($event)"></aba-toolbar-map>
+                        (onSelectMap)="updateMapId($event)"
+                        (onSetMapTitle)="updateMapTitle($event)"
+                ></aba-toolbar-map>
 
             </div>
         </div>

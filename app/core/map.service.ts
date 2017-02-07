@@ -20,7 +20,9 @@ export class MapService {
   constructor(private http: Http) {
   }
 
-  add(abaMap: AbaMap) {
+  add(optionMap: OptionMap) {
+
+    console.log(optionMap);
     /*
 
      Comment (JCA) : All these attributes could be access from AbaMap (extending ArcgisMap)

@@ -58,21 +58,6 @@ export class MapComponent implements OnInit {
     return false;
   }
 
-  public selectMapId(id: number): void {
-    this.mapService.map(id).subscribe(
-      optionMap => {
-
-        // Fixed: Must destroy before attributing a new instance
-        this.map.destroy();
-        this.map = AbaMap.fromOptionMap("esri-map", optionMap);
-
-        this.applyDefaultCallbackToTheMap();
-
-        this.setLayerType(optionMap.layerType);
-
-      }
-    );
-  }
 
   initMap(optionMap: OptionMap): void {
 
@@ -111,4 +96,23 @@ export class MapComponent implements OnInit {
     );
   }
 
+  public selectMapId(id: number): void {
+    this.mapService.map(id).subscribe(
+      optionMap => {
+
+        // Fixed: Must destroy before attributing a new instance
+        this.map.destroy();
+        this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+
+        this.applyDefaultCallbackToTheMap();
+
+        this.setLayerType(optionMap.layerType);
+
+      }
+    );
+  }
+  public saveMapWithTitle(title: string): void {
+    this.map.title = title;
+    this.mapService.add(this.map.toOptionMap());
+  }
 }

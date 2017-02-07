@@ -3,6 +3,7 @@ import { LayerType } from '../core/layer';
 import { DrawType } from '../editor/drawMap';
 
 import { ModalMapComponent } from '../modal-maps-list/modal-maps-list.component';
+import { ModalSaveMapComponent } from "../modal-save-map/modal-save-map.component";
 
 export interface ITool { heading: string, image?: string }
 
@@ -21,9 +22,11 @@ export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
-  @Output() onUpdateMap: EventEmitter<number> = new EventEmitter();
+  @Output() onSelectMap: EventEmitter<number> = new EventEmitter();
+  @Output() onSetMapTitle: EventEmitter<string> = new EventEmitter();
 
   @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
+  @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
 
   private modalComponentVisible = false;
 
@@ -111,6 +114,8 @@ export class ToolbarMapComponent {
     this.onUpdateTool.emit(tool);
     if (tool.heading === 'Ouvrir'){
       this.modalMapComponent.open();
+    } else if (tool.heading === 'Sauvegarder') {
+      this.modalSaveMapComponent.open();
     }
   }
 
@@ -130,6 +135,10 @@ export class ToolbarMapComponent {
   }
 
   private mapSelected(id: number): void {
-    this.onUpdateMap.emit(id);
+    this.onSelectMap.emit(id);
+  }
+
+  private mapInsert(info: any): void {
+    this.onSetMapTitle.emit(info.title);
   }
 }

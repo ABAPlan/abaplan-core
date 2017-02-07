@@ -104,6 +104,10 @@ export class AppComponent {
     this.mapComponent.selectMapId(id);
   }
 
+  private updateMapTitle(title: string): void {
+    this.mapComponent.saveMapWithTitle(title);
+  }
+
   ngAfterViewInit() {
     // Init default btnInfo to first
     this.setActive(this._btnInfos[0]);
