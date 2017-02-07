@@ -3,7 +3,7 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import {OptionMap, AbaMap } from './map';
 import { LayerType } from './layer';
-
+import 'rxjs/add/operator/toPromise';
 
 const LayerTypeId: { [id: number]: LayerType } = {
   0: { kind: "square" },
