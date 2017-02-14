@@ -42,11 +42,31 @@ export class AbaDraw extends ArcgisDraw {
 
     this.map.graphics.on("click", (e:{graphic:any}) => {
       if(this.deleteEnabled){
-        if(e && e.graphic){
+
+        // If pedestrian pathway, delete all graphics with same id
+        if(e.graphic.attributes && e.graphic.attributes.passage_pieton){
+          let graphsToDelete = [];
+
+          // Get list of graphics to delete
+          for (let g of this.map.graphics.graphics) {
+            if (g && g.attributes
+              && g.attributes.id == e.graphic.attributes.id){
+              graphsToDelete.push(g);
+            }
+          }
+
+          // Delete graphics
+          for (let g of graphsToDelete)
+            this.map.graphics.remove(g);
+
+        }
+        // Basics and simple graphic
+        else{
           this.map.graphics.remove(e.graphic);
         }
       }
-    });
+    }
+    );
   }
 
   public onDrawComplete(event) {

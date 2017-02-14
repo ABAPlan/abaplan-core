@@ -105,6 +105,8 @@ export class DrawInfoPedestrian implements DrawInfo {
 
     const pedestrianWidth = 5;
 
+    let idPedestrianPathway = {origin:origin, destination:destination};
+
     let A: Vector2d = clone(origin);
     let B: Vector2d = clone(destination);
 
@@ -141,7 +143,8 @@ export class DrawInfoPedestrian implements DrawInfo {
         arcgisMap.graphics.add(new Graphic(geometry, symbol, {
           "shape": this.geometryType,
           "texture": symbol,
-          "passage_pieton": true
+          "passage_pieton": true,
+          "id" : idPedestrianPathway
         }));
       }
     );
