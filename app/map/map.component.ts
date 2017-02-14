@@ -103,6 +103,9 @@ export class MapComponent implements OnInit {
         this.map.destroy();
         this.map = AbaMap.fromOptionMap("esri-map", optionMap);
 
+        // Call mapInstancied event to prevent others components of new map
+        this.mapInstancied.emit(optionMap);
+
         this.applyDefaultCallbackToTheMap();
 
         this.setLayerType(optionMap.layerType);
