@@ -25,6 +25,7 @@ export type DrawType =
 export class AbaDraw extends ArcgisDraw {
   private map : ArcgisMap;
   private currentDrawInfo : DrawInfo;
+  private deleteEnabled : boolean;
 
   private drawTypes : { [name:string] : DrawInfo; } = {
     'circle' : new DrawInfoCircle(),
@@ -36,6 +37,16 @@ export class AbaDraw extends ArcgisDraw {
   public constructor(map : ArcgisMap) {
     super(map);
     this.map = map;
+
+    this.enableDelete(false);
+
+    this.map.graphics.on("click", (e:{graphic:any}) => {
+      if(this.deleteEnabled){
+        if(e && e.graphic){
+          this.map.graphics.remove(e.graphic);
+        }
+      }
+    });
   }
 
   public onDrawComplete(event) {
@@ -49,5 +60,9 @@ export class AbaDraw extends ArcgisDraw {
   public enable(drawType : DrawType) {
     this.currentDrawInfo = this.drawTypes[drawType.kind];
     this.activate(this.currentDrawInfo.geometryType);
+  }
+
+  public enableDelete(enable:boolean) {
+    this.deleteEnabled = enable;
   }
 }

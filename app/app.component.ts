@@ -60,6 +60,8 @@ export class AppComponent {
 
       case "edit" :
         this.draw.disable();
+        this.draw.enableDelete(tool.heading == "Supprimer");
+        
         console.warn("edit buttons not implemented");
         console.log(tool);
       break;
