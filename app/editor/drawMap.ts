@@ -42,13 +42,18 @@ export class AbaDraw extends ArcgisDraw {
     this.enableDelete(false);
 
     this.map.graphics.on("click", (e:{graphic:any}) => {
-      //this.edit.activate(ArcgisEdit.MOVE, e.graphic);
-      //this.edit.activate(ArcgisEdit.EDIT_VERTICES, e.graphic);
-
       if(this.deleteEnabled){
         if(e.graphic.attributes && e.graphic.attributes.kind){
           console.log(e.graphic.attributes.kind);
           this.drawTypes[e.graphic.attributes.kind].delete(this.map, e.graphic);
+        }
+        // For old release compatibility : pedestrian
+        else if (e.graphic.attributes && e.graphic.attributes.passage_pieton){
+          this.drawTypes['pedestrian'].delete(this.map, e.graphic);
+        }
+        // For old release compatibility : all shapes
+        else {
+          this.map.graphics.remove(e.graphic);
         }
       }
     }
