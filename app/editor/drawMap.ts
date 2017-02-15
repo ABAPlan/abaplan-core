@@ -4,6 +4,8 @@ import Extent = require('esri/geometry/Extent');
 import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
 
 import ArcgisDraw = require('esri/toolbars/draw');
+import ArcgisEdit = require('esri/toolbars/edit');
+
 import {DrawGraphic,
         DrawInfo,
         DrawInfoPedestrian,
@@ -27,7 +29,8 @@ export class AbaDraw extends ArcgisDraw {
   private currentDrawInfo : DrawInfo;
   private currentDrawTypeKind : string; // Remember the string key of drawTypes[]
   private deleteEnabled : boolean;
-  
+  private editEnabled : boolean;
+
   private drawTypes : { [name:string] : DrawInfo; } = {
     'circle' : new DrawInfoCircle(),
     'polygon' : new DrawInfoPolygon(),
@@ -35,16 +38,19 @@ export class AbaDraw extends ArcgisDraw {
     'pedestrian' : new DrawInfoPedestrian()
   };
 
+  private edit : ArcgisEdit;
+
   public constructor(map : ArcgisMap) {
     super(map);
     this.map = map;
+    this.edit = new ArcgisEdit(map);
 
     this.enableDelete(false);
+    this.enableEdit(false);
 
     this.map.graphics.on("click", (e:{graphic:any}) => {
       if(this.deleteEnabled){
         if(e.graphic.attributes && e.graphic.attributes.kind){
-          console.log(e.graphic.attributes.kind);
           this.drawTypes[e.graphic.attributes.kind].delete(this.map, e.graphic);
         }
         // For old release compatibility : pedestrian
@@ -56,13 +62,27 @@ export class AbaDraw extends ArcgisDraw {
           this.map.graphics.remove(e.graphic);
         }
       }
+      if(this.editEnabled){
+        if(e.graphic.attributes && e.graphic.attributes.kind){
+          let editTools : any = this.drawTypes[e.graphic.attributes.kind].editTools;
+          this.edit.activate(editTools, e.graphic);
+        }
+        // For old release compatibility : pedestrian
+        else if (e.graphic.attributes && e.graphic.attributes.passage_pieton){
+          //this.drawTypes['pedestrian'].delete(this.map, e.graphic);
+        }
+        // For old release compatibility : all shapes
+        else {
+          this.edit.activate(<any>(ArcgisEdit.SCALE | ArcgisEdit.MOVE), e.graphic);;
+        }
+      }
     }
     );
   }
 
   public onDrawComplete(event) {
     // Call draw complete of current draw info
-    this.currentDrawInfo.drawComplete(
+    this.currentDrawInfo.draw(
       // Callback to add graphics
       ( graphic: Graphic ) => {
         if(!graphic.attributes) 
@@ -86,5 +106,11 @@ export class AbaDraw extends ArcgisDraw {
 
   public enableDelete(enable:boolean) {
     this.deleteEnabled = enable;
+  }
+
+  public enableEdit(enable:boolean) {
+    this.editEnabled = enable;
+    if(!enable)
+      this.edit.deactivate();
   }
 }

@@ -54,14 +54,23 @@ export class AppComponent {
   public onUpdateTool(tool : Tool) {
     switch (tool.kind) {
       case "draw" :
+        this.mapComponent.map.disableMapNavigation();
         const drawTool = tool as DrawTool;
         this.draw.enable(drawTool.drawType);
+
+        this.draw.enableDelete(false);
+        this.draw.enableEdit(false);
       break;
 
       case "edit" :
         this.draw.disable();
         this.draw.enableDelete(tool.heading == "Supprimer");
-        
+        this.draw.enableEdit(tool.heading == "Sélectionner");
+        if(tool.heading == "Déplacer")
+          this.mapComponent.map.enableMapNavigation();
+        else
+          this.mapComponent.map.disableMapNavigation();
+
         console.warn("edit buttons not implemented");
         console.log(tool);
       break;

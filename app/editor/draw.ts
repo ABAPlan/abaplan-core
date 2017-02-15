@@ -7,6 +7,7 @@ import Symbol = require('esri/symbols/Symbol');
 import Color = require('esri/Color');
 import Polygon = require('esri/geometry/Polygon');
 import Draw = require('esri/toolbars/draw');
+import Edit = require('esri/toolbars/edit');
 import * as _ from "lodash";
 
 //import * as Vector from '../core/vector2d';
@@ -15,10 +16,15 @@ import { Vector2d, subVec, addVec, norm, multVec, perp, clone } from '../core/ve
 export type DrawGraphic = (graphic: Graphic) => void;
 
 export interface DrawInfo {
-  geometryType : string; // Geometry to draw when user create the geometry
-  drawComplete(drawGraphic : DrawGraphic, event) : void;
+  // Geometry to draw when user create the geometry
+  geometryType : string; 
 
+  // Possible edit tools like <any>(ArcgisEdit.SCALE | ArcgisEdit.MOVE)
+  editTools : any; 
+
+  draw(drawGraphic : DrawGraphic, event) : void;
   delete(map : ArcgisMap, clickedGraphic) : void;
+  //edit(map : ArcgisMap, clickedGraphic) : void;
 };
 
 /**
@@ -27,13 +33,15 @@ export interface DrawInfo {
 export class DrawInfoBasicGeometry implements DrawInfo{
   private symbol : Symbol;
   public geometryType : string;
+  public editTools : any;
 
-  constructor(geometryType : string, symbol: Symbol) {
+  constructor(geometryType : string, symbol: Symbol, editTools : any) {
     this.geometryType = geometryType;
     this.symbol = symbol;
+    this.editTools = editTools;
   }
 
-  drawComplete(drawGraphic : DrawGraphic, event) {
+  draw(drawGraphic : DrawGraphic, event) {
     drawGraphic(new Graphic(event.geometry, this.symbol));
   }
 
@@ -51,7 +59,8 @@ export class DrawInfoCircle extends DrawInfoBasicGeometry {
               new SimpleFillSymbol(
                   SimpleFillSymbol.STYLE_SOLID,
                   null,
-                  color)
+                  color),
+              <any>(Edit.SCALE | Edit.MOVE)
         );
     }
 }
@@ -66,7 +75,8 @@ export class DrawInfoPolyline extends DrawInfoBasicGeometry {
                   SimpleLineSymbol.STYLE_LONGDASH,
                   color,
                   3
-              )
+              ),
+              <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES) 
         );
     }
 }
@@ -80,7 +90,8 @@ export class DrawInfoPolygon extends DrawInfoBasicGeometry {
               new SimpleFillSymbol(
                   SimpleFillSymbol.STYLE_SOLID,
                   null,
-                  color)
+                  color),
+              <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES) 
         );
     }
 }
@@ -88,11 +99,13 @@ export class DrawInfoPolygon extends DrawInfoBasicGeometry {
 export class DrawInfoPedestrian implements DrawInfo {
   public geometryType : string = Draw.LINE;
   public pedestrianFillSize : number = 20;
+  public editTools : any = <any>(Edit.MOVE) ;
+
   constructor() {
 
   }
 
-  drawComplete(drawGraphic : DrawGraphic, event) {
+  draw(drawGraphic : DrawGraphic, event) {
     var A = {x:0, y:0};
     A.x = event.geometry.paths[0][0][0];
     A.y = event.geometry.paths[0][0][1];
