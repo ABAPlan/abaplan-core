@@ -4,8 +4,8 @@ import Extent = require('esri/geometry/Extent');
 import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
 
 import ArcgisDraw = require('esri/toolbars/draw');
-
-import {DrawInfo,
+import {DrawGraphic,
+        DrawInfo,
         DrawInfoPedestrian,
         DrawInfoPolyline,
         DrawInfoPolygon,
@@ -25,8 +25,9 @@ export type DrawType =
 export class AbaDraw extends ArcgisDraw {
   private map : ArcgisMap;
   private currentDrawInfo : DrawInfo;
+  private currentDrawTypeKind : string; // Remember the string key of drawTypes[]
   private deleteEnabled : boolean;
-
+  
   private drawTypes : { [name:string] : DrawInfo; } = {
     'circle' : new DrawInfoCircle(),
     'polygon' : new DrawInfoPolygon(),
@@ -41,28 +42,13 @@ export class AbaDraw extends ArcgisDraw {
     this.enableDelete(false);
 
     this.map.graphics.on("click", (e:{graphic:any}) => {
+      //this.edit.activate(ArcgisEdit.MOVE, e.graphic);
+      //this.edit.activate(ArcgisEdit.EDIT_VERTICES, e.graphic);
+
       if(this.deleteEnabled){
-
-        // If pedestrian pathway, delete all graphics with same id
-        if(e.graphic.attributes && e.graphic.attributes.passage_pieton){
-          let graphsToDelete = [];
-
-          // Get list of graphics to delete
-          for (let g of this.map.graphics.graphics) {
-            if (g && g.attributes
-              && g.attributes.id == e.graphic.attributes.id){
-              graphsToDelete.push(g);
-            }
-          }
-
-          // Delete graphics
-          for (let g of graphsToDelete)
-            this.map.graphics.remove(g);
-
-        }
-        // Basics and simple graphic
-        else{
-          this.map.graphics.remove(e.graphic);
+        if(e.graphic.attributes && e.graphic.attributes.kind){
+          console.log(e.graphic.attributes.kind);
+          this.drawTypes[e.graphic.attributes.kind].delete(this.map, e.graphic);
         }
       }
     }
@@ -70,7 +56,16 @@ export class AbaDraw extends ArcgisDraw {
   }
 
   public onDrawComplete(event) {
-    this.currentDrawInfo.drawComplete(this.map, event);
+    // Call draw complete of current draw info
+    this.currentDrawInfo.drawComplete(
+      // Callback to add graphics
+      ( graphic: Graphic ) => {
+        if(!graphic.attributes) 
+          graphic.attributes = {};
+        graphic.attributes.kind = this.currentDrawTypeKind;
+        this.map.graphics.add(graphic);
+      }, 
+      event);
   }
 
   public disable() {
@@ -78,7 +73,9 @@ export class AbaDraw extends ArcgisDraw {
   }
 
   public enable(drawType : DrawType) {
-    this.currentDrawInfo = this.drawTypes[drawType.kind];
+    let kind : string = drawType.kind;
+    this.currentDrawTypeKind = kind;
+    this.currentDrawInfo = this.drawTypes[kind];
     this.activate(this.currentDrawInfo.geometryType);
   }
 

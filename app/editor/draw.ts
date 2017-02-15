@@ -12,9 +12,13 @@ import * as _ from "lodash";
 //import * as Vector from '../core/vector2d';
 import { Vector2d, subVec, addVec, norm, multVec, perp, clone } from '../core/vector2d';
 
+export type DrawGraphic = (graphic: Graphic) => void;
+
 export interface DrawInfo {
-  geometryType : string;
-  drawComplete(map : ArcgisMap, event) : void;
+  geometryType : string; // Geometry to draw when user create the geometry
+  drawComplete(drawGraphic : DrawGraphic, event) : void;
+
+  delete(map : ArcgisMap, clickedGraphic) : void;
 };
 
 /**
@@ -29,8 +33,12 @@ export class DrawInfoBasicGeometry implements DrawInfo{
     this.symbol = symbol;
   }
 
-  drawComplete(map : ArcgisMap, event) {
-    map.graphics.add(new Graphic(event.geometry, this.symbol));
+  drawComplete(drawGraphic : DrawGraphic, event) {
+    drawGraphic(new Graphic(event.geometry, this.symbol));
+  }
+
+  delete(map : ArcgisMap, clickedGraphic) : void {
+    map.graphics.remove(clickedGraphic);
   }
 }
 
@@ -84,8 +92,7 @@ export class DrawInfoPedestrian implements DrawInfo {
 
   }
 
-  drawComplete(map : ArcgisMap, event) {
-    //map.graphics.add(new Graphic(event.geometry, this.symbol));
+  drawComplete(drawGraphic : DrawGraphic, event) {
     var A = {x:0, y:0};
     A.x = event.geometry.paths[0][0][0];
     A.y = event.geometry.paths[0][0][1];
@@ -94,14 +101,14 @@ export class DrawInfoPedestrian implements DrawInfo {
     B.x = event.geometry.paths[0][1][0];
     B.y = event.geometry.paths[0][1][1];
 
-    this.createPedestrianPathway(A, B, event.geometry.spatialReference, map);
+    this.createPedestrianPathway(A, B, event.geometry.spatialReference, drawGraphic);
   }
 
 
   /** This feature draw a pedetrian pathway on the map
    *  (jca)
    */
-  createPedestrianPathway (origin, destination, spatialRef, arcgisMap) {
+  createPedestrianPathway (origin, destination, spatialRef, drawGraphic : DrawGraphic) {
 
     const pedestrianWidth = 5;
 
@@ -140,13 +147,26 @@ export class DrawInfoPedestrian implements DrawInfo {
           new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1])) :
           new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 255, 255, 1]));
 
-        arcgisMap.graphics.add(new Graphic(geometry, symbol, {
-          "shape": this.geometryType,
-          "texture": symbol,
-          "passage_pieton": true,
+        drawGraphic(new Graphic(geometry, symbol, {
           "id" : idPedestrianPathway
         }));
       }
     );
+  }
+  
+  delete(map : ArcgisMap, clickedGraphic) : void {
+    let graphicsToDelete = [];
+
+    // Get list of graphics to delete
+    for (let g of map.graphics.graphics) {
+      if (g && g.attributes
+        && g.attributes.id == clickedGraphic.attributes.id){
+        graphicsToDelete.push(g);
+      }
+    }
+
+    // Delete graphics
+    for (let g of graphicsToDelete)
+      map.graphics.remove(g);
   }
 }
