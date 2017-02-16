@@ -102,6 +102,7 @@ export class AbaMap extends ArcgisMap {
     abaMap.owner = optionMap.owner;
 
     if(optionMap.graphics) {
+      console.log(optionMap.graphics);
       const json: any = JSON.parse(optionMap.graphics);
       json.forEach( (graphic) => abaMap.graphics.add(new Graphic(graphic)));
     }

@@ -213,13 +213,45 @@ export class DrawInfoPedestrian implements DrawInfo {
    */
   getListGraphics(graphicsMap : Graphic[], clickedGraphic : Graphic) : Graphic[] {
     let graphics : Graphic[] = [];
-    for (let g of graphicsMap) {
-      if (g && g.attributes && clickedGraphic && clickedGraphic.attributes
-        && g.attributes.id == clickedGraphic.attributes.id){
-        graphics.push(g);
+    graphicsMap.forEach( (g) => {
+        if(this.isIdenticId(g, clickedGraphic)) 
+          graphics.push(g)
       }
-    }
+    )
     return graphics;
+  }
+
+  private isIdenticId(g1 : Graphic, g2 : Graphic) : boolean {
+    // Check id defined
+    if (!(g1 && g1.attributes && g1.attributes.id &&
+          g2 && g2.attributes && g2.attributes.id)){
+        return false;
+    }
+
+    // No object, simple same id
+    if (g1.attributes.id == g2.attributes.id){
+      return true;
+    }
+
+    // Object : check all attributes
+    return this.isIdenticObjectId(g1.attributes.id, g2.attributes.id);
+  }
+
+  // Check recursively is all attribue of objects are identics
+  private isIdenticObjectId(obj1, obj2) : boolean {
+    if(obj1 instanceof Object && obj2 instanceof Object){
+      for(let attr in obj1){
+        if(obj1[attr] instanceof Object)
+          return this.isIdenticObjectId(obj1[attr], obj2[attr]);
+        else{
+          if(obj1[attr] !== obj2[attr]){
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+    return false;
   }
 
   finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) {
