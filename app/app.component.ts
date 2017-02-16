@@ -78,11 +78,17 @@ export class AppComponent {
       case "action" :
         console.warn("action buttons not implemented");
         console.log(tool);
+
+        this.draw.enableDelete(false);
+        this.draw.enableEdit(false);
       break;
 
       default :
         console.warn("default not implemented");
         console.log(tool);
+
+        this.draw.enableDelete(false);
+        this.draw.enableEdit(false);
       break;
     }
   }
