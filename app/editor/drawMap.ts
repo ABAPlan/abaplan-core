@@ -28,6 +28,7 @@ export class AbaDraw extends ArcgisDraw {
   private map : ArcgisMap;
   private currentDrawInfo : DrawInfo;
   private currentDrawTypeKind : string; // Remember the string key of drawTypes[]
+
   private deleteEnabled : boolean;
   private editEnabled : boolean;
 
@@ -49,47 +50,79 @@ export class AbaDraw extends ArcgisDraw {
     this.enableEdit(false);
 
     this.map.graphics.on("click", (e:{graphic:any}) => {
+      /** For delete */
       if(this.deleteEnabled){
+        // For current release
         if(e.graphic.attributes && e.graphic.attributes.kind){
           this.drawTypes[e.graphic.attributes.kind].delete(this.map, e.graphic);
         }
-        // For old release compatibility : pedestrian
+        // For old release compatibility : pedestrian => to delete in future..
         else if (e.graphic.attributes && e.graphic.attributes.passage_pieton){
           this.drawTypes['pedestrian'].delete(this.map, e.graphic);
         }
-        // For old release compatibility : all shapes
+        // For old release compatibility : all shapes => to delete in future..
         else {
           this.map.graphics.remove(e.graphic);
         }
       }
+      /** For edit */
       if(this.editEnabled){
         if(e.graphic.attributes && e.graphic.attributes.kind){
-          let editTools : any = this.drawTypes[e.graphic.attributes.kind].editTools;
-          this.edit.activate(editTools, e.graphic);
+          // Get the type
+          let drawType = this.drawTypes[e.graphic.attributes.kind];
+          let editTools : any = drawType.editTools;
+          let graphics = this.map.graphics;
+
+          // Get the graphic to edit
+          let graphicToEdit : Graphic = drawType.getEditionGraphic(this.map, 
+            this.drawGraphicFunction(e.graphic.attributes.kind),
+            e.graphic);
+
+            // Activate
+          this.edit.activate(editTools, graphicToEdit);
         }
-        // For old release compatibility : pedestrian
+        /*
+        // For old release compatibility : pedestrian => to delete in future..
         else if (e.graphic.attributes && e.graphic.attributes.passage_pieton){
           //this.drawTypes['pedestrian'].delete(this.map, e.graphic);
         }
-        // For old release compatibility : all shapes
+        // For old release compatibility : all shapes  => to delete in future..
         else {
-          this.edit.activate(<any>(ArcgisEdit.SCALE | ArcgisEdit.MOVE), e.graphic);;
+          this.edit.activate(<any>(ArcgisEdit.SCALE | ArcgisEdit.MOVE), e.graphic);
         }
+        */
       }
     }
     );
+
+    // On edit desactivate : call finishEdit
+    this.edit.on("deactivate", (event: { graphic: Graphic; info: any; tool: string }) => {
+      let drawType = this.drawTypes[event.graphic.attributes.kind];
+      drawType.finishEdit( 
+        this.map,
+        this.drawGraphicFunction(event.graphic.attributes.kind),
+        event.graphic )
+    }); 
   }
+
+  public drawGraphicFunction = (typeKind:string) => {
+      console.log("Function with:" + typeKind);
+      return (graphic: Graphic) => {
+          if(!graphic.attributes) 
+            graphic.attributes = {};
+          graphic.attributes.kind = /*this.currentEditTypeKind*/typeKind;
+          this.map.graphics.add(graphic);
+        }
+  }; 
 
   public onDrawComplete(event) {
     // Call draw complete of current draw info
+    let currentDrawTypeKind = this.currentDrawTypeKind;
+    let graphics = this.map.graphics;
+
     this.currentDrawInfo.draw(
       // Callback to add graphics
-      ( graphic: Graphic ) => {
-        if(!graphic.attributes) 
-          graphic.attributes = {};
-        graphic.attributes.kind = this.currentDrawTypeKind;
-        this.map.graphics.add(graphic);
-      }, 
+      this.drawGraphicFunction(currentDrawTypeKind),
       event);
   }
 

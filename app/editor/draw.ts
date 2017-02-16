@@ -8,6 +8,9 @@ import Color = require('esri/Color');
 import Polygon = require('esri/geometry/Polygon');
 import Draw = require('esri/toolbars/draw');
 import Edit = require('esri/toolbars/edit');
+import GeometryEngine = require('esri/geometry/geometryEngine');
+import Polyline = require('esri/geometry/Polyline');
+import SpatialReference = require('esri/SpatialReference');
 import * as _ from "lodash";
 
 //import * as Vector from '../core/vector2d';
@@ -23,8 +26,9 @@ export interface DrawInfo {
   editTools : any; 
 
   draw(drawGraphic : DrawGraphic, event) : void;
-  delete(map : ArcgisMap, clickedGraphic) : void;
-  //edit(map : ArcgisMap, clickedGraphic) : void;
+  delete(map : ArcgisMap, clickedGraphic : Graphic) : void;
+  getEditionGraphic(map : ArcgisMap, drawGraphic : DrawGraphic, clickedGraphic : Graphic) : Graphic;
+  finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) : void;
 };
 
 /**
@@ -42,12 +46,20 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   }
 
   draw(drawGraphic : DrawGraphic, event) {
+    console.log(event.geometry);
+    console.log(this.symbol);
     drawGraphic(new Graphic(event.geometry, this.symbol));
   }
 
-  delete(map : ArcgisMap, clickedGraphic) : void {
+  delete(map : ArcgisMap, clickedGraphic : Graphic) : void {
     map.graphics.remove(clickedGraphic);
   }
+
+  getEditionGraphic(map : ArcgisMap, drawGraphic : DrawGraphic, clickedGraphic : Graphic) : Graphic {
+    return clickedGraphic;
+  }
+
+  finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) {}
 }
 
 export class DrawInfoCircle extends DrawInfoBasicGeometry {
@@ -91,7 +103,7 @@ export class DrawInfoPolygon extends DrawInfoBasicGeometry {
                   SimpleFillSymbol.STYLE_SOLID,
                   null,
                   color),
-              <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES) 
+              <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES | Edit.ROTATE) 
         );
     }
 }
@@ -99,7 +111,8 @@ export class DrawInfoPolygon extends DrawInfoBasicGeometry {
 export class DrawInfoPedestrian implements DrawInfo {
   public geometryType : string = Draw.LINE;
   public pedestrianFillSize : number = 20;
-  public editTools : any = <any>(Edit.MOVE) ;
+  public editTools : any = <any>(Edit.MOVE | Edit.SCALE | Edit.EDIT_VERTICES) ;
+  readonly pedestrianWidth : number = 5;
 
   constructor() {
 
@@ -122,9 +135,6 @@ export class DrawInfoPedestrian implements DrawInfo {
    *  (jca)
    */
   createPedestrianPathway (origin, destination, spatialRef, drawGraphic : DrawGraphic) {
-
-    const pedestrianWidth = 5;
-
     let idPedestrianPathway = {origin:origin, destination:destination};
 
     let A: Vector2d = clone(origin);
@@ -139,7 +149,7 @@ export class DrawInfoPedestrian implements DrawInfo {
     let nbIter = Math.max(3, Math.floor( lengthAB / 2.5 ));
     nbIter = nbIter % 2 == 0 ? nbIter+1 : nbIter;
 
-    const unitPerpAB = multVec(pedestrianWidth/lengthPerpAB, perpAB);
+    const unitPerpAB = multVec(this.pedestrianWidth/lengthPerpAB, perpAB);
     const unitAB = multVec(1/nbIter, AB);
 
     let A_ = clone(A);
@@ -167,19 +177,59 @@ export class DrawInfoPedestrian implements DrawInfo {
     );
   }
   
-  delete(map : ArcgisMap, clickedGraphic) : void {
-    let graphicsToDelete = [];
+  delete(map : ArcgisMap, clickedGraphic : Graphic) : void {
+    // Get all graphics with same id
+    let graphicsToDelete : Graphic[] = 
+      this.getListGraphics(map.graphics.graphics, clickedGraphic);
 
-    // Get list of graphics to delete
-    for (let g of map.graphics.graphics) {
-      if (g && g.attributes
-        && g.attributes.id == clickedGraphic.attributes.id){
-        graphicsToDelete.push(g);
-      }
-    }
+    this.deleteGraphics(map, graphicsToDelete);
+  }
 
-    // Delete graphics
+  deleteGraphics(map : ArcgisMap, graphicsToDelete : Graphic[]) : void {
     for (let g of graphicsToDelete)
       map.graphics.remove(g);
+  }
+
+  getEditionGraphic(map : ArcgisMap, drawGraphic : DrawGraphic, clickedGraphic : Graphic) : Graphic {
+    let graphics : Graphic[] = 
+      this.getListGraphics(map.graphics.graphics, clickedGraphic);
+    this.deleteGraphics(map, graphics);
+
+    let ori = clickedGraphic.attributes.id.origin;
+    let dest = clickedGraphic.attributes.id.destination;
+    let polyline = new Polyline(new SpatialReference({wkid:102100}));
+    polyline.addPath([[ori.x, ori.y], [dest.x, dest.y]]);
+
+    let editionGraphic =  new Graphic(
+      polyline, 
+      new SimpleLineSymbol(
+              SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 1]), 
+              this.pedestrianWidth)
+    );
+    drawGraphic(editionGraphic);
+   
+    return editionGraphic;
+  }
+
+  /** Return all graphics of the map wich have same graphic of clickedGraphic 
+   */
+  getListGraphics(graphicsMap : Graphic[], clickedGraphic : Graphic) : Graphic[] {
+    let graphics : Graphic[] = [];
+    for (let g of graphicsMap) {
+      if (g && g.attributes && clickedGraphic && clickedGraphic.attributes
+        && g.attributes.id == clickedGraphic.attributes.id){
+        graphics.push(g);
+      }
+    }
+    return graphics;
+  }
+
+  finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) {
+    console.log("finishEdit");
+    let polyline : Polyline = <Polyline> graphic.geometry; 
+    let ori = {x:polyline.paths[0][0][0], y:polyline.paths[0][0][1]};
+    let dest = {x:polyline.paths[0][1][0], y:polyline.paths[0][1][1]};
+    this.createPedestrianPathway(ori, dest, graphic.geometry.spatialReference, drawGraphic );
+    map.graphics.remove(graphic);
   }
 }
