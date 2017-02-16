@@ -106,7 +106,6 @@ export class AbaDraw extends ArcgisDraw {
   }
 
   public drawGraphicFunction = (typeKind:string) => {
-      console.log("Function with:" + typeKind);
       return (graphic: Graphic) => {
           if(!graphic.attributes) 
             graphic.attributes = {};

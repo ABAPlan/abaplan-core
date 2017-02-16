@@ -46,8 +46,6 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   }
 
   draw(drawGraphic : DrawGraphic, event) {
-    console.log(event.geometry);
-    console.log(this.symbol);
     drawGraphic(new Graphic(event.geometry, this.symbol));
   }
 
@@ -225,7 +223,6 @@ export class DrawInfoPedestrian implements DrawInfo {
   }
 
   finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) {
-    console.log("finishEdit");
     let polyline : Polyline = <Polyline> graphic.geometry; 
     let ori = {x:polyline.paths[0][0][0], y:polyline.paths[0][0][1]};
     let dest = {x:polyline.paths[0][1][0], y:polyline.paths[0][1][1]};
