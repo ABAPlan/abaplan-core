@@ -29,6 +29,7 @@ export interface DrawInfo {
   delete(map : ArcgisMap, clickedGraphic : Graphic) : void;
   getEditionGraphic(map : ArcgisMap, drawGraphic : DrawGraphic, clickedGraphic : Graphic) : Graphic;
   finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) : void;
+  onLoad(graphics : Graphic[]) : void;
 };
 
 /**
@@ -58,6 +59,7 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   }
 
   finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) {}
+  onLoad(graphics : Graphic[]) : void {}
 }
 
 export class DrawInfoCircle extends DrawInfoBasicGeometry {
@@ -111,6 +113,7 @@ export class DrawInfoPedestrian implements DrawInfo {
   public pedestrianFillSize : number = 20;
   public editTools : any = <any>(Edit.MOVE | Edit.SCALE | Edit.EDIT_VERTICES) ;
   readonly pedestrianWidth : number = 5;
+  private lastId : number = 0;
 
   constructor() {
 
@@ -133,8 +136,7 @@ export class DrawInfoPedestrian implements DrawInfo {
    *  (jca)
    */
   createPedestrianPathway (origin, destination, spatialRef, drawGraphic : DrawGraphic) {
-    let idPedestrianPathway = {origin:origin, destination:destination};
-
+    this.lastId++;
     let A: Vector2d = clone(origin);
     let B: Vector2d = clone(destination);
 
@@ -167,9 +169,9 @@ export class DrawInfoPedestrian implements DrawInfo {
         const symbol = (index+1) % 2 ?
           new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1])) :
           new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 255, 255, 1]));
-
+        
         drawGraphic(new Graphic(geometry, symbol, {
-          "id" : idPedestrianPathway
+          "id" : this.lastId
         }));
       }
     );
@@ -261,4 +263,19 @@ export class DrawInfoPedestrian implements DrawInfo {
     this.createPedestrianPathway(ori, dest, graphic.geometry.spatialReference, drawGraphic );
     map.graphics.remove(graphic);
   }
+
+  onLoad(graphics? : Graphic[]) : void {
+    if(graphics){
+      graphics.forEach((g) => {
+        try {
+          let id = g.attributes.id;
+          if(id > this.lastId)
+            this.lastId = id;
+        }
+        catch (error) {
+          console.error("Pedestrian has no id or bad id");
+        }
+      });
+    }
+  } 
 }

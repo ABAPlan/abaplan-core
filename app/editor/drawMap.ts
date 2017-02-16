@@ -32,6 +32,10 @@ export class AbaDraw extends ArcgisDraw {
   private deleteEnabled : boolean;
   private editEnabled : boolean;
 
+  /**
+   * DrawTypes object foreach kind
+   * Warning, must have same kinds with DrawType
+   */
   private drawTypes : { [name:string] : DrawInfo; } = {
     'circle' : new DrawInfoCircle(),
     'polygon' : new DrawInfoPolygon(),
@@ -45,6 +49,8 @@ export class AbaDraw extends ArcgisDraw {
     super(map);
     this.map = map;
     this.edit = new ArcgisEdit(map);
+    
+    this.loadAllDrawTypes();
 
     this.enableDelete(false);
     this.enableEdit(false);
@@ -93,6 +99,32 @@ export class AbaDraw extends ArcgisDraw {
         this.drawGraphicFunction(event.graphic.attributes.kind),
         event.graphic )
     }); 
+  }
+
+  public loadAllDrawTypes = () => {
+    // Class all graphics by kind
+    let graphicsDrawTypes = {};
+    this.map.graphics.graphics.forEach((g) => {
+      try {
+        let kind = g.attributes.kind;
+
+        if(this.drawTypes[kind] === undefined)
+          console.warn("Graphic kind not supported (kind not implemented)");
+        else{
+          if(!graphicsDrawTypes[kind])
+            graphicsDrawTypes[kind] = [];
+          else
+            graphicsDrawTypes[kind].push(g);
+        }
+      } catch (error) {
+        console.warn("Graphic kind not supported (empty kind)", g);
+      }
+    });
+
+    // Load all graphics by kind
+    for(let kind in this.drawTypes){
+      this.drawTypes[kind].onLoad(graphicsDrawTypes[kind]);
+    }
   }
 
   public drawGraphicFunction = (typeKind:string) => {
