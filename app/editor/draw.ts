@@ -170,9 +170,15 @@ export class DrawInfoPedestrian implements DrawInfo {
           new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1])) :
           new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 255, 255, 1]));
         
-        drawGraphic(new Graphic(geometry, symbol, {
-          "id" : this.lastId
-        }));
+        // Save id pedestrian to attributes
+        let attributes = {id:this.lastId};
+        // Save origin and destination on first square
+        if(index === 0){
+          attributes["origin"] = origin;
+          attributes["destination"] = destination;
+        }
+        // Draw graphic
+        drawGraphic(new Graphic(geometry, symbol, attributes));
       }
     );
   }
@@ -180,7 +186,7 @@ export class DrawInfoPedestrian implements DrawInfo {
   delete(map : ArcgisMap, clickedGraphic : Graphic) : void {
     // Get all graphics with same id
     let graphicsToDelete : Graphic[] = 
-      this.getListGraphics(map.graphics.graphics, clickedGraphic);
+      this.getListSameGraphics(map.graphics.graphics, clickedGraphic);
 
     this.deleteGraphics(map, graphicsToDelete);
   }
@@ -191,12 +197,18 @@ export class DrawInfoPedestrian implements DrawInfo {
   }
 
   getEditionGraphic(map : ArcgisMap, drawGraphic : DrawGraphic, clickedGraphic : Graphic) : Graphic {
+    // Get the list of graphics contains this id
     let graphics : Graphic[] = 
-      this.getListGraphics(map.graphics.graphics, clickedGraphic);
+      this.getListSameGraphics(map.graphics.graphics, clickedGraphic);
+
+    // Get origin and destination saved in first square
+    let origin = graphics[0].attributes.origin;
+    let destination = graphics[0].attributes.destination;
+
     this.deleteGraphics(map, graphics);
 
-    let ori = clickedGraphic.attributes.id.origin;
-    let dest = clickedGraphic.attributes.id.destination;
+    let ori = origin;
+    let dest = destination;
     let polyline = new Polyline(new SpatialReference({wkid:102100}));
     polyline.addPath([[ori.x, ori.y], [dest.x, dest.y]]);
 
@@ -213,7 +225,7 @@ export class DrawInfoPedestrian implements DrawInfo {
 
   /** Return all graphics of the map wich have same graphic of clickedGraphic 
    */
-  getListGraphics(graphicsMap : Graphic[], clickedGraphic : Graphic) : Graphic[] {
+  getListSameGraphics(graphicsMap : Graphic[], clickedGraphic : Graphic) : Graphic[] {
     let graphics : Graphic[] = [];
     graphicsMap.forEach( (g) => {
         if(this.isIdenticId(g, clickedGraphic)) 
