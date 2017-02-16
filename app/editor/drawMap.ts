@@ -81,16 +81,6 @@ export class AbaDraw extends ArcgisDraw {
             // Activate
           this.edit.activate(editTools, graphicToEdit);
         }
-        /*
-        // For old release compatibility : pedestrian => to delete in future..
-        else if (e.graphic.attributes && e.graphic.attributes.passage_pieton){
-          //this.drawTypes['pedestrian'].delete(this.map, e.graphic);
-        }
-        // For old release compatibility : all shapes  => to delete in future..
-        else {
-          this.edit.activate(<any>(ArcgisEdit.SCALE | ArcgisEdit.MOVE), e.graphic);
-        }
-        */
       }
     }
     );
