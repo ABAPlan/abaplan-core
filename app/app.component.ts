@@ -8,7 +8,7 @@ import {ToolbarMapComponent,
         EditTool,
         ActionTool} from "./toolbar/toolbar.component";
 
-import { AbaDraw } from './editor/drawMap';
+import { AbaDrawEdit } from './editor/drawEditMap';
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
@@ -26,7 +26,7 @@ export class AppComponent {
 
   title = "AbaPlan";
 
-  draw : AbaDraw;
+  drawEdit : AbaDrawEdit;
 
   private _btnInfos: Array<ButtonInfo> = [
     {
@@ -56,16 +56,16 @@ export class AppComponent {
       case "draw" :
         this.mapComponent.map.disableMapNavigation();
         const drawTool = tool as DrawTool;
-        this.draw.enable(drawTool.drawType);
 
-        this.draw.enableDelete(false);
-        this.draw.enableEdit(false);
+        this.drawEdit.enableDraw(true, drawTool.drawType);
+        this.drawEdit.enableDelete(false);
+        this.drawEdit.enableEdit(false);
       break;
 
       case "edit" :
-        this.draw.disable();
-        this.draw.enableDelete(tool.heading == "Supprimer");
-        this.draw.enableEdit(tool.heading == "Sélectionner");
+        this.drawEdit.enableDraw(false);
+        this.drawEdit.enableDelete(tool.heading == "Supprimer");
+        this.drawEdit.enableEdit(tool.heading == "Sélectionner");
         if(tool.heading == "Déplacer")
           this.mapComponent.map.enableMapNavigation();
         else
@@ -79,16 +79,18 @@ export class AppComponent {
         console.warn("action buttons not implemented");
         console.log(tool);
 
-        this.draw.enableDelete(false);
-        this.draw.enableEdit(false);
+        this.drawEdit.enableDraw(false);
+        this.drawEdit.enableDelete(false);
+        this.drawEdit.enableEdit(false);
       break;
 
       default :
         console.warn("default not implemented");
-        console.log(tool);
+        console.log(tool); 
 
-        this.draw.enableDelete(false);
-        this.draw.enableEdit(false);
+        this.drawEdit.enableDraw(false);
+        this.drawEdit.enableDelete(false);
+        this.drawEdit.enableEdit(false);
       break;
     }
   }
@@ -114,7 +116,7 @@ export class AppComponent {
 
   public onMapInstancied(optionMap : OptionMap){
     this.selectTabByLayerType(optionMap.layerType);
-    this.draw = new AbaDraw(this.mapComponent.map);
+    this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
   private updateMapId(id: number): void {

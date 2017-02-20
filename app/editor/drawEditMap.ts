@@ -24,7 +24,7 @@ export type DrawType =
     LineDrawType    |
     PedestrianDrawType);
 
-export class AbaDraw extends ArcgisDraw {
+export class AbaDrawEdit {
   private map : ArcgisMap;
   private currentDrawInfo : DrawInfo;
   private currentDrawTypeKind : string; // Remember the string key of drawTypes[]
@@ -44,17 +44,24 @@ export class AbaDraw extends ArcgisDraw {
   };
 
   private edit : ArcgisEdit;
+  private draw : ArcgisDraw;
 
   public constructor(map : ArcgisMap) {
-    super(map);
     this.map = map;
     this.edit = new ArcgisEdit(map);
+    this.draw = new ArcgisDraw(map);
     
     this.loadAllDrawTypes();
 
+    this.registerOnDrawComplete();
+    this.registerOnMapClickGraphic();
+    this.registerOnEditDeactivate();
+
     this.enableDelete(false);
     this.enableEdit(false);
+  }
 
+  public registerOnMapClickGraphic(){
     this.map.graphics.on("click", (e:{graphic:any}) => {
       /** For delete */
       if(this.deleteEnabled){
@@ -88,11 +95,12 @@ export class AbaDraw extends ArcgisDraw {
           this.edit.activate(editTools, graphicToEdit);
         }
       }
-    }
-    );
+    });
+  }
 
-    // On edit desactivate : call finishEdit
-    this.edit.on("deactivate", (event: { graphic: Graphic; info: any; tool: string }) => {
+  // On edit deactivate : call finishEdit of drawType
+  public registerOnEditDeactivate(){
+      this.edit.on("deactivate", (event: { graphic: Graphic; info: any; tool: string }) => {
       let drawType = this.drawTypes[event.graphic.attributes.kind];
       drawType.finishEdit( 
         this.map,
@@ -101,6 +109,21 @@ export class AbaDraw extends ArcgisDraw {
     }); 
   }
 
+  // On draw complete : call draw of drawType
+  public registerOnDrawComplete(){
+    this.draw.on("draw-complete", (event) => {
+      // Call draw complete of current draw info
+      let currentDrawTypeKind = this.currentDrawTypeKind;
+      let graphics = this.map.graphics;
+
+      this.currentDrawInfo.draw(
+        // Callback to add graphics
+        this.drawGraphicFunction(currentDrawTypeKind),
+        event);
+    });
+  }
+
+  // Load all graphics by draw types
   public loadAllDrawTypes = () => {
     // Class all graphics by kind
     let graphicsDrawTypes = {};
@@ -136,26 +159,14 @@ export class AbaDraw extends ArcgisDraw {
         }
   }; 
 
-  public onDrawComplete(event) {
-    // Call draw complete of current draw info
-    let currentDrawTypeKind = this.currentDrawTypeKind;
-    let graphics = this.map.graphics;
-
-    this.currentDrawInfo.draw(
-      // Callback to add graphics
-      this.drawGraphicFunction(currentDrawTypeKind),
-      event);
-  }
-
-  public disable() {
-    this.deactivate();
-  }
-
-  public enable(drawType : DrawType) {
-    let kind : string = drawType.kind;
-    this.currentDrawTypeKind = kind;
-    this.currentDrawInfo = this.drawTypes[kind];
-    this.activate(this.currentDrawInfo.geometryType);
+  public enableDraw(enable:boolean, drawType? : DrawType) {
+    if(enable && drawType){
+      let kind : string = drawType.kind;
+      this.currentDrawTypeKind = kind;
+      this.currentDrawInfo = this.drawTypes[kind];
+      this.draw.activate(this.currentDrawInfo.geometryType);
+    }else
+      this.draw.deactivate();
   }
 
   public enableDelete(enable:boolean) {

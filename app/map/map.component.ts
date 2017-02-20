@@ -6,7 +6,7 @@ import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
-import { DrawType } from '../editor/drawMap';
+import { DrawType } from '../editor/drawEditMap';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 
