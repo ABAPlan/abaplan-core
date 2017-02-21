@@ -39,7 +39,30 @@
                         </tr>
                         </tbody>
                     </table>
-                </div></div>
+                </div>
+
+                <div class="row">
+                    <ul *ngIf="nbPaginations <= 10" class="pagination">
+                        <li><a href="#">Précédent</a></li>
+                        <li *ngFor="let i of range(nbPaginations)">
+                            <a href="#">{{i}}</a>
+                        </li>
+                        <li><a href="#">Suivant</a></li>
+                    </ul>
+                    <ul *ngIf="nbPaginations > 10" class="pagination">
+                        <li><a href="#">Précédent</a></li>
+                        <li *ngFor="let i of range(7)">
+                            <a href="#">{{i}}</a>
+                        </li>
+                        <li class="disabled"><a href="#">...</a></li>
+                        <li *ngFor="let i of range(2)">
+                            <a href="#">{{i+8}}</a>
+                        </li>
+                        <li><a href="#">Suivant</a></li>
+                    </ul>
+                </div>
+
+            </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 <button type="button" class="btn btn-secondary" (click)="close()">Fermer</button>

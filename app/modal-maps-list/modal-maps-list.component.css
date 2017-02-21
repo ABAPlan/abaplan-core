@@ -1,19 +1,11 @@
- .modal-body {
-    height:60%;
+
+.Pagination {
+    position: initial;
 }
 
 
- thead, tbody {
-     display: block;
- }
-
- tbody {
-     height: 100%;
-     overflow-y: scroll;
- }
 
  .table {
-     height: 80%;
      margin-bottom: 0px;
  }
 
