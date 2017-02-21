@@ -43,22 +43,22 @@
 
                 <div class="row">
                     <ul *ngIf="nbPaginations <= 10" class="pagination">
-                        <li><a href="#">Précédent</a></li>
-                        <li *ngFor="let i of range(nbPaginations)">
-                            <a href="#">{{i}}</a>
+                        <li [class.disabled]="activePage === 1"><a href="#" (click)="movePagination(-1)">Précédent</a></li>
+                        <li [class.active]="activePage === i" *ngFor="let i of range(nbPaginations)">
+                            <a href="#" (click)="paginationButtonClick(i)">{{i}}</a>
                         </li>
-                        <li><a href="#">Suivant</a></li>
+                        <li [class.disabled]="activePage >= nbPaginations"><a href="#" (click)="movePagination(1)">Suivant</a></li>
                     </ul>
                     <ul *ngIf="nbPaginations > 10" class="pagination">
-                        <li><a href="#">Précédent</a></li>
-                        <li *ngFor="let i of range(7)">
-                            <a href="#">{{i}}</a>
+                        <li [class.disabled]="activePage === 1"><a href="#" (click)="movePagination(-1)">Précédent</a></li>
+                        <li [class.active]="activePage === i" *ngFor="let i of range(7)">
+                            <a href="#"  (click)="paginationButtonClick(i)">{{i}}</a>
                         </li>
                         <li class="disabled"><a href="#">...</a></li>
-                        <li *ngFor="let i of range(2)">
-                            <a href="#">{{i+8}}</a>
+                        <li [class.active]="activePage === i+nbPaginations-2" *ngFor="let i of range(2)">
+                            <a href="#" (click)="paginationButtonClick(i+nbPaginations-2)">{{i+nbPaginations-2}}</a>
                         </li>
-                        <li><a href="#">Suivant</a></li>
+                        <li [class.disabled]="activePage >= nbPaginations"><a href="#" (click)="movePagination(1)">Suivant</a></li>
                     </ul>
                 </div>
 

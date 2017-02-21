@@ -23,8 +23,8 @@ export class ModalMapComponent {
     mapService.maps().subscribe(
       (maps : OptionMap[]) => {
         this.maps = maps;
-        this.filteredMaps = maps.slice(0, 10);
-        this.nbPaginations = Math.floor(this.maps.length/10);
+        this.filteredMaps = maps.slice((this.activePage-1)*10, this.activePage*10);
+        this.nbPaginations = Math.ceil(this.maps.length/10);
       },
       (error) => {
         console.log(error);
@@ -52,14 +52,15 @@ export class ModalMapComponent {
         this
           .maps
           .filter( m => m.title.toLowerCase().includes(query.toLowerCase()) || m.uid.toString().includes(query));
-      this.nbPaginations = Math.floor(this.filteredMaps.length/10);
+      this.nbPaginations = Math.ceil(this.filteredMaps.length/10);
 
-      this.filteredMaps = this.filteredMaps.slice(0, 10);
+      this.filteredMaps = this.filteredMaps.slice((this.activePage-1)*10, this.activePage*10);
 
     }else{
+      this.activePage = 1;
       this.filteredMaps =
-        this.maps.slice(0, 10);
-      this.nbPaginations = Math.floor(this.maps.length/10);
+        this.maps.slice((this.activePage-1)*10, this.activePage*10);
+      this.nbPaginations = Math.ceil(this.maps.length/10);
     }
   }
 
@@ -68,8 +69,29 @@ export class ModalMapComponent {
     this.onSelectChoice.emit(id);
   }
 
-  private range(n): [number] {
+  private range(n): number[] {
     return _.range(1, n+1);
   }
 
+  private paginationButtonClick(id: number): void {
+    this.activePage = id;
+    if (this.queryInputValue!== ""){
+      this.filteredMaps =
+        this
+          .maps
+          .filter( m => m.title.toLowerCase().includes(this.queryInputValue.toLowerCase()) || m.uid.toString().includes(this.queryInputValue));
+      this.nbPaginations = Math.ceil(this.filteredMaps.length/10);
+
+      this.filteredMaps = this.filteredMaps.slice((this.activePage-1)*10, this.activePage*10);
+
+    }else{
+      this.filteredMaps =
+        this.maps.slice((this.activePage-1)*10, this.activePage*10);
+      this.nbPaginations = Math.ceil(this.maps.length/10);
+    }
+  }
+  private movePagination(inc: number): void {
+    console.log(inc);
+    this.paginationButtonClick(this.activePage+inc);
+  }
 }
