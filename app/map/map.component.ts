@@ -69,8 +69,7 @@ export class MapComponent implements OnInit {
         map: this.map,
         /* useMapExtent:false, */
         enableHighlight: false
-      },
-      "search"
+      }, "search"
     );
 
     this.mapInstancied.emit(optionMap);

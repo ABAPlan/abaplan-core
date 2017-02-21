@@ -12,29 +12,40 @@ import { AppComponent } from './app.component';
 
 /* Feature Modules */
 import { CoreModule } from './core/core.module';
-import  { MapModule } from './map/map.module';
-import  { MapComponent } from './map/map.component';
+import { MapModule } from './map/map.module';
+import { MapComponent } from './map/map.component';
+import { TouchpadComponent } from './touchpad/touchpad.component'
+import { EditorComponent } from './editor/editor.component'
 
 import { ToolbarMapComponent } from './toolbar/toolbar.component';
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 
-/* Routing Module */
-// import { AppRoutingModule } from './app-routing.module';
-
+import { AppRoutingModule } from './app-routing.module';
+import {APP_BASE_HREF} from '@angular/common';
 
 @NgModule({
   imports: [
-      BrowserModule
-    , MapModule
-    , CoreModule
-    , TabsModule
-    , FormsModule
+    BrowserModule, 
+    MapModule, 
+    CoreModule, 
+    TabsModule, 
+    FormsModule, 
+    AppRoutingModule
   ],
-  declarations: [ AppComponent, MapComponent, ToolbarMapComponent, ModalMapComponent, ModalSaveMapComponent ],
-  bootstrap:    [ AppComponent ]
+  declarations: [ 
+    AppComponent, 
+    EditorComponent,
+    TouchpadComponent, 
+    MapComponent, 
+    ToolbarMapComponent, 
+    ModalMapComponent, 
+    ModalSaveMapComponent ],
+  bootstrap: [ AppComponent ],
+  providers: [{provide: APP_BASE_HREF, useValue : '/' }]
 })
 
 export class AppModule { }
