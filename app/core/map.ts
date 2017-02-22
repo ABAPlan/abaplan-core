@@ -4,21 +4,6 @@ import Extent = require('esri/geometry/Extent');
 import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
 import * as _ from "lodash";
 
-/*
-import {AbaDraw, DrawType} from '../editor/drawMap';
-import {DrawInfo,
-        DrawInfoPedestrian,
-        DrawInfoPolyline,
-        DrawInfoPolygon,
-        DrawInfoCircle} from '../editor/draw'
-public setEditableMode(editableMode : boolean){
-  this.draw.setEditableMode(editableMode);
-}
-
-public setDrawType(drawType : DrawType){
-  this.draw.setDrawType(drawType);
-}*/
-
 import {RootLayer, CityRootBrailleLayer, SquareRootBrailleLayer, OsmRootLayer, LayerType, Square, City} from './layer';
 import Layer = require("esri/layers/layer");
 

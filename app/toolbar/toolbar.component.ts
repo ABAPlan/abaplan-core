@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from "@angular/core";
 import { LayerType } from '../core/layer';
-import { DrawType } from '../editor/drawMap';
+import { DrawType } from '../editor/drawEditMap';
 
 import { ModalMapComponent } from '../modal-maps-list/modal-maps-list.component';
 import { ModalSaveMapComponent } from "../modal-save-map/modal-save-map.component";

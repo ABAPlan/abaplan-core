@@ -50,3 +50,6 @@ img {
     opacity: 1;
 }
 
+.btn{
+    outline: none !important;
+}

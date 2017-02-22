@@ -6,7 +6,7 @@ import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
-import { DrawType } from '../editor/drawMap';
+import { DrawType } from '../editor/drawEditMap';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 
@@ -69,8 +69,7 @@ export class MapComponent implements OnInit {
         map: this.map,
         /* useMapExtent:false, */
         enableHighlight: false
-      },
-      "search"
+      }, "search"
     );
 
     this.mapInstancied.emit(optionMap);
@@ -102,6 +101,9 @@ export class MapComponent implements OnInit {
         // Fixed: Must destroy before attributing a new instance
         this.map.destroy();
         this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+
+        // Call mapInstancied event to prevent others components of new map
+        this.mapInstancied.emit(optionMap);
 
         this.applyDefaultCallbackToTheMap();
 
