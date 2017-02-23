@@ -73,6 +73,7 @@
     "karma-jasmine": "^1.0.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "lite-server": "^2.2.2",
+    "purs-loader": "^2.3.0",
     "typescript": "^2.0.3",
     "typings": "^1.4.0",
     "url-loader": "^0.5.7",
