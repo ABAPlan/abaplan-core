@@ -7,7 +7,39 @@ import * as _ from "lodash";
 const Pagination = require('../core/puresc-helper/paginate');
 
 
+@Pipe({name: 'length'})
+export class LengthPipe implements PipeTransform {
+  transform(collection: any[]): number {
+    return collection.length;
+  }
+}
 
+@Pipe({name: 'drop'})
+export class DropPipe implements PipeTransform {
+  transform(collection: any[], n: number): any[] {
+    return _.drop(collection, n);
+  }
+}
+
+@Pipe({name: 'take'})
+export class TakePipe implements PipeTransform {
+  transform(collection: any[], n: number): any[] {
+    return _.take(collection, n);
+  }
+}
+
+
+@Pipe({name: 'filterPages'})
+export class FilterPages implements PipeTransform {
+  transform(maps: OptionMap[], query: string, activePage: number): OptionMap[] {
+    const filteredMaps = maps
+                          .filter(
+                             m => m.title.toLowerCase().includes(query.toLowerCase()) || m.uid.toString().includes(query)
+                          );
+
+    return filteredMaps;
+  }
+}
 
 @Component({
   selector: 'aba-modal-maps',
@@ -20,19 +52,15 @@ export class ModalMapComponent {
   @Output() onSelectChoice: EventEmitter<number> = new EventEmitter();
 
   private maps: OptionMap[] = [];
-  private filteredMaps: OptionMap[] = this.maps;
   private queryInputValue: string = "";
   private activePage = 1;
-  private nbPaginations = 1;
 
 
   constructor(private mapService: MapService) {
-    console.log(Pagination.paginate(18)(7));
+    console.log(Pagination.paginate(0)(3));
     mapService.maps().subscribe(
       (maps : OptionMap[]) => {
         this.maps = maps;
-        this.filteredMaps = maps.slice((this.activePage-1)*10, this.activePage*10);
-        this.nbPaginations = Math.ceil(this.maps.length/10);
       },
       (error) => {
         console.log(error);
@@ -49,27 +77,12 @@ export class ModalMapComponent {
     this.visible = true;
   }
   public close(): void {
-    this.filteredMaps = this.maps;
     this.visible = false;
     this.queryInputValue = "";
   }
 
   private onChange(query: string): void {
-    if (query !== ""){
-      this.filteredMaps =
-        this
-          .maps
-          .filter( m => m.title.toLowerCase().includes(query.toLowerCase()) || m.uid.toString().includes(query));
-      this.nbPaginations = Math.ceil(this.filteredMaps.length/10);
-
-      this.filteredMaps = this.filteredMaps.slice((this.activePage-1)*10, this.activePage*10);
-
-    }else{
       this.activePage = 1;
-      this.filteredMaps =
-        this.maps.slice((this.activePage-1)*10, this.activePage*10);
-      this.nbPaginations = Math.ceil(this.maps.length/10);
-    }
   }
 
   private onClick(id: number): void {
@@ -81,29 +94,15 @@ export class ModalMapComponent {
     return _.range(1, n+1);
   }
 
-  private paginationButtonClick(id: number): void {
-    this.activePage = id;
-    if (this.queryInputValue!== ""){
-      this.filteredMaps =
-        this
-          .maps
-          .filter( m => m.title.toLowerCase().includes(this.queryInputValue.toLowerCase()) || m.uid.toString().includes(this.queryInputValue));
-      this.nbPaginations = Math.ceil(this.filteredMaps.length/10);
-
-      this.filteredMaps = this.filteredMaps.slice((this.activePage-1)*10, this.activePage*10);
-
-    }else{
-      this.filteredMaps =
-        this.maps.slice((this.activePage-1)*10, this.activePage*10);
-      this.nbPaginations = Math.ceil(this.maps.length/10);
-    }
+  private paginationButtonClick(id: string): void {
+    this.activePage = parseInt(id);
   }
   private movePagination(inc: number): void {
-    console.log(inc);
-    this.paginationButtonClick(this.activePage+inc);
+    this.paginationButtonClick((this.activePage+inc).toString());
   }
 
-  private paginate(activePage: string, numberPage: number): string[] {
-    return Pagination.paginate(numberPage)(parseInt(activePage));
+  private paginate(activePage: string, maps: OptionMap[]): string[] {
+    const length = Math.ceil(maps.length/10);
+    return Pagination.paginate(length)(parseInt(activePage));
   }
 }
