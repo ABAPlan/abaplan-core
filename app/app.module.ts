@@ -21,7 +21,8 @@ import { ToolbarMapComponent } from './toolbar/toolbar.component';
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 
-import { FilterPages, TakePipe, DropPipe, LengthPipe } from './modal-maps-list/modal-maps-list.component';
+import { FilterMapsPipe } from './modal-maps-list/filtermaps.pipe';
+import { TakePipe, DropPipe, LengthPipe } from './core/pipes/collections.pipe';
 
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
@@ -46,7 +47,7 @@ import {APP_BASE_HREF} from '@angular/common';
   , ToolbarMapComponent
   , ModalMapComponent
   , ModalSaveMapComponent
-  , FilterPages
+  , FilterMapsPipe
   , TakePipe
   , DropPipe
   , LengthPipe

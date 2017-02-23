@@ -1,45 +1,10 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { MapService } from "../core/map.service";
 import { OptionMap } from "../core/map";
-import { Pipe, PipeTransform } from '@angular/core';
 import * as _ from "lodash";
 
 const Pagination = require('../core/puresc-helper/paginate');
 
-
-@Pipe({name: 'length'})
-export class LengthPipe implements PipeTransform {
-  transform(collection: any[]): number {
-    return collection.length;
-  }
-}
-
-@Pipe({name: 'drop'})
-export class DropPipe implements PipeTransform {
-  transform(collection: any[], n: number): any[] {
-    return _.drop(collection, n);
-  }
-}
-
-@Pipe({name: 'take'})
-export class TakePipe implements PipeTransform {
-  transform(collection: any[], n: number): any[] {
-    return _.take(collection, n);
-  }
-}
-
-
-@Pipe({name: 'filterPages'})
-export class FilterPages implements PipeTransform {
-  transform(maps: OptionMap[], query: string, activePage: number): OptionMap[] {
-    const filteredMaps = maps
-                          .filter(
-                             m => m.title.toLowerCase().includes(query.toLowerCase()) || m.uid.toString().includes(query)
-                          );
-
-    return filteredMaps;
-  }
-}
 
 @Component({
   selector: 'aba-modal-maps',
@@ -57,7 +22,6 @@ export class ModalMapComponent {
 
 
   constructor(private mapService: MapService) {
-    console.log(Pagination.paginate(0)(3));
     mapService.maps().subscribe(
       (maps : OptionMap[]) => {
         this.maps = maps;
