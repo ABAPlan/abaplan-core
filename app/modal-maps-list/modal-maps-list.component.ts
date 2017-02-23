@@ -45,7 +45,7 @@ export class ModalMapComponent {
     this.queryInputValue = "";
   }
 
-  private onChange(query: string): void {
+  private onChange(): void {
       this.activePage = 1;
   }
 
