@@ -21,6 +21,8 @@ import { ToolbarMapComponent } from './toolbar/toolbar.component';
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 
+import { FilterPages, TakePipe, DropPipe, LengthPipe } from './modal-maps-list/modal-maps-list.component';
+
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -29,21 +31,26 @@ import {APP_BASE_HREF} from '@angular/common';
 
 @NgModule({
   imports: [
-    BrowserModule, 
-    MapModule, 
-    CoreModule, 
-    TabsModule, 
-    FormsModule, 
-    AppRoutingModule
+    BrowserModule
+  , MapModule
+  , CoreModule
+  , TabsModule
+  , FormsModule
+  , AppRoutingModule
   ],
   declarations: [ 
-    AppComponent, 
-    EditorComponent,
-    TouchpadComponent, 
-    MapComponent, 
-    ToolbarMapComponent, 
-    ModalMapComponent, 
-    ModalSaveMapComponent ],
+    AppComponent
+  , EditorComponent
+  , TouchpadComponent
+  , MapComponent
+  , ToolbarMapComponent
+  , ModalMapComponent
+  , ModalSaveMapComponent
+  , FilterPages
+  , TakePipe
+  , DropPipe
+  , LengthPipe
+  ],
   bootstrap: [ AppComponent ],
   providers: [{provide: APP_BASE_HREF, useValue : '/' }]
 })
