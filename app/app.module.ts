@@ -21,6 +21,7 @@ import { ToolbarMapComponent } from './toolbar/toolbar.component';
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 
+import { PaginationComponent } from "./pagination/pagination-buttons.component"
 import { FilterMapsPipe } from './modal-maps-list/filtermaps.pipe';
 import { TakePipe, DropPipe, LengthPipe } from './core/pipes/collections.pipe';
 
@@ -51,6 +52,7 @@ import {APP_BASE_HREF} from '@angular/common';
   , TakePipe
   , DropPipe
   , LengthPipe
+  , PaginationComponent
   ],
   bootstrap: [ AppComponent ],
   providers: [{provide: APP_BASE_HREF, useValue : '/' }]

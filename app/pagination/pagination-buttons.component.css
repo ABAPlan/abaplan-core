@@ -1,0 +1,12 @@
+.Pagination {
+    position: initial;
+}
+
+/* Workaround to cancel href on the modal view preventing
+ * refreshing the parent page */
+a:not([href]){
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none
+}
