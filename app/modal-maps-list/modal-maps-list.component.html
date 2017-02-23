@@ -45,20 +45,20 @@
                     <ul *ngIf="nbPaginations <= 10" class="pagination">
                         <li [class.disabled]="activePage === 1"><a href="#" (click)="movePagination(-1)">Précédent</a></li>
                         <li [class.active]="activePage === i" *ngFor="let i of range(nbPaginations)">
-                            <a href="#" (click)="paginationButtonClick(i)">{{i}}</a>
+                            <a (click)="paginationButtonClick(i)">{{i}}</a>
                         </li>
-                        <li [class.disabled]="activePage >= nbPaginations"><a href="#" (click)="movePagination(1)">Suivant</a></li>
+                        <li [class.disabled]="activePage >= nbPaginations"><a (click)="movePagination(1)">Suivant</a></li>
                     </ul>
                     <ul *ngIf="nbPaginations > 10" class="pagination">
-                        <li [class.disabled]="activePage === 1"><a href="#" (click)="movePagination(-1)">Précédent</a></li>
+                        <li [class.disabled]="activePage === 1"><a (click)="movePagination(-1)">Précédent</a></li>
                         <li [class.active]="activePage === i" *ngFor="let i of range(7)">
-                            <a href="#"  (click)="paginationButtonClick(i)">{{i}}</a>
+                            <a (click)="paginationButtonClick(i)">{{i}}</a>
                         </li>
-                        <li class="disabled"><a href="#">...</a></li>
+                        <li class="disabled"><a>...</a></li>
                         <li [class.active]="activePage === i+nbPaginations-2" *ngFor="let i of range(2)">
-                            <a href="#" (click)="paginationButtonClick(i+nbPaginations-2)">{{i+nbPaginations-2}}</a>
+                            <a (click)="paginationButtonClick(i+nbPaginations-2)">{{i+nbPaginations-2}}</a>
                         </li>
-                        <li [class.disabled]="activePage >= nbPaginations"><a href="#" (click)="movePagination(1)">Suivant</a></li>
+                        <li [class.disabled]="activePage >= nbPaginations"><a (click)="movePagination(1)">Suivant</a></li>
                     </ul>
                 </div>
 

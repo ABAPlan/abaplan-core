@@ -3,24 +3,31 @@
     position: initial;
 }
 
+.table {
+    margin-bottom: 0px;
+}
 
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
 
- .table {
-     margin-bottom: 0px;
- }
+.row.search {
+    margin:auto;
+    width:70%;
+    margin-bottom: 1em;
+}
 
- .row {
-     margin-right: 0px;
-     margin-left: 0px;
- }
+input {
+    width: 100%;
+    padding: 0 10px 0 10px;
+}
 
- .row.search {
-     margin:auto;
-     width:70%;
-     margin-bottom: 1em;
- }
-
- input {
-     width: 100%;
-     padding: 0 10px 0 10px;
- }
+/* Workaround to cancel href on the modal view preventing
+ * refreshing the parent page */
+a:not([href]){
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none
+}
