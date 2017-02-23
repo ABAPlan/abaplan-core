@@ -15,5 +15,6 @@ paginate page activep
     | otherwise                 = (mapToString $ 1..2)
                                     <> [".."]
                                     <> (mapToString $ (activep-1)..(activep+2))
-                                    <> [".."] <> (mapToString [page-1, page])
+                                    <> [".."]
+                                    <> (mapToString [page-1, page])
 
