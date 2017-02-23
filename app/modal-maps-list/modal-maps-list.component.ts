@@ -3,6 +3,8 @@ import { MapService } from "../core/map.service";
 import { OptionMap } from "../core/map";
 import * as _ from "lodash";
 
+var Paginatation = require('../core/puresc-helper/paginate');
+
 @Component({
   selector: 'aba-modal-maps',
   templateUrl: 'modal-maps-list.component.html',
@@ -19,7 +21,9 @@ export class ModalMapComponent {
   private activePage = 1;
   private nbPaginations = 0;
 
+
   constructor(private mapService: MapService) {
+    console.log(Paginatation.paginate(42)(12));
     mapService.maps().subscribe(
       (maps : OptionMap[]) => {
         this.maps = maps;
