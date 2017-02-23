@@ -22,15 +22,6 @@ export class ModalMapComponent {
 
 
   constructor(private mapService: MapService) {
-    mapService.maps().subscribe(
-      (maps : OptionMap[]) => {
-        this.maps = maps;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-
   }
 
   private isVisible(): boolean {
@@ -39,10 +30,20 @@ export class ModalMapComponent {
 
   public open(): void {
     this.visible = true;
+    this.activePage = 1;
+    this.queryInputValue = "";
+
+    this.mapService.maps().subscribe(
+      (maps : OptionMap[]) => {
+        this.maps = maps;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   public close(): void {
     this.visible = false;
-    this.queryInputValue = "";
   }
 
   private onChange(): void {
