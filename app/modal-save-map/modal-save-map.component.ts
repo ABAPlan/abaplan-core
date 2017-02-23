@@ -1,6 +1,4 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { MapService } from "../core/map.service";
-import { OptionMap } from "../core/map";
 
 @Component({
   selector: 'aba-modal-save-map',
@@ -12,10 +10,9 @@ export class ModalSaveMapComponent {
   @Input('visible') visible: boolean = false;
   @Output() onMapSubmit: EventEmitter<any> = new EventEmitter();
 
-
   private title: string = "";
 
-  constructor(private mapService: MapService) {
+  constructor() {
   }
 
   private isVisible(): boolean {
@@ -31,7 +28,7 @@ export class ModalSaveMapComponent {
 
   private onSubmit(): void {
     this.close();
-    this.onMapSubmit.emit( {title: this.title});
+    this.onMapSubmit.emit( {title: this.title} );
   }
 
 }
