@@ -20,6 +20,9 @@ module.exports = {
             "@angular/router",
             "angular-in-memory-web-api",
             "ng2-bootstrap"
+        ],
+        pure: [
+            './app/core/puresc-helper/paginate.purs' // entry point for your application code
         ]
     },
     output: {
@@ -27,7 +30,8 @@ module.exports = {
         libraryTarget: "amd"
     },
     resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.html']
+    modulesDirectories: [ 'node_modules', 'bower_components' ],
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.html', '.purs']
     },
     module: {
         loaders: [
@@ -39,6 +43,17 @@ module.exports = {
             {
                 test: /\.(html|css)$/,
                 loader: 'raw-loader'
+            },
+            {
+                test: /\.purs$/,
+                loader: 'purs-loader',
+                exclude: /node_modules/,
+                query: {
+                    src: [ 'bower_components/purescript-*/src/**/*.purs', 'app/**/*.purs' ],
+                    bundle: false,
+                    psc: 'psc',
+                    pscIde: false
+                }
             }
         ]
     },

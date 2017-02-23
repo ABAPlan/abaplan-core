@@ -21,6 +21,7 @@ before_script:
 - npm install -g typescript
 - npm install -g karma
 - npm install
+- bower install
 - grep -v '^///' < node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts > node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts && mv node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts
 - tsc
 
