@@ -1,9 +1,13 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { MapService } from "../core/map.service";
 import { OptionMap } from "../core/map";
+import { Pipe, PipeTransform } from '@angular/core';
 import * as _ from "lodash";
 
 const Pagination = require('../core/puresc-helper/paginate');
+
+
+
 
 @Component({
   selector: 'aba-modal-maps',
@@ -19,11 +23,11 @@ export class ModalMapComponent {
   private filteredMaps: OptionMap[] = this.maps;
   private queryInputValue: string = "";
   private activePage = 1;
-  private nbPaginations = 0;
+  private nbPaginations = 1;
 
 
   constructor(private mapService: MapService) {
-    console.log(Pagination.paginate(42)(12));
+    console.log(Pagination.paginate(18)(7));
     mapService.maps().subscribe(
       (maps : OptionMap[]) => {
         this.maps = maps;
@@ -97,5 +101,9 @@ export class ModalMapComponent {
   private movePagination(inc: number): void {
     console.log(inc);
     this.paginationButtonClick(this.activePage+inc);
+  }
+
+  private paginate(activePage: string, numberPage: number): string[] {
+    return Pagination.paginate(numberPage)(parseInt(activePage));
   }
 }
