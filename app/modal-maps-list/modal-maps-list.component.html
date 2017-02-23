@@ -13,7 +13,7 @@
             <div class="modal-body">
 
                 <div class="row search">
-                    <input placeholder="Rechercher par titre ou id" [(ngModel)]="queryInputValue" (ngModelChange)="onChange($event)"/>
+                    <input placeholder="Rechercher par titre ou id" [(ngModel)]="queryInputValue" (ngModelChange)="onChange()"/>
                 </div>
 
                 <div class="row">
@@ -27,7 +27,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let m of filteredMaps">
+                        <tr *ngFor="let m of (maps | filterMaps: queryInputValue:activePage | drop : ((activePage-1)*10) | take: 10 ) ">
                             <td>
                                 <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" (click)="onClick( m.uid )">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -42,23 +42,16 @@
                 </div>
 
                 <div class="row">
-                    <ul *ngIf="nbPaginations <= 10" class="pagination">
-                        <li [class.disabled]="activePage === 1"><a href="#" (click)="movePagination(-1)">Précédent</a></li>
-                        <li [class.active]="activePage === i" *ngFor="let i of range(nbPaginations)">
-                            <a (click)="paginationButtonClick(i)">{{i}}</a>
-                        </li>
-                        <li [class.disabled]="activePage >= nbPaginations"><a (click)="movePagination(1)">Suivant</a></li>
-                    </ul>
-                    <ul *ngIf="nbPaginations > 10" class="pagination">
+                    <ul class="pagination">
+
                         <li [class.disabled]="activePage === 1"><a (click)="movePagination(-1)">Précédent</a></li>
-                        <li [class.active]="activePage === i" *ngFor="let i of range(7)">
+
+                        <li [class.active]="activePage == i" *ngFor="let i of paginate(activePage, ( maps | filterMaps: queryInputValue:activePage ))">
                             <a (click)="paginationButtonClick(i)">{{i}}</a>
                         </li>
-                        <li class="disabled"><a>...</a></li>
-                        <li [class.active]="activePage === i+nbPaginations-2" *ngFor="let i of range(2)">
-                            <a (click)="paginationButtonClick(i+nbPaginations-2)">{{i+nbPaginations-2}}</a>
-                        </li>
-                        <li [class.disabled]="activePage >= nbPaginations"><a (click)="movePagination(1)">Suivant</a></li>
+
+                        <li [class.disabled]="activePage >= (maps | filterMaps: queryInputValue:activePage | length  ) / 10"><a (click)="movePagination(1)">Suivant</a></li>
+
                     </ul>
                 </div>
 
