@@ -14,15 +14,14 @@ export class PrintService {
   }
 
   public buildHTMLPage(map: string, title: string, link: string):string {
-    //var br = require('braille');
-    var bTitle = br.toBraille(title);
-    var bLink = br.toBraille(link);
+    let bTitle : string = br.toBraille(title);
+    let bLink : string = br.toBraille(link);
     var page :string = `
     <html>
       <head>
         <title></title>
         <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="app/print.css"  />
+        <link rel="stylesheet" type="text/css" href="app/printable-map/print.css"  />
       </head>
       <body onload="window.print();window.close()">
         <div>

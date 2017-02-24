@@ -46,7 +46,6 @@ export class EditorComponent {
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-
   constructor(private printService: PrintService) {}
 
   public onClick(btnInfo: ButtonInfo) {
@@ -81,11 +80,12 @@ export class EditorComponent {
 
         if(tool.heading == "Imprimer"){
           console.log("Action Print");
-          //let map = this.mapComponent.map.container.children[1].children[0].children[0].children[1];
-          //let serializer = new XMLSerializer();
-          //let ser = serializer.serializeToString(map);
-          let ser = "";
-          this.printService.printMap("Titre","Lien",ser);
+
+          let title = this.mapComponent.map.title;
+          let date = this.mapComponent.map.creationDate;
+          let map = this.getMapString();
+
+          this.printService.printMap(title,date,map);
         }
         else{
           console.warn("action buttons not implemented");
@@ -139,6 +139,14 @@ export class EditorComponent {
 
   private updateMapTitle(title: string): void {
     this.mapComponent.saveMapWithTitle(title);
+  }
+
+  private getMapString(){
+    // Converts Map to String
+    let map = this.mapComponent.map.root;
+    let serializer = new XMLSerializer();
+    let ser = serializer.serializeToString(map);
+    return ser;
   }
 
   ngAfterViewInit() {
