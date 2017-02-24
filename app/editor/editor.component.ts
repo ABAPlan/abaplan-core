@@ -9,6 +9,7 @@ import {ToolbarMapComponent,
         ActionTool} from "../toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
+import { PrintService } from "../printable-map/printMap.service";
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
@@ -17,7 +18,8 @@ type ButtonInfo = LayerType & IButtonInfo;
 @Component({
   selector: 'aba-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css']
+  styleUrls: ['editor.component.css'],
+  providers: [PrintService]
 })
 export class EditorComponent {
 
@@ -45,7 +47,7 @@ export class EditorComponent {
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
 
-  constructor() {}
+  constructor(private printService: PrintService) {}
 
   public onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
@@ -76,7 +78,19 @@ export class EditorComponent {
       break;
 
       case "action" :
-        console.warn("action buttons not implemented");
+
+        if(tool.heading == "Imprimer"){
+          console.log("Action Print");
+          //let map = this.mapComponent.map.container.children[1].children[0].children[0].children[1];
+          //let serializer = new XMLSerializer();
+          //let ser = serializer.serializeToString(map);
+          let ser = "";
+          this.printService.printMap("Titre","Lien",ser);
+        }
+        else{
+          console.warn("action buttons not implemented");
+        }
+
         console.log(tool);
 
         this.drawEdit.enableDraw(false);
@@ -86,7 +100,7 @@ export class EditorComponent {
 
       default :
         console.warn("default not implemented");
-        console.log(tool); 
+        console.log(tool);
 
         this.drawEdit.enableDraw(false);
         this.drawEdit.enableDelete(false);

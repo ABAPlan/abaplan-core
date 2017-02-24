@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import * as br from 'braille';
 
 @Injectable()
 export class PrintService {
@@ -7,13 +8,13 @@ export class PrintService {
     let mywindow = window.open('', '', '');
 
     let page : string = this.buildHTMLPage(map,title,link);
-    
+
     mywindow.document.write(page);
     mywindow.document.close();
   }
 
   public buildHTMLPage(map: string, title: string, link: string):string {
-    var br = require('braille');
+    //var br = require('braille');
     var bTitle = br.toBraille(title);
     var bLink = br.toBraille(link);
     var page :string = `
