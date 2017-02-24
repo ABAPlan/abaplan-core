@@ -16,7 +16,7 @@ export class PrintService {
   public buildHTMLPage(map: string, title: string, link: string):string {
     let bTitle : string = br.toBraille(title);
     let bLink : string = br.toBraille(link);
-    var page :string = `
+    let page :string = `
     <html>
       <head>
         <title></title>
