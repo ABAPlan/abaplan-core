@@ -47,7 +47,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDefaultMap();
+
   }
 
   setLayerType(layerType : LayerType): boolean {
