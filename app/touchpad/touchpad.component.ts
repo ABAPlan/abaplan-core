@@ -39,7 +39,15 @@ export class TouchpadComponent {
         this.map.map.on("click", (event:any) => {
           let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(event.mapPoint);
           let p = new google.maps.LatLng(point.y, point.x);
-          console.log(p);
+          let geocoder = new google.maps.Geocoder();
+          geocoder.geocode({location:p},
+            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+              if (status === google.maps.GeocoderStatus.OK) {
+                console.log(results[0].formatted_address);
+              }
+            }
+          );
+           
         })
       }
     );
