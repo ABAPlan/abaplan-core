@@ -28,6 +28,7 @@ export class MapComponent implements OnInit {
 
   @Output() mapInstancied = new EventEmitter();
   @Input() drawType : string;
+  @Input() searchable: boolean = true;
 
   readonly ZOOM_LEVEL_MINIMUM : number = 16;
 
