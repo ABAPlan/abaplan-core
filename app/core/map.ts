@@ -35,7 +35,7 @@ export class AbaMap extends ArcgisMap {
   public creationDate?: string;
 
   // Create a new fresh instance
-  public constructor(divId: Node | string, extent?: Extent) {
+  public constructor(divId: Node | string, extent?: Extent, layerType? : LayerType) {
 
     super(divId, { logo: false, slider: false });
 
@@ -73,15 +73,18 @@ export class AbaMap extends ArcgisMap {
       );
   }
 
-  public static fromOptionMap(divId: Node | string, optionMap: OptionMap): AbaMap {
+  public static fromOptionMap(divId: Node | string, optionMap: OptionMap, layerType? : LayerType): AbaMap {
 
-    const abaMap: AbaMap = new AbaMap(divId, new Extent(JSON.parse(optionMap.extent)));
+    const abaMap: AbaMap = new AbaMap(divId, new Extent(JSON.parse(optionMap.extent)), layerType);
 
     abaMap.uid = optionMap.uid;
     abaMap.height = optionMap.height;
     abaMap.width = optionMap.width;
 
-    abaMap.setLayerVisible(optionMap.layerType);
+    if(layerType)
+      abaMap.setLayerVisible(layerType);
+    else
+      abaMap.setLayerVisible(optionMap.layerType);
 
     abaMap.title = optionMap.title;
     abaMap.owner = optionMap.owner;

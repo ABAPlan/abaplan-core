@@ -59,9 +59,9 @@ export class MapComponent implements OnInit {
   }
 
 
-  initMap(optionMap: OptionMap): void {
+  initMap(optionMap: OptionMap, layerType? : LayerType): void {
 
-    this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+    this.map = AbaMap.fromOptionMap("esri-map", optionMap, layerType);
 
     this.applyDefaultCallbackToTheMap();
 

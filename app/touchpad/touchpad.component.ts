@@ -27,8 +27,7 @@ export class TouchpadComponent {
 
     this.service.map(id)
       .subscribe((optionMap: OptionMap) => {
-        this.map.initMap(optionMap);
-        this.map.setLayerType({kind:"osm"});
+        this.map.initMap(optionMap, {kind:"osm"});
       }
     );
   }
