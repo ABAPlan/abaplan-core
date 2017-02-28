@@ -4,6 +4,7 @@ import 'rxjs/add/operator/switchMap';
 import { MapService } from '../core/map.service';
 import { OptionMap, AbaMap } from '../core/map';
 import { MapComponent } from '../map/map.component'
+import { GOOGLE_GEOCODE_KEY } from './secret'
 
 @Component({
   selector: 'aba-touchpad',
