@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { MapService } from '../core/map.service';
+import {OptionMap, AbaMap } from '../core/map';
 
 @Component({
   selector: 'aba-touchpad',
@@ -10,7 +11,7 @@ import { MapService } from '../core/map.service';
 })
 
 export class TouchpadComponent {
-  private id : number;
+  private optionMap : OptionMap;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,9 +22,9 @@ export class TouchpadComponent {
   ngOnInit() {
     // (+) converts string 'id' to a number
     let id = +this.route.snapshot.params['id'];
-    this.id = id;
-    //this.service.getHero(id)
-    //  .then((hero: Hero) => this.hero = hero);
+
+    this.service.map(id)
+     .subscribe((optionMap: OptionMap) => this.optionMap = optionMap);
   }
 
 }
