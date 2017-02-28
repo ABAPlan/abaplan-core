@@ -38,7 +38,7 @@ export class PaginationComponent {
   }
 
   private paginate(activePage: string, size: number): string[] {
-    const length = Math.ceil(size/this.chunkSize);
+    const length = Math.ceil(size);
     return Pagination.paginate(length)(parseInt(activePage));
   }
 }

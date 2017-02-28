@@ -22,7 +22,7 @@ module.exports = {
             "ng2-bootstrap"
         ],
         pure: [
-            './app/core/puresc-helper/paginate.purs' // entry point for your application code
+            './app/core/puresc-helper/paginate.purs'
         ]
     },
     output: {

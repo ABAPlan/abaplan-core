@@ -1,11 +1,15 @@
 <ul class="pagination">
 
-    <li [class.disabled]="activePage === 1"><a (click)="movePagination(-1)">Précédent</a></li>
-
-    <li [class.active]="activePage == i" *ngFor="let i of paginate(activePage, collectionSize)">
-        <a (click)="paginationButtonClick(i)">{{i}}</a>
+    <li [class.disabled]="activePage === 1">
+        <a (click)="movePagination(-1)" [class.disabled]="activePage === 1">&laquo;</a>
     </li>
 
-    <li [class.disabled]="activePage >= collectionSize / chunkSize"><a (click)="movePagination(1)">Suivant</a></li>
+    <li [class.active]="activePage == i" *ngFor="let i of paginate(activePage, collectionSize / chunkSize)">
+        <a (click)="paginationButtonClick(i)" [class.disabled]="i === '...'">{{i}}</a>
+    </li>
+
+    <li [class.disabled]="activePage >= collectionSize / chunkSize">
+        <a (click)="movePagination(1)" [class.disabled]="activePage >= collectionSize / chunkSize">&raquo;</a>
+    </li>
 
 </ul>
