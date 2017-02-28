@@ -46,6 +46,7 @@
     "@angular/platform-browser-dynamic": "^2.0.2",
     "@angular/router": "^3.0.2",
     "@angular/upgrade": "^2.0.2",
+    "@types/google-maps": "^3.2.0",
     "@types/lodash": "^4.14.42",
     "angular-in-memory-web-api": "^0.2.2",
     "bootstrap": "^3.3.7",
