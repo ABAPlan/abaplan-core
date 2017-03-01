@@ -11,6 +11,8 @@ import {ToolbarMapComponent,
 import { AbaDrawEdit } from './drawEditMap';
 import { PrintService } from "../printable-map/printMap.service";
 
+import * as br from 'braille';
+
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
 
@@ -18,8 +20,7 @@ type ButtonInfo = LayerType & IButtonInfo;
 @Component({
   selector: 'aba-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css'],
-  providers: [PrintService]
+  styleUrls: ['editor.component.css']
 })
 export class EditorComponent {
 
@@ -84,8 +85,14 @@ export class EditorComponent {
           let title = this.mapComponent.map.title;
           let date = this.mapComponent.map.creationDate;
           let map = this.getMapString();
+          let bTitle : string = br.toBraille(title);
+          let bdate : string = br.toBraille(date);
 
-          this.printService.printMap(title,date,map);
+          this.printService.map = map;
+          this.printService.title = title;
+
+          let mywindow = window.open('http://localhost:3000/printable-map/title');
+
         }
         else{
           console.warn("action buttons not implemented");

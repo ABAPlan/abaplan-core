@@ -16,6 +16,7 @@ import { MapModule } from './map/map.module';
 import { MapComponent } from './map/map.component';
 import { TouchpadComponent } from './touchpad/touchpad.component'
 import { EditorComponent } from './editor/editor.component'
+import { PrintMapComponent } from "./printable-map/PrintMap.component";
 
 import { ToolbarMapComponent } from './toolbar/toolbar.component';
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
@@ -40,11 +41,12 @@ import {APP_BASE_HREF} from '@angular/common';
   , FormsModule
   , AppRoutingModule
   ],
-  declarations: [ 
+  declarations: [
     AppComponent
   , EditorComponent
   , TouchpadComponent
   , MapComponent
+  , PrintMapComponent
   , ToolbarMapComponent
   , ModalMapComponent
   , ModalSaveMapComponent
