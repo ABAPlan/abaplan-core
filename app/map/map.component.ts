@@ -6,7 +6,6 @@ import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
-import { DrawType } from '../editor/drawEditMap';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 
@@ -27,7 +26,6 @@ export class MapComponent implements OnInit {
   needZoom : boolean = false;
 
   @Output() mapInstancied = new EventEmitter();
-  @Input() drawType : string;
   @Input() searchable: boolean = true;
 
   readonly ZOOM_LEVEL_MINIMUM : number = 16;
