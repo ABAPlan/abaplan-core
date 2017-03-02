@@ -3,7 +3,7 @@ import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
-const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
+const img_loading = require("file?name=./assets/[name].[ext]!./assets/img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
@@ -35,10 +35,10 @@ export class MapComponent implements OnInit {
 
   getDefaultMap(): void {
     this.mapService
-        .map(160)
+        .defaultMap()
         .subscribe(
           optionMap => {
-            //this.optionMaps = optionMaps;
+            console.log(optionMap);
             this.initMap(optionMap);
           }
         );

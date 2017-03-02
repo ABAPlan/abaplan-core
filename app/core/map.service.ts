@@ -35,6 +35,28 @@ export class MapService {
     );
   }
 
+  defaultMap(): Observable<OptionMap> {
+    const startExtent = {
+      xmin: 780000.0,
+      ymin: 5720000.0,
+      xmax: 1105000.0,
+      ymax: 6100000.0,
+
+
+      spatialReference: {
+        wkid: 102100
+      }
+    };
+
+    return Observable.create(
+      o => {
+        const om = new OptionMap(800, 1176, 0, JSON.stringify(startExtent));
+        om.layerType = { kind: "osm" };
+        o.next(om)
+      }
+    );
+  }
+
   maps(): Observable<OptionMap[]> {
     return this.http.get(this.mapsUrl + 'maps').map( (r: Response) => {
       let os = r.json() as OptionMap[]
