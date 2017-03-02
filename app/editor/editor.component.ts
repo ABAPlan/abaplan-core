@@ -24,7 +24,8 @@ export class EditorComponent {
   @ViewChild(MapComponent) mapComponent: MapComponent;
   @ViewChild(ToolbarMapComponent) toolbarMapComponent: ToolbarMapComponent;
 
-  title = "AbaPlan";
+  private readonly defaultTitle: string = "AbaPlan";
+  title = this.defaultTitle;
 
   drawEdit : AbaDrawEdit;
 
@@ -119,11 +120,14 @@ export class EditorComponent {
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
+  /* Fire when a user choose a map */
   private updateMapId(id: number): void {
     this.mapComponent.selectMapId(id);
   }
 
+  /* Fire when a user create a map */
   private updateMapTitle(title: string): void {
+    this.title = this.defaultTitle + " - " + title;
     this.mapComponent.saveMapWithTitle(title);
   }
 

@@ -15,7 +15,7 @@ import { PaginationComponent } from "../pagination/pagination-buttons.component"
 export class ModalMapComponent {
 
   @Input('visible') visible: boolean = false;
-  @Output() onSelectChoice: EventEmitter<number> = new EventEmitter();
+  @Output() onSelectChoice: EventEmitter<[number, string]> = new EventEmitter();
 
   private maps: OptionMap[] = [];
   private queryInputValue: string = "";
@@ -52,9 +52,9 @@ export class ModalMapComponent {
       this.activePage = 1;
   }
 
-  private onClick(id: number): void {
+  private onClick(info: [number, string]): void {
     this.close();
-    this.onSelectChoice.emit(id);
+    this.onSelectChoice.emit(info);
   }
 
   private range(n): number[] {
