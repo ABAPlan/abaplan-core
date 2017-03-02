@@ -35,7 +35,7 @@ export class MapService {
     );
   }
 
-  defaultMap(): Observable<OptionMap> {
+  defaultMap(): void {
     const startExtent = {
       xmin: 780000.0,
       ymin: 5720000.0,
@@ -47,6 +47,7 @@ export class MapService {
       }
     };
 
+    /*
     return Observable.create(
       o => {
         const om = new OptionMap(800, 1176, 0, JSON.stringify(startExtent));
@@ -54,6 +55,7 @@ export class MapService {
         o.next(om)
       }
     );
+    */
   }
 
   maps(): Observable<OptionMap[]> {
