@@ -16,7 +16,7 @@ import Graphic = require("esri/graphic");
 })
 export class MapComponent implements OnInit {
 
-  optionMaps: OptionMap[];
+  //optionMaps: OptionMap[];
   map : AbaMap;
   search: ArcgisSearch;
 
