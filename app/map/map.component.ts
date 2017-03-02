@@ -35,7 +35,7 @@ export class MapComponent implements OnInit {
 
   getDefaultMap(): void {
     this.mapService
-        .defaultMap()
+      .map(60)
         .subscribe(
           optionMap => {
             console.log(optionMap);

@@ -35,6 +35,7 @@ export class MapService {
     );
   }
 
+  /*
   defaultMap(): Observable<OptionMap> {
     const startExtent = {
       xmin: 780000.0,
@@ -55,6 +56,7 @@ export class MapService {
       }
     );
   }
+  */
 
   maps(): Observable<OptionMap[]> {
     return this.http.get(this.mapsUrl + 'maps').map( (r: Response) => {
