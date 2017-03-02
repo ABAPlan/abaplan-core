@@ -42,7 +42,6 @@ export class MapService {
       xmax: 1105000.0,
       ymax: 6100000.0,
 
-
       spatialReference: {
         wkid: 102100
       }
