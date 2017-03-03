@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map'
 
 describe('MapService', () => {
     // Before each, import module and providers
+  /*
     beforeEach(() => {
       TestBed.configureTestingModule({
             imports: [HttpModule, InMemoryWebApiModule.forRoot(InMemoryDataService)],
@@ -58,4 +59,5 @@ describe('MapService', () => {
              });
        })()
     );
+    */
 });
