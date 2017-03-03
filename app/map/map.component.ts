@@ -35,13 +35,13 @@ export class MapComponent implements OnInit {
 
   getDefaultMap(): void {
     this.mapService
-      .map(60)
-        .subscribe(
-          optionMap => {
-            console.log(optionMap);
-            this.initMap(optionMap);
-          }
-        );
+      .defaultMap()
+      .subscribe(
+        optionMap => {
+          console.log(optionMap);
+          this.initMap(optionMap);
+        }
+      );
   }
 
   ngOnInit(): void {
