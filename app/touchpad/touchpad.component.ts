@@ -44,8 +44,7 @@ export class TouchpadComponent {
         debug: true, // Show messages in the console
         listen: true // Start to listen commands !
     });
-    artyom.say("TEST");
-    
+
     this.service.map(id)
       .subscribe((optionMap: OptionMap) => {
         this.map.initMap(optionMap, {kind:"osm"});
@@ -57,7 +56,14 @@ export class TouchpadComponent {
           geocoder.geocode({location:p},
             (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
               if (status === google.maps.GeocoderStatus.OK) {
-
+                const address =results[0].
+                               address_components[0].
+                               long_name+' '+
+                               results[0].
+                               address_components[1].
+                               long_name;
+                console.log(address);
+                artyom.say(address);
               }
             }
           );
