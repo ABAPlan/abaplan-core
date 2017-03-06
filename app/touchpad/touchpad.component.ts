@@ -9,6 +9,11 @@ import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import Geometry = require('esri/geometry/Geometry');
 import Point = require('esri/geometry/Point')
 import googleMaps = require("google-maps"); 
+import artyomjs = require('artyom.js');
+
+// Get an unique ArtyomJS instance
+const artyom = artyomjs.ArtyomBuilder.getInstance();
+
 
 @Component({
   selector: 'aba-touchpad',
@@ -32,6 +37,15 @@ export class TouchpadComponent {
     googleMaps.KEY = GOOGLE_GEOCODE_KEY;
     googleMaps.load();
 
+    artyom.initialize({
+        lang: "fr-FR", // GreatBritain english
+        continuous: false, // Listen forever
+        soundex: true,// Use the soundex algorithm to increase accuracy
+        debug: true, // Show messages in the console
+        listen: true // Start to listen commands !
+    });
+    artyom.say("TEST");
+    
     this.service.map(id)
       .subscribe((optionMap: OptionMap) => {
         this.map.initMap(optionMap, {kind:"osm"});
@@ -43,11 +57,10 @@ export class TouchpadComponent {
           geocoder.geocode({location:p},
             (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
               if (status === google.maps.GeocoderStatus.OK) {
-                console.log(results[0].formatted_address);
+
               }
             }
           );
-           
         })
       }
     );
