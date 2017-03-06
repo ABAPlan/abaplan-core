@@ -134,11 +134,16 @@ export class ToolbarMapComponent {
     return false;
   }
 
-  private mapSelected(id: number): void {
-    this.onSelectMap.emit(id);
+  /* Fires when a user select a map in the modal view */
+  private mapSelected(info: [number, string]): void {
+    // We send this id upper
+    this.onSelectMap.emit(info[0]);
+    this.onSetMapTitle.emit(info[1]);
   }
 
+  /* Fires when a user insert a map in the modal view */
   private mapInsert(info: any): void {
+    // We send this title upper
     this.onSetMapTitle.emit(info.title);
   }
 }

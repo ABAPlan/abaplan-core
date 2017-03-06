@@ -29,7 +29,7 @@
                         <tbody>
                         <tr *ngFor="let m of (maps | filterMaps: queryInputValue:activePage | drop : ((activePage-1)*chunkListSize) | take: chunkListSize ) ">
                             <td>
-                                <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" (click)="onClick( m.uid )">
+                                <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" (click)="onClick( [m.uid, m.title] )">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                 </button>
                             </td>

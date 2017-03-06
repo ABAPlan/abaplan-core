@@ -3,10 +3,9 @@ import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
-const img_loading = require("file?name=./assets/[name].[ext]!./img/spin.gif");
+const img_loading = require("file?name=./assets/[name].[ext]!./assets/img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
-import { DrawType } from '../editor/drawEditMap';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 
@@ -17,7 +16,7 @@ import Graphic = require("esri/graphic");
 })
 export class MapComponent implements OnInit {
 
-  optionMaps: OptionMap[];
+  //optionMaps: OptionMap[];
   map : AbaMap;
   search: ArcgisSearch;
 
@@ -27,7 +26,6 @@ export class MapComponent implements OnInit {
   needZoom : boolean = false;
 
   @Output() mapInstancied = new EventEmitter();
-  @Input() drawType : string;
   @Input() searchable: boolean = true;
 
   readonly ZOOM_LEVEL_MINIMUM : number = 16;
@@ -37,13 +35,13 @@ export class MapComponent implements OnInit {
 
   getDefaultMap(): void {
     this.mapService
-        .map(160)
-        .subscribe(
-          optionMap => {
-            //this.optionMaps = optionMaps;
-            this.initMap(optionMap);
-          }
-        );
+      .defaultMap()
+      .subscribe(
+        optionMap => {
+          console.log(optionMap);
+          this.initMap(optionMap);
+        }
+      );
   }
 
   ngOnInit(): void {
@@ -65,13 +63,15 @@ export class MapComponent implements OnInit {
 
     this.applyDefaultCallbackToTheMap();
 
-    this.search = new ArcgisSearch(
-      {
-        map: this.map,
-        /* useMapExtent:false, */
-        enableHighlight: false
-      }, "search"
-    );
+    if (this.searchable){
+      this.search = new ArcgisSearch(
+        {
+          map: this.map,
+          /* useMapExtent:false, */
+          enableHighlight: false
+        }, "search"
+      );
+    }
 
     this.mapInstancied.emit(optionMap);
   }
