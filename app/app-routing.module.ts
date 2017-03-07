@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { TouchpadComponent } from './touchpad/touchpad.component'
 import { EditorComponent } from './editor/editor.component'
 import { RouterModule, Routes } from '@angular/router';
-import { PrintMapComponent } from "./printable-map/PrintMap.component";
+import { PrintMapComponent } from "./printable-map/print-map.component";
 
 
 /* Routing Module */
