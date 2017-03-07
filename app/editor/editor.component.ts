@@ -9,7 +9,8 @@ import {ToolbarMapComponent,
         ActionTool} from "../toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
-import { PrintService } from "../printable-map/printMap.service";
+import { PrintService } from "../printable-map/print-map.service";
+
 
 import * as br from 'braille';
 
@@ -47,7 +48,9 @@ export class EditorComponent {
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-  constructor(private printService: PrintService) {}
+  constructor(private printService: PrintService) {
+    printService.missionSource$.subscribe();
+  }
 
   public onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
@@ -88,10 +91,10 @@ export class EditorComponent {
           let bTitle : string = br.toBraille(title);
           let bdate : string = br.toBraille(date);
 
-          this.printService.map = map;
-          this.printService.title = title;
-
-          let mywindow = window.open('http://localhost:3000/printable-map/title');
+          this.printService.mission(title,date,map);
+          //console.log(this.printService);
+          let mywindow = window.open('printable-map/title');
+          //console.log(mywindow);
 
         }
         else{
