@@ -3,10 +3,9 @@ typings
 *.log
 *.js
 *.js.map
-!systemjs.config.js
-!systemjs.config.extras.js
 !karma-test-shim.js
 !karma.conf.js
+!webpack.karma.config.js
 !webpack.config.js
 .idea
 abaplan-core.iml
