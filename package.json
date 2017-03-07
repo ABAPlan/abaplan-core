@@ -4,7 +4,7 @@
   "description": "Abaplan core project",
   "main": "index.js",
   "scripts": {
-    "test": "webpack && \"karma start karma.conf.js\"",
+    "test": "karma start karma.conf.js",
     "start": "concurrently \"webpack --watch --progress\" \"lite-server\" ",
     "lite": "lite-server",
     "postinstall": "typings install && bower install",
