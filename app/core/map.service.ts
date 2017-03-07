@@ -58,7 +58,7 @@ export class MapService {
 
   maps(): Observable<OptionMap[]> {
     return this.http.get(this.mapsUrl + 'maps').map( (r: Response) => {
-      let os = r.json() as OptionMap[]
+      let os = r.json() as OptionMap[];
       return os.map(o => this.build(o) );
     } );
   }
