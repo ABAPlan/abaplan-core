@@ -11,6 +11,6 @@ typings
 .idea
 abaplan-core.iml
 /*.png
-assets
 output
 bower_components
+/assets/
