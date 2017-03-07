@@ -26,4 +26,4 @@ before_script:
 - grep -v '^///' < node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts > node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts && mv node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts
 - tsc
 
-script: karma start karma.conf.js --single-run
+script: npm test
