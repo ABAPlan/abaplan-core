@@ -1,5 +1,6 @@
 node_modules
 typings
+*.info.txt
 *.log
 *.js
 *.js.map
