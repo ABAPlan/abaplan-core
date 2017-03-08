@@ -4,6 +4,7 @@ typings
 *.js
 *.js.map
 !karma-test-shim.js
+!karma-test-main.js
 !karma.conf.js
 !webpack.karma.config.js
 !webpack.config.js
