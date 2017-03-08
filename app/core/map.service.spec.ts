@@ -21,10 +21,12 @@ describe('MapService', () => {
     inject([MapService], (service: MapService) => {
       return service.defaultMap().subscribe(
         (map : OptionMap) => {
+          console.log(map);
           expect(map).toBeDefined();
           done();
         },
         (error) => {
+          console.log("------------------------------------------------");
           fail(error);
           done();
         });
@@ -38,12 +40,14 @@ describe('MapService', () => {
       return service.maps().toPromise().then(
         // Pass
         (maps : OptionMap[]) => {
+          console.log(maps);
           expect(maps).toBeDefined();
           expect(maps.length).toBeGreaterThan(1);
           done();
         },
         // Fail
         (error) => {
+          console.log("+-----------------------------------------------");
           fail(error);
           done();
         });
