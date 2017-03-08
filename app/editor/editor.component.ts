@@ -9,6 +9,10 @@ import {ToolbarMapComponent,
         ActionTool} from "../toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
+import { PrintService } from "../printable-map/print-map.service";
+
+
+import * as br from 'braille';
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
@@ -45,8 +49,9 @@ export class EditorComponent {
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-
-  constructor() {}
+  constructor(private printService: PrintService) {
+    printService.missionSource$.subscribe();
+  }
 
   public onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
@@ -77,7 +82,26 @@ export class EditorComponent {
       break;
 
       case "action" :
-        console.warn("action buttons not implemented");
+
+        if(tool.heading == "Imprimer"){
+          console.log("Action Print");
+
+          let title = this.mapComponent.map.title;
+          let date = this.mapComponent.map.creationDate;
+          let map = this.getMapString();
+          let bTitle : string = br.toBraille(title);
+          let bdate : string = br.toBraille(date);
+
+          this.printService.mission(title,date,map);
+          //console.log(this.printService);
+          let mywindow = window.open('printable-map/title');
+          //console.log(mywindow);
+
+        }
+        else{
+          console.warn("action buttons not implemented");
+        }
+
         console.log(tool);
 
         this.drawEdit.enableDraw(false);
@@ -87,7 +111,7 @@ export class EditorComponent {
 
       default :
         console.warn("default not implemented");
-        console.log(tool); 
+        console.log(tool);
 
         this.drawEdit.enableDraw(false);
         this.drawEdit.enableDelete(false);
@@ -129,6 +153,14 @@ export class EditorComponent {
   private updateMapTitle(title: string): void {
     this.title = this.defaultTitle + " - " + title;
     this.mapComponent.saveMapWithTitle(title);
+  }
+
+  private getMapString(){
+    // Converts Map to String
+    let map = this.mapComponent.map.root;
+    let serializer = new XMLSerializer();
+    let ser = serializer.serializeToString(map);
+    return ser;
   }
 
   ngAfterViewInit() {

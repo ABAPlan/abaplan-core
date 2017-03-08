@@ -1,0 +1,45 @@
+
+@page {
+  size: landscape;
+  margin: 0mm;}
+
+#map{
+  height: 90%;
+  width: 95%;
+  border-style:solid;
+  overflow: hidden;
+
+  margin:0 auto;
+  margin-top: 10px;
+}
+
+#textRow{
+  margin:0 auto;
+  margin-top: 10px;
+}
+#cont{
+  display:inline-block
+  text-align:center;
+}
+
+#brailleR{
+  font-weight: bold;
+  font-size: 150%;
+  float:right;
+}
+
+#brailleL{
+  font-weight: bold;
+  font-size: 150%;
+  float:left;;
+}
+
+#textL{
+  font-size: 120%;
+  float:left;
+}
+
+#textR{
+  font-size: 120%;
+  float:right;
+}

@@ -16,6 +16,7 @@ import { MapModule } from './map/map.module';
 import { MapComponent } from './map/map.component';
 import { TouchpadComponent } from './touchpad/touchpad.component'
 import { EditorComponent } from './editor/editor.component'
+import { PrintMapComponent } from "./printable-map/print-map.component";
 
 import { ToolbarMapComponent } from './toolbar/toolbar.component';
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
@@ -31,6 +32,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 
+
+import { PrintService } from "./printable-map/print-map.service";
+
 @NgModule({
   imports: [
     BrowserModule
@@ -40,11 +44,12 @@ import {APP_BASE_HREF} from '@angular/common';
   , FormsModule
   , AppRoutingModule
   ],
-  declarations: [ 
+  declarations: [
     AppComponent
   , EditorComponent
   , TouchpadComponent
   , MapComponent
+  , PrintMapComponent
   , ToolbarMapComponent
   , ModalMapComponent
   , ModalSaveMapComponent
@@ -55,7 +60,7 @@ import {APP_BASE_HREF} from '@angular/common';
   , PaginationComponent
   ],
   bootstrap: [ AppComponent ],
-  providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+  providers: [{provide: APP_BASE_HREF, useValue : '/' },PrintService]
 })
 
 export class AppModule { }
