@@ -4,42 +4,47 @@
   margin: 0mm;}
 
 #map{
-  height: 90%;
-  width: 95%;
   border-style:solid;
   overflow: hidden;
 
   margin:0 auto;
-  margin-top: 10px;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1%;
+
+  height: 75%;
 }
 
-#textRow{
+.textRow{
   margin:0 auto;
-  margin-top: 10px;
+  margin-left: 6%;
+  margin-right:6%;
+  margin-top: 2%;
 }
-#cont{
-  display:inline-block
-  text-align:center;
+
+.braille{
+  font-weight: bold;
+  font-size: 180%;
+  letter-spacing: 6%;
 }
 
 #brailleR{
-  font-weight: bold;
-  font-size: 150%;
   float:right;
 }
 
 #brailleL{
-  font-weight: bold;
-  font-size: 150%;
-  float:left;;
+  float:left;
+}
+
+.text{
+  font-size: 120%;
 }
 
 #textL{
-  font-size: 120%;
   float:left;
 }
 
 #textR{
-  font-size: 120%;
   float:right;
 }
