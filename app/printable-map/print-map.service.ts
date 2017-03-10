@@ -21,7 +21,7 @@ export class PrintService {
       <head>
         <title></title>
         <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="app/printable-map/print.css"  />
+        <link rel="stylesheet" type="text/css" href="app/printable-map/print-map.service.css"  />
       </head>
       <body onload="window.print();window.close()">
         <div>

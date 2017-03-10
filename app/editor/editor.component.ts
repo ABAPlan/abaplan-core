@@ -9,7 +9,7 @@ import {ToolbarMapComponent,
         ActionTool} from "../toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
-import { PrintService } from "../printable-map/printMap.service";
+import { PrintService } from "../printable-map/print-map.service";
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
