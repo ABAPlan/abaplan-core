@@ -1,5 +1,3 @@
-
-
 .table {
     margin-bottom: 0px;
 }
@@ -20,11 +18,3 @@ input {
     padding: 0 10px 0 10px;
 }
 
-/* Workaround to cancel href on the modal view preventing
- * refreshing the parent page */
-a:not([href]){
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none
-}

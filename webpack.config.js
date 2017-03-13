@@ -22,7 +22,7 @@ module.exports = {
             "ng2-bootstrap"
         ],
         pure: [
-            './app/core/puresc-helper/paginate.purs' // entry point for your application code
+            './app/core/puresc-helper/paginate.purs'
         ]
     },
     output: {
@@ -36,9 +36,8 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.ts$/,
+                test: /\.tsx?$/,
                 loaders: ['ts-loader', 'angular2-template-loader'],
-                exclude: [/\.(spec|e2e)\.ts$/]
             },
             {
                 test: /\.(html|css)$/,
