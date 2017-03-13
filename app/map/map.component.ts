@@ -3,7 +3,7 @@ import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
-const img_loading = require("file?name=./assets/[name].[ext]!./assets/img/spin.gif");
+const img_loading = require("file?name=./img/[name].[ext]!./img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
@@ -45,7 +45,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDefaultMap();
+
   }
 
   setLayerType(layerType : LayerType): boolean {
@@ -57,9 +57,9 @@ export class MapComponent implements OnInit {
   }
 
 
-  initMap(optionMap: OptionMap): void {
+  initMap(optionMap: OptionMap, layerType? : LayerType): void {
 
-    this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+    this.map = AbaMap.fromOptionMap("esri-map", optionMap, layerType);
 
     this.applyDefaultCallbackToTheMap();
 

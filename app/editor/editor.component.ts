@@ -48,6 +48,10 @@ export class EditorComponent {
 
   constructor() {}
 
+  ngOnInit(): void {
+    this.mapComponent.getDefaultMap();
+  }
+
   public onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
   }
