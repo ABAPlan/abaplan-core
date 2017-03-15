@@ -6,8 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 /* Routing Module */
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/editor', pathMatch: 'full'},
-  { path: 'editor', component: EditorComponent },
+  { path: '', pathMatch: 'full', component: EditorComponent},
+//  { path: 'editor', component: EditorComponent },
   { path: 'touchpad-voice/:id', component: TouchpadComponent },
 ];
 
