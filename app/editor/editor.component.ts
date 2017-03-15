@@ -83,6 +83,7 @@ export class EditorComponent {
 
       case "action" :
 
+        console.log("Action");
         if(tool.heading == "Imprimer"){
           console.log("Action Print");
 
@@ -143,9 +144,13 @@ export class EditorComponent {
     this.mapComponent.selectMapId(id);
   }
 
-  /* Fire when a user create a map */
+  /* Fire when a user change the map title  */
   private updateMapTitle(title: string): void {
     this.title = this.defaultTitle + " - " + title;
+  }
+
+  /* Fire when a user create a map */
+  private saveMapTitle(title: string): void {
     this.mapComponent.saveMapWithTitle(title);
   }
 

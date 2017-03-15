@@ -24,6 +24,7 @@ export class ToolbarMapComponent {
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
   @Output() onSelectMap: EventEmitter<number> = new EventEmitter();
   @Output() onSetMapTitle: EventEmitter<string> = new EventEmitter();
+  @Output() onSaveMapWithTitle: EventEmitter<string> = new EventEmitter();
 
   @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
   @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
@@ -145,5 +146,6 @@ export class ToolbarMapComponent {
   private mapInsert(info: any): void {
     // We send this title upper
     this.onSetMapTitle.emit(info.title);
+    this.onSaveMapWithTitle.emit(info.title);
   }
 }
