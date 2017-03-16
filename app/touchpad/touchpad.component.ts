@@ -37,7 +37,10 @@ export class TouchpadComponent {
 
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
-        this.map.initMap(optionMap, {kind:"osm"});
+
+        this.map.map = AbaMap.fromOptionMap("esri-map", optionMap);
+        this.map.map.setLayerVisible( { kind: "osm" });
+
         this.map.map.disableMapNavigation();
         this.map.map.on("click", (event:any) => {
           let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(event.mapPoint);
