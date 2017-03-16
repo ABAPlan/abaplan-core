@@ -17,7 +17,7 @@ export class VoiceService {
   public sayGeocodeResult(result : /*google.maps.GeocoderResult*/any) {
     const address = result.address_components[0].long_name + ' '+
                     result.address_components[1].long_name;
-    this.voiceProvider.say(address);
+    this.say(address);
   }
 }
 
