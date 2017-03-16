@@ -38,6 +38,7 @@ export class TouchpadComponent {
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
 
+        /* jcs: hack for the issue #76 */
         this.map.map = AbaMap.fromOptionMap("esri-map", optionMap);
         this.map.map.setLayerVisible( { kind: "osm" });
 
