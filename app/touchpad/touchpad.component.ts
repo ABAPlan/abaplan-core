@@ -9,7 +9,9 @@ import { GOOGLE_GEOCODE_KEY } from './secret'
 import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import Geometry = require('esri/geometry/Geometry');
 import Point = require('esri/geometry/Point')
-import googleMaps = require("google-maps"); 
+import googleMaps = require("google-maps");
+import Graphic = require("esri/graphic");
+import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 
 @Component({
   selector: 'aba-touchpad',
@@ -20,7 +22,7 @@ import googleMaps = require("google-maps");
 
 export class TouchpadComponent {
   @ViewChild(MapComponent)
-  private map: MapComponent;
+  private mapComponent: MapComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,12 +41,15 @@ export class TouchpadComponent {
       .subscribe((optionMap: OptionMap) => {
 
         /* jcs: hack for the issue #76 */
-        this.map.map = AbaMap.fromOptionMap("esri-map", optionMap);
-        this.map.map.setLayerVisible( { kind: "osm" });
+        this.mapComponent.map = AbaMap.fromOptionMap("esri-map", optionMap);
+        this.mapComponent.map.setLayerVisible( { kind: "osm" });
 
-        this.map.map.disableMapNavigation();
-        this.map.map.on("click", (event:any) => {
+        this.mapComponent.map.disableMapNavigation();
+        this.mapComponent.map.on("click", (event:any) => {
           let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(event.mapPoint);
+
+          console.log(point.y + " " + point.x);
+
           let p = new google.maps.LatLng(point.y, point.x);
           let geocoder = new google.maps.Geocoder();
           geocoder.geocode({location:p},
@@ -54,6 +59,14 @@ export class TouchpadComponent {
               }
             }
           );
+
+          const symbol = new SimpleMarkerSymbol({
+            color: [226, 119, 40],
+            outline: { color: [255, 255, 255], width: 2 },
+          });
+          const graphic = new Graphic(point, symbol);
+          this.mapComponent.map.graphics.add(graphic);
+
         })
       }
     );
