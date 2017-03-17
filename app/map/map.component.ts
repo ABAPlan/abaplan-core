@@ -45,7 +45,6 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   setLayerType(layerType : LayerType): boolean {
@@ -60,7 +59,7 @@ export class MapComponent implements OnInit {
   initMap(optionMap: OptionMap, layerType? : LayerType): void {
 
     this.map = AbaMap.fromOptionMap("esri-map", optionMap, layerType);
-
+    this.checkNeedZoom();
     this.applyDefaultCallbackToTheMap();
 
     if (this.searchable){
@@ -77,22 +76,19 @@ export class MapComponent implements OnInit {
   }
 
   private applyDefaultCallbackToTheMap(): void {
-
     this.map.on("update-start", () => this.mapLoading = true);
     this.map.on("update-end", () => this.mapLoading = false);
 
     // Zoom restriction
-    this.map.on("zoom-end", (event: { level : number}) => {
-        if(event.level){
-          // Show or hide 'need zoom' message
-          this.needZoom = (event.level < this.ZOOM_LEVEL_MINIMUM);
+    this.map.on("zoom-end", () => this.checkNeedZoom());
+  }
 
-          // If yes, stop loading
-          if(this.needZoom)
-            this.mapLoading = false;
-        }
-      }
-    );
+  // Show or hide 'need zoom' message
+  public checkNeedZoom(notStopLoading? : boolean): boolean{
+    this.needZoom = (this.map.getLevel() < this.ZOOM_LEVEL_MINIMUM);
+    if(!notStopLoading && this.mapLoading)
+      this.mapLoading = false;
+    return this.needZoom;
   }
 
   public selectMapId(id: number): void {
