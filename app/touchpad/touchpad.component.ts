@@ -24,6 +24,7 @@ export class TouchpadComponent {
   @ViewChild(MapComponent)
   private mapComponent: MapComponent;
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -40,15 +41,16 @@ export class TouchpadComponent {
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
 
-        /* jcs: hack for the issue #76 */
-        this.mapComponent.map = AbaMap.fromOptionMap("esri-map", optionMap);
-        this.mapComponent.map.setLayerVisible( { kind: "osm" });
+        this.mapComponent.initMap(optionMap);
+
+        /* jca: hack for the issue #76 and #77 */
+        this.mapComponent.map.on("extent-change", () => {
+          this.mapComponent.map.setLayerVisible( { kind: "osm" });
+        });
 
         this.mapComponent.map.disableMapNavigation();
         this.mapComponent.map.on("click", (event:any) => {
           let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(event.mapPoint);
-
-          console.log(point.y + " " + point.x);
 
           let p = new google.maps.LatLng(point.y, point.x);
           let geocoder = new google.maps.Geocoder();
@@ -67,7 +69,7 @@ export class TouchpadComponent {
           const graphic = new Graphic(point, symbol);
           this.mapComponent.map.graphics.add(graphic);
 
-        })
+        });
       }
     );
   }
