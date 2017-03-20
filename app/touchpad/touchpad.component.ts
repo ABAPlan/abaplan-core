@@ -37,6 +37,7 @@ export class TouchpadComponent {
   ){
 
     document.onclick = (ev: MouseEvent) => {
+      console.log(ev);
         if (!this.isCalibrated()) {
           /*
            * Calibration mode.
@@ -44,7 +45,8 @@ export class TouchpadComponent {
            */
           switch (this.nbClick) {
             case 1:
-              this.devicePlane.A = <Vector2d> {x: ev.x, y: ev.y};
+              /* Note: clientX and clientY for firefox compatibility */
+              this.devicePlane.A = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
               const geo = this.mapComponent.map.extent;
 
@@ -52,15 +54,17 @@ export class TouchpadComponent {
               this.divPlane.D = <Vector2d> {x: geo.xmax, y: geo.ymin };
               this.divPlane.A = <Vector2d> {x: geo.xmin, y: geo.ymax };
               this.divPlane.B = <Vector2d> {x: geo.xmax, y: geo.ymax };
+              console.log("---");
+              console.log(this.divPlane);
               break;
             case 2:
-              this.devicePlane.B = <Vector2d> {x: ev.x, y: ev.y};
+              this.devicePlane.B = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
               break;
             case 3:
-              this.devicePlane.C = <Vector2d> {x: ev.x, y: ev.y};
+              this.devicePlane.C = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
               break;
             case 4:
-              this.devicePlane.D = <Vector2d> {x: ev.x, y: ev.y};
+              this.devicePlane.D = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
               // Calibration done!
               break;
           }
@@ -71,10 +75,11 @@ export class TouchpadComponent {
           /* Transformation from device coordinates to esri map coordinates */
 
           // Detect current `P` point
-          let OP = { x: ev.x, y: ev.y };
+          let OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
 
           // `P'` is the transformed final point on the esri map
           let OP_ = transform(OP, this.devicePlane, this.divPlane);
+          console.log(OP, OP_);
 
           // Transform to EsriPoint
           let mappedPoint = new Point(OP_.x, OP_.y);
@@ -108,6 +113,10 @@ export class TouchpadComponent {
   onClick() {
     if (this.nbClick === 0) {
       // Enable full screen
+
+      // Issue #76 and #77
+      this.mapComponent.map.setLayerVisible( { kind: "osm" });
+
       const elem = <any> document.getElementsByTagName('body')[0];
       const f = elem.requestFullscreen || elem.msRequestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
       f.call(elem);
