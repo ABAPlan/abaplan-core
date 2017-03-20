@@ -75,7 +75,7 @@ export function cross_z(p1: Vector2d, p2: Vector2d) {
  * Note: For a 2d Matrix, it corresponds to a cross_z
  *       function
  */
-function det(v1: Vector2d, v2: Vector2d) {
+export function det(v1: Vector2d, v2: Vector2d) {
   return cross_z(v1, v2);
 }
 
@@ -100,7 +100,7 @@ function det(v1: Vector2d, v2: Vector2d) {
  *   / /     x  \       | /      x  |
  *  B -----_____ D      B --------- D
  */
-function transform(OP: Vector2d, O: Plane2d, finalPlan: Plane2d) {
+export function transform(OP: Vector2d, O: Plane2d, finalPlan: Plane2d): Vector2d {
 
   const PA = subVec(O.A, OP); // PA = OA - OP;
   const PB = subVec(O.B, OP); // PB = OB - OP;
