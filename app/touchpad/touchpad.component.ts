@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import {Component, ViewChild, ElementRef} from "@angular/core";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { MapService } from '../core/map.service';
@@ -12,6 +12,7 @@ import Point = require('esri/geometry/Point')
 import googleMaps = require("google-maps");
 import Graphic = require("esri/graphic");
 import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
+import {Vector2d, Plane2d, transform} from '../core/vector2d';
 
 @Component({
   selector: 'aba-touchpad',
@@ -23,14 +24,95 @@ import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 export class TouchpadComponent {
   @ViewChild(MapComponent)
   private mapComponent: MapComponent;
-
+  private nbClick: number = 0;
+  private devicePlane: Plane2d = <Plane2d> { A: undefined, B: undefined, C: undefined, D: undefined };
+  private divPlane: Plane2d = <Plane2d> { A: undefined, B: undefined, C: undefined, D: undefined };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private mapService: MapService,
-    private voiceService : VoiceService
-  ){ }
+    private voiceService : VoiceService,
+    private _elementRef: ElementRef
+  ){
+
+    document.onclick = (ev: MouseEvent) => {
+        if (!this.isCalibrated()) {
+          /*
+           * Calibration mode.
+           * At the beginning, we detect the 4th corner of the device to map with de real div esri map
+           */
+          switch (this.nbClick) {
+            case 1:
+              this.devicePlane.A = <Vector2d> {x: ev.x, y: ev.y};
+
+              const geo = this.mapComponent.map.extent;
+
+              this.divPlane.C = <Vector2d> {x: geo.xmin, y: geo.ymin };
+              this.divPlane.D = <Vector2d> {x: geo.xmax, y: geo.ymin };
+              this.divPlane.A = <Vector2d> {x: geo.xmin, y: geo.ymax };
+              this.divPlane.B = <Vector2d> {x: geo.xmax, y: geo.ymax };
+              break;
+            case 2:
+              this.devicePlane.B = <Vector2d> {x: ev.x, y: ev.y};
+              break;
+            case 3:
+              this.devicePlane.C = <Vector2d> {x: ev.x, y: ev.y};
+              break;
+            case 4:
+              this.devicePlane.D = <Vector2d> {x: ev.x, y: ev.y};
+              // Calibration done!
+              break;
+          }
+          this.nbClick += 1;
+
+        } else if (this.isCalibrated()) {
+
+          /* Transformation from device coordinates to esri map coordinates */
+
+          // Detect current `P` point
+          let OP = { x: ev.x, y: ev.y };
+
+          // `P'` is the transformed final point on the esri map
+          let OP_ = transform(OP, this.devicePlane, this.divPlane);
+
+          // Transform to EsriPoint
+          let mappedPoint = new Point(OP_.x, OP_.y);
+          let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+
+          let p = new google.maps.LatLng(point.y, point.x);
+          let geocoder = new google.maps.Geocoder();
+          geocoder.geocode({location:p},
+            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+              if (status === google.maps.GeocoderStatus.OK) {
+                this.voiceService.sayGeocodeResult(results[0]);
+              }
+            }
+          );
+
+          const symbol = new SimpleMarkerSymbol({
+            color: [226, 119, 40],
+            outline: { color: [255, 255, 255], width: 2 },
+          });
+          const graphic = new Graphic(point, symbol);
+          this.mapComponent.map.graphics.add(graphic);
+        }
+    };
+  }
+
+  private isCalibrated(): boolean {
+    return this.nbClick > 4;
+  }
+  
+
+  onClick() {
+    if (this.nbClick === 0) {
+      // Enable full screen
+      const elem = <any> document.getElementsByTagName('body')[0];
+      const f = elem.requestFullscreen || elem.msRequestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
+      f.call(elem);
+    }
+  }
 
   ngOnInit() {
     // (+) converts string 'id' to a number
@@ -52,27 +134,7 @@ export class TouchpadComponent {
         });
 
         this.mapComponent.map.disableMapNavigation();
-        this.mapComponent.map.on("click", (event:any) => {
-          let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(event.mapPoint);
 
-          let p = new google.maps.LatLng(point.y, point.x);
-          let geocoder = new google.maps.Geocoder();
-          geocoder.geocode({location:p},
-            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-              if (status === google.maps.GeocoderStatus.OK) {
-                this.voiceService.sayGeocodeResult(results[0]);
-              }
-            }
-          );
-
-          const symbol = new SimpleMarkerSymbol({
-            color: [226, 119, 40],
-            outline: { color: [255, 255, 255], width: 2 },
-          });
-          const graphic = new Graphic(point, symbol);
-          this.mapComponent.map.graphics.add(graphic);
-
-        });
       }
     );
   }
