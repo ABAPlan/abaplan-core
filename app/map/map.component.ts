@@ -59,7 +59,6 @@ export class MapComponent implements OnInit {
   initMap(optionMap: OptionMap, layerType? : LayerType): void {
 
     this.map = AbaMap.fromOptionMap("esri-map", optionMap, layerType);
-    this.checkNeedZoom();
     this.applyDefaultCallbackToTheMap();
 
     if (this.searchable){
@@ -72,6 +71,7 @@ export class MapComponent implements OnInit {
       );
     }
 
+    this.checkNeedZoom();
     this.mapInstancied.emit(optionMap);
   }
 
@@ -84,9 +84,9 @@ export class MapComponent implements OnInit {
   }
 
   // Show or hide 'need zoom' message
-  public checkNeedZoom(notStopLoading? : boolean): boolean{
+  public checkNeedZoom(): boolean{
     this.needZoom = (this.map.getLevel() < this.ZOOM_LEVEL_MINIMUM);
-    if(!notStopLoading && this.mapLoading)
+    if(this.mapLoading)
       this.mapLoading = false;
     return this.needZoom;
   }
@@ -98,6 +98,7 @@ export class MapComponent implements OnInit {
         // Fixed: Must destroy before attributing a new instance
         this.map.destroy();
         this.map = AbaMap.fromOptionMap("esri-map", optionMap);
+        this.checkNeedZoom();
 
         // Call mapInstancied event to prevent others components of new map
         this.mapInstancied.emit(optionMap);

@@ -14,13 +14,12 @@
       <img  [hidden]="!mapLoading"
             src='{{imgLoading}}'
             class="center-div"
+            style="z-index:999;"
       />
 
       <p  
        [hidden]="!needZoom"
-        style="
-        margin-top:290px;
-        text-align: center;"
+        style="margin-top:290px;text-align: center;"
 
         class="center-div">
           <i class="glyphicon glyphicon glyphicon-zoom-in" 

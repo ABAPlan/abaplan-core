@@ -125,11 +125,14 @@ export class TouchpadComponent {
 
         this.mapComponent.initMap(optionMap);
 
+        //this.mapComponent.map.setLayerVisible( { kind: "osm" });
+
         /* jca: hack for the issue #76 and #77
          * To load an OSM map on a map saved with a different layer, we must load osm right
          * after the beginning of the original layer.
          */
         this.mapComponent.map.on("extent-change", () => {
+          console.log("Test");
           this.mapComponent.map.setLayerVisible( { kind: "osm" });
         });
 
