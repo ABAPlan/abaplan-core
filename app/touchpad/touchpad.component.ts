@@ -124,11 +124,6 @@ export class TouchpadComponent {
     const elem = <any> document.getElementsByTagName('body')[0];
     const f = elem.requestFullscreen || elem.msRequestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
     f.call(elem);
-
-    // Issue #76 and #77
-    if (this.nbClick === 0) {
-      this.mapComponent.map.setLayerVisible( { kind: "osm" });
-    }
   }
 
   ngOnInit() {
@@ -140,14 +135,14 @@ export class TouchpadComponent {
 
         this.mapComponent.initMap(optionMap);
 
-        //this.mapComponent.map.setLayerVisible( { kind: "osm" });
-
         /* jca: hack for the issue #76 and #77
          * To load an OSM map on a map saved with a different layer, we must load osm right
          * after the beginning of the original layer.
          */
+        this.mapComponent.map.on("layer-reorder", () => {
+          this.mapComponent.map.setLayerVisible( { kind: "osm" });
+        });
         this.mapComponent.map.on("extent-change", () => {
-          console.log("Test");
           this.mapComponent.map.setLayerVisible( { kind: "osm" });
         });
 
