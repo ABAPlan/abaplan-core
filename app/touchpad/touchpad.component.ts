@@ -120,15 +120,14 @@ export class TouchpadComponent {
   
 
   onClick() {
+    // Enable full screen
+    const elem = <any> document.getElementsByTagName('body')[0];
+    const f = elem.requestFullscreen || elem.msRequestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
+    f.call(elem);
+
+    // Issue #76 and #77
     if (this.nbClick === 0) {
-      // Enable full screen
-
-      // Issue #76 and #77
       this.mapComponent.map.setLayerVisible( { kind: "osm" });
-
-      const elem = <any> document.getElementsByTagName('body')[0];
-      const f = elem.requestFullscreen || elem.msRequestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
-      f.call(elem);
     }
   }
 
