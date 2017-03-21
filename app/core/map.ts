@@ -54,33 +54,11 @@ export class AbaMap extends ArcgisMap {
     this.setExtent(extent);
     this.on("layer-add", (evt : {layer:Layer})=> {
       console.log("layer-add", evt.layer);
-
-      evt.layer.on("update", (evt:{layer:Layer; }) => 
-        console.log("updatelayer", evt.layer)
-      );
-      evt.layer.on("update-start", (evt:{layer:Layer; }) => {
-        console.log("startlayer", evt.layer);
+      evt.layer.on("update-start", (evt2:{layer2:Layer; }) => {
+        console.log("startlayer", evt2);
       });
-      evt.layer.on("update-end", (evt:{layer:Layer; }) => {
-        console.log("endlayer", evt.layer);
-      });
-      evt.layer.on("resume", (evt:{layer:Layer; }) => {
-        console.log("resumelayer", evt.layer);
-      });
-      evt.layer.on("suspend", (evt:{layer:Layer; }) => {
-        console.log("supsendlayer", evt.layer);
-      });
-      evt.layer.on("load", (evt:{layer:Layer; }) => {
-          console.log("layerLoaded", evt.layer);
-      });
-      evt.layer.on("error", (evt:{layer:Layer; }) => {
-          console.log("errorlayer", evt.layer);
-      });
-      evt.layer.on("visibility-change", (evt:{layer:Layer; }) => {
-          console.log("visibilitylayer", evt.layer);
-      });
-      evt.layer.on("refresh-interval-change", (evt:{layer:Layer; }) => {
-          console.log("visibilitylayer", evt.layer);
+      evt.layer.on("update-end", (evt2:{layer2:Layer; }) => {
+        console.log("endlayer", evt2);
       });
     });
 

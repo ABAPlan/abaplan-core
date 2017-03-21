@@ -8,6 +8,7 @@ const img_loading = require("file?name=./img/[name].[ext]!./img/spin.gif");
 import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
+import Layer = require("esri/layers/layer");
 
 @Component({
   selector: 'aba-map',
@@ -48,8 +49,6 @@ export class MapComponent implements OnInit {
   }
 
   setLayerType(layerType : LayerType): boolean {
-    console.log("setLayerType", layerType);
-    //this.mapLoading = false;
     if (this.map){
       this.map.setLayerVisible(layerType);
       return true;
@@ -78,15 +77,23 @@ export class MapComponent implements OnInit {
   }
 
   private applyDefaultCallbackToTheMap(): void {
-    this.map.on("update-start", () => {
-      console.log("start");
-      this.mapLoading = true}
-    );
-    this.map.on("update-end", () => {
-      this.mapLoading = false;
-      console.log("end");  
-    }  
-    );
+    this.map.on("layer-add", (evt : {layer:Layer})=> {
+      console.log("layer-add", evt.layer);
+      evt.layer.on("update-start", (evt2:{layer2:Layer; }) => {
+        if(evt.layer.visible)
+          this.mapLoading = true;      
+        console.log("startlayer", evt2);
+      });
+      evt.layer.on("update-end", (evt2:{layer2:Layer; }) => {
+        if(evt.layer.visible)
+          this.mapLoading = false;
+        console.log("endlayer", evt2);
+      });
+      evt.layer.on("suspend", (evt2:{layer2:Layer; }) => {
+        this.mapLoading = false;
+        console.log("suspend", evt2);
+      });
+    });
 
     // Zoom restriction
     this.map.on("zoom-end", () => this.checkNeedZoom());
