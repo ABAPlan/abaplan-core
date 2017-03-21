@@ -52,6 +52,37 @@ export class AbaMap extends ArcgisMap {
     }
 
     this.setExtent(extent);
+    this.on("layer-add", (evt : {layer:Layer})=> {
+      console.log("layer-add", evt.layer);
+
+      evt.layer.on("update", (evt:{layer:Layer; }) => 
+        console.log("updatelayer", evt.layer)
+      );
+      evt.layer.on("update-start", (evt:{layer:Layer; }) => {
+        console.log("startlayer", evt.layer);
+      });
+      evt.layer.on("update-end", (evt:{layer:Layer; }) => {
+        console.log("endlayer", evt.layer);
+      });
+      evt.layer.on("resume", (evt:{layer:Layer; }) => {
+        console.log("resumelayer", evt.layer);
+      });
+      evt.layer.on("suspend", (evt:{layer:Layer; }) => {
+        console.log("supsendlayer", evt.layer);
+      });
+      evt.layer.on("load", (evt:{layer:Layer; }) => {
+          console.log("layerLoaded", evt.layer);
+      });
+      evt.layer.on("error", (evt:{layer:Layer; }) => {
+          console.log("errorlayer", evt.layer);
+      });
+      evt.layer.on("visibility-change", (evt:{layer:Layer; }) => {
+          console.log("visibilitylayer", evt.layer);
+      });
+      evt.layer.on("refresh-interval-change", (evt:{layer:Layer; }) => {
+          console.log("visibilitylayer", evt.layer);
+      });
+    });
 
     this.layers.push(new OsmRootLayer());
     this.layers.push(new SquareRootBrailleLayer());
@@ -60,38 +91,6 @@ export class AbaMap extends ArcgisMap {
     this.addLayers(_.flatten(this.layers.map ( l => l.layers() )));
 
     this.setLayerVisible({kind:"osm"});
-
-    this.layers
-      .forEach( (layer) => {
-          layer.on("update", (evt:{layer:Layer; }) => 
-            console.log("updatelayer")
-          );
-          layer.on("update-start", (evt:any) => {
-            console.log("startlayer");
-          });
-          layer.on("update-end", (evt:any) => {
-            console.log("endlayer");
-          });
-          layer.on("resume", (evt:any) => {
-            console.log("resumelayer");
-          });
-          layer.on("suspend", (evt:any) => {
-            console.log("supsendlayer");
-          });
-          layer.on("load", (evt:any) => {
-              console.log("layerLoaded");
-          });
-          layer.on("error", (evt:any) => {
-              console.log("errorlayer");
-          });
-          layer.on("visibility-change", (evt:any) => {
-              console.log("visibilitylayer");
-          });
-          layer.on("refresh-interval-change", (evt:any) => {
-              console.log("visibilitylayer");
-          });
-        }
-      );
   }
 
   public setLayerVisible(layerType: LayerType) {
