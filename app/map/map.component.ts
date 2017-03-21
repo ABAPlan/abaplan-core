@@ -48,6 +48,8 @@ export class MapComponent implements OnInit {
   }
 
   setLayerType(layerType : LayerType): boolean {
+    console.log("setLayerType", layerType);
+    //this.mapLoading = false;
     if (this.map){
       this.map.setLayerVisible(layerType);
       return true;
@@ -76,8 +78,15 @@ export class MapComponent implements OnInit {
   }
 
   private applyDefaultCallbackToTheMap(): void {
-    this.map.on("update-start", () => this.mapLoading = true);
-    this.map.on("update-end", () => this.mapLoading = false);
+    this.map.on("update-start", () => {
+      console.log("start");
+      this.mapLoading = true}
+    );
+    this.map.on("update-end", () => {
+      this.mapLoading = false;
+      console.log("end");  
+    }  
+    );
 
     // Zoom restriction
     this.map.on("zoom-end", () => this.checkNeedZoom());

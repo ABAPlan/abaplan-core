@@ -57,18 +57,54 @@ export class AbaMap extends ArcgisMap {
     this.layers.push(new SquareRootBrailleLayer());
     this.layers.push(new CityRootBrailleLayer());
 
-   // this.layers.push(new RailroadBrailleLayer());
-    //this.layers.push(new StairsBrailleLayer());
-
     this.addLayers(_.flatten(this.layers.map ( l => l.layers() )));
 
     this.setLayerVisible({kind:"osm"});
+
+    this.layers
+      .forEach( (layer) => {
+          layer.on("update", (evt:{layer:Layer; }) => 
+            console.log("updatelayer")
+          );
+          layer.on("update-start", (evt:any) => {
+            console.log("startlayer");
+          });
+          layer.on("update-end", (evt:any) => {
+            console.log("endlayer");
+          });
+          layer.on("resume", (evt:any) => {
+            console.log("resumelayer");
+          });
+          layer.on("suspend", (evt:any) => {
+            console.log("supsendlayer");
+          });
+          layer.on("load", (evt:any) => {
+              console.log("layerLoaded");
+          });
+          layer.on("error", (evt:any) => {
+              console.log("errorlayer");
+          });
+          layer.on("visibility-change", (evt:any) => {
+              console.log("visibilitylayer");
+          });
+          layer.on("refresh-interval-change", (evt:any) => {
+              console.log("visibilitylayer");
+          });
+        }
+      );
   }
 
   public setLayerVisible(layerType: LayerType) {
     this.layers
       .forEach( (layer) => {
-          layer.setVisibility( layerType.kind === layer.id );
+              
+        if(layerType.kind === layer.id){
+          layer.show();
+
+        }else{
+          layer.hide();
+          layer.suspend();
+        }       
       }
       );
   }
