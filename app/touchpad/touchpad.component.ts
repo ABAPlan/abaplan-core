@@ -2,14 +2,13 @@ import {Component, ViewChild, ElementRef} from "@angular/core";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { MapService } from '../core/map.service';
+import { GeoService } from '../core/geo.service';
 import { VoiceService } from './voice.service';
 import { OptionMap, AbaMap } from '../core/map';
 import { MapComponent } from '../map/map.component'
-import { GOOGLE_GEOCODE_KEY } from './secret'
 import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import Geometry = require('esri/geometry/Geometry');
 import Point = require('esri/geometry/Point')
-import googleMaps = require("google-maps");
 import Graphic = require("esri/graphic");
 import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 import {Vector2d, Plane2d, transform} from '../core/vector2d';
@@ -18,7 +17,7 @@ import {Vector2d, Plane2d, transform} from '../core/vector2d';
   selector: 'aba-touchpad',
   templateUrl: 'touchpad.component.html',
   styleUrls: ['touchpad.component.css'],
-  providers : [VoiceService]
+  providers : [VoiceService, GeoService]
 })
 
 export class TouchpadComponent {
@@ -33,6 +32,7 @@ export class TouchpadComponent {
     private router: Router,
     private mapService: MapService,
     private voiceService : VoiceService,
+    private geoService : GeoService,
     private _elementRef: ElementRef
   ){
 
@@ -46,7 +46,6 @@ export class TouchpadComponent {
          */
         switch (this.nbClick) {
           case 0:
-
             this.voiceService.say("Appuyez en haut à gauche");
             break;
           case 1:
@@ -83,26 +82,24 @@ export class TouchpadComponent {
 
       } else if (this.isCalibrated()) {
 
+
         /* Transformation from device coordinates to esri map coordinates */
 
         // Detect current `P` point
-        let OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
+        const OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
 
         // `P'` is the transformed final point on the esri map
-        let OP_ = transform(OP, this.devicePlane, this.divPlane);
-        console.log(OP, OP_);
+        const OP_ = transform(OP, this.devicePlane, this.divPlane);
 
         // Transform to EsriPoint
-        let mappedPoint = new Point(OP_.x, OP_.y);
-        let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+        const mappedPoint = new Point(OP_.x, OP_.y);
+        const point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
 
-        let p = new google.maps.LatLng(point.y, point.x);
-        let geocoder = new google.maps.Geocoder();
-        geocoder.geocode(
-          { location: p },
-          (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-            if (status === google.maps.GeocoderStatus.OK) {
-              this.voiceService.sayGeocodeResult(results[0]);
+        this.geoService.address(point).subscribe(
+          address => {
+            console.log("address", address);
+            if (address){
+              this.voiceService.sayGeocodeResult(address);
             }
           }
         );
@@ -138,8 +135,6 @@ export class TouchpadComponent {
   ngOnInit() {
     // (+) converts string 'id' to a number
     let id = +this.route.snapshot.params['id'];
-    googleMaps.KEY = GOOGLE_GEOCODE_KEY;
-    googleMaps.load();
 
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
