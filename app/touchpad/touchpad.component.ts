@@ -36,72 +36,84 @@ export class TouchpadComponent {
     private _elementRef: ElementRef
   ){
 
+    this.voiceService.say("Appuyez au centre de la dalle");
+
     document.onclick = (ev: MouseEvent) => {
-      console.log(ev);
-        if (!this.isCalibrated()) {
-          /*
-           * Calibration mode.
-           * At the beginning, we detect the 4th corner of the device to map with de real div esri map
-           */
-          switch (this.nbClick) {
-            case 1:
-              /* Note: clientX and clientY for firefox compatibility */
-              this.devicePlane.A = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
+      if (!this.isCalibrated()) {
+        /*
+         * Calibration mode.
+         * At the beginning, we detect the 4th corner of the device to map with de real div esri map
+         */
+        switch (this.nbClick) {
+          case 0:
 
-              const geo = this.mapComponent.map.extent;
+            this.voiceService.say("Appuyez en haut à gauche");
+            break;
+          case 1:
+            /* Note: clientX and clientY for firefox compatibility */
+            this.devicePlane.A = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-              this.divPlane.C = <Vector2d> {x: geo.xmin, y: geo.ymin };
-              this.divPlane.D = <Vector2d> {x: geo.xmax, y: geo.ymin };
-              this.divPlane.A = <Vector2d> {x: geo.xmin, y: geo.ymax };
-              this.divPlane.B = <Vector2d> {x: geo.xmax, y: geo.ymax };
-              console.log("---");
-              console.log(this.divPlane);
-              break;
-            case 2:
-              this.devicePlane.B = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
-              break;
-            case 3:
-              this.devicePlane.C = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
-              break;
-            case 4:
-              this.devicePlane.D = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
-              // Calibration done!
-              break;
-          }
-          this.nbClick += 1;
+            const geo = this.mapComponent.map.extent;
 
-        } else if (this.isCalibrated()) {
+            this.divPlane.C = <Vector2d> {x: geo.xmin, y: geo.ymin };
+            this.divPlane.D = <Vector2d> {x: geo.xmax, y: geo.ymin };
+            this.divPlane.A = <Vector2d> {x: geo.xmin, y: geo.ymax };
+            this.divPlane.B = <Vector2d> {x: geo.xmax, y: geo.ymax };
 
-          /* Transformation from device coordinates to esri map coordinates */
+            this.voiceService.say("Appuyez en haut à droite");
+            break;
 
-          // Detect current `P` point
-          let OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
+          case 2:
+            this.devicePlane.B = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-          // `P'` is the transformed final point on the esri map
-          let OP_ = transform(OP, this.devicePlane, this.divPlane);
-          console.log(OP, OP_);
+            this.voiceService.say("Appuyez en bas à gauche");
+            break;
+          case 3:
+            this.devicePlane.C = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-          // Transform to EsriPoint
-          let mappedPoint = new Point(OP_.x, OP_.y);
-          let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+            this.voiceService.say("Appuyez en bas à droite");
+            break;
+          case 4:
+            this.devicePlane.D = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-          let p = new google.maps.LatLng(point.y, point.x);
-          let geocoder = new google.maps.Geocoder();
-          geocoder.geocode({location:p},
-            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-              if (status === google.maps.GeocoderStatus.OK) {
-                this.voiceService.sayGeocodeResult(results[0]);
-              }
-            }
-          );
-
-          const symbol = new SimpleMarkerSymbol({
-            color: [226, 119, 40],
-            outline: { color: [255, 255, 255], width: 2 },
-          });
-          const graphic = new Graphic(point, symbol);
-          this.mapComponent.map.graphics.add(graphic);
+            this.voiceService.say("Dalle calibrée. Vous pouvez l'utiliser");
+            break;
         }
+        this.nbClick += 1;
+
+      } else if (this.isCalibrated()) {
+
+        /* Transformation from device coordinates to esri map coordinates */
+
+        // Detect current `P` point
+        let OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
+
+        // `P'` is the transformed final point on the esri map
+        let OP_ = transform(OP, this.devicePlane, this.divPlane);
+        console.log(OP, OP_);
+
+        // Transform to EsriPoint
+        let mappedPoint = new Point(OP_.x, OP_.y);
+        let point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+
+        let p = new google.maps.LatLng(point.y, point.x);
+        let geocoder = new google.maps.Geocoder();
+        geocoder.geocode(
+          { location: p },
+          (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
+            if (status === google.maps.GeocoderStatus.OK) {
+              this.voiceService.sayGeocodeResult(results[0]);
+            }
+          }
+        );
+
+        const symbol = new SimpleMarkerSymbol({
+          color: [226, 119, 40],
+          outline: { color: [255, 255, 255], width: 2 },
+        });
+        const graphic = new Graphic(point, symbol);
+        this.mapComponent.map.graphics.add(graphic);
+      }
     };
   }
 
