@@ -31,7 +31,6 @@ export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
-  @Output() onSelectMap: EventEmitter<number> = new EventEmitter();
   @Output() onModalMapOpen: EventEmitter<object> = new EventEmitter();
   @Output() onModalSaveMapOpen: EventEmitter<object> = new EventEmitter();
 
@@ -151,21 +150,4 @@ export class ToolbarMapComponent {
     return false;
   }
 
-  /* Fires when a user select a map in the modal view */
-  /*
-  private mapSelected(info: [number, string]): void {
-    // We send this id upper
-    this.onSelectMap.emit(info[0]);
-    this.onSetMapTitle.emit(info[1]);
-  }
-  */
-
-  /* Fires when a user insert a map in the modal view */
-  /*
-  private mapInsert(info: any): void {
-    // We send this title upper
-    this.onSetMapTitle.emit(info.title);
-    this.onSaveMapWithTitle.emit(info.title);
-  }
-  */
 }
