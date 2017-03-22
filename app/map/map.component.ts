@@ -3,7 +3,7 @@ import { OptionMap, AbaMap } from '../core/map';
 import { LayerType } from '../core/layer';
 import { MapService } from '../core/map.service';
 import ArcgisSearch = require('esri/dijit/Search');
-const img_loading = require("file?name=./img/[name].[ext]!./img/spin.gif");
+const img_loading = require("file?name=./assets/img/[name].[ext]!./assets/img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
