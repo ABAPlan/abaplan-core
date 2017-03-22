@@ -165,16 +165,13 @@ export class EditorComponent {
     return ser;
   }
 
-  // Fires when a user select a map in the modal view
   private selectMap(info: [number, string]): void {
     // We send this id upper
     this.updateMapId(info[0]);
     this.updateMapTitle(info[1]);
   }
 
-  // Fires when a user insert a map in the modal view
   private insertMap(info: any): void {
-    console.log(info);
     // We send this title upper
     this.updateMapTitle(info.title);
     this.saveMapTitle(info.title);

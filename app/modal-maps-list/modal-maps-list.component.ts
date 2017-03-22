@@ -52,7 +52,6 @@ export class ModalMapComponent {
 
   private onClick(info: [number, string]): void {
     this.close();
-    console.log("EMIT", info);
     this.onSelectEvent.emit(info);
   }
 
