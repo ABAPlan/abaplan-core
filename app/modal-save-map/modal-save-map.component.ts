@@ -8,7 +8,7 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 export class ModalSaveMapComponent {
 
   @Input('visible') visible: boolean = false;
-  @Output() onMapSubmit: EventEmitter<any> = new EventEmitter();
+  @Output() onSaveEvent: EventEmitter<any> = new EventEmitter();
 
   private title: string = "";
 
@@ -28,7 +28,7 @@ export class ModalSaveMapComponent {
 
   private onSubmit(): void {
     this.close();
-    this.onMapSubmit.emit( {title: this.title} );
+    this.onSaveEvent.emit( {title: this.title} );
   }
 
 }

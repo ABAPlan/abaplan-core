@@ -25,7 +25,7 @@ export class MapComponent implements OnInit {
 
   needZoom : boolean = false;
 
-  @Output() mapInstancied = new EventEmitter();
+  @Output() onMapInstancied: EventEmitter<OptionMap> = new EventEmitter();
   @Input() searchable: boolean = true;
 
   readonly ZOOM_LEVEL_MINIMUM : number = 16;
@@ -72,7 +72,7 @@ export class MapComponent implements OnInit {
     }
 
     this.checkNeedZoom();
-    this.mapInstancied.emit(optionMap);
+    this.onMapInstancied.emit(optionMap);
   }
 
   private applyDefaultCallbackToTheMap(): void {
@@ -100,8 +100,8 @@ export class MapComponent implements OnInit {
         this.map = AbaMap.fromOptionMap("esri-map", optionMap);
         this.checkNeedZoom();
 
-        // Call mapInstancied event to prevent others components of new map
-        this.mapInstancied.emit(optionMap);
+        // Call onMapInstancied event to prevent others components of new map
+        this.onMapInstancied.emit(optionMap);
 
         this.applyDefaultCallbackToTheMap();
 

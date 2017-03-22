@@ -64,8 +64,8 @@ export class EditorComponent {
     this.setActive(btnInfo);
   }
 
-  //public onUpdateTool(tool : Tool) {
-  public onUpdateTool(tool: Command & KindTool) {
+  //public updateTool(tool : Tool) {
+  public updateTool(tool: Command & KindTool) {
 
     // Personalized operation on command
     switch (tool.command) {
@@ -143,7 +143,7 @@ export class EditorComponent {
     );
   }
 
-  public onMapInstancied(optionMap : OptionMap){
+  public initMap(optionMap : OptionMap){
     this.selectTabByLayerType(optionMap.layerType);
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
@@ -176,17 +176,15 @@ export class EditorComponent {
     this.setActive(this._btnInfos[0]);
   }
 
-  /* Fires when a user select a map in the modal view */
-  public mapSelected(info: [number, string]): void {
-    console.log("ALOOOOOOOOOOOOORS");
-    console.log(info);
+  // Fires when a user select a map in the modal view
+  private selectMap(info: [number, string]): void {
     // We send this id upper
     this.updateMapId(info[0]);
     this.updateMapTitle(info[1]);
   }
 
-  /* Fires when a user insert a map in the modal view */
-  public mapInsert(info: any): void {
+  // Fires when a user insert a map in the modal view
+  private insertMap(info: any): void {
     console.log(info);
     // We send this title upper
     this.updateMapTitle(info.title);

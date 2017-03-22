@@ -13,7 +13,7 @@ import * as _ from "lodash";
 export class ModalMapComponent {
 
   @Input('visible') visible: boolean = false;
-  @Output() onSelectChoice: EventEmitter<[number, string]> = new EventEmitter();
+  @Output() onSelectEvent: EventEmitter<[number, string]> = new EventEmitter();
 
   private maps: OptionMap[] = [];
   private queryInputValue: string = "";
@@ -53,7 +53,7 @@ export class ModalMapComponent {
   private onClick(info: [number, string]): void {
     this.close();
     console.log("EMIT", info);
-    this.onSelectChoice.emit(info);
+    this.onSelectEvent.emit(info);
   }
 
   private range(n): number[] {
