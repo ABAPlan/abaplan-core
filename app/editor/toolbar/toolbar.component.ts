@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from "@angular/core";
-import { LayerType } from '../core/layer';
-import { DrawType } from '../editor/drawEditMap';
+import { LayerType } from '../../core/layer';
+import { DrawType } from '../drawEditMap';
 
 export interface ITool { heading: string, image?: string, command: string }
 

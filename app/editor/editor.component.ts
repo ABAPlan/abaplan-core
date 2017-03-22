@@ -7,7 +7,7 @@ import {
   , DrawTool
   , Command
   , KindTool
-} from "../toolbar/toolbar.component";
+} from "./toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
 import { PrintService } from "../core/print-map.service";

@@ -17,7 +17,7 @@ import { MapComponent } from './map/map.component';
 import { TouchpadComponent } from './touchpad/touchpad.component'
 import { EditorComponent } from './editor/editor.component'
 
-import { ToolbarMapComponent } from './toolbar/toolbar.component';
+import { ToolbarMapComponent } from './editor/toolbar/toolbar.component';
 import { ModalMapComponent } from "./editor/modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./editor/modal-save-map/modal-save-map.component";
 
