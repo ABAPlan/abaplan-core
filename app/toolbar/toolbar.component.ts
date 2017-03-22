@@ -31,8 +31,8 @@ export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
-  @Output() onModalMapOpen: EventEmitter<object> = new EventEmitter();
-  @Output() onModalSaveMapOpen: EventEmitter<object> = new EventEmitter();
+  @Output() onModalMapOpen: EventEmitter<any> = new EventEmitter();
+  @Output() onModalSaveMapOpen: EventEmitter<any> = new EventEmitter();
 
   private tools: Array<Tool> = [
     {
