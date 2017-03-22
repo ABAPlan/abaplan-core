@@ -32,8 +32,6 @@ export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
-  @Output() onModalMapOpen: EventEmitter<any> = new EventEmitter();
-  @Output() onModalSaveMapOpen: EventEmitter<any> = new EventEmitter();
 
   private tools: Array<Tool> = [
     {
@@ -124,16 +122,8 @@ export class ToolbarMapComponent {
   }
 
   public onClick(tool: Tool) {
-    console.log(tool);
     this.activeTool = tool;
     this.onUpdateTool.emit(tool);
-    if (tool.heading === 'Ouvrir'){
-//      this.modalMapComponent.open();
-      this.onModalMapOpen.emit({});
-    } else if (tool.heading === 'Sauvegarder') {
-//      this.modalSaveMapComponent.open();
-      this.onModalSaveMapOpen.emit({});
-    }
   }
 
   public changeEditableState(): void {

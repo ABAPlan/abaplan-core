@@ -95,11 +95,14 @@ export class EditorComponent {
         break;
 
       case "open":
-        console.warn("action buttons not implemented");
+        this.modalMapComponent.open();
         break;
       case "save":
-        console.warn("action buttons not implemented");
+        this.modalSaveMapComponent.open();
         break;
+      default:
+        console.warn("action buttons not implemented");
+
     }
 
     // Global operation on kind
@@ -158,14 +161,6 @@ export class EditorComponent {
   /* Fire when a user create a map */
   private saveMapTitle(title: string): void {
     this.mapComponent.saveMapWithTitle(title);
-  }
-
-  private modalMapOpen(){
-    this.modalMapComponent.open();
-  }
-
-  private modalSaveMapOpen(){
-    this.modalSaveMapComponent.open();
   }
 
   private getMapString(){
