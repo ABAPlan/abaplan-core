@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { OptionMap } from "../core/map";
+import { OptionMap } from "../../core/map";
 
 
 @Pipe({name: 'filterMaps'})

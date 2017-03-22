@@ -11,8 +11,8 @@ import {
 
 import { AbaDrawEdit } from './drawEditMap';
 import { PrintService } from "../core/print-map.service";
-import {ModalMapComponent} from "../modal-maps-list/modal-maps-list.component";
-import {ModalSaveMapComponent} from "../modal-save-map/modal-save-map.component";
+import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
+import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;

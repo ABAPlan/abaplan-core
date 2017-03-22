@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
-const Pagination = require('../../core/puresc-helper/paginate');
+const Pagination = require('./paginate');
 
 
 @Component({
