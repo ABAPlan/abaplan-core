@@ -21,7 +21,7 @@ import { ToolbarMapComponent } from './toolbar/toolbar.component';
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 
-import { PaginationComponent } from "./pagination/pagination-buttons.component"
+import { PaginationComponent } from "./shared/pagination/pagination-buttons.component"
 import { FilterMapsPipe } from './modal-maps-list/filtermaps.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
