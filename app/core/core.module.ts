@@ -7,7 +7,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
     CommonModule,
     HttpModule,
     JsonpModule
-    //, InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
   declarations: [ ],
   exports:      [ ],
