@@ -23,10 +23,13 @@
             <aba-toolbar-map
                     (onUpdateTool)="onUpdateTool($event)"
                     (onSelectMap)="updateMapId($event)"
-                    (onSetMapTitle)="updateMapTitle($event)"
-                    (onSaveMapWithTitle)="saveMapTitle($event)"
+                    (onModalMapOpen)="modalMapOpen()"
+                    (onModalSaveMapOpen)="modalSaveMapOpen()"
             ></aba-toolbar-map>
 
         </div>
     </div>
 </div>
+
+<aba-modal-maps (onSelectChoice)="mapSelected($event)"></aba-modal-maps>
+<aba-modal-save-map (onMapSubmit)="mapInsert($event)"></aba-modal-save-map>

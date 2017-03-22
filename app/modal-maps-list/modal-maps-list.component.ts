@@ -3,8 +3,6 @@ import { MapService } from "../core/map.service";
 import { OptionMap } from "../core/map";
 import * as _ from "lodash";
 
-import { PaginationComponent } from "../pagination/pagination-buttons.component"
-
 
 
 @Component({
@@ -54,6 +52,7 @@ export class ModalMapComponent {
 
   private onClick(info: [number, string]): void {
     this.close();
+    console.log("EMIT", info);
     this.onSelectChoice.emit(info);
   }
 

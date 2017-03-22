@@ -10,6 +10,8 @@ import {ToolbarMapComponent,
 
 import { AbaDrawEdit } from './drawEditMap';
 import { PrintService } from "../printable-map/print-map.service";
+import {ModalMapComponent} from "../modal-maps-list/modal-maps-list.component";
+import {ModalSaveMapComponent} from "../modal-save-map/modal-save-map.component";
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
@@ -25,6 +27,9 @@ export class EditorComponent {
 
   @ViewChild(MapComponent) mapComponent: MapComponent;
   @ViewChild(ToolbarMapComponent) toolbarMapComponent: ToolbarMapComponent;
+
+  @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
+  @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
 
   private readonly defaultTitle: string = "AbaPlan";
   title = this.defaultTitle;
@@ -154,6 +159,14 @@ export class EditorComponent {
     this.mapComponent.saveMapWithTitle(title);
   }
 
+  private modalMapOpen(){
+    this.modalMapComponent.open();
+  }
+
+  private modalSaveMapOpen(){
+    this.modalSaveMapComponent.open();
+  }
+
   private getMapString(){
     // Converts Map to String
     let map = this.mapComponent.map.root;
@@ -165,5 +178,22 @@ export class EditorComponent {
   ngAfterViewInit() {
     // Init default btnInfo to first
     this.setActive(this._btnInfos[0]);
+  }
+
+  /* Fires when a user select a map in the modal view */
+  public mapSelected(info: [number, string]): void {
+    console.log("ALOOOOOOOOOOOOORS");
+    console.log(info);
+    // We send this id upper
+    this.updateMapId(info[0]);
+    this.updateMapTitle(info[1]);
+  }
+
+  /* Fires when a user insert a map in the modal view */
+  public mapInsert(info: any): void {
+    console.log(info);
+    // We send this title upper
+    this.updateMapTitle(info.title);
+    this.saveMapTitle(info.title);
   }
 }
