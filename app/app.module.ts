@@ -26,7 +26,6 @@ import { FilterMapsPipe } from './modal-maps-list/filtermaps.pipe';
 import { TakePipe, DropPipe, LengthPipe } from './core/pipes/collections.pipe';
 
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
