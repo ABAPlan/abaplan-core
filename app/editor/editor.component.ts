@@ -10,7 +10,7 @@ import {
 } from "../toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
-import { PrintService } from "../printable-map/print-map.service";
+import { PrintService } from "../core/print-map.service";
 import {ModalMapComponent} from "../modal-maps-list/modal-maps-list.component";
 import {ModalSaveMapComponent} from "../modal-save-map/modal-save-map.component";
 

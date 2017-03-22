@@ -24,11 +24,8 @@ import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component
 import { PaginationComponent } from "./pagination/pagination-buttons.component"
 import { FilterMapsPipe } from './modal-maps-list/filtermaps.pipe';
 
-import { FormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpModule } from "@angular/http";
 import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
@@ -37,9 +34,7 @@ import { SharedModule } from "./shared/shared.module";
   , MapModule
   , CoreModule
   , TabsModule
-  , FormsModule
   , AppRoutingModule
-  , HttpModule
   , SharedModule
   ],
   declarations: [ 
