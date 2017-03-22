@@ -1,13 +1,12 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LayerType } from '../core/layer';
 import { MapComponent } from '../map/map.component'
 import { OptionMap } from '../core/map';
 import {
-  ToolbarMapComponent,
-  Tool,
-  DrawTool,
-  EditTool,
-  ActionTool, Command, Move, KindTool
+    ToolbarMapComponent
+  , DrawTool
+  , Command
+  , KindTool
 } from "../toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
@@ -56,16 +55,11 @@ export class EditorComponent {
 
   constructor(private printService: PrintService) {}
 
-  ngOnInit(): void {
-    this.mapComponent.getDefaultMap();
-  }
-
-  public onClick(btnInfo: ButtonInfo) {
+  private onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
   }
 
-  //public updateTool(tool : Tool) {
-  public updateTool(tool: Command & KindTool) {
+  private updateTool(tool: Command & KindTool) {
 
     // Personalized operation on command
     switch (tool.command) {
@@ -124,17 +118,17 @@ export class EditorComponent {
 
   }
 
-  public isActive(btnInfo: ButtonInfo) {
+  private isActive(btnInfo: ButtonInfo) {
     return btnInfo === this._activeButtonInfo;
   }
 
-  public setActive(btnInfo: ButtonInfo){
+  private setActive(btnInfo: ButtonInfo){
     this._activeButtonInfo = btnInfo;
     if (this.mapComponent)
       this.mapComponent.setLayerType(btnInfo);
   }
 
-  public selectTabByLayerType(layerType : LayerType) : void{
+  private selectTabByLayerType(layerType : LayerType) : void {
     // Find first layer type _btnInfos
     this._btnInfos.forEach( (btnInfo) => {
         if (btnInfo.kind == layerType.kind)
@@ -148,12 +142,12 @@ export class EditorComponent {
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
-  /* Fire when a user choose a map */
+  // Fire when a user choose a map
   private updateMapId(id: number): void {
     this.mapComponent.selectMapId(id);
   }
 
-  /* Fire when a user change the map title  */
+  // Fire when a user change the map title
   private updateMapTitle(title: string): void {
     this.title = this.defaultTitle + " - " + title;
   }
@@ -163,17 +157,12 @@ export class EditorComponent {
     this.mapComponent.saveMapWithTitle(title);
   }
 
-  private getMapString(){
+  private getMapString() {
     // Converts Map to String
     let map = this.mapComponent.map.root;
     let serializer = new XMLSerializer();
     let ser = serializer.serializeToString(map);
     return ser;
-  }
-
-  ngAfterViewInit() {
-    // Init default btnInfo to first
-    this.setActive(this._btnInfos[0]);
   }
 
   // Fires when a user select a map in the modal view
@@ -190,4 +179,14 @@ export class EditorComponent {
     this.updateMapTitle(info.title);
     this.saveMapTitle(info.title);
   }
+
+  ngOnInit(): void {
+    this.mapComponent.getDefaultMap();
+  }
+
+  ngAfterViewInit() {
+    // Init default btnInfo to first
+    this.setActive(this._btnInfos[0]);
+  }
+
 }
