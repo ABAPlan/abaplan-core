@@ -18,11 +18,10 @@
 
     <div class="row show-grid">
         <div class="col-md-12">
+
             <aba-map (mapInstancied)="onMapInstancied($event)"></aba-map>
 
-            <aba-toolbar-map
-                    (onUpdateTool)="onUpdateTool($event)"
-            ></aba-toolbar-map>
+            <aba-toolbar-map (onUpdateTool)="onUpdateTool($event)"></aba-toolbar-map>
 
         </div>
     </div>
