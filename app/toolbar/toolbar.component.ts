@@ -20,7 +20,8 @@ export interface Print { command: "print"; }
 export interface Open { command: "open"; }
 export interface Save { command: "save"; }
 
-export type Tool = (DrawTool | EditTool | ActionTool) & ITool & Command;
+export type KindTool = (DrawTool | EditTool | ActionTool);
+export type Tool = KindTool & ITool & Command;
 
 @Component({
   selector: 'aba-toolbar-map',

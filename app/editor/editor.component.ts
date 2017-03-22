@@ -2,11 +2,13 @@ import { Component, ViewChild, Input } from '@angular/core';
 import { LayerType } from '../core/layer';
 import { MapComponent } from '../map/map.component'
 import { OptionMap } from '../core/map';
-import {ToolbarMapComponent,
-        Tool,
-        DrawTool,
-        EditTool,
-        ActionTool} from "../toolbar/toolbar.component";
+import {
+  ToolbarMapComponent,
+  Tool,
+  DrawTool,
+  EditTool,
+  ActionTool, Command, Move, KindTool
+} from "../toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
 import { PrintService } from "../printable-map/print-map.service";
@@ -62,62 +64,61 @@ export class EditorComponent {
     this.setActive(btnInfo);
   }
 
-  public onUpdateTool(tool : Tool) {
+  //public onUpdateTool(tool : Tool) {
+  public onUpdateTool(tool: Command & KindTool) {
+
+    // Personalized operation on command
+    switch (tool.command) {
+
+      case "move":
+        this.drawEdit.enableDraw(false);
+        this.mapComponent.map.enableMapNavigation();
+        break;
+
+      case "select":
+        this.drawEdit.enableDraw(false);
+        this.drawEdit.enableEdit(true);
+        this.mapComponent.map.disableMapNavigation();
+        break;
+
+      case "delete":
+        this.drawEdit.enableDraw(false);
+        this.drawEdit.enableDelete(true);
+        this.mapComponent.map.disableMapNavigation();
+        break;
+
+      case "print":
+        let title = this.mapComponent.map.title;
+        let date = this.mapComponent.map.creationDate;
+        let map = this.getMapString();
+        this.printService.printMap(title,date,map);
+        break;
+
+      case "open":
+        console.warn("action buttons not implemented");
+        break;
+      case "save":
+        console.warn("action buttons not implemented");
+        break;
+    }
+
+    // Global operation on kind
     switch (tool.kind) {
       case "draw" :
         this.mapComponent.map.disableMapNavigation();
         const drawTool = tool as DrawTool;
-
         this.drawEdit.enableDraw(true, drawTool.drawType);
         this.drawEdit.enableDelete(false);
         this.drawEdit.enableEdit(false);
       break;
 
-      case "edit" :
-        this.drawEdit.enableDraw(false);
-        this.drawEdit.enableDelete(tool.heading == "Supprimer");
-        this.drawEdit.enableEdit(tool.heading == "Sélectionner");
-        if(tool.heading == "Déplacer")
-          this.mapComponent.map.enableMapNavigation();
-        else
-          this.mapComponent.map.disableMapNavigation();
-
-        console.warn("edit buttons not implemented");
-        console.log(tool);
-      break;
-
       case "action" :
-
-        console.log("Action");
-        if(tool.heading == "Imprimer"){
-          console.log("Action Print");
-
-          let title = this.mapComponent.map.title;
-          let date = this.mapComponent.map.creationDate;
-          let map = this.getMapString();
-
-          this.printService.printMap(title,date,map);
-        }
-        else{
-          console.warn("action buttons not implemented");
-        }
-
-        console.log(tool);
-
-        this.drawEdit.enableDraw(false);
-        this.drawEdit.enableDelete(false);
-        this.drawEdit.enableEdit(false);
-      break;
-
-      default :
-        console.warn("default not implemented");
-        console.log(tool);
-
         this.drawEdit.enableDraw(false);
         this.drawEdit.enableDelete(false);
         this.drawEdit.enableEdit(false);
       break;
     }
+
   }
 
   public isActive(btnInfo: ButtonInfo) {
