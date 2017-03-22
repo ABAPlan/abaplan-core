@@ -23,12 +23,13 @@ import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component
 
 import { PaginationComponent } from "./pagination/pagination-buttons.component"
 import { FilterMapsPipe } from './modal-maps-list/filtermaps.pipe';
-import { TakePipe, DropPipe, LengthPipe } from './core/pipes/collections.pipe';
 
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
-import {APP_BASE_HREF} from '@angular/common';
+import { APP_BASE_HREF } from '@angular/common';
+import { HttpModule } from "@angular/http";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   imports: [
@@ -38,6 +39,8 @@ import {APP_BASE_HREF} from '@angular/common';
   , TabsModule
   , FormsModule
   , AppRoutingModule
+  , HttpModule
+  , SharedModule
   ],
   declarations: [ 
     AppComponent
@@ -48,9 +51,6 @@ import {APP_BASE_HREF} from '@angular/common';
   , ModalMapComponent
   , ModalSaveMapComponent
   , FilterMapsPipe
-  , TakePipe
-  , DropPipe
-  , LengthPipe
   , PaginationComponent
   ],
   bootstrap: [ AppComponent ],
