@@ -4,7 +4,7 @@ import 'rxjs/add/operator/switchMap';
 import { MapService } from '../core/map.service';
 import { GeoService } from '../core/geo.service';
 import { VoiceService } from '../core/voice.service';
-import { OptionMap, AbaMap } from '../core/map';
+import { OptionMap } from '../core/map';
 import { MapComponent } from '../map/map.component'
 import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import Geometry = require('esri/geometry/Geometry');
