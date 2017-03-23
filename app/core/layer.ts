@@ -22,8 +22,6 @@ export interface City { kind: "city"; }
 export interface Square { kind: "square"; }
 export interface Osm { kind: "osm"; }
 
-export type AbaLayer = OsmRootLayer | CityRootBrailleLayer | SquareRootBrailleLayer;
-
 //esriConfig.defaults.io.corsDetection = false;
 
 urlUtils.addProxyRule({
