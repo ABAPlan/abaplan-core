@@ -1,10 +1,10 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import { MapService } from '../core/map.service';
+import { MapService } from '../map/map.service';
 import { GeoService } from '../core/geo.service';
-import { VoiceService } from './voice.service';
-import { OptionMap, AbaMap } from '../core/map';
+import { VoiceService } from '../core/voice.service';
+import { OptionMap } from '../map/map';
 import { MapComponent } from '../map/map.component'
 import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import Geometry = require('esri/geometry/Geometry');

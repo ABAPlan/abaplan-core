@@ -1,9 +1,6 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { MapService } from "../core/map.service";
-import { OptionMap } from "../core/map";
-import * as _ from "lodash";
 
-const Pagination = require('../core/puresc-helper/paginate');
+const Pagination = require('./paginate');
 
 
 @Component({

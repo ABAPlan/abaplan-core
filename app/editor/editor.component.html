@@ -18,15 +18,14 @@
 
     <div class="row show-grid">
         <div class="col-md-12">
-            <aba-map (mapInstancied)="onMapInstancied($event)"></aba-map>
 
-            <aba-toolbar-map
-                    (onUpdateTool)="onUpdateTool($event)"
-                    (onSelectMap)="updateMapId($event)"
-                    (onSetMapTitle)="updateMapTitle($event)"
-                    (onSaveMapWithTitle)="saveMapTitle($event)"
-            ></aba-toolbar-map>
+            <aba-map (onMapInstancied)="initMap($event)"></aba-map>
+
+            <aba-toolbar-map (onUpdateTool)="updateTool($event)"></aba-toolbar-map>
 
         </div>
     </div>
 </div>
+
+<aba-modal-maps (onSelectEvent)="selectMap($event)"></aba-modal-maps>
+<aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>

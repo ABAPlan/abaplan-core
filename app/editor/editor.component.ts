@@ -1,15 +1,18 @@
-import { Component, ViewChild, Input } from '@angular/core';
-import { LayerType } from '../core/layer';
+import { Component, ViewChild } from '@angular/core';
+import { LayerType } from '../map/layer';
 import { MapComponent } from '../map/map.component'
-import { OptionMap } from '../core/map';
-import {ToolbarMapComponent,
-        Tool,
-        DrawTool,
-        EditTool,
-        ActionTool} from "../toolbar/toolbar.component";
+import { OptionMap } from '../map/map';
+import {
+    ToolbarMapComponent
+  , DrawTool
+  , Command
+  , KindTool
+} from "./toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
-import { PrintService } from "../printable-map/print-map.service";
+import { PrintService } from "../core/print-map.service";
+import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
+import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
@@ -25,6 +28,9 @@ export class EditorComponent {
 
   @ViewChild(MapComponent) mapComponent: MapComponent;
   @ViewChild(ToolbarMapComponent) toolbarMapComponent: ToolbarMapComponent;
+
+  @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
+  @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
 
   private readonly defaultTitle: string = "AbaPlan";
   title = this.defaultTitle;
@@ -49,83 +55,80 @@ export class EditorComponent {
 
   constructor(private printService: PrintService) {}
 
-  ngOnInit(): void {
-    this.mapComponent.getDefaultMap();
-  }
-
-  public onClick(btnInfo: ButtonInfo) {
+  private onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
   }
 
-  public onUpdateTool(tool : Tool) {
+  private updateTool(tool: Command & KindTool) {
+
+    // Personalized operation on command
+    switch (tool.command) {
+
+      case "move":
+        this.drawEdit.enableDraw(false);
+        this.mapComponent.map.enableMapNavigation();
+        break;
+
+      case "select":
+        this.drawEdit.enableDraw(false);
+        this.drawEdit.enableEdit(true);
+        this.mapComponent.map.disableMapNavigation();
+        break;
+
+      case "delete":
+        this.drawEdit.enableDraw(false);
+        this.drawEdit.enableDelete(true);
+        this.mapComponent.map.disableMapNavigation();
+        break;
+
+      case "print":
+        let title = this.mapComponent.map.title;
+        let date = this.mapComponent.map.creationDate;
+        let map = this.getMapString();
+        this.printService.printMap(title,date,map);
+        break;
+
+      case "open":
+        this.modalMapComponent.open();
+        break;
+      case "save":
+        this.modalSaveMapComponent.open();
+        break;
+      default:
+        console.warn("action buttons not implemented");
+
+    }
+
+    // Global operation on kind
     switch (tool.kind) {
       case "draw" :
         this.mapComponent.map.disableMapNavigation();
         const drawTool = tool as DrawTool;
-
         this.drawEdit.enableDraw(true, drawTool.drawType);
         this.drawEdit.enableDelete(false);
         this.drawEdit.enableEdit(false);
       break;
 
-      case "edit" :
-        this.drawEdit.enableDraw(false);
-        this.drawEdit.enableDelete(tool.heading == "Supprimer");
-        this.drawEdit.enableEdit(tool.heading == "Sélectionner");
-        if(tool.heading == "Déplacer")
-          this.mapComponent.map.enableMapNavigation();
-        else
-          this.mapComponent.map.disableMapNavigation();
-
-        console.warn("edit buttons not implemented");
-        console.log(tool);
-      break;
-
       case "action" :
-
-        console.log("Action");
-        if(tool.heading == "Imprimer"){
-          console.log("Action Print");
-
-          let title = this.mapComponent.map.title;
-          let date = this.mapComponent.map.creationDate;
-          let map = this.getMapString();
-
-          this.printService.printMap(title,date,map);
-        }
-        else{
-          console.warn("action buttons not implemented");
-        }
-
-        console.log(tool);
-
-        this.drawEdit.enableDraw(false);
-        this.drawEdit.enableDelete(false);
-        this.drawEdit.enableEdit(false);
-      break;
-
-      default :
-        console.warn("default not implemented");
-        console.log(tool);
-
         this.drawEdit.enableDraw(false);
         this.drawEdit.enableDelete(false);
         this.drawEdit.enableEdit(false);
       break;
     }
+
   }
 
-  public isActive(btnInfo: ButtonInfo) {
+  private isActive(btnInfo: ButtonInfo) {
     return btnInfo === this._activeButtonInfo;
   }
 
-  public setActive(btnInfo: ButtonInfo){
+  private setActive(btnInfo: ButtonInfo){
     this._activeButtonInfo = btnInfo;
     if (this.mapComponent)
       this.mapComponent.setLayerType(btnInfo);
   }
 
-  public selectTabByLayerType(layerType : LayerType) : void{
+  private selectTabByLayerType(layerType : LayerType) : void {
     // Find first layer type _btnInfos
     this._btnInfos.forEach( (btnInfo) => {
         if (btnInfo.kind == layerType.kind)
@@ -134,17 +137,17 @@ export class EditorComponent {
     );
   }
 
-  public onMapInstancied(optionMap : OptionMap){
+  public initMap(optionMap : OptionMap){
     this.selectTabByLayerType(optionMap.layerType);
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
-  /* Fire when a user choose a map */
+  // Fire when a user choose a map
   private updateMapId(id: number): void {
     this.mapComponent.selectMapId(id);
   }
 
-  /* Fire when a user change the map title  */
+  // Fire when a user change the map title
   private updateMapTitle(title: string): void {
     this.title = this.defaultTitle + " - " + title;
   }
@@ -154,7 +157,7 @@ export class EditorComponent {
     this.mapComponent.saveMapWithTitle(title);
   }
 
-  private getMapString(){
+  private getMapString() {
     // Converts Map to String
     let map = this.mapComponent.map.root;
     let serializer = new XMLSerializer();
@@ -162,8 +165,25 @@ export class EditorComponent {
     return ser;
   }
 
+  private selectMap(info: [number, string]): void {
+    // We send this id upper
+    this.updateMapId(info[0]);
+    this.updateMapTitle(info[1]);
+  }
+
+  private insertMap(info: any): void {
+    // We send this title upper
+    this.updateMapTitle(info.title);
+    this.saveMapTitle(info.title);
+  }
+
+  ngOnInit(): void {
+    this.mapComponent.getDefaultMap();
+  }
+
   ngAfterViewInit() {
     // Init default btnInfo to first
     this.setActive(this._btnInfos[0]);
   }
+
 }

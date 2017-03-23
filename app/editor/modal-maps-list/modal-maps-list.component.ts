@@ -1,9 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { MapService } from "../core/map.service";
-import { OptionMap } from "../core/map";
+import { MapService } from "../../map/map.service";
+import { OptionMap } from "../../map/map";
 import * as _ from "lodash";
-
-import { PaginationComponent } from "../pagination/pagination-buttons.component"
 
 
 
@@ -15,7 +13,7 @@ import { PaginationComponent } from "../pagination/pagination-buttons.component"
 export class ModalMapComponent {
 
   @Input('visible') visible: boolean = false;
-  @Output() onSelectChoice: EventEmitter<[number, string]> = new EventEmitter();
+  @Output() onSelectEvent: EventEmitter<[number, string]> = new EventEmitter();
 
   private maps: OptionMap[] = [];
   private queryInputValue: string = "";
@@ -54,7 +52,7 @@ export class ModalMapComponent {
 
   private onClick(info: [number, string]): void {
     this.close();
-    this.onSelectChoice.emit(info);
+    this.onSelectEvent.emit(info);
   }
 
   private range(n): number[] {

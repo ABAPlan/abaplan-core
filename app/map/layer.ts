@@ -22,8 +22,6 @@ export interface City { kind: "city"; }
 export interface Square { kind: "square"; }
 export interface Osm { kind: "osm"; }
 
-export type AbaLayer = OsmRootLayer | CityRootBrailleLayer | SquareRootBrailleLayer;
-
 //esriConfig.defaults.io.corsDetection = false;
 
 urlUtils.addProxyRule({
@@ -71,8 +69,8 @@ const surface = {
 
 const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color('black'));
 
-const url_traitilles = require("file?name=./assets/[name].[ext]!./img/traitilles.png");
-const url_cercle = require("file?name=./assets/[name].[ext]!./img/cercle.png");
+const url_traitilles = require("file?name=./assets/[name].[ext]!./../core/img/traitilles.png");
+const url_cercle = require("file?name=./assets/[name].[ext]!./../core/img/cercle.png");
 
 const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, null, 15, 15);
 const WATER_SYMBOL = new PictureFillSymbol(url_cercle, null, 15, 15);

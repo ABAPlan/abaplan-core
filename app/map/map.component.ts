@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
-import { OptionMap, AbaMap } from '../core/map';
-import { LayerType } from '../core/layer';
-import { MapService } from '../core/map.service';
+import { OptionMap, AbaMap } from './map';
+import { LayerType } from './layer';
+import { MapService } from './map.service';
 import ArcgisSearch = require('esri/dijit/Search');
-const img_loading = require("file?name=./img/[name].[ext]!./img/spin.gif");
+const img_loading = require("file?name=./assets/img/[name].[ext]!./assets/img/spin.gif");
 
 import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
@@ -25,7 +25,7 @@ export class MapComponent implements OnInit {
 
   needZoom : boolean = false;
 
-  @Output() mapInstancied = new EventEmitter();
+  @Output() onMapInstancied: EventEmitter<OptionMap> = new EventEmitter();
   @Input() searchable: boolean = true;
 
   readonly ZOOM_LEVEL_MINIMUM : number = 16;
@@ -72,7 +72,7 @@ export class MapComponent implements OnInit {
     }
 
     this.checkNeedZoom();
-    this.mapInstancied.emit(optionMap);
+    this.onMapInstancied.emit(optionMap);
   }
 
   private applyDefaultCallbackToTheMap(): void {
@@ -100,8 +100,8 @@ export class MapComponent implements OnInit {
         this.map = AbaMap.fromOptionMap("esri-map", optionMap);
         this.checkNeedZoom();
 
-        // Call mapInstancied event to prevent others components of new map
-        this.mapInstancied.emit(optionMap);
+        // Call onMapInstancied event to prevent others components of new map
+        this.onMapInstancied.emit(optionMap);
 
         this.applyDefaultCallbackToTheMap();
 
