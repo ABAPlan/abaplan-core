@@ -6,9 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { TakePipe } from "./take.pipe";
 import { DropPipe } from "./drop.pipe";
 import { LengthPipe } from "./length.pipe";
-import {HttpModule} from "@angular/http";
-import {MapComponent} from "../map/map.component";
-import {CommonModule} from "@angular/common";
+import { HttpModule } from "@angular/http";
+import { MapComponent } from "../map/map.component";
+import { CommonModule } from "@angular/common";
 
 
 @NgModule({
@@ -28,8 +28,8 @@ import {CommonModule} from "@angular/common";
     , TakePipe
     , DropPipe
     , LengthPipe
-    , MapComponent
     , CommonModule
+    , MapComponent
   ],
   providers: [ ]
 })
