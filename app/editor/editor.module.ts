@@ -1,11 +1,11 @@
 import { NgModule }           from '@angular/core';
 
-//import { CommonModule } from '@angular/common';
 
 import { MapService }       from '../core/map.service';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
-  imports:      [ ],
+  imports:      [ SharedModule ],
   declarations: [ ],
   providers:    [ MapService ]
 })

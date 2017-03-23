@@ -25,28 +25,28 @@ import { PaginationComponent } from "./shared/pagination/pagination-buttons.comp
 import { FilterMapsPipe } from './editor/modal-maps-list/filtermaps.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
-import { APP_BASE_HREF } from '@angular/common';
+import {APP_BASE_HREF, CommonModule} from '@angular/common';
 import { SharedModule } from "./shared/shared.module";
+import {TouchpadModule} from "./touchpad/touchpad.module";
 
 @NgModule({
   imports: [
     BrowserModule
-  , MapModule
-  , CoreModule
-  , TabsModule
-  , AppRoutingModule
-  , SharedModule
+    , MapModule
+    , CoreModule
+    , TabsModule
+    , AppRoutingModule
+    , TouchpadModule
   ],
-  declarations: [ 
+  declarations: [
     AppComponent
-  , EditorComponent
-  , TouchpadComponent
-  , MapComponent
-  , ToolbarMapComponent
-  , ModalMapComponent
-  , ModalSaveMapComponent
-  , FilterMapsPipe
-  , PaginationComponent
+    , EditorComponent
+    , TouchpadComponent
+    , ToolbarMapComponent
+    , ModalMapComponent
+    , ModalSaveMapComponent
+    , FilterMapsPipe
+    , PaginationComponent
   ],
   bootstrap: [ AppComponent ],
   providers: [{provide: APP_BASE_HREF, useValue : '/' }]
