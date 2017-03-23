@@ -3,7 +3,7 @@ var webpack = require("webpack");
 module.exports = {
     entry: {
         main: [
-            './app/boot.ts' // entry point for your application code
+            './src/app/boot.ts' // entry point for your application code
         ],
         vendor: [
             // put your third party libs here
@@ -20,10 +20,12 @@ module.exports = {
             "@angular/router",
             "angular-in-memory-web-api",
             "ng2-bootstrap"
-        ],
+        ]
+        /*,
         pure: [
             './app/shared/pagination/paginate.purs'
         ]
+        */
     },
     output: {
         filename: 'dist/[name].bundle.js',
@@ -48,7 +50,7 @@ module.exports = {
                 loader: 'purs-loader',
                 exclude: /node_modules/,
                 query: {
-                    src: [ 'bower_components/purescript-*/src/**/*.purs', 'app/**/*.purs' ],
+                    src: [ 'bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs' ],
                     bundle: false,
                     psc: 'psc',
                     pscIde: false
