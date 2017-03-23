@@ -25,6 +25,5 @@ before_script:
 - bower install
 - grep -v '^///' < node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts > node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts && mv node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts
 - echo "export let GOOGLE_GEOCODE_KEY = '$GOOGLE_API_KEY';" > app/touchpad/secret.ts
-- tsc
 
 script: npm test
