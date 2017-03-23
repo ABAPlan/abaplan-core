@@ -20,10 +20,12 @@ module.exports = {
             "@angular/router",
             "angular-in-memory-web-api",
             "ng2-bootstrap"
-        ],
+        ]
+        /*,
         pure: [
             './app/shared/pagination/paginate.purs'
         ]
+        */
     },
     output: {
         filename: 'dist/[name].bundle.js',
