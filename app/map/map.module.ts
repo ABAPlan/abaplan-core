@@ -1,7 +1,7 @@
 import { NgModule }           from '@angular/core';
 
 
-import { MapService }       from '../core/map.service';
+//import { MapService }       from './map.service';
 import {SharedModule} from "../shared/shared.module";
 import {MapComponent} from "./map.component";
 import {CommonModule} from "@angular/common";

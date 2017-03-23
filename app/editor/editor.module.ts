@@ -3,7 +3,7 @@ import { NgModule }           from '@angular/core';
 import { SharedModule } from "../shared/shared.module";
 
 /* Services */
-import { MapService }       from '../core/map.service';
+import { MapService }       from '../map/map.service';
 import { PrintService } from "../core/print-map.service";
 
 /* Internal Components */

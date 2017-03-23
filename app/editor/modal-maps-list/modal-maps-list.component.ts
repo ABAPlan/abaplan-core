@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { MapService } from "../../core/map.service";
-import { OptionMap } from "../../core/map";
+import { MapService } from "../../map/map.service";
+import { OptionMap } from "../../map/map";
 import * as _ from "lodash";
 
 

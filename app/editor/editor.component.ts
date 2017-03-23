@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { LayerType } from '../core/layer';
+import { LayerType } from '../map/layer';
 import { MapComponent } from '../map/map.component'
-import { OptionMap } from '../core/map';
+import { OptionMap } from '../map/map';
 import {
     ToolbarMapComponent
   , DrawTool

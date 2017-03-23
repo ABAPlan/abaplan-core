@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges} from '@angular/core';
-import { OptionMap, AbaMap } from '../core/map';
-import { LayerType } from '../core/layer';
-import { MapService } from '../core/map.service';
+import { OptionMap, AbaMap } from './map';
+import { LayerType } from './layer';
+import { MapService } from './map.service';
 import ArcgisSearch = require('esri/dijit/Search');
 const img_loading = require("file?name=./assets/img/[name].[ext]!./assets/img/spin.gif");
 
