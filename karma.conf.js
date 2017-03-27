@@ -12,22 +12,22 @@ module.exports = function (config) {
       // asset (HTML & CSS) paths loaded via Angular's component compiler
       // (these paths need to be rewritten, see proxies section)
       {
-        pattern: './app/**/*.html',
+        pattern: './src/**/*.html',
         included: false,
         watched: true
       }, {
-        pattern: './app/**/*.css',
+        pattern: './src/**/*.css',
         included: false,
         watched: true
       },
 
       // paths for debugging with source maps in dev tools
       {
-        pattern: './app/**/*.ts',
+        pattern: './src/**/*.ts',
         included: false,
         watched: false
       }, {
-        pattern: './app/**/*.js.map',
+        pattern: './src/**/*.js.map',
         included: false,
         watched: false
       },
