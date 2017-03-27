@@ -139,11 +139,11 @@ class CityBrailleSubLayer extends FeatureLayer {
       id: 'city',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, new Color("black"));
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), new Color("black"));
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const champs = surface.linear.concat(surface.water, surface.green);
-    const LINEAR_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color("black"));
+    const LINEAR_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), new Color("black"));
     //const LINEAR_SYMBOL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3);
 
     surface.water.forEach( (value) => renderer.addValue(value, WATER_SYMBOL) );
