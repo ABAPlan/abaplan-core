@@ -167,8 +167,8 @@ export class DrawInfoPedestrian implements DrawInfo {
         geometry.setSpatialReference(spatialRef);
 
         const symbol = (index+1) % 2 ?
-          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color([0, 0, 0, 1])) :
-          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color([255, 255, 255, 1]));
+          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), new Color([0, 0, 0, 1])) :
+          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), new Color([255, 255, 255, 1]));
         
         // Save id pedestrian to attributes
         let attributes = {id:this.lastId};

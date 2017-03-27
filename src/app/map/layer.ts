@@ -67,14 +67,14 @@ const surface = {
   ]
 };
 
-const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, SimpleLineSymbol.STYLE_NULL, new Color('black'));
+const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color('black'));
 
 const url_traitilles = require("file?name=./assets/[name].[ext]!./../core/img/traitilles.png");
 const url_cercle = require("file?name=./assets/[name].[ext]!./../core/img/cercle.png");
 
-const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, SimpleLineSymbol.STYLE_NULL, 15, 15);
-const WATER_SYMBOL = new PictureFillSymbol(url_cercle, SimpleLineSymbol.STYLE_NULL, 15, 15);
-const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, SimpleLineSymbol.STYLE_NULL, 25, 25);
+const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
+const WATER_SYMBOL = new PictureFillSymbol(url_cercle, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
+const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 25, 25);
 
 const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/";
 const URL_FEATURE_LAYER_SURFACE = URL_FEATURE_LAYER + '3';
@@ -139,11 +139,12 @@ class CityBrailleSubLayer extends FeatureLayer {
       id: 'city',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color());
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, new Color("black"));
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const champs = surface.linear.concat(surface.water, surface.green);
-    const LINEAR_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, SimpleLineSymbol.STYLE_NULL, new Color("black"));
+    const LINEAR_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color("black"));
+    //const LINEAR_SYMBOL = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color("black"), 3);
 
     surface.water.forEach( (value) => renderer.addValue(value, WATER_SYMBOL) );
     //surface.green.forEach( (value) => renderer.addValue(value, GREEN_SYMBOL) );
@@ -246,7 +247,7 @@ class StairsBrailleLayer extends FeatureLayer {
       id: 'stairs',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color());
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color("black"));
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object1 = 'escalier_important';
@@ -274,7 +275,7 @@ class RailroadBrailleSubLayer extends FeatureLayer {
       id: 'railroad',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color());
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(), new Color("black"));
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object = 'voie_ferree';
