@@ -168,7 +168,6 @@ class SquareBrailleSubLayer extends FeatureLayer {
       id: 'square',
     });
 
-    //const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
     const defaultSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, 0);
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
