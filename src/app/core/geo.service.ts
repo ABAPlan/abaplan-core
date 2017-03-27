@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 
-import { GOOGLE_GEOCODE_KEY } from '../touchpad/secret';
+import { GOOGLE_GEOCODE_KEY } from './secret';
 import googleMaps = require("google-maps");
 import Point = require("esri/geometry/Point");
 import { Observable } from 'rxjs/Observable';
