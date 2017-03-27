@@ -4,13 +4,14 @@ import * as br from 'braille';
 @Injectable()
 export class PrintService {
 
-  printMap(title : string ,link : string , map : string):void{
-    let mywindow = window.open('', '', '');
+  printMap(map: string, title?: string, link?: string):void{
 
-    let page : string = this.buildHTMLPage(map,title,link);
+    const mywindow = window.open('', '', '');
+    const page : string = this.buildHTMLPage(map,title,link);
 
     mywindow.document.write(page);
     mywindow.document.close();
+
   }
 
   public buildHTMLPage(map: string, title: string, link: string):string {
@@ -19,7 +20,7 @@ export class PrintService {
     let page :string = `
     <html>
       <head>
-        <title></title>
+        <title>${title}</title>
         <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="app/core/print-map.service.css"  />
       </head>

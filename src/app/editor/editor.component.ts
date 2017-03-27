@@ -85,7 +85,7 @@ export class EditorComponent {
         let title = this.mapComponent.map.title;
         let date = this.mapComponent.map.creationDate;
         let map = this.getMapString();
-        this.printService.printMap(title,date,map);
+        this.printService.printMap(map, title, date);
         break;
 
       case "open":
