@@ -102,6 +102,9 @@ export function det(v1: Vector2d, v2: Vector2d) {
  */
 export function transform(OP: Vector2d, O: Plane2d, finalPlan: Plane2d): Vector2d {
 
+  if (O.A === undefined || O.B === undefined || O.C === undefined || O.D === undefined){
+    return <Vector2d> {x: 0, y: 0};
+  }
   const PA = subVec(O.A, OP); // PA = OA - OP;
   const PB = subVec(O.B, OP); // PB = OB - OP;
   const PC = subVec(O.C, OP); // PC = OC - OP;

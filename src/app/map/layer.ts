@@ -67,14 +67,14 @@ const surface = {
   ]
 };
 
-const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color('black'));
+const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color('black'));
 
 const url_traitilles = require("file?name=./assets/[name].[ext]!./../core/img/traitilles.png");
 const url_cercle = require("file?name=./assets/[name].[ext]!./../core/img/cercle.png");
 
-const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, null, 15, 15);
-const WATER_SYMBOL = new PictureFillSymbol(url_cercle, null, 15, 15);
-const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, null, 25, 25);
+const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, new SimpleLineSymbol(), 15, 15);
+const WATER_SYMBOL = new PictureFillSymbol(url_cercle, new SimpleLineSymbol(), 15, 15);
+const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, new SimpleLineSymbol(), 25, 25);
 
 const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/";
 const URL_FEATURE_LAYER_SURFACE = URL_FEATURE_LAYER + '3';
@@ -139,11 +139,11 @@ class CityBrailleSubLayer extends FeatureLayer {
       id: 'city',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color());
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const champs = surface.linear.concat(surface.water, surface.green);
-    const LINEAR_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color("black"));
+    const LINEAR_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, SimpleLineSymbol.STYLE_NULL, new Color("black"));
 
     surface.water.forEach( (value) => renderer.addValue(value, WATER_SYMBOL) );
     //surface.green.forEach( (value) => renderer.addValue(value, GREEN_SYMBOL) );
@@ -168,7 +168,7 @@ class SquareBrailleSubLayer extends FeatureLayer {
     });
 
     //const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
-    const defaultSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, null, null);
+    const defaultSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, 0);
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     //const champs = surface.green.concat(surface.building, surface.hard, surface.water, surface.linear);
@@ -192,7 +192,7 @@ class SquareBrailleSubLayer extends FeatureLayer {
    */
   transform(graphic: any): void {
 
-    const xs = [];
+    const xs: number[][][] = [];
 
     // Esri lib doesn't refresh all element on a map, we have to keep the original reference of the rings as a
     // good comparator
@@ -204,7 +204,7 @@ class SquareBrailleSubLayer extends FeatureLayer {
       graphic.geometry.ymax = _.maxBy(graphic.geometry.originalRings[0], g => g[1] )[1];
     }
     graphic.geometry.originalRings.forEach(r => {
-      const set = _.flatten(r.map( g => [g, g])).slice(1);
+      const set: number[] = _.flatten(r.map( g => [g, g])).slice(1) as number[];
       set.pop();
       xs.push(_.chunk(set, 2));
     });
@@ -246,7 +246,7 @@ class StairsBrailleLayer extends FeatureLayer {
       id: 'stairs',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color());
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object1 = 'escalier_important';
@@ -274,7 +274,7 @@ class RailroadBrailleSubLayer extends FeatureLayer {
       id: 'railroad',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, null, null);
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color());
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object = 'voie_ferree';

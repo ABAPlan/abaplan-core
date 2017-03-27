@@ -45,8 +45,8 @@ export function removeCommonSegments(xs: Graphic[]) {
 // By example, enumerate(3) will return [[0,1], [0, 2], [1, 2]]
 function enumerate(n: number): Tuple[] {
 
-  let ys = [];
-  let processed = [];
+  let ys: Tuple[] = [];
+  let processed: number[] = [];
   let xs = _.range(0, n);
   xs.forEach( (x) => {
     processed.push(x);

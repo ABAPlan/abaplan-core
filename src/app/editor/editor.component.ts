@@ -138,7 +138,12 @@ export class EditorComponent {
   }
 
   public initMap(optionMap : OptionMap){
-    this.selectTabByLayerType(optionMap.layerType);
+    if (optionMap.layerType){
+      this.selectTabByLayerType(optionMap.layerType);
+    } else {
+      this.selectTabByLayerType( {kind: "osm"} );
+    }
+
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 

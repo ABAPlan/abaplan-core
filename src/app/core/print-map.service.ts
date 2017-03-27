@@ -7,6 +7,12 @@ export class PrintService {
   printMap(map: string, title?: string, link?: string):void{
 
     const mywindow = window.open('', '', '');
+    if (title === undefined){
+      title = "Sans titre";
+    }
+    if (link === undefined){
+      link = "";
+    }
     const page : string = this.buildHTMLPage(map,title,link);
 
     mywindow.document.write(page);

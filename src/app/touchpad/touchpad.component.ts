@@ -24,8 +24,9 @@ export class TouchpadComponent {
   @ViewChild(MapComponent)
   private mapComponent: MapComponent;
   private nbClick: number = 0;
-  private devicePlane: Plane2d = <Plane2d> { A: undefined, B: undefined, C: undefined, D: undefined };
-  private divPlane: Plane2d = <Plane2d> { A: undefined, B: undefined, C: undefined, D: undefined };
+  private readonly defaultVector: Vector2d = {x: 0, y: 0};
+  private devicePlane: Plane2d = <Plane2d> { A: this.defaultVector, B: this.defaultVector, C: this.defaultVector, D: this.defaultVector};
+  private divPlane: Plane2d = <Plane2d> { A: this.defaultVector, B: this.defaultVector, C: this.defaultVector, D: this.defaultVector};
 
   constructor(
     private route: ActivatedRoute,

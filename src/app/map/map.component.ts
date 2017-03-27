@@ -105,7 +105,11 @@ export class MapComponent implements OnInit {
 
         this.applyDefaultCallbackToTheMap();
 
-        this.setLayerType(optionMap.layerType);
+        if (optionMap.layerType){
+          this.setLayerType(optionMap.layerType);
+        }else{
+          this.setLayerType( {kind: "osm"});
+        }
 
       }
     );

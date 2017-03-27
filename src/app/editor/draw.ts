@@ -70,7 +70,7 @@ export class DrawInfoCircle extends DrawInfoBasicGeometry {
         super(Draw.CIRCLE,
               new SimpleFillSymbol(
                   SimpleFillSymbol.STYLE_SOLID,
-                  null,
+                  new SimpleLineSymbol(),
                   color),
               <any>(Edit.SCALE | Edit.MOVE)
         );
@@ -101,7 +101,7 @@ export class DrawInfoPolygon extends DrawInfoBasicGeometry {
         super(Draw.POLYGON,
               new SimpleFillSymbol(
                   SimpleFillSymbol.STYLE_SOLID,
-                  null,
+                  new SimpleLineSymbol(),
                   color),
               <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES | Edit.ROTATE) 
         );
@@ -167,8 +167,8 @@ export class DrawInfoPedestrian implements DrawInfo {
         geometry.setSpatialReference(spatialRef);
 
         const symbol = (index+1) % 2 ?
-          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([0, 0, 0, 1])) :
-          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 255, 255, 1]));
+          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color([0, 0, 0, 1])) :
+          new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color([255, 255, 255, 1]));
         
         // Save id pedestrian to attributes
         let attributes = {id:this.lastId};

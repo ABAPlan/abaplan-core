@@ -83,8 +83,10 @@ export class AbaMap extends ArcgisMap {
 
     if(layerType)
       abaMap.setLayerVisible(layerType);
-    else
+    else if (optionMap.layerType)
       abaMap.setLayerVisible(optionMap.layerType);
+    else
+      abaMap.setLayerVisible( {kind: "osm"} );
 
     abaMap.title = optionMap.title;
     abaMap.owner = optionMap.owner;
