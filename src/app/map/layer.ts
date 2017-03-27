@@ -168,7 +168,7 @@ class SquareBrailleSubLayer extends FeatureLayer {
       id: 'square',
     });
 
-    const defaultSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, 0);
+    const defaultSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 0);
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     //const champs = surface.green.concat(surface.building, surface.hard, surface.water, surface.linear);
@@ -246,7 +246,7 @@ class StairsBrailleLayer extends FeatureLayer {
       id: 'stairs',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, SimpleLineSymbol.STYLE_NULL, new Color("black"));
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), new Color("black"));
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object1 = 'escalier_important';
@@ -274,7 +274,7 @@ class RailroadBrailleSubLayer extends FeatureLayer {
       id: 'railroad',
     });
 
-    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(), new Color("black"));
+    const defaultSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), new Color("black"));
     const renderer = new UniqueValueRenderer(defaultSymbol, "type");
 
     const object = 'voie_ferree';
