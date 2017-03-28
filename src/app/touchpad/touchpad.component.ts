@@ -40,6 +40,7 @@ export class TouchpadComponent {
     private _elementRef: ElementRef
   ){
 
+    this.prepareVoiceCommand();
     this.voiceService.say("Appuyez au centre de la dalle");
 
     document.onclick = (ev: MouseEvent) => {
@@ -152,6 +153,27 @@ export class TouchpadComponent {
 
         this.mapComponent.map.disableMapNavigation();
 
+      }
+    );
+  }
+
+  private prepareVoiceCommand(): void {
+
+    // Searching mode
+    this.voiceService.addCommand(
+      ["chercher *", "cherche *", "rechercher *", "recherche *"],
+      "Recherche d'un emplacement",
+      (i, wildcard) => {
+        console.log("Recherche de la location", wildcard);
+      }
+    );
+
+    // Reading mode
+    this.voiceService.addCommand(
+      ["lecture"],
+      "lecture, mode par défaut",
+      () => {
+        console.log("mode lecture activée");
       }
     );
   }
