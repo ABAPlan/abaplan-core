@@ -20,6 +20,10 @@ export class VoiceService {
                     result.address_components[1].long_name;
     this.say(address);
   }
+
+  public addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void ): void {
+    this.voiceProvider.addCommand(indexes, description, action);
+  }
 }
 
 
