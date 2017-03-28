@@ -7,6 +7,7 @@ import { VoiceService } from "../core/voice.service";
 import { MapComponent } from "../map/map.component";
 import {SharedModule} from "../shared/shared.module";
 import {TouchpadComponent} from "./touchpad.component";
+import {StateService} from "../core/state.service";
 
 @NgModule({
   imports:      [ SharedModule ],
@@ -17,6 +18,7 @@ import {TouchpadComponent} from "./touchpad.component";
       MapService
     , GeoService
     , VoiceService
+    , StateService
   ]
 })
 export class TouchpadModule { }
