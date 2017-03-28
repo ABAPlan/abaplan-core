@@ -7,16 +7,16 @@ export interface SearchingMode { mode: "searching" };
 @Injectable()
 export class StateService {
 
-  private activeMode: Mode = { mode: "reading" };
+  private _activeMode: Mode = { mode: "reading" };
 
   constructor() { }
 
   public changeMode(newMode: Mode): void {
-    this.activeMode = newMode;
+    this._activeMode = newMode;
   }
 
   public activeMode(): Mode {
-    return this.activeMode;
+    return this._activeMode;
   }
 
 
