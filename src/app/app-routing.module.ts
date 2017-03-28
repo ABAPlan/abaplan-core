@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 /* Routing Module */
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: EditorComponent},
-  { path: 'touchpad-voice/:id', component: TouchpadComponent },
+  { path: 'touchpad-voice/:id', component: TouchpadComponent }
 ];
 
 @NgModule({
