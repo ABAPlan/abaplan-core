@@ -25,6 +25,7 @@ export class VoiceService {
 
 interface IVoiceProvider {
   say(text: string): void;
+  addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void );
 }
 
 class ArtyomProvider implements IVoiceProvider {
