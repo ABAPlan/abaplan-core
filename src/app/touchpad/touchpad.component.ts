@@ -4,8 +4,10 @@ import 'rxjs/add/operator/switchMap';
 import { MapService } from '../map/map.service';
 import { GeoService } from '../core/geo.service';
 import { VoiceService } from '../core/voice.service';
+import { StateService } from "../core/state.service";
 import { OptionMap } from '../map/map';
 import { MapComponent } from '../map/map.component'
+
 import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import Geometry = require('esri/geometry/Geometry');
 import Point = require('esri/geometry/Point')
@@ -33,6 +35,7 @@ export class TouchpadComponent {
     private router: Router,
     private mapService: MapService,
     private voiceService : VoiceService,
+    private stateService : StateService,
     private geoService : GeoService,
     private _elementRef: ElementRef
   ){
