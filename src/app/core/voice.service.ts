@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import artyomjs = require('artyom.js');
-
+import ArtyomCommand = Artyom.ArtyomCommand;
+import * as _ from "lodash";
 
 @Injectable()
 export class VoiceService {
@@ -42,5 +43,11 @@ class ArtyomProvider implements IVoiceProvider {
 
   public say(text: string): void {
     this.artyom.say(text);
+  }
+
+  public addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void ): void {
+    const isSmart = _.some(indexes, str => _.includes(str, "*"));
+    const command: ArtyomCommand = <ArtyomCommand> { indexes: indexes, action: action, description: description, smart: isSmart};
+    this.artyom.addCommands(command);
   }
 }
