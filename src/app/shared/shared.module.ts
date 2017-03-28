@@ -9,6 +9,7 @@ import { LengthPipe } from "./length.pipe";
 import { HttpModule } from "@angular/http";
 import { MapComponent } from "../map/map.component";
 import { CommonModule } from "@angular/common";
+import {AppRoutingModule} from "../app-routing.module";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { CommonModule } from "@angular/common";
       FormsModule
     , HttpModule // editor component
     , CommonModule
+    , AppRoutingModule
   ],
   declarations: [
       TakePipe
@@ -30,6 +32,7 @@ import { CommonModule } from "@angular/common";
     , LengthPipe
     , CommonModule
     , MapComponent
+    , AppRoutingModule
   ],
   providers: [ ]
 })
