@@ -22,7 +22,6 @@ import LatLng = google.maps.LatLng;
   styleUrls: ['touchpad.component.css'],
   providers : []
 })
-
 export class TouchpadComponent {
   @ViewChild(MapComponent)
   private mapComponent: MapComponent;
@@ -88,12 +87,32 @@ export class TouchpadComponent {
 
       } else if (this.isCalibrated()) {
 
+        // Transformation from device coordinates to esri map coordinates
+
+        // Detect current `P` point
+        const OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
+
+        // `P'` is the transformed final point on the esri map
+        const OP_ = transform(OP, this.devicePlane, this.divPlane);
+
+        // Transform to EsriPoint
+        const mappedPoint = new Point(OP_.x, OP_.y);
+        const touchPoint : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+
         switch (this.stateService.activeMode().mode){
           case "reading":
-            this.locateClick(ev);
+            this.locateClick(touchPoint);
             break;
           case "searching":
-            this.searchLocationClick(ev);
+            console.log("merde");
+            this.geoService.point("1, rue de la prairie").subscribe(
+              data => {
+                console.log(data);
+                if (data){
+                  this.searchLocationClick(touchPoint, data);
+                }
+              }
+          );
             break;
         }
 
@@ -159,6 +178,19 @@ export class TouchpadComponent {
       (i, wildcard) => {
         this.stateService.changeMode( {mode: "searching"} );
         this.voiceService.say("Mode recherche activé");
+
+
+        //this.voiceService.say(this.geoService.address(wildcard));
+
+
+
+
+
+
+
+
+
+
       }
     );
 
@@ -178,19 +210,8 @@ export class TouchpadComponent {
 
   }
 
-  private locateClick(ev: MouseEvent): void {
+  private locateClick(point: Point): void {
 
-    // Transformation from device coordinates to esri map coordinates
-
-    // Detect current `P` point
-    const OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
-
-    // `P'` is the transformed final point on the esri map
-    const OP_ = transform(OP, this.devicePlane, this.divPlane);
-
-    // Transform to EsriPoint
-    const mappedPoint = new Point(OP_.x, OP_.y);
-    const point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
 
     this.geoService.address(point).subscribe(
       address => {
@@ -209,12 +230,21 @@ export class TouchpadComponent {
     this.mapComponent.map.graphics.add(graphic);
   }
 
-  private searchLocationClick(ev: MouseEvent): void {
+  private searchLocationClick(touchPoint: Point, location: LatLng): void {
+
+    const touchLatLng = new google.maps.LatLng(touchPoint.y, touchPoint.x);
+    const direction = this.direction(location,touchLatLng);
+    const dist = this.geoService.distance(location, touchLatLng);
+
+    if (dist >= 1000) {
+      this.voiceService.say(direction + " a " + Math.floor(dist/1000) + " kilomètre");
+    } else  if (dist > 20){
+      this.voiceService.say(direction + " a " + Math.floor(dist) + " mètres");
+    } else {
+      this.voiceService.say("Vous êtes arrivé");
+    }
 
   }
-
-
-
 
   // Chappatte's bullshit code refactored:
   private direction(p1: LatLng, p2: LatLng): string {
@@ -257,11 +287,6 @@ export class TouchpadComponent {
     }
     return "A gauche";
 
-  }
-
-  // Chappatte's bullshit code refactored:
-  private distance(p1: LatLng, p2: LatLng): number {
-    return google.maps.geometry.spherical.computeDistanceBetween(p1, p2); //.toFixed(0);
   }
 
 }
