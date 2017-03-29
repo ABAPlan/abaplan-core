@@ -104,15 +104,13 @@ export class TouchpadComponent {
             this.locateClick(touchPoint);
             break;
           case "searching":
-            console.log("merde");
             this.geoService.point("1, rue de la prairie").subscribe(
               data => {
-                console.log(data);
                 if (data){
                   this.searchLocationClick(touchPoint, data);
                 }
               }
-          );
+            );
             break;
         }
 
