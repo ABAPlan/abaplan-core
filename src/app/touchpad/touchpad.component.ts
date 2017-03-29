@@ -19,7 +19,7 @@ import {Vector2d, Plane2d, transform} from '../core/vector2d';
   selector: 'aba-touchpad',
   templateUrl: 'touchpad.component.html',
   styleUrls: ['touchpad.component.css'],
-  providers : [VoiceService, GeoService]
+  providers : []
 })
 
 export class TouchpadComponent {
