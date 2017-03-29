@@ -75,7 +75,6 @@ class GoogleProvider {
         geocoder.geocode(
           { address: address },
           (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
-            console.log(results);
             if (status === google.maps.GeocoderStatus.OK) {
               obs.next(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
             } else {
