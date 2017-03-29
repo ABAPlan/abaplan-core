@@ -4,6 +4,7 @@ import { GOOGLE_GEOCODE_KEY } from './secret';
 import googleMaps = require("google-maps");
 import Point = require("esri/geometry/Point");
 import { Observable } from 'rxjs/Observable';
+import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import LatLng = google.maps.LatLng;
 
 @Injectable()
@@ -17,11 +18,11 @@ export class GeoService {
     return this.geoProvider.address(location);
   }
 
-  public point(address: string): Observable<LatLng | undefined> {
+  public point(address: string): Observable<Point | undefined> {
     return this.geoProvider.point(address);
   }
 
-  public distance(p1: LatLng, p2: LatLng): number {
+  public distance(p1: Point, p2: Point): number {
     return this.geoProvider.distance(p1, p2);
   }
 
@@ -29,8 +30,8 @@ export class GeoService {
 
 interface IGeoProvider {
   address(location: Point | string): Observable<string | undefined>;
-  point(address: string): Observable<LatLng | undefined>;
-  distance(p1: LatLng, p2: LatLng): number;
+  point(address: string): Observable<Point | undefined>;
+  distance(p1: Point, p2: Point): number;
 }
 
 class GoogleProvider {
@@ -44,7 +45,6 @@ class GoogleProvider {
   }
 
   public address(point: Point): Observable<string | undefined> {
-
 
     const geocoder = new google.maps.Geocoder();
     const p = new google.maps.LatLng(point.y, point.x);
@@ -66,7 +66,7 @@ class GoogleProvider {
     );
   }
 
-  public point(address: string): Observable<LatLng | undefined> {
+  public point(address: string): Observable<Point | undefined> {
 
     const geocoder = new google.maps.Geocoder();
 
@@ -76,7 +76,9 @@ class GoogleProvider {
           { address: address },
           (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
             if (status === google.maps.GeocoderStatus.OK) {
-              obs.next(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+              const latLng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+              const point: Point = new Point(latLng.lng(), latLng.lat());
+              obs.next(point);
             } else {
               obs.next(undefined);
             }
@@ -87,7 +89,9 @@ class GoogleProvider {
 
   }
 
-  public distance(p1: LatLng, p2: LatLng): number {
+  public distance(point1: Point, point2: Point): number {
+    const p1: LatLng = new google.maps.LatLng(point1.y, point1.x);
+    const p2: LatLng = new google.maps.LatLng(point2.y, point2.x);
     return google.maps.geometry.spherical.computeDistanceBetween(p1, p2); //.toFixed(0);
   }
 }

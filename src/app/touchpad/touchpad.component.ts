@@ -105,8 +105,10 @@ export class TouchpadComponent {
             break;
           case "searching":
             this.geoService.point("1, rue de la prairie").subscribe(
-              data => {
+              (data: Point) => {
                 if (data){
+                  console.log(touchPoint.x, touchPoint.y);
+                  console.log(data.x, data.y);
                   this.searchLocationClick(touchPoint, data);
                 }
               }
@@ -228,11 +230,10 @@ export class TouchpadComponent {
     this.mapComponent.map.graphics.add(graphic);
   }
 
-  private searchLocationClick(touchPoint: Point, location: LatLng): void {
+  private searchLocationClick(touchPoint: Point, location: Point): void {
 
-    const touchLatLng = new google.maps.LatLng(touchPoint.y, touchPoint.x);
-    const direction = this.direction(location,touchLatLng);
-    const dist = this.geoService.distance(location, touchLatLng);
+    const direction = this.direction(location, touchPoint);
+    const dist = this.geoService.distance(location, touchPoint);
 
     if (dist >= 1000) {
       this.voiceService.say(direction + " a " + Math.floor(dist/1000) + " kilomètre");
@@ -245,7 +246,9 @@ export class TouchpadComponent {
   }
 
   // Chappatte's bullshit code refactored:
-  private direction(p1: LatLng, p2: LatLng): string {
+  private direction(point1: Point, point2: Point): string {
+    const p1: LatLng = new google.maps.LatLng(point1.y, point1.x);
+    const p2: LatLng = new google.maps.LatLng(point2.y, point2.x);
     const cNO_ANGLE = 999;
     const dx = p2.lat() - p1.lat();
     const dy = p2.lng() - p1.lng();
