@@ -107,9 +107,7 @@ export class TouchpadComponent {
             this.geoService.point("1, rue de la prairie").subscribe(
               (data: Point) => {
                 if (data){
-                  console.log(touchPoint.x, touchPoint.y);
-                  console.log(data.x, data.y);
-                  this.searchLocationClick(touchPoint, data);
+                  this.searchLocationClick(data, touchPoint);
                 }
               }
             );
@@ -230,63 +228,9 @@ export class TouchpadComponent {
     this.mapComponent.map.graphics.add(graphic);
   }
 
-  private searchLocationClick(touchPoint: Point, location: Point): void {
+  private searchLocationClick(location: Point, touchPoint: Point): void {
 
-    const direction = this.direction(location, touchPoint);
-    const dist = this.geoService.distance(location, touchPoint);
-
-    if (dist >= 1000) {
-      this.voiceService.say(direction + " a " + Math.floor(dist/1000) + " kilomètre");
-    } else  if (dist > 20){
-      this.voiceService.say(direction + " a " + Math.floor(dist) + " mètres");
-    } else {
-      this.voiceService.say("Vous êtes arrivé");
-    }
-
-  }
-
-  // Chappatte's bullshit code refactored:
-  private direction(point1: Point, point2: Point): string {
-    const p1: LatLng = new google.maps.LatLng(point1.y, point1.x);
-    const p2: LatLng = new google.maps.LatLng(point2.y, point2.x);
-    const cNO_ANGLE = 999;
-    const dx = p2.lat() - p1.lat();
-    const dy = p2.lng() - p1.lng();
-    let radian;
-
-    //azimuth a la sacha
-    if (dx > 0) {
-      radian = (Math.PI * 0.5) - Math.atan(dy / dx);
-    } else if (dx < 0) {
-      radian = (Math.PI * 1.5) - Math.atan(dy / dx);
-    } else if (dy > 0) {
-      radian = 0;
-    } else if (dy < 0) {
-      radian = Math.PI;
-    } else {
-      radian = cNO_ANGLE; // the 2 points are equal}
-    }
-
-    const angle = radian * 180 / Math.PI;
-
-    if (angle < 22.5 || angle >= 337.5) {
-      return "A gauche";
-    } else if (angle < 67.5) {
-      return "En bas a gauche";
-    } else if (angle < 112.5) {
-      return "En bas";
-    } else if (angle < 157.5) {
-      return "En bas a droite";
-    } else if (angle < 202.5) {
-      return "A droite";
-    } else if (angle < 247.5) {
-      return "En haut a droite";
-    } else if (angle < 292.5) {
-      return "En haut";
-    } else if (angle < 337.5) {
-      return "En haut a gauche";
-    }
-    return "A gauche";
+    this.voiceService.say(this.geoService.directionToText(location, touchPoint));
 
   }
 
