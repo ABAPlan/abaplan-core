@@ -25,14 +25,6 @@ export class GeoService {
     return this.geoProvider.point(address);
   }
 
-  public distance(p1: Point, p2: Point): number {
-    return this.geoProvider.distance(p1, p2);
-  }
-
-  public direction(point1: Point, point2: Point): Direction {
-    return this.geoProvider.direction(point1, point2);
-  }
-
   public directionToText(target: Point, point: Point): string {
     let direction;
     switch( this.geoProvider.direction(target, point).direction ){
