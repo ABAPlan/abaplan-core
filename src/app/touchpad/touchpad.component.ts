@@ -14,6 +14,7 @@ import Point = require('esri/geometry/Point')
 import Graphic = require("esri/graphic");
 import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 import {Vector2d, Plane2d, transform} from '../core/vector2d';
+import LatLng = google.maps.LatLng;
 
 @Component({
   selector: 'aba-touchpad',
@@ -168,7 +169,7 @@ export class TouchpadComponent {
         if (i%3===0) {
           this.voiceService.say("Par pitié, calmez vous");
         } else if (i%3 === 1){
-          this.voiceService.say("C'est fini, oui ?");
+          this.voiceService.say("On dit Zut !");
         }else{
           this.voiceService.say("Plait-il ?");
         }
@@ -212,5 +213,55 @@ export class TouchpadComponent {
 
   }
 
+
+
+
+  // Chappatte's bullshit code refactored:
+  private direction(p1: LatLng, p2: LatLng): string {
+    const cNO_ANGLE = 999;
+    const dx = p2.lat() - p1.lat();
+    const dy = p2.lng() - p1.lng();
+    let radian;
+
+    //azimuth a la sacha
+    if (dx > 0) {
+      radian = (Math.PI * 0.5) - Math.atan(dy / dx);
+    } else if (dx < 0) {
+      radian = (Math.PI * 1.5) - Math.atan(dy / dx);
+    } else if (dy > 0) {
+      radian = 0;
+    } else if (dy < 0) {
+      radian = Math.PI;
+    } else {
+      radian = cNO_ANGLE; // the 2 points are equal}
+    }
+
+    const angle = radian * 180 / Math.PI;
+
+    if (angle < 22.5 || angle >= 337.5) {
+      return "A gauche";
+    } else if (angle < 67.5) {
+      return "En bas a gauche";
+    } else if (angle < 112.5) {
+      return "En bas";
+    } else if (angle < 157.5) {
+      return "En bas a droite";
+    } else if (angle < 202.5) {
+      return "A droite";
+    } else if (angle < 247.5) {
+      return "En haut a droite";
+    } else if (angle < 292.5) {
+      return "En haut";
+    } else if (angle < 337.5) {
+      return "En haut a gauche";
+    }
+    return "A gauche";
+
+  }
+
+  // Chappatte's bullshit code refactored:
+  private distance(p1: LatLng, p2: LatLng): number {
+    return google.maps.geometry.spherical.computeDistanceBetween(p1, p2); //.toFixed(0);
+  }
 
 }
