@@ -64,57 +64,38 @@ export class TouchpadComponent {
             this.divPlane.A = <Vector2d> {x: geo.xmin, y: geo.ymax };
             this.divPlane.B = <Vector2d> {x: geo.xmax, y: geo.ymax };
 
-            this.voiceService.say("Appuyez en haut à droite");
+            this.voiceService.say("en haut à droite");
             break;
 
           case 2:
             this.devicePlane.B = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("Appuyez en bas à gauche");
+            this.voiceService.say("en bas à gauche");
             break;
           case 3:
             this.devicePlane.C = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("Appuyez en bas à droite");
+            this.voiceService.say("en bas à droite");
             break;
           case 4:
             this.devicePlane.D = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("Dalle calibrée. Vous pouvez l'utiliser");
+            this.voiceService.say("Dalle calibrée");
             break;
         }
         this.nbClick += 1;
 
       } else if (this.isCalibrated()) {
 
+        switch (this.stateService.activeMode().mode){
+          case "reading":
+            this.locateClick(ev);
+            break;
+          case "searching":
+            this.searchLocationClick(ev);
+            break;
+        }
 
-        /* Transformation from device coordinates to esri map coordinates */
-
-        // Detect current `P` point
-        const OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
-
-        // `P'` is the transformed final point on the esri map
-        const OP_ = transform(OP, this.devicePlane, this.divPlane);
-
-        // Transform to EsriPoint
-        const mappedPoint = new Point(OP_.x, OP_.y);
-        const point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
-
-        this.geoService.address(point).subscribe(
-          address => {
-            console.log("address", address);
-            if (address){
-              this.voiceService.sayGeocodeResult(address);
-            }
-          }
-        );
-
-        const symbol = new SimpleMarkerSymbol({
-          color: [226, 119, 40],
-          outline: { color: [255, 255, 255], width: 2 },
-        });
-        const graphic = new Graphic(point, symbol);
-        this.mapComponent.map.graphics.add(graphic);
       }
     };
   }
@@ -132,50 +113,104 @@ export class TouchpadComponent {
   }
 
   ngOnInit() {
-    // (+) converts string 'id' to a number
-    let id = +this.route.snapshot.params['id'];
+
+      // (+) converts string 'id' to a number
+      let id = +this.route.snapshot.params['id'];
 
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
 
-        this.mapComponent.initMap(optionMap);
+          this.mapComponent.initMap(optionMap);
 
-        /* jca: hack for the issue #76 and #77
-         * To load an OSM map on a map saved with a different layer, we must load osm right
-         * after the beginning of the original layer.
-         */
-        this.mapComponent.map.on("layer-reorder", () => {
-          this.mapComponent.map.setLayerVisible( { kind: "osm" });
-        });
-        this.mapComponent.map.on("extent-change", () => {
-          this.mapComponent.map.setLayerVisible( { kind: "osm" });
-        });
+          /* jca: hack for the issue #76 and #77
+           * To load an OSM map on a map saved with a different layer, we must load osm right
+           * after the beginning of the original layer.
+           */
+          this.mapComponent.map.on("layer-reorder", () => {
+            this.mapComponent.map.setLayerVisible({kind: "osm"});
+          });
+          this.mapComponent.map.on("extent-change", () => {
+            this.mapComponent.map.setLayerVisible({kind: "osm"});
+          });
 
-        this.mapComponent.map.disableMapNavigation();
+          this.mapComponent.map.disableMapNavigation();
 
-      }
-    );
+        }
+      );
   }
 
   private prepareVoiceCommand(): void {
 
-    // Searching mode
-    this.voiceService.addCommand(
-      ["chercher *", "cherche *", "rechercher *", "recherche *"],
-      "Recherche d'un emplacement",
-      (i, wildcard) => {
-        console.log("Recherche de la location", wildcard);
-      }
-    );
-
-    // Reading mode
+    // Reading mode (default)
     this.voiceService.addCommand(
       ["lecture"],
       "lecture, mode par défaut",
       () => {
-        console.log("mode lecture activée");
+        this.stateService.changeMode( {mode: "reading"} );
+        this.voiceService.say("Mode lecture activé");
       }
     );
+
+    // Searching mode
+    this.voiceService.addCommand(
+      ["rechercher *", "recherche *", "chercher *", "cherche *"],
+      "Recherche d'un emplacement",
+      (i, wildcard) => {
+        this.stateService.changeMode( {mode: "searching"} );
+        this.voiceService.say("Mode recherche activé");
+      }
+    );
+
+    this.voiceService.addCommand(
+      ["putain", "merde", "chier", "salope", "saloperie", "ça race", "enculer", "pute", "putain", "ta mère la pute", "ta gueule"],
+      "grossièreté",
+      (i) => {
+        if (i%3===0) {
+          this.voiceService.say("Par pitié, calmez vous");
+        } else if (i%3 === 1){
+          this.voiceService.say("C'est fini, oui ?");
+        }else{
+          this.voiceService.say("Plait-il ?");
+        }
+      }
+    );
+
   }
+
+  private locateClick(ev: MouseEvent): void {
+
+    // Transformation from device coordinates to esri map coordinates
+
+    // Detect current `P` point
+    const OP = { x: ev.x || ev.clientX, y: ev.y || ev.clientY };
+
+    // `P'` is the transformed final point on the esri map
+    const OP_ = transform(OP, this.devicePlane, this.divPlane);
+
+    // Transform to EsriPoint
+    const mappedPoint = new Point(OP_.x, OP_.y);
+    const point : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+
+    this.geoService.address(point).subscribe(
+      address => {
+        console.log("address", address);
+        if (address){
+          this.voiceService.sayGeocodeResult(address);
+        }
+      }
+    );
+
+    const symbol = new SimpleMarkerSymbol({
+      color: [226, 119, 40],
+      outline: { color: [255, 255, 255], width: 2 },
+    });
+    const graphic = new Graphic(point, symbol);
+    this.mapComponent.map.graphics.add(graphic);
+  }
+
+  private searchLocationClick(ev: MouseEvent): void {
+
+  }
+
 
 }
