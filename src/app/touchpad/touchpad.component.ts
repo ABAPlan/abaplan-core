@@ -127,7 +127,7 @@ export class TouchpadComponent {
            * after the beginning of the original layer.
            */
           this.mapComponent.map.on("layer-reorder", () => {
-            this.mapComponent.map.setLayerVisible({kind: "osm"});
+            //this.mapComponent.map.setLayerVisible({kind: "osm"});
           });
           this.mapComponent.map.on("extent-change", () => {
             this.mapComponent.map.setLayerVisible({kind: "osm"});
