@@ -138,23 +138,42 @@ export class TouchpadComponent {
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
 
-          this.mapComponent.initMap(optionMap);
 
-          /* jca: hack for the issue #76 and #77
-           * To load an OSM map on a map saved with a different layer, we must load osm right
-           * after the beginning of the original layer.
-           */
-          this.mapComponent.map.on("layer-reorder", () => {
-            //this.mapComponent.map.setLayerVisible({kind: "osm"});
-          });
-          this.mapComponent.map.on("extent-change", () => {
-            this.mapComponent.map.setLayerVisible({kind: "osm"});
-          });
+        this.mapComponent.initMap(optionMap);
 
-          this.mapComponent.map.disableMapNavigation();
+        /*
+        */
+        /*
+        this.mapComponent.map.width = optionMap.width;
+        this.mapComponent.map.height = optionMap.height;
+        */
 
-        }
-      );
+
+        /* jca: hack for the issue #76 and #77
+         * To load an OSM map on a map saved with a different layer, we must load osm right
+         * after the beginning of the original layer.
+         */
+        this.mapComponent.map.on("layer-reorder", () => {
+          //this.mapComponent.map.setLayerVisible({kind: "osm"});
+        });
+        this.mapComponent.map.on("extent-change", () => {
+          this.mapComponent.map.setLayerVisible({kind: "osm"});
+
+          const map = document.getElementById("esri-map");
+          if (map !== null){
+            const style = map.style;
+            style.height = optionMap.height + "px";
+            style.width = optionMap.width + "px";
+          }
+
+        });
+
+        this.mapComponent.map.disableMapNavigation();
+
+        this.mapComponent.map.width = optionMap.width;
+        this.mapComponent.map.height = optionMap.height;
+
+      });
   }
 
   private prepareVoiceCommand(): void {
@@ -213,7 +232,6 @@ export class TouchpadComponent {
 
     this.geoService.address(point).subscribe(
       address => {
-        console.log("address", address);
         if (address){
           this.voiceService.sayGeocodeResult(address);
         }
