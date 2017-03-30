@@ -17,7 +17,7 @@ export class GeoService {
 
   constructor() { }
 
-  public address(location: Point | string): Observable<string | undefined> {
+  public address(location: Point): Observable<string | undefined> {
     return this.geoProvider.address(location);
   }
 
@@ -70,7 +70,7 @@ export class GeoService {
 }
 
 interface IGeoProvider {
-  address(location: Point | string): Observable<string | undefined>;
+  address(location: Point): Observable<string | undefined>;
   point(address: string): Observable<Point | undefined>;
   distance(p1: Point, p2: Point): number;
   direction(point1: Point, point2: Point): Direction;

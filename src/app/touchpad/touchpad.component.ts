@@ -30,6 +30,8 @@ export class TouchpadComponent {
   private devicePlane: Plane2d = <Plane2d> { A: this.defaultVector, B: this.defaultVector, C: this.defaultVector, D: this.defaultVector};
   private divPlane: Plane2d = <Plane2d> { A: this.defaultVector, B: this.defaultVector, C: this.defaultVector, D: this.defaultVector};
 
+  private searchingPoint: Point | undefined = undefined;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -104,13 +106,11 @@ export class TouchpadComponent {
             this.locateClick(touchPoint);
             break;
           case "searching":
-            this.geoService.point("1, rue de la prairie").subscribe(
-              (data: Point) => {
-                if (data){
-                  this.searchLocationClick(data, touchPoint);
-                }
-              }
-            );
+            if (this.searchingPoint !== undefined){
+              this.searchLocationClick(this.searchingPoint, touchPoint);
+            } else {
+              console.warn("Impossible state, searchingPoint must be defined");
+            }
             break;
         }
 
@@ -192,21 +192,20 @@ export class TouchpadComponent {
     this.voiceService.addCommand(
       ["rechercher *", "recherche *", "chercher *", "cherche *"],
       "Recherche d'un emplacement",
-      (i, wildcard) => {
+      (i: number, wildcard: string) => {
+        this.searchingPoint = undefined;
         this.stateService.changeMode( {mode: "searching"} );
-        this.voiceService.say("Mode recherche activé");
+        this.voiceService.say("Recherche " + wildcard);
 
-
-        //this.voiceService.say(this.geoService.address(wildcard));
-
-
-
-
-
-
-
-
-
+        this.geoService.point(wildcard).subscribe(
+          (searchPoint: Point) => {
+            this.searchingPoint = searchPoint;
+            if (searchPoint === undefined){
+              this.voiceService.say("Recherche invalide");
+              this.stateService.changeMode( {mode: "reading"} );
+            }
+          }
+        );
 
       }
     );
