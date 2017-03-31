@@ -125,6 +125,7 @@ export class TouchpadComponent {
 
   onClick() {
     // Enable full screen
+    this.mapComponent.map.setLayerVisible({kind: "osm"});
     const elem = <any> document.getElementsByTagName('body')[0];
     const f = elem.requestFullscreen || elem.msRequestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
     f.call(elem);
@@ -138,16 +139,7 @@ export class TouchpadComponent {
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
 
-
         this.mapComponent.initMap(optionMap);
-
-        /*
-        */
-        /*
-        this.mapComponent.map.width = optionMap.width;
-        this.mapComponent.map.height = optionMap.height;
-        */
-
 
         /* jca: hack for the issue #76 and #77
          * To load an OSM map on a map saved with a different layer, we must load osm right
