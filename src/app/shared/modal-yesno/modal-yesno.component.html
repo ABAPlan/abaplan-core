@@ -1,0 +1,32 @@
+<div class="modal fade in" [style.display]="isVisible() ? 'block' : 'none'">
+    <div class="modal-dialog" role="document">
+        <form (ngSubmit)="onSubmit()" #mapForm="ngForm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Voulez-vous enregistez la carte ?</h1>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <p>Si vous ne sauvegardez pas la carte, il sera impossible de la réimporter pour la rendre audio-tactile.</p>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+
+                <button
+                        type="submit"
+                        [disabled]="!mapForm.form.valid"
+                        class="btn btn-primary">Oui</button>
+                <button type="button" class="btn btn-default" (click)="closeWithNo()">Non</button>
+
+            </div>
+        </div>
+            </form>
+    </div>
+</div>
