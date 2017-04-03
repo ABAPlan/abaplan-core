@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 export type Mode = ReadingMode | SearchingMode;
-export interface ReadingMode { mode: "reading" };
-export interface SearchingMode { mode: "searching" };
+export interface ReadingMode { mode: "reading" }
+export interface SearchingMode { mode: "searching" }
+
 
 @Injectable()
 export class StateService {
