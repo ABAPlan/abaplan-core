@@ -114,6 +114,13 @@ export class TouchpadComponent {
             break;
         }
 
+        const symbol = new SimpleMarkerSymbol({
+          color: [226, 119, 40],
+          outline: { color: [255, 255, 255], width: 2 },
+        });
+        const graphic = new Graphic(touchPoint, symbol);
+        this.mapComponent.map.graphics.add(graphic);
+
       }
     };
   }
@@ -220,7 +227,6 @@ export class TouchpadComponent {
 
   private locateClick(point: Point): void {
 
-
     this.geoService.address(point).subscribe(
       address => {
         if (address){
@@ -229,12 +235,6 @@ export class TouchpadComponent {
       }
     );
 
-    const symbol = new SimpleMarkerSymbol({
-      color: [226, 119, 40],
-      outline: { color: [255, 255, 255], width: 2 },
-    });
-    const graphic = new Graphic(point, symbol);
-    this.mapComponent.map.graphics.add(graphic);
   }
 
   private searchLocationClick(location: Point, touchPoint: Point): void {

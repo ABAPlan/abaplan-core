@@ -33,6 +33,7 @@ export class EditorComponent {
   @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
 
   private readonly defaultTitle: string = "AbaPlan";
+  private flagSavable: boolean = false;
   title = this.defaultTitle;
 
   drawEdit : AbaDrawEdit;
@@ -82,6 +83,7 @@ export class EditorComponent {
         break;
 
       case "print":
+        console.log(this.flagSavable);
         let title = this.mapComponent.map.title;
         let date = this.mapComponent.map.creationDate;
         let map = this.getMapString();
@@ -144,6 +146,8 @@ export class EditorComponent {
       this.selectTabByLayerType( {kind: "osm"} );
     }
 
+    this.mapComponent.map.on('mouse-drag-end', () => this.flagSavable = false);
+
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
@@ -174,12 +178,14 @@ export class EditorComponent {
     // We send this id upper
     this.updateMapId(info[0]);
     this.updateMapTitle(info[1]);
+    this.flagSavable = true;
   }
 
   private insertMap(info: any): void {
     // We send this title upper
     this.updateMapTitle(info.title);
     this.saveMapTitle(info.title);
+    this.flagSavable = true;
   }
 
   ngOnInit(): void {
