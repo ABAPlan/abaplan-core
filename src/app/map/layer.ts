@@ -104,11 +104,11 @@ export abstract class RootLayer {
   }
 
   protected addLayer(layer : Layer): void{
-    this.registerLoadEventOnLayer(layer);
+    this.registerLoadEventsOnLayer(layer);
     this.subLayers.push(layer);
   }
 
-  protected registerLoadEventOnLayer(layer : Layer): void{
+  protected registerLoadEventsOnLayer(layer : Layer): void{
     // On start
     layer.on("update-start", () => {
       // First layer load start ? 
