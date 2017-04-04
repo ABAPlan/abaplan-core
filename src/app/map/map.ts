@@ -64,6 +64,7 @@ export class AbaMap extends ArcgisMap {
 
     this.setLayerVisible({kind:"osm"});
 
+    // Register update state of each layers
     this.layers.forEach((layer) => {
       layer.onUpdateStart = () => {
         if(layer.id == this.currentLayerVisible.kind && this.onUpdateStart)
@@ -80,13 +81,14 @@ export class AbaMap extends ArcgisMap {
   }
 
   public setLayerVisible(layerType: LayerType) {
+    // Set current layer visible
     this.currentLayerVisible = layerType;
 
-    this.layers
-      .forEach( (layer) => {
-          layer.setVisibility( layerType.kind === layer.id );
+    this.layers.forEach( 
+      (layer) => {
+        layer.setVisibility( layerType.kind === layer.id );
       }
-      );
+    );
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap, layerType? : LayerType): AbaMap {
