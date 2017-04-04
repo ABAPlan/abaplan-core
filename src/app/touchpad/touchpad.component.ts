@@ -114,6 +114,13 @@ export class TouchpadComponent {
             break;
         }
 
+        const symbol = new SimpleMarkerSymbol({
+          color: [226, 119, 40],
+          outline: { color: [255, 255, 255], width: 2 },
+        });
+        const graphic = new Graphic(touchPoint, symbol);
+        this.mapComponent.map.graphics.add(graphic);
+
       }
     };
   }
@@ -125,6 +132,7 @@ export class TouchpadComponent {
 
   onClick() {
     // Enable full screen
+    this.mapComponent.map.setLayerVisible({kind: "osm"});
     const elem = <any> document.getElementsByTagName('body')[0];
     const f = elem.requestFullscreen || elem.msRequestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
     f.call(elem);
@@ -138,16 +146,7 @@ export class TouchpadComponent {
     this.mapService.map(id)
       .subscribe((optionMap: OptionMap) => {
 
-
         this.mapComponent.initMap(optionMap);
-
-        /*
-        */
-        /*
-        this.mapComponent.map.width = optionMap.width;
-        this.mapComponent.map.height = optionMap.height;
-        */
-
 
         /* jca: hack for the issue #76 and #77
          * To load an OSM map on a map saved with a different layer, we must load osm right
@@ -228,7 +227,6 @@ export class TouchpadComponent {
 
   private locateClick(point: Point): void {
 
-
     this.geoService.address(point).subscribe(
       address => {
         if (address){
@@ -237,12 +235,6 @@ export class TouchpadComponent {
       }
     );
 
-    const symbol = new SimpleMarkerSymbol({
-      color: [226, 119, 40],
-      outline: { color: [255, 255, 255], width: 2 },
-    });
-    const graphic = new Graphic(point, symbol);
-    this.mapComponent.map.graphics.add(graphic);
   }
 
   private searchLocationClick(location: Point, touchPoint: Point): void {

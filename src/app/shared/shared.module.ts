@@ -10,6 +10,7 @@ import { HttpModule } from "@angular/http";
 import { MapComponent } from "../map/map.component";
 import { CommonModule } from "@angular/common";
 import {AppRoutingModule} from "../app-routing.module";
+import {ModalYesNoComponent} from "./modal-yesno/modal-yesno.component";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {AppRoutingModule} from "../app-routing.module";
     , DropPipe
     , LengthPipe
     , MapComponent
+    , ModalYesNoComponent
   ],
   exports: [
       FormsModule
@@ -33,6 +35,7 @@ import {AppRoutingModule} from "../app-routing.module";
     , CommonModule
     , MapComponent
     , AppRoutingModule
+    , ModalYesNoComponent
   ],
   providers: [ ]
 })

@@ -13,6 +13,7 @@ import { AbaDrawEdit } from './drawEditMap';
 import { PrintService } from "../core/print-map.service";
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
+import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
@@ -31,8 +32,10 @@ export class EditorComponent {
 
   @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
   @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
+  @ViewChild(ModalYesNoComponent) modalYesNoComponent: ModalYesNoComponent;
 
   private readonly defaultTitle: string = "AbaPlan";
+  private flagSavable: boolean = false;
   title = this.defaultTitle;
 
   drawEdit : AbaDrawEdit;
@@ -82,10 +85,15 @@ export class EditorComponent {
         break;
 
       case "print":
-        let title = this.mapComponent.map.title;
-        let date = this.mapComponent.map.creationDate;
-        let map = this.getMapString();
-        this.printService.printMap(map, title, date);
+        if (!this.flagSavable){
+          this.modalYesNoComponent.open();
+        } else {
+          console.log("NOON");
+          let title = this.mapComponent.map.title;
+          let date = this.mapComponent.map.creationDate;
+          let map = this.getMapString();
+          this.printService.printMap(map, title, date);
+        }
         break;
 
       case "open":
@@ -144,6 +152,8 @@ export class EditorComponent {
       this.selectTabByLayerType( {kind: "osm"} );
     }
 
+    this.mapComponent.map.on('mouse-drag-end', () => this.flagSavable = false);
+
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
@@ -180,6 +190,18 @@ export class EditorComponent {
     // We send this title upper
     this.updateMapTitle(info.title);
     this.saveMapTitle(info.title);
+    this.flagSavable = true;
+  }
+
+  private setMapAsSavable($event): void {
+    console.log("Merde");
+    this.modalSaveMapComponent.open();
+  }
+
+  private printMapWithoutSaving(): void {
+    let map = this.getMapString();
+    console.log("======");
+    this.printService.printMap(map);
   }
 
   ngOnInit(): void {
