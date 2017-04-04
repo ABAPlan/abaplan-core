@@ -104,24 +104,31 @@ export abstract class RootLayer {
   }
 
   protected addLayer(layer : Layer): void{
-    layer.on("update-start", (evt2:{layer2:Layer; }) => {
-        // First start ? 
+    this.registerLoadEventOnLayer(layer);
+    this.subLayers.push(layer);
+  }
+
+  protected registerLoadEventOnLayer(layer : Layer): void{
+    // On start
+    layer.on("update-start", () => {
+      // First layer load start ? 
       if(this.nbLayerUpdating == 0){
         this.nbLayerUpdating = this.subLayers.length;
-        console.log("startlayer", this.nbLayerUpdating);
+
         if(this.onUpdateStart) 
           this.onUpdateStart();
       }
     });
-    layer.on("update-end", (evt2:{layer2:Layer; }) => {
+
+    // On end
+    layer.on("update-end", () => {
       this.nbLayerUpdating--;
-      // Last end ?
-      console.log("endlayer", this.nbLayerUpdating);
+
+      // Last layer load end ?
       if(this.nbLayerUpdating == 0)
         if(this.onUpdateEnd)
           this.onUpdateEnd();
     });
-    this.subLayers.push(layer);
   }
 }
 
