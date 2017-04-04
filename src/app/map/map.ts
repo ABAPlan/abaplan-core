@@ -64,7 +64,14 @@ export class AbaMap extends ArcgisMap {
 
     this.setLayerVisible({kind:"osm"});
 
-    // Register update state of each layers
+    this.registerUpdateEventsOnLayers();
+
+    this.addLayers(finalLayers);
+
+  }
+
+  // Register update state of each layers
+  public registerUpdateEventsOnLayers() {
     this.layers.forEach((layer) => {
       layer.onUpdateStart = () => {
         if(layer.id == this.currentLayerVisible.kind && this.onUpdateStart)
@@ -75,9 +82,6 @@ export class AbaMap extends ArcgisMap {
           this.onUpdateEnd();
       }
     })
-
-    this.addLayers(finalLayers);
-
   }
 
   public setLayerVisible(layerType: LayerType) {
