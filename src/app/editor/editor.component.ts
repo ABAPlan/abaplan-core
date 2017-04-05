@@ -34,7 +34,7 @@ export class EditorComponent {
   @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
   @ViewChild(ModalYesNoComponent) modalYesNoComponent: ModalYesNoComponent;
 
-  private readonly defaultTitle: string = "AbaPlan";
+  private readonly defaultTitle: string = "AbaPlans";
   private flagSavable: boolean = false;
   title = this.defaultTitle;
 
