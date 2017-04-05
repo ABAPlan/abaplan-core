@@ -4,6 +4,60 @@ import * as br from 'braille';
 @Injectable()
 export class PrintService {
 
+  private readonly style: string = `
+    @page {
+        size: landscape;
+        margin: 0mm;}
+
+    .container {
+        margin: 0;
+        width: auto;
+        padding: 0;
+    }
+
+    /* jca: hack to remove margin due to the map scale */
+    .row.map {
+        margin-bottom: -1%;
+    }
+
+    #map{
+        border-style:solid;
+        overflow: hidden;
+
+        /* jca: Update to fix the ratio and margin problem, issue #73 */
+        width: 1054px;
+        height: 716px;
+        display:block;
+        margin: 0 auto 0 auto;
+        transform: scale(0.95);
+    }
+
+    .textRow{
+        margin:0 auto;
+        margin-left: 6%;
+        margin-right:6%;
+    }
+
+    .braille{
+        font-weight: bold;
+        font-size: 220%;
+        letter-spacing: 6%;
+    }
+
+    .text{
+        font-size: 150%;
+    }
+
+    #brailleR, #textR{
+        float:right;
+    }
+
+    #brailleL, #textL{
+        float:left;
+    }
+
+   `;
+
   printMap(map: string, title?: string, link?: string):void{
 
     const mywindow = window.open('', '', '');
@@ -29,7 +83,10 @@ export class PrintService {
         <title>${title}</title>
         <!-- <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
-        <link rel="stylesheet" type="text/css" href="src/app/core/print-map.service.css"  />
+        <!-- <link rel="stylesheet" type="text/css" href="src/app/core/print-map.service.css"  /> -->
+        <style>
+            ${this.style}
+        </style>
       </head>
       <body onload="window.print();window.close()">
       <div class="container">

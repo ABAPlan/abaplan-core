@@ -83,16 +83,52 @@ const URL_FEATURE_LAYER_LINEAR = URL_FEATURE_LAYER + '1';
 /**
  * Base class for a layer view in the ArcgisMap dom
  */
-export abstract class RootLayer extends Layer {
+export abstract class RootLayer {
   protected subLayers: Layer[] = [];
+  public id : string;
+  protected nbLayerUpdating : number = 0;
+  
+  public onUpdateStart? : () => void;
+  public onUpdateEnd? : () => void;
+
   constructor(lt: LayerType){
-    super( {id: lt.kind } as LayerOptions );
+    this.id = lt.kind;
   }
+
   public setVisibility(state: boolean): void {
     this.subLayers.forEach( layer => layer.setVisibility(state));
   }
+
   public layers(): Layer[] {
     return this.subLayers;
+  }
+
+  protected addLayer(layer : Layer): void{
+    this.registerLoadEventsOnLayer(layer);
+    this.subLayers.push(layer);
+  }
+
+  protected registerLoadEventsOnLayer(layer : Layer): void{
+    // On start
+    layer.on("update-start", () => {
+      // First layer load start ? 
+      if(this.nbLayerUpdating == 0){
+        this.nbLayerUpdating = this.subLayers.length;
+
+        if(this.onUpdateStart) 
+          this.onUpdateStart();
+      }
+    });
+
+    // On end
+    layer.on("update-end", () => {
+      this.nbLayerUpdating--;
+
+      // Last layer load end ?
+      if(this.nbLayerUpdating == 0)
+        if(this.onUpdateEnd)
+          this.onUpdateEnd();
+    });
   }
 }
 
@@ -103,7 +139,7 @@ export class CityRootBrailleLayer extends RootLayer {
 
   constructor(){
     super( {kind: 'city'} );
-    this.subLayers.push(new CityBrailleSubLayer());
+    this.addLayer(new CityBrailleSubLayer());
   }
 }
 
@@ -113,8 +149,8 @@ export class CityRootBrailleLayer extends RootLayer {
 export class SquareRootBrailleLayer extends RootLayer {
   constructor(){
     super( {kind: 'square'} );
-    this.subLayers.push(new SquareBrailleSubLayer());
-    this.subLayers.push(new RailroadBrailleSubLayer());
+    this.addLayer(new SquareBrailleSubLayer());
+    this.addLayer(new RailroadBrailleSubLayer());
   }
 }
 
@@ -124,7 +160,7 @@ export class SquareRootBrailleLayer extends RootLayer {
 export class OsmRootLayer extends RootLayer {
   constructor(){
     super( {kind: 'osm'} );
-    this.subLayers.push(new OsmSubLayer());
+    this.addLayer(new OsmSubLayer());
   }
 }
 

@@ -34,6 +34,10 @@ export class AbaMap extends ArcgisMap {
   public hash?: string;
   public creationDate?: string;
 
+  public currentLayerVisible : LayerType;
+  public onUpdateStart? : () => void;
+  public onUpdateEnd? : () => void;
+
   // Create a new fresh instance
   public constructor(divId: Node | string, extent?: Extent, layerType? : LayerType) {
 
@@ -56,21 +60,39 @@ export class AbaMap extends ArcgisMap {
     this.layers.push(new OsmRootLayer());
     this.layers.push(new SquareRootBrailleLayer());
     this.layers.push(new CityRootBrailleLayer());
-
-   // this.layers.push(new RailroadBrailleLayer());
-    //this.layers.push(new StairsBrailleLayer());
-
-    this.addLayers(_.flatten(this.layers.map ( l => l.layers() )));
+    let finalLayers = _.flatten(this.layers.map ( l => l.layers() ));
 
     this.setLayerVisible({kind:"osm"});
+
+    this.registerUpdateEventsOnLayers();
+
+    this.addLayers(finalLayers);
+
+  }
+
+  // Register update state of each layers
+  public registerUpdateEventsOnLayers() {
+    this.layers.forEach((layer) => {
+      layer.onUpdateStart = () => {
+        if(layer.id == this.currentLayerVisible.kind && this.onUpdateStart)
+          this.onUpdateStart();
+      }
+      layer.onUpdateEnd = () => {
+        if(layer.id == this.currentLayerVisible.kind && this.onUpdateEnd)
+          this.onUpdateEnd();
+      }
+    })
   }
 
   public setLayerVisible(layerType: LayerType) {
-    this.layers
-      .forEach( (layer) => {
-          layer.setVisibility( layerType.kind === layer.id );
+    // Set current layer visible
+    this.currentLayerVisible = layerType;
+
+    this.layers.forEach( 
+      (layer) => {
+        layer.setVisibility( layerType.kind === layer.id );
       }
-      );
+    );
   }
 
   public static fromOptionMap(divId: Node | string, optionMap: OptionMap, layerType? : LayerType): AbaMap {

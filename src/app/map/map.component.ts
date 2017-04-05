@@ -8,6 +8,7 @@ const img_loading = require("file?name=./assets/img/[name].[ext]!./assets/img/sp
 import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
+import Layer = require("esri/layers/layer");
 
 @Component({
   selector: 'aba-map',
@@ -76,12 +77,13 @@ export class MapComponent implements OnInit {
   }
 
   private applyDefaultCallbackToTheMap(): void {
-    this.map.on("update-start", () => this.mapLoading = true);
-    this.map.on("update-end", () => this.mapLoading = false);
+    this.map.onUpdateStart = () => this.mapLoading = true;
+    this.map.onUpdateEnd = () => this.mapLoading = false;
 
     // Zoom restriction
     this.map.on("zoom-end", () => this.checkNeedZoom());
   }
+  
 
   // Show or hide 'need zoom' message
   public checkNeedZoom(): boolean{
