@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {TranslateService} from 'ng2-translate';
 @Component({
   selector: 'aba-plan',
-  template: '<router-outlet></router-outlet>'
+  template: '<router-outlet>{{"title"| translate}}</router-outlet>'
 })
 export class AppComponent {
   constructor(private translate: TranslateService) {
