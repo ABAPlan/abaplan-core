@@ -34,8 +34,9 @@ export class EditorComponent {
   @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
   @ViewChild(ModalYesNoComponent) modalYesNoComponent: ModalYesNoComponent;
 
+  private readonly defaultTitle: string = "AbaPlans";
   private flagSavable: boolean = false;
-  title = "";
+  title = this.defaultTitle;
 
   drawEdit : AbaDrawEdit;
 
@@ -160,7 +161,7 @@ export class EditorComponent {
 
   // Fire when a user change the map title
   private updateMapTitle(title: string): void {
-    this.title = this.translate.get("title").value + " - " + title;
+    this.title = this.defaultTitle + " - " + title;
   }
 
   /* Fire when a user create a map */
