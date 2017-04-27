@@ -128,7 +128,7 @@ export class TouchpadComponent {
   private isCalibrated(): boolean {
     return this.nbClick > 4;
   }
-  
+
 
   onClick() {
     // Enable full screen

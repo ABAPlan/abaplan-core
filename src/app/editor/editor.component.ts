@@ -15,6 +15,8 @@ import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
+import {TranslateService} from 'ng2-translate';
+
 interface IButtonInfo { heading: string }
 type ButtonInfo = LayerType & IButtonInfo;
 
