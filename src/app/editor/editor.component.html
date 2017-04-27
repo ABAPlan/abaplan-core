@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row show-grid">
-        <h1>{{ title }}</h1>
-        <h4>{{ _activeButtonInfo.heading }}</h4>
+        <h1>{{"title"| translate}}</h1>
+        <h4>{{ _activeButtonInfo.kind | translate}}</h4>
     </div>
 
     <div class="row show-grid">
@@ -10,7 +10,7 @@
                     *ngFor="let tab of _btnInfos"
                     class="btn btn-primary"
                     [class.active]="isActive(tab)"
-                    (click)="onClick(tab)"> {{ tab.heading }}
+                    (click)="onClick(tab)"> {{ tab.kind | translate }}
             </button>
         </div>
     </div>

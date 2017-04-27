@@ -1,3 +1,8 @@
 {
-    "title" : "Fr"
+    "_comment": "Editor Component ",
+    "title" : "AbaPlans",
+    "city" : "Plan de Ville",
+    "osm" : "Plan OSM",
+    "square" : "Plan de quartier"
+
 }

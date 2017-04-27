@@ -18,9 +18,10 @@ import { FilterMapsPipe } from "./modal-maps-list/filtermaps.pipe";
 /* External Components */
 import { PaginationComponent } from "../shared/pagination/pagination-buttons.component";
 
+import {TranslateModule} from "ng2-translate";
 
 @NgModule({
-  imports:      [ SharedModule ],
+  imports:      [ SharedModule,  TranslateModule ],
   declarations: [
       EditorComponent
     , ModalMapComponent

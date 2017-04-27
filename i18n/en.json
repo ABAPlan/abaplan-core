@@ -1,3 +1,7 @@
 {
-    "title" : "En"
+    "_comment": "Editor Component ",
+    "title" : "AbaPlans",
+    "city" : "City map",
+    "osm" : "OSM map",
+    "square" : "Square map"
 }

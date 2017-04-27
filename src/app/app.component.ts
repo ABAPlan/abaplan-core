@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import {TranslateService} from 'ng2-translate';
 @Component({
   selector: 'aba-plan',
-  template: '<router-outlet>{{"title"| translate}}</router-outlet>'
+  template: '  <a (click)="changeLang(\'en\')">EN</a>  <a (click)="changeLang(\'fr\')">FR</a> <router-outlet></router-outlet>'
+
 })
 export class AppComponent {
   constructor(private translate: TranslateService) {
-    translate.addLangs(['en', 'fr']);
+    let languages = ['en', 'fr'];
+    translate.addLangs(languages);
     translate.setDefaultLang('en');
     translate.use('fr');
   }

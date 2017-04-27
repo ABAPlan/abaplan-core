@@ -17,9 +17,7 @@ import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
 import {TranslateService} from 'ng2-translate';
 
-interface IButtonInfo { heading: string }
-type ButtonInfo = LayerType & IButtonInfo;
-
+type ButtonInfo = LayerType ;
 
 @Component({
   selector: 'aba-editor',
@@ -36,23 +34,19 @@ export class EditorComponent {
   @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
   @ViewChild(ModalYesNoComponent) modalYesNoComponent: ModalYesNoComponent;
 
-  private readonly defaultTitle: string = "AbaPlans";
   private flagSavable: boolean = false;
-  title = this.defaultTitle;
+  title = "";
 
   drawEdit : AbaDrawEdit;
 
   private _btnInfos: Array<ButtonInfo> = [
     {
-      heading: 'Plan OSM',
       kind : 'osm'
     },
     {
-      heading: 'Plan de quartier',
       kind : 'square'
     },
     {
-      heading: 'Plan de ville',
       kind : 'city'
     }
   ];
@@ -166,7 +160,7 @@ export class EditorComponent {
 
   // Fire when a user change the map title
   private updateMapTitle(title: string): void {
-    this.title = this.defaultTitle + " - " + title;
+    this.title = this.translate.get("title").value + " - " + title;
   }
 
   /* Fire when a user create a map */
