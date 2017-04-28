@@ -35,6 +35,9 @@
     "draw_pedestrian": "Passage piétions",
     "print": "Imprimer",
     "open" : "Ouvrir",
-    "save": "Sauvegarder" 
+    "save": "Sauvegarder",
+
+"_comment": "Map",
+    "mapZoom": "Veuillez zoomer plus"
 
 }

@@ -35,6 +35,9 @@
     "draw_pedestrian": "Pedestrian pathway",
     "print": "Print",
     "open" : "Open",
-    "save": "Save" 
+    "save": "Save",
+
+"_comment": "Map",
+        "mapZoom": "Veuillez zoomer plus"
 
 }

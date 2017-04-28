@@ -10,6 +10,8 @@ import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 import Layer = require("esri/layers/layer");
 
+import {TranslateService} from 'ng2-translate';
+
 @Component({
   selector: 'aba-map',
   templateUrl: 'map.component.html',
@@ -31,7 +33,11 @@ export class MapComponent implements OnInit {
 
   readonly ZOOM_LEVEL_MINIMUM : number = 16;
 
-  constructor(private mapService: MapService) {
+  mapZoom = "";
+
+  constructor(private mapService: MapService,private translate: TranslateService) {
+    //console.log(translate.get("mapZoom"));
+  //  this.mapZoom = this.translate.get("mapZoom").value;
   }
 
   getDefaultMap(): void {
@@ -46,6 +52,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.translate);
   }
 
   setLayerType(layerType : LayerType): boolean {
@@ -83,7 +90,7 @@ export class MapComponent implements OnInit {
     // Zoom restriction
     this.map.on("zoom-end", () => this.checkNeedZoom());
   }
-  
+
 
   // Show or hide 'need zoom' message
   public checkNeedZoom(): boolean{
