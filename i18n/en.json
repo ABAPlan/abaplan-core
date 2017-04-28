@@ -2,5 +2,14 @@
     "_comment": "Editor Component ",
     "city" : "City map",
     "osm" : "OSM map",
-    "square" : "Square map"
+    "square" : "Square map",
+
+
+    "_comment": "Modal Map",
+    "listModalMap" : "Maps list",
+    "searchModalMap" : "Search by title or id",
+    "idModalMap" : "Id",
+    "titleModalMap" : "Title",
+    "dateModalMap" : "Creation Date",
+    "closeModalMap" : "Cloe"
 }

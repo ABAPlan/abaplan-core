@@ -2,6 +2,15 @@
     "_comment": "Editor Component ",
     "city" : "Plan de Ville",
     "osm" : "Plan OSM",
-    "square" : "Plan de quartier"
+    "square" : "Plan de quartier",
+
+
+    "_comment": "Modal Map",
+    "listModalMap" : "Liste des cartes",
+    "searchModalMap" : "Rechercher par titre ou id",
+    "idModalMap" : "Id",
+    "titleModalMap" : "Titre",
+    "dateModalMap" : "Date de création",
+    "closeModalMap" : "Fermer"
 
 }

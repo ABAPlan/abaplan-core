@@ -3,7 +3,7 @@ import { MapService } from "../../map/map.service";
 import { OptionMap } from "../../map/map";
 import * as _ from "lodash";
 
-
+import {TranslateService} from 'ng2-translate';
 
 @Component({
   selector: 'aba-modal-maps',
@@ -21,7 +21,7 @@ export class ModalMapComponent {
   private readonly chunkListSize = 8;
 
 
-  constructor(private mapService: MapService) {
+  constructor(private mapService: MapService,private translate: TranslateService) {
   }
 
   private isVisible(): boolean {

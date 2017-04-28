@@ -7,13 +7,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h1 class="modal-title">Liste des cartes</h1>
+                <h1 class="modal-title">{{ "listModalMap" | translate}}</h1>
 
             </div>
             <div class="modal-body">
 
                 <div class="row search">
-                    <input placeholder="Rechercher par titre ou id" [(ngModel)]="queryInputValue" (ngModelChange)="onChange()"/>
+                    <input placeholder="{{ 'searchModalMap' | translate}}" [(ngModel)]="queryInputValue" (ngModelChange)="onChange()"/>
                 </div>
 
                 <div class="row">
@@ -21,9 +21,9 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>Id</th>
-                            <th>Titre</th>
-                            <th>Date de création</th>
+                            <th>{{ "idModalMap" | translate}}</th>
+                            <th>{{ "titleModalMap" | translate}}</th>
+                            <th>{{ "dateModalMap" | translate}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -48,7 +48,7 @@
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                <button type="button" class="btn btn-secondary" (click)="close()">Fermer</button>
+                <button type="button" class="btn btn-secondary" (click)="close()">{{ "closeModalMap" | translate}}</button>
             </div>
         </div>
     </div>
