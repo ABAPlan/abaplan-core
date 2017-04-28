@@ -1,15 +1,28 @@
 {
-    "_comment": "Editor Component ",
+"_comment": "Editor Component ",
     "city" : "City map",
     "osm" : "OSM map",
     "square" : "Square map",
 
 
-    "_comment": "Modal Map",
+"_comment": "Modal Map List",
     "listModalMap" : "Maps list",
     "searchModalMap" : "Search by title or id",
     "idModalMap" : "Id",
     "titleModalMap" : "Title",
     "dateModalMap" : "Creation Date",
-    "closeModalMap" : "Cloe"
+    "closeModalMap" : "Close",
+
+
+"_comment": "Modal Map Save",
+    "saveMapModalSave" : "Save Map",
+    "titleModalSave" : "Title",
+    "titleMapModalSave" : "Map Title",
+    "visibilityModalSave" : "Visibility",
+    "publicMapModalSave" : "Public map",
+    "privateMapModalSave" : "Private map",
+    "saveModalSave" : "Save",
+    "cancelModalSave" : "Cancel",
+    "notPrivateModalSave" : "For the moment, it is not possible to register private maps"
+
 }

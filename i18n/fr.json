@@ -1,16 +1,28 @@
 {
-    "_comment": "Editor Component ",
+"_comment": "Editor Component ",
     "city" : "Plan de Ville",
     "osm" : "Plan OSM",
     "square" : "Plan de quartier",
 
 
-    "_comment": "Modal Map",
+"_comment": "Modal Map List",
     "listModalMap" : "Liste des cartes",
     "searchModalMap" : "Rechercher par titre ou id",
     "idModalMap" : "Id",
     "titleModalMap" : "Titre",
     "dateModalMap" : "Date de création",
-    "closeModalMap" : "Fermer"
+    "closeModalMap" : "Fermer",
+
+
+"_comment": "Modal Map Save",
+    "saveMapModalSave" : "Sauvegarder une carte",
+    "titleModalSave" : "Titre",
+    "titleMapModalSave" : "Titre de la carte",
+    "visibilityModalSave" : "Visibilité",
+    "publicMapModalSave" : "Carte publique",
+    "privateMapModalSave" : "Carte privée",
+    "saveModalSave" : "Sauvegarder",
+    "cancelModalSave" : "Annuler",
+    "notPrivateModalSave" : "Pour l'instant, il n'est pas possible d'enregistrer des cartes privées"
 
 }

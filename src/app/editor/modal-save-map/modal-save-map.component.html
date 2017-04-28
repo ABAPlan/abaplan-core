@@ -3,7 +3,7 @@
         <form (ngSubmit)="onSubmit()" #mapForm="ngForm">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title">Sauvegarder une carte</h1>
+                <h1 class="modal-title">{{ "saveMapModalSave" | translate}}</h1>
                 <button type="button" class="close" (click)="close()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,30 +13,30 @@
 
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="title">Titre</label>
+                    <label class="col-md-4 control-label" for="title">{{ "titleModalSave" | translate}}</label>
                     <div class="col-md-6">
                         <input id="title"
                                [(ngModel)]="title"
                                name="title"
                                type="text"
-                               placeholder="Titre de la carte"
+                               placeholder="{{ 'titleMapModalSave' | translate}}"
                                class="form-control input-md"
                                required>
 
                     </div>
 
-                    <label class="col-md-4 control-label">Visibilité</label>
+                    <label class="col-md-4 control-label">{{ "visibilityModalSave" | translate}}</label>
                     <div class="col-md-4">
                         <div class="radio">
                             <label for="isPublic-0">
                                 <input type="radio" name="isPublic" id="isPublic-0" value="1" checked="checked">
-                                Carte publique
+                                {{ "publicMapModalSave" | translate}}
                             </label>
                         </div>
                         <div class="radio" disabled>
-                            <label for="isPublic-1" title="Pour l'instant, il n'est pas possible d'enregistrer des cartes privées">
+                            <label for="isPublic-1" title="{{'notPrivateModalSave' | translate}}">
                                 <input type="radio" name="isPublic" id="isPublic-1" value="2" disabled>
-                                Carte privée
+                                {{ "privateMapModalSave"  | translate}}
                             </label>
                         </div>
                     </div>
@@ -51,8 +51,8 @@
                 <button
                         type="submit"
                         [disabled]="!mapForm.form.valid"
-                        class="btn btn-primary">Sauvegarder</button>
-                <button type="button" class="btn btn-default" (click)="close()">Annuler</button>
+                        class="btn btn-primary">{{ "saveModalSave"  | translate}}</button>
+                <button type="button" class="btn btn-default" (click)="close()">{{ "cancelModalSave"  | translate}}</button>
 
             </div>
         </div>
