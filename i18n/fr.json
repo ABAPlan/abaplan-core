@@ -23,6 +23,18 @@
     "privateMapModalSave" : "Carte privée",
     "saveModalSave" : "Sauvegarder",
     "cancelModalSave" : "Annuler",
-    "notPrivateModalSave" : "Pour l'instant, il n'est pas possible d'enregistrer des cartes privées"
+    "notPrivateModalSave" : "Pour l'instant, il n'est pas possible d'enregistrer des cartes privées",
+
+"_comment": "Toolbar",
+    "move":"Déplacer",
+    "select":"Sélectionner",
+    "delete":"Supprimer",
+    "draw_circle" :"Cercle",
+    "draw_polygon":"Polygone",
+    "draw_traits": "Traitillés",
+    "draw_pedestrian": "Passage piétions",
+    "print": "Imprimer",
+    "open" : "Ouvrir",
+    "save": "Sauvegarder" 
 
 }

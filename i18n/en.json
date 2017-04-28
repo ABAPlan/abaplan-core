@@ -23,6 +23,18 @@
     "privateMapModalSave" : "Private map",
     "saveModalSave" : "Save",
     "cancelModalSave" : "Cancel",
-    "notPrivateModalSave" : "For the moment, it is not possible to register private maps"
+    "notPrivateModalSave" : "For the moment, it is not possible to register private maps",
+
+"_comment": "Toolbar",
+    "move":"Move",
+    "select":"Select",
+    "delete":"Delete",
+    "draw_circle" :"Circle",
+    "draw_polygon":"Polygon",
+    "draw_traits": "Traits",
+    "draw_pedestrian": "Pedestrian pathway",
+    "print": "Print",
+    "open" : "Open",
+    "save": "Save" 
 
 }

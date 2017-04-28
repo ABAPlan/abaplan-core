@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter, ViewChild } from "@angular/core
 import { LayerType } from '../../map/layer';
 import { DrawType } from '../drawEditMap';
 
+import {TranslateService} from 'ng2-translate';
+
 export interface ITool { heading: string, image?: string, command: string }
 
 export interface DrawTool { kind: 'draw', drawType : DrawType }
@@ -102,7 +104,7 @@ export class ToolbarMapComponent {
   private activeTool: Tool = this.tools[0];
 
 
-  constructor(){ }
+  constructor(private translate: TranslateService){ }
 
 
   private drawTools(): Array<Tool> {
