@@ -10,7 +10,7 @@ import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 import Layer = require("esri/layers/layer");
 
-import {TranslateService} from 'ng2-translate';
+//import {TranslateService} from 'ng2-translate';
 
 @Component({
   selector: 'aba-map',
@@ -35,7 +35,7 @@ export class MapComponent implements OnInit {
 
   mapZoom = "";
 
-  constructor(private mapService: MapService,private translate: TranslateService) {
+  constructor(private mapService: MapService/*,private translate: TranslateService*/) {
     //console.log(translate.get("mapZoom"));
   //  this.mapZoom = this.translate.get("mapZoom").value;
   }
@@ -52,7 +52,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.translate);
+   //  console.log(this.translate);
   }
 
   setLayerType(layerType : LayerType): boolean {

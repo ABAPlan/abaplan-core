@@ -16,6 +16,7 @@ import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component
 import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
 import {TranslateService} from 'ng2-translate';
+import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 
 type ButtonInfo = LayerType ;
 
@@ -57,6 +58,7 @@ export class EditorComponent {
 
   private onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
+    this.mapComponent.mapZoom = (this.translate.get("mapZoom")as ScalarObservable<string>).value;
   }
 
   private updateTool(tool: Command & KindTool) {
