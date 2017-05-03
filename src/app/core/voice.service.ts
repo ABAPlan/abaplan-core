@@ -25,12 +25,24 @@ export class VoiceService {
     this.voiceProvider.addCommand(indexes, description, action);
   }
 
+  public changeLang(){
+    this.voiceProvider.changeLang();
+  }
+
+//  Debug funcs
+  public simulate(s:string){
+    console.log("Receive: ", s);
+    this.voiceProvider.simulate(s);
+  }
+
 }
 
 
 interface IVoiceProvider {
   say(text: string): void;
   addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void );
+  changeLang();
+  simulate(s:string);
 }
 
 class ArtyomProvider implements IVoiceProvider {
@@ -39,7 +51,7 @@ class ArtyomProvider implements IVoiceProvider {
 
   constructor() {
     this.artyom.initialize({
-      lang: "fr-FR",
+      lang: 'fr-FR',
       continuous: true,
       soundex: true,
       debug: true,
@@ -55,6 +67,16 @@ class ArtyomProvider implements IVoiceProvider {
     const isSmart = _.some(indexes, str => _.includes(str, "*"));
     const command: ArtyomCommand = <ArtyomCommand> { indexes: indexes, action: action, description: description, smart: isSmart};
     this.artyom.addCommands(command);
+  }
+
+  public changeLang(){
+      // this.artyom.lang = "";
+    //console.log(this.artyom.getProperties());
+    //this.artyom.say("How are you ?");
+  }
+
+  public simulate(s:string){
+    this.artyom.simulateInstruction(s);
   }
 
 }

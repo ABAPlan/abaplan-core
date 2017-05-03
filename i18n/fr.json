@@ -38,6 +38,46 @@
     "save": "Sauvegarder",
 
 "_comment": "Map",
-    "mapZoom": "Veuillez zoomer plus"
+    "mapZoom": "Veuillez zoomer plus",
+
+"_comment": "Voice Calibration",
+    "touchpadTopLeft": "Appuyez en haut à gauche",
+    "touchpadTopRight": "en haut à droite",
+    "touchpadBottomLeft": "en bas à gauche",
+    "touchpadBottomRight": "en bas à droite",
+    "touchpadOk": "Dalle calibrée",
+    "touchpadCenter": "Appuyez au centre de la dalle",
+
+"_comment": "Voice Commande",
+        "readId": "lecture",
+        "readDescri": "lecture, mode par défaut",
+        "readActive": "Mode lecture activé",
+
+        "searchId": [
+                        { "value": "rechercher *" },
+                        { "value": "recherche *"},
+                        { "value": "cherche *"},
+                        { "value": "chercher *"}
+                    ],
+        "searchDescri":"Recherche d'un emplacement",
+        "searchOk":"Recherche",
+        "searchKo":"Recherche invalide",
+
+        "offendId": [
+                        { "value": "merde" },
+                        { "value": "saloperie"},
+                        { "value": "ta gueule"},
+                        { "value": "chier"}
+                    ],
+        "offendDescri":"grossièreté",
+        "offendTextOne":"Par pitié, calmez vous",
+        "offendTextTwo":"On dit Zut !",
+        "offendTextTree":"Plait-il ?",
+    "_comment": "lang",
+        "myLang":"Français",
+        "codeLang":"fr"
+
+
+
 
 }

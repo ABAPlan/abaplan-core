@@ -16,6 +16,10 @@ import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 import {Vector2d, Plane2d, transform} from '../core/vector2d';
 import LatLng = google.maps.LatLng;
 
+import {TranslateService} from "ng2-translate";
+import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
+interface translations  {value : string};
+
 @Component({
   selector: 'aba-touchpad',
   templateUrl: 'touchpad.component.html',
@@ -32,7 +36,10 @@ export class TouchpadComponent {
 
   private searchingPoint: Point | undefined = undefined;
 
+
+
   constructor(
+    private translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private mapService: MapService,
@@ -42,8 +49,14 @@ export class TouchpadComponent {
     private _elementRef: ElementRef
   ){
 
-    this.prepareVoiceCommand();
-    this.voiceService.say("Appuyez au centre de la dalle");
+    document.onreadystatechange= () => {
+      this.prepareVoiceCommand();
+      this.voiceService.say(this.getStringTranslation("touchpadCenter"));
+      this.voiceService.simulate("merde");
+      this.addOtherLangs();
+      console.log(this.translate);
+
+    }
 
     document.onclick = (ev: MouseEvent) => {
       if (!this.isCalibrated()) {
@@ -53,7 +66,8 @@ export class TouchpadComponent {
          */
         switch (this.nbClick) {
           case 0:
-            this.voiceService.say("Appuyez en haut à gauche");
+            this.voiceService.say(this.getStringTranslation("touchpadTopLeft"));
+
             break;
           case 1:
             /* Note: clientX and clientY for firefox compatibility */
@@ -66,23 +80,23 @@ export class TouchpadComponent {
             this.divPlane.A = <Vector2d> {x: geo.xmin, y: geo.ymax };
             this.divPlane.B = <Vector2d> {x: geo.xmax, y: geo.ymax };
 
-            this.voiceService.say("en haut à droite");
+            this.voiceService.say(this.getStringTranslation("touchpadTopRight"));
             break;
 
           case 2:
             this.devicePlane.B = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("en bas à gauche");
+            this.voiceService.say(this.getStringTranslation("touchpadBottomLeft"));
             break;
           case 3:
             this.devicePlane.C = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("en bas à droite");
+            this.voiceService.say(this.getStringTranslation("touchpadBottomRight"));
             break;
           case 4:
             this.devicePlane.D = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("Dalle calibrée");
+            this.voiceService.say(this.getStringTranslation("touchpadOk"));
             break;
         }
         this.nbClick += 1;
@@ -129,7 +143,6 @@ export class TouchpadComponent {
     return this.nbClick > 4;
   }
 
-
   onClick() {
     // Enable full screen
     this.mapComponent.map.setLayerVisible({kind: "osm"});
@@ -175,52 +188,70 @@ export class TouchpadComponent {
       });
   }
 
-  private prepareVoiceCommand(): void {
+  private readCommand():void{
+    this.stateService.changeMode( {mode: "reading"} );
+    this.voiceService.say(this.getStringTranslation("readActive"));
+  }
+
+  private searchCommand(i: number, wildcard: string):void{
+    this.searchingPoint = undefined;
+    this.stateService.changeMode( {mode: "searching"} );
+    this.voiceService.say(this.getStringTranslation("searchOk") + wildcard);
+
+    this.geoService.point(wildcard).subscribe(
+      (searchPoint: Point) => {
+        this.searchingPoint = searchPoint;
+        if (searchPoint === undefined){
+          this.voiceService.say(this.getStringTranslation("searchKo"));
+          this.stateService.changeMode( {mode: "reading"} );
+        }
+      }
+    );
+  }
+
+  private offendCommand(i:number):void{
+    if (i%3===0) {
+      this.voiceService.say("Par pitié, calmez vous");
+    } else if (i%3 === 1){
+      this.voiceService.say("On dit Zut !");
+    }else{
+      this.voiceService.say("Plait-il ?");
+    }
+  }
+
+  private addOtherLangs(){
+      let a = this.translate.getLangs();
+      for (let entry of a) {
+          this.translate.use(entry);
+          let lang : string = this.getStringTranslation("myLang");
+          for(let e of a){
+            let o = new Object();
+            this.translate.setTranslation(e,[lang=>entry],true);
+          }
+      }
+      this.translate.use("fr");
+  }
+
+  private prepareVoiceCommand() {
 
     // Reading mode (default)
     this.voiceService.addCommand(
-      ["lecture"],
-      "lecture, mode par défaut",
-      () => {
-        this.stateService.changeMode( {mode: "reading"} );
-        this.voiceService.say("Mode lecture activé");
-      }
+      [this.getStringTranslation("readId")],
+      this.getStringTranslation("readDescri"),
+      () => this.readCommand()
     );
 
     // Searching mode
     this.voiceService.addCommand(
-      ["rechercher *", "recherche *", "chercher *", "cherche *"],
-      "Recherche d'un emplacement",
-      (i: number, wildcard: string) => {
-        this.searchingPoint = undefined;
-        this.stateService.changeMode( {mode: "searching"} );
-        this.voiceService.say("Recherche " + wildcard);
-
-        this.geoService.point(wildcard).subscribe(
-          (searchPoint: Point) => {
-            this.searchingPoint = searchPoint;
-            if (searchPoint === undefined){
-              this.voiceService.say("Recherche invalide");
-              this.stateService.changeMode( {mode: "reading"} );
-            }
-          }
-        );
-
-      }
+      this.getStringTranslations("searchId"),
+      this.getStringTranslation("searchDescri"),
+      (i: number, wildcard: string) => this.searchCommand(i, wildcard)
     );
 
     this.voiceService.addCommand(
-      ["putain", "merde", "chier", "salope", "saloperie", "ça race", "enculer", "pute", "putain", "ta mère la pute", "ta gueule"],
-      "grossièreté",
-      (i) => {
-        if (i%3===0) {
-          this.voiceService.say("Par pitié, calmez vous");
-        } else if (i%3 === 1){
-          this.voiceService.say("On dit Zut !");
-        }else{
-          this.voiceService.say("Plait-il ?");
-        }
-      }
+      this.getStringTranslations("offendId"),
+      this.getStringTranslation("offendDescri"),
+      (i: number) => this.offendCommand(i)
     );
 
   }
@@ -243,4 +274,12 @@ export class TouchpadComponent {
 
   }
 
+  private getStringTranslation(s: string) : string {
+    return (this.translate.get(s)as ScalarObservable<string>).value;
+  }
+
+
+  private getStringTranslations(s: string) : Array<string> {
+    return (this.translate.get(s)as ScalarObservable<Array<translations>>).value.map(object => object.value) ;
+  }
 }
