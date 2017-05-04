@@ -53,7 +53,13 @@ export class TouchpadComponent {
       this.prepareVoiceCommand();
       this.voiceService.say(this.getStringTranslation("touchpadCenter"));
       this.voiceService.simulate("merde");
-      this.addOtherLangs();
+      this.voiceService.simulate("shit");
+
+      this.translate.use('en');
+
+      /**this.voiceService.simulate("merde");
+      this.voiceService.simulate("shit");**/
+
       console.log(this.translate);
 
     }
@@ -234,25 +240,34 @@ export class TouchpadComponent {
 
   private prepareVoiceCommand() {
 
-    // Reading mode (default)
-    this.voiceService.addCommand(
-      [this.getStringTranslation("readId")],
-      this.getStringTranslation("readDescri"),
-      () => this.readCommand()
-    );
+    let langs = this.translate.getLangs();
 
-    // Searching mode
-    this.voiceService.addCommand(
-      this.getStringTranslations("searchId"),
-      this.getStringTranslation("searchDescri"),
-      (i: number, wildcard: string) => this.searchCommand(i, wildcard)
-    );
+    for(let entry of langs){
+      this.translate.use(entry);
 
-    this.voiceService.addCommand(
-      this.getStringTranslations("offendId"),
-      this.getStringTranslation("offendDescri"),
-      (i: number) => this.offendCommand(i)
-    );
+      // Reading mode (default)
+      this.voiceService.addCommand(
+        [this.getStringTranslation("readId")],
+        this.getStringTranslation("readDescri"),
+        () => this.readCommand()
+      );
+
+      // Searching mode
+      this.voiceService.addCommand(
+        this.getStringTranslations("searchId"),
+        this.getStringTranslation("searchDescri"),
+        (i: number, wildcard: string) => this.searchCommand(i, wildcard)
+      );
+
+      this.voiceService.addCommand(
+        this.getStringTranslations("offendId"),
+        this.getStringTranslation("offendDescri"),
+        (i: number) => this.offendCommand(i)
+      );
+
+    }
+
+
 
   }
 

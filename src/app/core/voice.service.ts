@@ -77,6 +77,7 @@ class ArtyomProvider implements IVoiceProvider {
 
   public simulate(s:string){
     this.artyom.simulateInstruction(s);
+    console.log(this.artyom.getAvailableCommands());
   }
 
 }
