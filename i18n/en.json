@@ -49,30 +49,26 @@
             "touchpadCenter": "Appuyez au centre de la dalle",
 
 "_comment": "Voice Commande",
-            "readId": "lecture",
-            "readDescri": "lecture, mode par défaut",
-            "readActive": "Mode lecture activé",
+            "readId": "Read",
+            "readDescri": "Read, mode par défaut",
+            "readActive": "Read Mode",
 
             "searchId": [
-                            { "value": "rechercher *" },
-                            { "value": "recherche *"},
-                            { "value": "cherche *"},
-                            { "value": "chercher *"}
+                            { "value": "Search *" },
+                            { "value": "Searching *" }
                         ],
-            "searchDescri":"Recherche d'un emplacement",
-            "searchOk":"Recherche",
-            "searchKo":"Recherche invalide",
+            "searchDescri":"Search d'un emplacement",
+            "searchOk":"Search",
+            "searchKo":"Invalid Search",
 
             "offendId": [
-                            { "value": "merde" },
-                            { "value": "saloperie"},
-                            { "value": "ta gueule"},
-                            { "value": "chier"}
+                            { "value": "shit" },
+                            { "value": "cunt" }
                         ],
-            "offendDescri":"grossièreté",
-            "offendTextOne":"Par pitié, calmez vous",
-            "offendTextTwo":"On dit Zut !",
-            "offendTextTree":"Plait-il ?",
+            "offendDescri":"gross",
+            "offendTextOne":"Please , calm yourself",
+            "offendTextTwo":"Please , calm yourself",
+            "offendTextTree":"Please , calm yourself",
   "_comment": "lang",
                 "myLang":"English",
                 "codeLang":"en"
