@@ -18,6 +18,7 @@ import LatLng = google.maps.LatLng;
 
 import {TranslateService} from "ng2-translate";
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
+
 interface translations  {value : string};
 
 @Component({
@@ -36,32 +37,21 @@ export class TouchpadComponent {
 
   private searchingPoint: Point | undefined = undefined;
 
-
-
   constructor(
-    private translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
     private mapService: MapService,
     private voiceService : VoiceService,
     private stateService : StateService,
     private geoService : GeoService,
+    private translateService: TranslateService,
     private _elementRef: ElementRef
   ){
 
+    /**Init the voice commands and start calibration */
     document.onreadystatechange= () => {
       this.prepareVoiceCommand();
       this.voiceService.say(this.getStringTranslation("touchpadCenter"));
-      this.voiceService.simulate("merde");
-      this.voiceService.simulate("shit");
-
-      this.translate.use('en');
-
-      /**this.voiceService.simulate("merde");
-      this.voiceService.simulate("shit");**/
-
-      console.log(this.translate);
-
     }
 
     document.onclick = (ev: MouseEvent) => {
@@ -143,6 +133,7 @@ export class TouchpadComponent {
 
       }
     };
+
   }
 
   private isCalibrated(): boolean {
@@ -194,11 +185,13 @@ export class TouchpadComponent {
       });
   }
 
+  /** Switch to reading mode and notify the user */
   private readCommand():void{
     this.stateService.changeMode( {mode: "reading"} );
     this.voiceService.say(this.getStringTranslation("readActive"));
   }
 
+  /** Switch to search mode and notify the user */
   private searchCommand(i: number, wildcard: string):void{
     this.searchingPoint = undefined;
     this.stateService.changeMode( {mode: "searching"} );
@@ -215,35 +208,30 @@ export class TouchpadComponent {
     );
   }
 
+  /** Notity the user in terms of input number  */
   private offendCommand(i:number):void{
     if (i%3===0) {
-      this.voiceService.say("Par pitié, calmez vous");
+      this.voiceService.say(this.getStringTranslation("offendTextOne"));
     } else if (i%3 === 1){
-      this.voiceService.say("On dit Zut !");
+      this.voiceService.say(this.getStringTranslation("offendTextTwo"));
     }else{
-      this.voiceService.say("Plait-il ?");
+      this.voiceService.say(this.getStringTranslation("offendTextTree"));
     }
   }
 
-  private addOtherLangs(){
-      let a = this.translate.getLangs();
-      for (let entry of a) {
-          this.translate.use(entry);
-          let lang : string = this.getStringTranslation("myLang");
-          for(let e of a){
-            let o = new Object();
-            this.translate.setTranslation(e,[lang=>entry],true);
-          }
-      }
-      this.translate.use("fr");
+  /** Change language of application */
+  private changeLang(langTranslate : string,langVoice : string):void{
+        this.translateService.use(langTranslate);
+        this.voiceService.changeLang(langVoice);
   }
 
+  /** Add Commands */
   private prepareVoiceCommand() {
-
-    let langs = this.translate.getLangs();
-
+    // Loop for add command in each lang of application
+    let langs = this.translateService.getLangs();
     for(let entry of langs){
-      this.translate.use(entry);
+      this.translateService.use(entry);
+      let codeVoice = this.getStringTranslation("codeLangVoice");
 
       // Reading mode (default)
       this.voiceService.addCommand(
@@ -259,18 +247,23 @@ export class TouchpadComponent {
         (i: number, wildcard: string) => this.searchCommand(i, wildcard)
       );
 
+      // React to insults command
       this.voiceService.addCommand(
         this.getStringTranslations("offendId"),
         this.getStringTranslation("offendDescri"),
         (i: number) => this.offendCommand(i)
       );
 
+      // Switch Lang command
+      this.voiceService.addCommand(
+        [this.getStringTranslation("myLang")],
+        this.getStringTranslation("codeLang"),
+        () => this.changeLang(entry,codeVoice)
+      );
     }
-
-
-
   }
 
+  /** Locate click and notity the user */
   private locateClick(point: Point): void {
 
     this.geoService.address(point).subscribe(
@@ -283,18 +276,20 @@ export class TouchpadComponent {
 
   }
 
+  /** Notity the user of direction */
   private searchLocationClick(location: Point, touchPoint: Point): void {
 
     this.voiceService.say(this.geoService.directionToText(location, touchPoint));
 
   }
 
+  /** Return string by id and current lang of application */
   private getStringTranslation(s: string) : string {
-    return (this.translate.get(s)as ScalarObservable<string>).value;
+    return (this.translateService.get(s)as ScalarObservable<string>).value;
   }
 
-
+  /** Return array of string by id and current lang of application */
   private getStringTranslations(s: string) : Array<string> {
-    return (this.translate.get(s)as ScalarObservable<Array<translations>>).value.map(object => object.value) ;
+    return (this.translateService.get(s)as ScalarObservable<Array<translations>>).value.map(object => object.value) ;
   }
 }

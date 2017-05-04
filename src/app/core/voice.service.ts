@@ -25,29 +25,31 @@ export class VoiceService {
     this.voiceProvider.addCommand(indexes, description, action);
   }
 
-  public changeLang(){
-    this.voiceProvider.changeLang();
+  public changeLang(lang:string){
+    this.voiceProvider.changeLang(lang);
   }
 
-//  Debug funcs
+  //  Debug funcs
   public simulate(s:string){
     console.log("Receive: ", s);
     this.voiceProvider.simulate(s);
   }
 
-}
 
+
+}
 
 interface IVoiceProvider {
   say(text: string): void;
   addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void );
-  changeLang();
+  changeLang(lang:string);
   simulate(s:string);
 }
 
 class ArtyomProvider implements IVoiceProvider {
 
   readonly artyom = artyomjs.ArtyomBuilder.getInstance();
+  private lang :string;
 
   constructor() {
     this.artyom.initialize({
@@ -57,10 +59,13 @@ class ArtyomProvider implements IVoiceProvider {
       debug: true,
       listen: true
     });
+    this.lang='fr-FR';
   }
 
   public say(text: string): void {
-    this.artyom.say(text);
+    this.artyom.say(text, {
+            lang:this.lang
+        });
   }
 
   public addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void ): void {
@@ -69,15 +74,12 @@ class ArtyomProvider implements IVoiceProvider {
     this.artyom.addCommands(command);
   }
 
-  public changeLang(){
-      // this.artyom.lang = "";
-    //console.log(this.artyom.getProperties());
-    //this.artyom.say("How are you ?");
+  public changeLang(lang:string){
+      this.lang=lang;
   }
 
   public simulate(s:string){
     this.artyom.simulateInstruction(s);
-    console.log(this.artyom.getAvailableCommands());
   }
 
 }

@@ -71,6 +71,7 @@
             "offendTextTree":"Please , calm yourself",
   "_comment": "lang",
                 "myLang":"English",
-                "codeLang":"en"
+                "codeLang":"en",
+                "codeLangVoice":"en-GB"
 
 }
