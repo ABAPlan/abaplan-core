@@ -13,7 +13,7 @@ export class ModalSaveMapComponent {
 
   private title: string = "";
 
-  constructor(private translate: TranslateService) {
+  constructor(private translateService: TranslateService) {
   }
 
   private isVisible(): boolean {

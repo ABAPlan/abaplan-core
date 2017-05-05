@@ -94,7 +94,7 @@ export class ToolbarMapComponent {
   private activeTool: Tool = this.tools[0];
 
 
-  constructor(private translate: TranslateService){ }
+  constructor(private translateService: TranslateService){ }
 
 
   private drawTools(): Array<Tool> {

@@ -54,11 +54,11 @@ export class EditorComponent {
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-  constructor(private printService: PrintService,private translate: TranslateService) {}
+  constructor(private printService: PrintService,private translateService: TranslateService) {}
 
   private onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
-    this.mapComponent.mapZoom = (this.translate.get("mapZoom")as ScalarObservable<string>).value;
+    this.mapComponent.mapZoom = (this.translateService.get("mapZoom")as ScalarObservable<string>).value;
   }
 
   private updateTool(tool: Command & KindTool) {

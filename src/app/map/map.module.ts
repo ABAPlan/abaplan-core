@@ -9,7 +9,6 @@ import {ModalSaveMapComponent} from "../editor/modal-save-map/modal-save-map.com
 import {ModalMapComponent} from "../editor/modal-maps-list/modal-maps-list.component";
 import {FormsModule} from "@angular/forms";
 
-import {TranslateModule} from "ng2-translate";
 
 @NgModule({
   imports: [

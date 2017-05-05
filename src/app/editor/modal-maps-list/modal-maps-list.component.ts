@@ -21,7 +21,7 @@ export class ModalMapComponent {
   private readonly chunkListSize = 8;
 
 
-  constructor(private mapService: MapService,private translate: TranslateService) {
+  constructor(private mapService: MapService,private translateService: TranslateService) {
   }
 
   private isVisible(): boolean {

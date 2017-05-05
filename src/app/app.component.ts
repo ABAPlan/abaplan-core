@@ -8,15 +8,15 @@ import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 
 })
 export class AppComponent {
-  constructor(private translate: TranslateService) {
+  constructor(private translateService: TranslateService) {
     let languages = ['en', 'fr'];
-    translate.addLangs(languages);
-    translate.setDefaultLang('en');
-    translate.use('fr');
+    translateService.addLangs(languages);
+    translateService.setDefaultLang('en');
+    translateService.use('fr');
 
   }
   changeLang(lang: string) {
-    this.translate.use(lang);
+    this.translateService.use(lang);
   }
 
 
