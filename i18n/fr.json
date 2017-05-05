@@ -62,6 +62,19 @@
         "searchDescri":"Recherche d'un emplacement",
         "searchOk":"Recherche",
         "searchKo":"Recherche invalide",
+        "search_upper":"en haut",
+        "search_lower":"en bas",
+        "search_left":"à gauche",
+        "search_right":"à droite",
+        "search_upper_left":"en haut à gauche",
+        "search_upper_right":"en haut à droite",
+        "search_lower_left":"en bas à gauche",
+        "search_lower_right":"en bas à droite",
+        "search_center":"au centre",
+        "searchKilometer":"kilomètre",
+        "searchMeter":"mètres",
+        "searchArrived":"Vous êtes arrivé",
+        "searchTo":"à",
 
         "offendId": [
                         { "value": "merde" },
@@ -73,7 +86,8 @@
         "offendTextOne":"Par pitié, calmez vous",
         "offendTextTwo":"On dit Zut !",
         "offendTextTree":"Plait-il ?",
-    "_comment": "lang",
+
+"_comment": "lang",
         "myLang":"Français",
         "codeLang":"fr",
         "codeLangVoice":"fr-FR"

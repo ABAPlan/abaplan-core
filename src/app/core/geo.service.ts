@@ -25,49 +25,31 @@ export class GeoService {
     return this.geoProvider.point(address);
   }
 
-  public directionToText(target: Point, point: Point): string {
-    let direction;
-    switch( this.geoProvider.direction(target, point).direction ){
-      case "upper":
-        direction = "en haut";
-        break;
-      case "lower":
-        direction = "en bas";
-        break;
-      case "left":
-        direction = "à gauche";
-        break;
-      case "right":
-        direction = "à droite";
-        break;
-      case "upper_right":
-        direction = "en haut à droite";
-        break;
-      case "upper_left":
-        direction = "en haut à gauche";
-        break;
-      case "lower_right":
-        direction = "en bas à droite";
-        break;
-      case "lower_left":
-        direction = "en bas à gauche";
-        break;
-      default:
-        direction = "au centre";
-        break;
-    }
+  /** Translate Direction in key word for translate */
+  public directionToText(target: Point, point: Point): Array<string> {
+    let data : Array<string> = [];
 
+    let direction = "search_" + this.geoProvider.direction(target, point).direction;
     const dist = this.geoProvider.distance(target, point);
 
     if (dist >= 1000) {
-      return direction + " a " + Math.floor(dist/1000) + " kilomètre";
+      data.push(direction);
+      data.push("searchTo");
+      data.push(String(Math.floor(dist/1000)));
+      data.push("searchKilometer");
+      return data;
     } else  if (dist > 20){
-      return direction + " a " + Math.floor(dist) + " mètres";
+      data.push(direction);
+      data.push("searchTo");
+      data.push(String(Math.floor(dist)));
+      data.push("searchMeter");
+      return data;
     } else {
-      return "Vous êtes arrivé";
+      data.push("searchArrived");
+      return data;
     }
   }
-}
+  }
 
 interface IGeoProvider {
   address(location: Point): Observable<string | undefined>;

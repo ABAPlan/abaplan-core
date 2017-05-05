@@ -278,9 +278,16 @@ export class TouchpadComponent {
 
   /** Notity the user of direction */
   private searchLocationClick(location: Point, touchPoint: Point): void {
-
-    this.voiceService.say(this.geoService.directionToText(location, touchPoint));
-
+    let data : Array<string> = this.geoService.directionToText(location, touchPoint);
+    let diction : string;
+    if(data.length>1){//["search_upper", "searchTo", "522", "searchKilometer"]
+      diction = this.getStringTranslation(data[0])+" "+this.getStringTranslation(data[1])
+                +" "+ data[2] +" "+ this.getStringTranslation(data[3]);
+    }
+    else{
+      diction = this.getStringTranslation(data[0]);
+    }
+    this.voiceService.say(diction);
   }
 
   /** Return string by id and current lang of application */

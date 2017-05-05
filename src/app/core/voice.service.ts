@@ -10,32 +10,34 @@ export class VoiceService {
 
   constructor() { }
 
+  /** Text-to-speech in the current lang */
   public say(text: string) {
     console.log("Saying: ", text);
     this.voiceProvider.say(text);
   }
 
+  /** Text-to-speech an adress in the current lang */
   public sayGeocodeResult(result : /*google.maps.GeocoderResult*/any) {
     const address = result.address_components[0].long_name + ' '+
                     result.address_components[1].long_name;
     this.say(address);
   }
 
+  /** Add a triger and action for the voice recognition*/
   public addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void ): void {
     this.voiceProvider.addCommand(indexes, description, action);
   }
 
-  public changeLang(lang:string){
+  /** Change Current Lang of the Speaker */
+  public changeLang(lang:string):void{
     this.voiceProvider.changeLang(lang);
   }
 
-  //  Debug funcs
-  public simulate(s:string){
+  /** Simulation a voice recognition */
+  public simulate(s:string):void{
     console.log("Receive: ", s);
     this.voiceProvider.simulate(s);
   }
-
-
 
 }
 
@@ -62,23 +64,27 @@ class ArtyomProvider implements IVoiceProvider {
     this.lang='fr-FR';
   }
 
+  /** Text-to-speech in the current lang */
   public say(text: string): void {
     this.artyom.say(text, {
             lang:this.lang
         });
   }
 
+  /** Add a triger and action for the voice recognition*/
   public addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void ): void {
     const isSmart = _.some(indexes, str => _.includes(str, "*"));
     const command: ArtyomCommand = <ArtyomCommand> { indexes: indexes, action: action, description: description, smart: isSmart};
     this.artyom.addCommands(command);
   }
 
-  public changeLang(lang:string){
+  /** Change Current Lang of the Speaker */
+  public changeLang(lang:string):void{
       this.lang=lang;
   }
 
-  public simulate(s:string){
+  /** Simulation a voice recognition */
+  public simulate(s:string):void{
     this.artyom.simulateInstruction(s);
   }
 
