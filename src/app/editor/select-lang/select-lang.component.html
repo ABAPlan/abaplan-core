@@ -1,0 +1,6 @@
+<select class="btn btn-primary" [ngModel]="_activeLangsDropDowns" (ngModelChange)="onChange($event)">
+      <option
+        *ngFor="let tab of _langsDropDowns"
+         [value]="tab">{{tab}}
+      </option>
+</select>

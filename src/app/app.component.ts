@@ -4,21 +4,17 @@ import {TranslateService} from 'ng2-translate';
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 @Component({
   selector: 'aba-plan',
-  template: '  <a (click)="changeLang(\'en\')">EN</a>  <a (click)="changeLang(\'fr\')">FR</a> <router-outlet></router-outlet>'
+  template: '<router-outlet></router-outlet>'
 
 })
 export class AppComponent {
   constructor(private translateService: TranslateService) {
-    let languages = ['en', 'fr'];
+    // Init Translate Service for the site
+    let languages = ['fr', 'en'];
     translateService.addLangs(languages);
-    translateService.setDefaultLang('en');
-    translateService.use('fr');
+    translateService.setDefaultLang('fr');
+    translateService.use(languages[0]);
 
   }
-  changeLang(lang: string) {
-    this.translateService.use(lang);
-  }
-
-
 
 }

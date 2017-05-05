@@ -54,7 +54,9 @@ export class EditorComponent {
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-  constructor(private printService: PrintService,private translateService: TranslateService) {}
+  constructor(private printService: PrintService,private translateService: TranslateService) {
+
+  }
 
   private onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);

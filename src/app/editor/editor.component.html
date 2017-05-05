@@ -5,15 +5,17 @@
     </div>
 
     <div class="row show-grid">
-        <div class="btn-group">
+        <div class="btn-group form-inline">
             <button
                     *ngFor="let tab of _btnInfos"
                     class="btn btn-primary"
                     [class.active]="isActive(tab)"
                     (click)="onClick(tab)"> {{ tab.kind | translate }}
-            </button>
+            </button>    
         </div>
+        <aba-select-lang></aba-select-lang>
     </div>
+
 
     <div class="row show-grid">
         <div class="col-md-12">
