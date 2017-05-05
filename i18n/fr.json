@@ -41,12 +41,12 @@
     "mapZoom": "Veuillez zoomer plus",
 
 "_comment": "Voice Calibration",
-    "touchpadTopLeft": "Appuyez en haut à gauche",
+    "touchpadTopLeft": "Appuyer en haut à gauche",
     "touchpadTopRight": "en haut à droite",
     "touchpadBottomLeft": "en bas à gauche",
     "touchpadBottomRight": "en bas à droite",
     "touchpadOk": "Dalle calibrée",
-    "touchpadCenter": "Appuyez au centre de la dalle",
+    "touchpadCenter": "Appuyer au centre de la dalle",
 
 "_comment": "Voice Commande",
         "readId": "lecture",

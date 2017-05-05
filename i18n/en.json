@@ -41,16 +41,16 @@
         "mapZoom": "Please Zoom",
 
         "_comment": "Voice Calibration",
-            "touchpadTopLeft": "Appuyez en haut à gauche",
-            "touchpadTopRight": "en haut à droite",
-            "touchpadBottomLeft": "en bas à gauche",
-            "touchpadBottomRight": "en bas à droite",
-            "touchpadOk": "Dalle calibrée",
-            "touchpadCenter": "Appuyez au centre de la dalle",
+            "touchpadTopLeft": "Press on the top left",
+            "touchpadTopRight": "Press on the top right",
+            "touchpadBottomLeft": "on the bottom left",
+            "touchpadBottomRight": "on the bottom right",
+            "touchpadOk": "TouchPad calibrated",
+            "touchpadCenter": "Press in the middle of the touchpad",
 
 "_comment": "Voice Commande",
             "readId": "Read",
-            "readDescri": "Read, mode par défaut",
+            "readDescri": "Read, default mode",
             "readActive": "Read Mode",
 
             "searchId": [
@@ -65,9 +65,9 @@
                             { "value": "shit" },
                             { "value": "cunt" }
                         ],
-            "offendDescri":"gross",
+            "offendDescri":"Offend",
             "offendTextOne":"Please , calm yourself",
-            "offendTextTwo":"Please , calm yourself",
+            "offendTextTwo":"Stop this",
             "offendTextTree":"Please , calm yourself",
   "_comment": "lang",
                 "myLang":"English",
