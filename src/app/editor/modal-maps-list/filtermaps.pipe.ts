@@ -14,7 +14,7 @@ export class FilterMapsPipe implements PipeTransform {
           if (m.uid === undefined){
             m.uid = -1;
           }
-          return m.title.toLowerCase().includes(query.toLowerCase()) || m.uid.toString().includes(query);
+          return m.title.toString().toLowerCase().includes(query.toLowerCase()) || m.uid.toString().includes(query);
         }
       );
 
