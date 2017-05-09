@@ -261,6 +261,7 @@ export class TouchpadComponent {
         () => this.changeLang(entry,codeVoice)
       );
     }
+    this.translateService.use(langs[0]);
   }
 
   /** Locate click and notity the user */
@@ -297,6 +298,7 @@ export class TouchpadComponent {
 
   /** Return array of string by id and current lang of application */
   private getStringTranslations(s: string) : Array<string> {
-    return (this.translateService.get(s)as ScalarObservable<Array<translations>>).value.map(object => object.value) ;
+    return  (this.translateService.get(s)as ScalarObservable<Array<translations>>).value.map(object => object.value);
+
   }
 }
