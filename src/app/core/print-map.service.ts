@@ -14,6 +14,10 @@ export class PrintService {
         width: auto;
         padding: 0;
     }
+    
+    .col-md-12 {
+        padding-left:0px; 
+    }
 
     /* jca: hack to remove margin due to the map scale */
     .row.map {
@@ -25,8 +29,10 @@ export class PrintService {
         overflow: hidden;
 
         /* jca: Update to fix the ratio and margin problem, issue #73 */
-        width: 1054px;
-        height: 716px;
+        /*width: 1054px;*/
+        width: 1060px;
+        /*height: 716px;*/
+        height: 722px;
         display:block;
         margin: 0 auto 0 auto;
         transform: scale(0.95);

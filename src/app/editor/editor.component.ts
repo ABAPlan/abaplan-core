@@ -152,6 +152,7 @@ export class EditorComponent {
     } else {
       this.selectTabByLayerType( {kind: "osm"} );
     }
+    this.flagSavable = true;
 
     this.mapComponent.map.on('mouse-drag-end', () => this.flagSavable = false);
 
