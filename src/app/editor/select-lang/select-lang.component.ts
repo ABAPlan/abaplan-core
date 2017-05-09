@@ -9,7 +9,7 @@ import {TranslateService} from 'ng2-translate';
 export class SelectLangComponent {
 
   private _langsDropDowns : Array<string> = this.translateService.getLangs();
-  private _activeLangsDropDowns : string = this.translateService.currentLang;
+  private _activeLangsDropDowns : string = this.translateService.getBrowserLang();;
 
   constructor(private translateService: TranslateService) {
   }

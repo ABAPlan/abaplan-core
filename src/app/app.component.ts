@@ -14,8 +14,7 @@ export class AppComponent {
     translateService.addLangs(languages);
     translateService.setDefaultLang('fr');
     languages.forEach(lang => translateService.use(lang));
-    translateService.use(languages[0]);
-
+    translateService.use(this.translateService.getBrowserLang());
   }
 
 }

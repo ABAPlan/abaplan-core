@@ -39,6 +39,10 @@ export class VoiceService {
     this.voiceProvider.simulate(s);
   }
 
+  public initialization():void{
+    this.voiceProvider.initialization();
+  }
+
 }
 
 interface IVoiceProvider {
@@ -46,6 +50,7 @@ interface IVoiceProvider {
   addCommand(indexes: string[], description: string, action: (i: number, wildcard?: string) => void );
   changeLang(lang:string);
   simulate(s:string);
+  initialization();
 }
 
 class ArtyomProvider implements IVoiceProvider {
@@ -54,14 +59,7 @@ class ArtyomProvider implements IVoiceProvider {
   private lang :string;
 
   constructor() {
-    this.artyom.initialize({
-      lang: 'fr-FR',
-      continuous: true,
-      soundex: true,
-      debug: true,
-      listen: true
-    });
-    this.lang='fr-FR';
+
   }
 
   /** Text-to-speech in the current lang */
@@ -78,14 +76,27 @@ class ArtyomProvider implements IVoiceProvider {
     this.artyom.addCommands(command);
   }
 
+  public initialization(){
+    this.artyom.initialize({
+      lang: 'fr-FR',
+      continuous: true,
+      soundex: true,
+      debug: true,
+      listen: true
+    });
+    this.lang='fr-FR';
+  }
+
+
   /** Change Current Lang of the Speaker */
   public changeLang(lang:string):void{
-      this.lang=lang;
+    this.lang=lang;
   }
 
   /** Simulation a voice recognition */
   public simulate(s:string):void{
     this.artyom.simulateInstruction(s);
   }
+
 
 }

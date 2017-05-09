@@ -50,6 +50,7 @@ export class TouchpadComponent {
 
     /**Init the voice commands and start calibration */
     document.onreadystatechange= () => {
+      this.voiceService.initialization();
       this.prepareVoiceCommand();
       this.voiceService.say(this.getStringTranslation("touchpadCenter"));
     }
@@ -261,7 +262,7 @@ export class TouchpadComponent {
         () => this.changeLang(entry,codeVoice)
       );
     }
-    this.translateService.use(langs[0]);
+    this.translateService.use(this.translateService.getBrowserLang());
   }
 
   /** Locate click and notity the user */
