@@ -70,10 +70,14 @@ export class MapComponent implements OnInit {
         {
           map: this.map,
           /* useMapExtent:false, */
-          /*allPlaceholder:" ",*/
-          enableHighlight: false
+          enableHighlight: false,
         }, "search"
       );
+
+      let s = this.search.sources;
+      s[0].placeholder = "";
+      this.search.set("sources", s);
+
     }
 
     this.checkNeedZoom();
