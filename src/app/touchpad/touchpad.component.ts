@@ -5,6 +5,7 @@ import { MapService } from '../map/map.service';
 import { GeoService } from '../core/geo.service';
 import { VoiceService } from '../core/voice.service';
 import { StateService } from "../core/state.service";
+import { KmlService } from "../core/kml.service";
 import { OptionMap } from '../map/map';
 import { MapComponent } from '../map/map.component'
 
@@ -45,6 +46,7 @@ export class TouchpadComponent {
     private stateService : StateService,
     private geoService : GeoService,
     private translateService: TranslateService,
+    private kmlService: KmlService,
     private _elementRef: ElementRef
   ){
 
@@ -53,6 +55,10 @@ export class TouchpadComponent {
       this.voiceService.initialization();
       this.prepareVoiceCommand();
       this.voiceService.say(this.getStringTranslation("touchpadCenter"));
+
+      kmlService.currentPoint('Ecole',  6.1350853, 46.2094838);
+      kmlService.addCurrentPoint();
+      kmlService.toKml();
     }
 
     document.onclick = (ev: MouseEvent) => {
