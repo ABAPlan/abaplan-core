@@ -56,9 +56,16 @@ export class TouchpadComponent {
       this.prepareVoiceCommand();
       this.voiceService.say(this.getStringTranslation("touchpadCenter"));
 
-      kmlService.currentPoint('Ecole',  6.1350853, 46.2094838);
-      kmlService.addCurrentPoint();
-      kmlService.toKml();
+      this.voiceService.simulate("Itinéraire");
+       this.kmlService.currentPoint(6.1350853, 46.2094838);
+      this.voiceService.simulate("Ajoute Ecole");
+
+      this.kmlService.currentPoint(7.1350853, 46.2094838);
+      this.voiceService.simulate("Ajoute Random");
+
+      this.voiceService.simulate("Supprime");
+
+      this.voiceService.simulate("Sauve testkml");
     }
 
     document.onclick = (ev: MouseEvent) => {
@@ -128,6 +135,10 @@ export class TouchpadComponent {
             } else {
               console.warn("Impossible state, searchingPoint must be defined");
             }
+            break;
+          case "itinerary":
+            this.kmlService.currentPoint(touchPoint.x,touchPoint.y);
+            this.locateClick(touchPoint);
             break;
         }
 
@@ -215,6 +226,52 @@ export class TouchpadComponent {
     );
   }
 
+  /** Switch to itinerary mode */
+  private itineraryCommand():void{
+    this.stateService.changeMode( {mode: "itinerary"} );
+    this.voiceService.say(this.getStringTranslation("itineraryActive"));
+  }
+
+  /** Add last Press Location */
+  private itineraryAddCommand(i: number, wildcard: string):void{
+    if(this.stateService.activeMode().mode == "itinerary"){
+      if(this.kmlService.addCurrentPoint(wildcard))
+        this.voiceService.say(this.getStringTranslation("itineraryAddPoint")+wildcard);
+      else
+        this.voiceService.say(this.getStringTranslation("itineraryAddPointError"));
+    }else{
+        this.voiceService.say(this.getStringTranslation("itineraryError"));
+    }
+  }
+
+  /** Delet last add point */
+  private itineraryDeletLastCommand():void{
+    if(this.stateService.activeMode().mode == "itinerary"){
+      if(this.kmlService.deletLastPoint())
+          this.voiceService.say(this.getStringTranslation("Suppression réussi"));
+      else
+        this.voiceService.say(this.getStringTranslation("itineraryDeletLastError"));
+    }else{
+        this.voiceService.say(this.getStringTranslation("itineraryError"));
+    }
+  }
+
+  /** Stop the current Session */
+  private itineraryStopSession():void{
+    this.kmlService.endCurrentSession();
+    this.readCommand();
+  }
+
+  private itineraryEndSession(i: number, wildcard: string):void{
+    if(this.kmlService.toKml(wildcard)){
+      this.voiceService.say(this.getStringTranslation("itinerarySave"));
+      this.kmlService.endCurrentSession();
+      this.readCommand();
+    }
+    else
+      this.voiceService.say(this.getStringTranslation("itinerarySaveError"));
+  }
+
   /** Notity the user in terms of input number  */
   private offendCommand(i:number):void{
     if (i%3===0) {
@@ -267,6 +324,42 @@ export class TouchpadComponent {
         this.getStringTranslation("codeLang"),
         () => this.changeLang(entry,codeVoice)
       );
+
+      // switch to itinerary Mode
+      this.voiceService.addCommand(
+        [this.getStringTranslation("itineraryId")],
+        this.getStringTranslation("itineraryDescri"),
+        () => this.itineraryCommand()
+      );
+
+      // itinerary Mode - Add
+      this.voiceService.addCommand(
+        this.getStringTranslations("itineraryAddId"),
+        this.getStringTranslation("itineraryAddDescri"),
+        (i: number, wildcard: string) => this.itineraryAddCommand(i, wildcard)
+      );
+
+      // itinerary Mode - Delet Last
+      this.voiceService.addCommand(
+        [this.getStringTranslation("itineraryDeletId")],
+        this.getStringTranslation("itineraryDeletDescri"),
+        () => this.itineraryDeletLastCommand()
+      );
+
+      // itinerary Mode - Abort
+      this.voiceService.addCommand(
+        this.getStringTranslations("itineraryAbortId"),
+        this.getStringTranslation("itineraryAbortDescri"),
+        () => this.itineraryStopSession()
+      );
+
+      // itinerary Mode - Save As
+      this.voiceService.addCommand(
+        this.getStringTranslations("itinerarySaveId"),
+        this.getStringTranslation("itinerarySaveDescri"),
+        (i: number, wildcard: string) => this.itineraryEndSession(i, wildcard)
+      );
+
     }
     this.translateService.use(this.translateService.getBrowserLang());
   }
@@ -281,7 +374,6 @@ export class TouchpadComponent {
         }
       }
     );
-
   }
 
   /** Notity the user of direction */

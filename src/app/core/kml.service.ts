@@ -23,18 +23,16 @@ export class KmlService {
     this.lastPoint.name = undefined;
   }
 
-  public currentPoint(name:string,longitude:number,latitude:number):void{
-// add check of number Latitudes range from -90 to 90 Longitudes range from -180 to 180.
+  public currentPoint(longitude:number,latitude:number):void{
     this.lastPoint.lat = latitude;
     this.lastPoint.lng = longitude;
-    this.lastPoint.name = name;
   }
 
-  public addCurrentPoint():Boolean{
+  public addCurrentPoint(name:string):Boolean{
     if(this.lastPoint.lng == undefined)
       return false;
 
-    this.datas.push({name:this.lastPoint.name,lat:this.lastPoint.lat,lng:this.lastPoint.lng});
+    this.datas.push({name:name,lat:this.lastPoint.lat,lng:this.lastPoint.lng});
     this.emtpylastPoint();
     this.isDeletable = true;
     return true;
@@ -44,12 +42,12 @@ export class KmlService {
     if(!this.isDeletable)
       return false;
 
-    this.datas = this.datas.slice(0,this.datas.length-2);
+    this.datas.slice(0,this.datas.length-2);
     this.isDeletable = false;
     return true;
   }
 
-  public toKml():Boolean{
+  public toKml(nameFile:string):Boolean{
     if(this.datas.length <1)
       return false;
 
@@ -57,10 +55,9 @@ export class KmlService {
     let kmlNameDescription = tokml(geojsonObject, {
           documentName: 'Initeraire'
     });
-    //kmlNameDescription
+
     let file = new Blob([kmlNameDescription], { type: 'text/kml;charset=utf-8' });
-    fileSaver.saveAs(file, 'file.kml');
-    console.log(kmlNameDescription);
+    fileSaver.saveAs(file, nameFile+'.kml');
     return true;
   }
 

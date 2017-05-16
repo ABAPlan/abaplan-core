@@ -85,6 +85,34 @@
         "offendTextTwo":"aufhören",
         "offendTextTree":"aufhören",
 
+        "itineraryId":"Itinéraire",
+        "itineraryDescri":"Enclenchement du mode itinéraire",
+        "itineraryAddId":[
+                        { "value": "Ajoute *" },
+                        { "value": "Ajouter *"}
+                    ],
+        "itineraryAddDescri":"Ajoute un point",
+        "itineraryDeletId":"Supprime",
+        "itineraryDeletDescri":"Suprimme le dernier Point",
+        "itineraryAbortId":[
+                        { "value": "Arrête Itinéraire" },
+                        { "value": "Arrêter Itinéraire"}
+                        ],
+        "itineraryAbortDescri":"Arrêt l'Itinéraire en cours",
+        "itinerarySaveId":[
+                        { "value": "Sauve *" },
+                        { "value": "Sauvgarde *"}
+                        ],
+        "itinerarySaveDescri":"Sauve dans un fichier kml",
+        "itineraryActive": "Mode Itinéraire activé",
+        "itineraryAddPoint": "Ajout du point",
+        "itineraryAddPointError": "Pas de point à ajouter",
+        "itineraryError": "Cette commande n'existe pas dans le mode actuel",
+        "itineraryDeletLastError": "Pas de point à supprimer",
+        "itineraryDelet": "Suppression réussi",
+        "itinerarySave": "Sauvegarde réussi",
+        "itinerarySaveError": "Pas de valeur à Sauvegarder",
+
 "_comment": "lang",
         "myLang":"Deutsch",
         "codeLang":"de",
