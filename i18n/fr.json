@@ -95,7 +95,7 @@
                     ],
         "itineraryAddDescri":"Ajoute un point",
         "itineraryDeletId":"Supprime",
-        "itineraryDeletDescri":"Suprimme le dernier Point",
+        "itineraryDeletDescri":"Supprime le dernier Point",
         "itineraryAbortId":[
                         { "value": "Arrête Itinéraire" },
                         { "value": "Arrêter Itinéraire"}
