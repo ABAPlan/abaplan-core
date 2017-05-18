@@ -55,17 +55,6 @@ export class TouchpadComponent {
       this.voiceService.initialization();
       this.prepareVoiceCommand();
       this.voiceService.say(this.getStringTranslation("touchpadCenter"));
-
-      this.voiceService.simulate("Itinéraire");
-       this.kmlService.currentPoint(6.1350853, 46.2094838);
-      this.voiceService.simulate("Ajoute Ecole");
-
-      this.kmlService.currentPoint(7.1350853, 46.2094838);
-      this.voiceService.simulate("Ajoute Random");
-
-      this.voiceService.simulate("Supprime");
-
-      this.voiceService.simulate("Sauve testkml");
     }
 
     document.onclick = (ev: MouseEvent) => {
@@ -230,6 +219,8 @@ export class TouchpadComponent {
   private itineraryCommand():void{
     this.stateService.changeMode( {mode: "itinerary"} );
     this.voiceService.say(this.getStringTranslation("itineraryActive"));
+    //In case of the user switch mod in middle of session , reset values
+    this.kmlService.endCurrentSession();
   }
 
   /** Add last Press Location */
@@ -248,7 +239,7 @@ export class TouchpadComponent {
   private itineraryDeletLastCommand():void{
     if(this.stateService.activeMode().mode == "itinerary"){
       if(this.kmlService.deletLastPoint())
-          this.voiceService.say(this.getStringTranslation("Suppression réussi"));
+          this.voiceService.say(this.getStringTranslation("itineraryDelet"));
       else
         this.voiceService.say(this.getStringTranslation("itineraryDeletLastError"));
     }else{
