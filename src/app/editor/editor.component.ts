@@ -86,7 +86,7 @@ export class EditorComponent {
         break;
 
       case "print":
-        if (!this.flagSavable){
+    /**    if (!this.flagSavable){
           this.modalYesNoComponent.open();
         } else {
           console.log("NOON");
@@ -94,7 +94,8 @@ export class EditorComponent {
           let date = this.mapComponent.map.creationDate;
           let map = this.getMapString();
           this.printService.printMap(map, title, date);
-        }
+        }**/
+        window.print();
         break;
 
       case "open":

@@ -12,3 +12,15 @@ aba-toolbar-map {
     padding-top: 38px;
     margin-left: 40px;
 }
+
+@media print {
+    body {
+      size: landscape;
+      margin: 0mm;}
+
+    aba-toolbar-map ,aba-select-lang,.title,.typeMaps,.arcgisSearch{
+       display: none;
+    }
+
+
+}
