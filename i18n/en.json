@@ -49,6 +49,23 @@
             "touchpadCenter": "Press in the middle of the touchpad",
 
 "_comment": "Voice Commande",
+            "helpId": [
+                        { "value": "help *" }
+                      ],
+            "helpDescri": "to get help",
+            "mainHelpIntro": "Les modes de fonctionnement disponible sont",
+            "mainHelpMode": "Le mode ",
+            "mainHelpDo": "qui permet de ",
+            "mainHelp*": "Le * veut dire remplacement par une chaine de caractères ",
+            "mainHelpLang": "Pour changer la langue du système utiliser le nom de celle-ci",
+            "readHelp": "Ce mode de fonctionnement permet d'obtenir la rue en fonction de la pression sur la dalle tactile",
+            "searchHelp": "Pour utiliser ce mode il faut indiquer le mot clef de recherche suivit d'un nom de rue, si l'adresse est juste lors de la pression sur la dalle tactile va indiquer une direction et une distance par rapport à la recherche voulue",
+            "itineraryHelp": "Ce mode de fonctionnement contient quatre commandes",
+            "itineraryAddHelp": " Cette commande permet d'ajouter un point. * permet d'indiquer le nom du point",
+            "itineraryDelHelp": " Cette commande permet de supprimer le dernier point ajouter en cas d'erreur.",
+            "itinerarySaveHelp": " Cette commande permet de terminer l'itinéraire et créer un fichier KML. * indique le nom du fichier",
+            "itineraryEndHelp": " Cette commande permet de sortir du mode itinéraire cela supprime tous le contenu insérer",
+
             "readId":  [
                            { "value": "read" }
                        ],
