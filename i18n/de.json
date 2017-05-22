@@ -49,6 +49,23 @@
     "touchpadCenter": "Im Zentrum der Platte drücken",
 
 "_comment": "Voice Commande",
+        "helpId": [
+                        { "value": "hilfe *" }
+                  ],
+        "helpDescri": "hilfe erhalten",
+        "mainHelpIntro": "Die Betriebsarten stehen zur Verfügung",
+        "mainHelpMode": "der Modus ",
+        "mainHelpDo": " erlaubt ",
+        "mainHelp*": " * bedeutet Ersetzung durch eine Zeichenkette",
+        "mainHelpLang": "Um die Systemsprache ändern Sie den Namen der es mit",
+        "readHelp": "Dieser Modus bietet die Straße je nach dem Druck auf dem Touchscreen",
+        "searchHelp": "Um diesen Modus zu verwenden, müssen Sie den Suchbegriff eingeben, indem Sie einen Straßennamen gefolgt, wenn die Adresse richtig ist, wenn sie auf dem Touchscreen drücken, wird Richtung und Entfernung zum gewünschten Such zeigen",
+        "itineraryHelp": "Diese Betriebsart enthält vier Befehle",
+        "itineraryAddHelp": " Dieser Befehl fügt einen Punkt. * Um die Punktnamen angeben",
+        "itineraryDelHelp": " Dieser Befehl entfernt das letzte Element in Fehler hinzugefügt.",
+        "itinerarySaveHelp": " Dieser Befehl um die Strecke zu beenden und eine KML-Datei erstellen. * Zeigt den Dateinamen",
+        "itineraryEndHelp": " Dieser Befehl aus der Mode dieser Route löscht alle Inhalte eingefügt",
+
         "readId": [
                         { "value": "Lesung" }
                   ],
