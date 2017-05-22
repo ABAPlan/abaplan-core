@@ -49,7 +49,9 @@
     "touchpadCenter": "Im Zentrum der Platte drücken",
 
 "_comment": "Voice Commande",
-        "readId": "Lesung",
+        "readId": [
+                        { "value": "Lesung" }
+                  ],
         "readDescri": "Lesung, Voreinstellung",
         "readActive": "Weise Lesung, die aktiviert ist",
 
@@ -85,14 +87,18 @@
         "offendTextTwo":"aufhören",
         "offendTextTree":"aufhören",
 
-        "itineraryId":"Strecke",
+        "itineraryId":[
+                        { "value": "Strecke" }
+                      ],
         "itineraryDescri":"Strecke aktiven Modus",
         "itineraryAddId":[
                         { "value": "hinzufügen *" },
                         { "value": "sagen *"}
                     ],
         "itineraryAddDescri":"Einen Punkt hinzufügen",
-        "itineraryDeletId":"löscht",
+        "itineraryDeletId":[
+                              { "value": "löscht" }
+                           ],
         "itineraryDeletDescri":"Beseitige den letzten Punkt",
         "itineraryAbortId":[
                         { "value": "Die Weise anhalten" },

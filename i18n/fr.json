@@ -49,8 +49,19 @@
     "touchpadCenter": "Appuyer au centre de la dalle",
 
 "_comment": "Voice Commande",
-        "readId": "lecture",
-        "readDescri": "lecture, mode par défaut",
+        "helpId": [
+                        { "value": "aide *" }
+                  ],
+        "helpDescri": "obtenir l'aide",
+        "mainHelpIntro": "Les modes de fonctionnement disponible sont",
+        "mainHelpMode": "Le mode ",
+        "mainHelpDo": "qui permet de",
+        "mainHelp*": "Le * veut dire remplacement par une chaine de caractères",
+
+        "readId": [
+                        { "value": "lecture" }
+                  ],
+        "readDescri": "obtenir une adresses",
         "readActive": "Mode lecture activé",
 
         "searchId": [
@@ -59,7 +70,7 @@
                         { "value": "cherche *"},
                         { "value": "chercher *"}
                     ],
-        "searchDescri":"Recherche d'un emplacement",
+        "searchDescri":"rechercher une adresse",
         "searchOk":"Recherche",
         "searchKo":"Recherche invalide",
         "search_upper":"en haut",
@@ -87,14 +98,18 @@
         "offendTextTwo":"On dit Zut !",
         "offendTextTree":"Plait-il ?",
 
-        "itineraryId":"Itinéraire",
-        "itineraryDescri":"Enclenchement du mode itinéraire",
+        "itineraryId":[
+                        { "value": "Itinéraire" }
+                      ],
+        "itineraryDescri":"Créer un itinéraire",
         "itineraryAddId":[
                         { "value": "Ajoute *" },
                         { "value": "Ajouter *"}
                     ],
         "itineraryAddDescri":"Ajoute un point",
-        "itineraryDeletId":"Supprime",
+        "itineraryDeletId":[
+                               { "value": "Supprime" }
+                           ],
         "itineraryDeletDescri":"Supprime le dernier Point",
         "itineraryAbortId":[
                         { "value": "Arrête Itinéraire" },
