@@ -55,11 +55,6 @@ export class TouchpadComponent {
       this.voiceService.initialization();
       this.prepareVoiceCommand();
       this.voiceService.say(this.getStringTranslation("touchpadCenter"));
-
-      this.voiceService.simulate("aide ");
-      this.voiceService.simulate("aide lecture");
-  //    this.voiceService.simulate("english");
-  //    this.voiceService.simulate("aide");
     }
 
     document.onclick = (ev: MouseEvent) => {
@@ -289,16 +284,28 @@ export class TouchpadComponent {
   private helpCommand(i: number, wildcard: string, langTranslate : string):void{
     let currentLang = this.translateService.currentLang;
     this.translateService.use(langTranslate);
+    console.log(wildcard);
+    console.log(this.getStringTranslations("itineraryId")[0]);
     switch(wildcard){
       case this.getStringTranslations("readId")[0]:
-        this.voiceService.say("Yolo");
+        this.voiceService.say(this.getStringTranslation("readHelp"));
         break;
       case this.getStringTranslations("itineraryId")[0]:
+        this.voiceService.say(this.getStringTranslation("itineraryHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryAddId")[0]
+                              +this.getStringTranslation("itineraryAddHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryDeletId")[0]
+                              +this.getStringTranslation("itineraryDelHelp"));
+        this.voiceService.say(this.getStringTranslations("itinerarySaveId")[0]
+                              +this.getStringTranslation("itinerarySaveHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryAbortId")[0]
+                              +this.getStringTranslation("itineraryEndHelp"));
         break;
-      case this.getStringTranslations("searchId")[0]:
+      case this.getStringTranslations("searchId")[0].replace(' *',''):
+        this.voiceService.say(this.getStringTranslation("searchHelp"));
         break;
       default:
-        this.voiceService.say("Les modes de fonctionnement disponible sont");
+        this.voiceService.say(this.getStringTranslation("mainHelpIntro"));
         // Read Command
         this.voiceService.say(this.getStringTranslation("mainHelpMode")
                               +this.getStringTranslations("readId")[0]);
@@ -316,6 +323,9 @@ export class TouchpadComponent {
                               + this.getStringTranslation("itineraryDescri"));
         // * help
         this.voiceService.say(this.getStringTranslation("mainHelp*"));
+
+        // lang
+        this.voiceService.say(this.getStringTranslation("mainHelpLang"));
         break;
     }
     this.translateService.use(currentLang);
