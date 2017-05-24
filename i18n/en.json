@@ -1,0 +1,90 @@
+{
+"_comment": "Editor Component ",
+    "city" : "City map",
+    "osm" : "OSM map",
+    "square" : "Square map",
+
+
+"_comment": "Modal Map List",
+    "listModalMap" : "Maps list",
+    "searchModalMap" : "Search by title or id",
+    "idModalMap" : "Id",
+    "titleModalMap" : "Title",
+    "dateModalMap" : "Creation Date",
+    "closeModalMap" : "Close",
+
+
+"_comment": "Modal Map Save",
+    "saveMapModalSave" : "Save Map",
+    "titleModalSave" : "Title",
+    "titleMapModalSave" : "Map Title",
+    "visibilityModalSave" : "Visibility",
+    "publicMapModalSave" : "Public map",
+    "privateMapModalSave" : "Private map",
+    "saveModalSave" : "Save",
+    "cancelModalSave" : "Cancel",
+    "notPrivateModalSave" : "For the moment, it is not possible to register private maps",
+
+"_comment": "Toolbar",
+    "move":"Move",
+    "select":"Select",
+    "delete":"Delete",
+    "draw_circle" :"Circle",
+    "draw_polygon":"Polygon",
+    "draw_traits": "Traits",
+    "draw_pedestrian": "Pedestrian pathway",
+    "print": "Print",
+    "open" : "Open",
+    "save": "Save",
+
+"_comment": "Map",
+        "mapZoom": "Please Zoom",
+
+        "_comment": "Voice Calibration",
+            "touchpadTopLeft": "Press on the top left",
+            "touchpadTopRight": "Press on the top right",
+            "touchpadBottomLeft": "on the bottom left",
+            "touchpadBottomRight": "on the bottom right",
+            "touchpadOk": "TouchPad calibrated",
+            "touchpadCenter": "Press in the middle of the touchpad",
+
+"_comment": "Voice Commande",
+            "readId": "Read",
+            "readDescri": "Read, default mode",
+            "readActive": "Read Mode",
+
+            "searchId": [
+                            { "value": "Search *" },
+                            { "value": "Searching *" }
+                        ],
+            "searchDescri":"Search d'un emplacement",
+            "searchOk":"Search",
+            "searchKo":"Invalid Search",
+            "search_upper":"top",
+            "search_lower":"bottom",
+            "search_left":"to the left",
+            "search_right":"to the right",
+            "search_upper_left":"top left",
+            "search_upper_right":"top right",
+            "search_lower_left":"at the bottom left",
+            "search_lower_right":"at the bottom right",
+            "search_center":"in middle",
+            "searchKilometer":"kilometer",
+            "searchMeter":"meter",
+            "searchArrived":"You have arrived",
+            "searchTo":"to",
+
+            "offendId": [
+                            { "value": "shit" },
+                            { "value": "cunt" }
+                        ],
+            "offendDescri":"Offend",
+            "offendTextOne":"Please , calm yourself",
+            "offendTextTwo":"Stop this",
+            "offendTextTree":"Please , calm yourself",
+  "_comment": "lang",
+                "myLang":"English",
+                "codeLang":"en",
+                "codeLangVoice":"en-GB"
+
+}

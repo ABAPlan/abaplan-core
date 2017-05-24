@@ -15,9 +15,10 @@ import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
-interface IButtonInfo { heading: string }
-type ButtonInfo = LayerType & IButtonInfo;
+import {TranslateService} from 'ng2-translate';
+import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 
+type ButtonInfo = LayerType ;
 
 @Component({
   selector: 'aba-editor',
@@ -42,24 +43,24 @@ export class EditorComponent {
 
   private _btnInfos: Array<ButtonInfo> = [
     {
-      heading: 'Plan OSM',
       kind : 'osm'
     },
     {
-      heading: 'Plan de quartier',
       kind : 'square'
     },
     {
-      heading: 'Plan de ville',
       kind : 'city'
     }
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-  constructor(private printService: PrintService) {}
+  constructor(private printService: PrintService,private translateService: TranslateService) {
+
+  }
 
   private onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
+    this.mapComponent.mapZoom = (this.translateService.get("mapZoom")as ScalarObservable<string>).value;
   }
 
   private updateTool(tool: Command & KindTool) {

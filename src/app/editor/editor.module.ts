@@ -11,6 +11,7 @@ import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 import { ToolbarMapComponent } from "./toolbar/toolbar.component";
 import { EditorComponent } from "./editor.component";
+import { SelectLangComponent } from "./select-lang/select-lang.component";
 
 /* Internal Pipes */
 import { FilterMapsPipe } from "./modal-maps-list/filtermaps.pipe";
@@ -18,11 +19,13 @@ import { FilterMapsPipe } from "./modal-maps-list/filtermaps.pipe";
 /* External Components */
 import { PaginationComponent } from "../shared/pagination/pagination-buttons.component";
 
+import {TranslateModule} from "ng2-translate";
 
 @NgModule({
-  imports:      [ SharedModule ],
+  imports:      [ SharedModule,  TranslateModule ],
   declarations: [
-      EditorComponent
+      SelectLangComponent
+    , EditorComponent
     , ModalMapComponent
     , ModalSaveMapComponent
     , ToolbarMapComponent

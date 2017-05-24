@@ -1,0 +1,98 @@
+{
+"_comment": "Editor Component ",
+    "city" : "Plan de Ville",
+    "osm" : "Plan OSM",
+    "square" : "Plan de quartier",
+
+
+"_comment": "Modal Map List",
+    "listModalMap" : "Liste des cartes",
+    "searchModalMap" : "Rechercher par titre ou id",
+    "idModalMap" : "Id",
+    "titleModalMap" : "Titre",
+    "dateModalMap" : "Date de création",
+    "closeModalMap" : "Fermer",
+
+
+"_comment": "Modal Map Save",
+    "saveMapModalSave" : "Sauvegarder une carte",
+    "titleModalSave" : "Titre",
+    "titleMapModalSave" : "Titre de la carte",
+    "visibilityModalSave" : "Visibilité",
+    "publicMapModalSave" : "Carte publique",
+    "privateMapModalSave" : "Carte privée",
+    "saveModalSave" : "Sauvegarder",
+    "cancelModalSave" : "Annuler",
+    "notPrivateModalSave" : "Pour l'instant, il n'est pas possible d'enregistrer des cartes privées",
+
+"_comment": "Toolbar",
+    "move":"Déplacer",
+    "select":"Sélectionner",
+    "delete":"Supprimer",
+    "draw_circle" :"Cercle",
+    "draw_polygon":"Polygone",
+    "draw_traits": "Traitillés",
+    "draw_pedestrian": "Passage piétons",
+    "print": "Imprimer",
+    "open" : "Ouvrir",
+    "save": "Sauvegarder",
+
+"_comment": "Map",
+    "mapZoom": "Veuillez zoomer plus",
+
+"_comment": "Voice Calibration",
+    "touchpadTopLeft": "Appuyer en haut à gauche",
+    "touchpadTopRight": "en haut à droite",
+    "touchpadBottomLeft": "en bas à gauche",
+    "touchpadBottomRight": "en bas à droite",
+    "touchpadOk": "Dalle calibrée",
+    "touchpadCenter": "Appuyer au centre de la dalle",
+
+"_comment": "Voice Commande",
+        "readId": "lecture",
+        "readDescri": "lecture, mode par défaut",
+        "readActive": "Mode lecture activé",
+
+        "searchId": [
+                        { "value": "rechercher *" },
+                        { "value": "recherche *"},
+                        { "value": "cherche *"},
+                        { "value": "chercher *"}
+                    ],
+        "searchDescri":"Recherche d'un emplacement",
+        "searchOk":"Recherche",
+        "searchKo":"Recherche invalide",
+        "search_upper":"en haut",
+        "search_lower":"en bas",
+        "search_left":"à gauche",
+        "search_right":"à droite",
+        "search_upper_left":"en haut à gauche",
+        "search_upper_right":"en haut à droite",
+        "search_lower_left":"en bas à gauche",
+        "search_lower_right":"en bas à droite",
+        "search_center":"au centre",
+        "searchKilometer":"kilomètre",
+        "searchMeter":"mètres",
+        "searchArrived":"Vous êtes arrivé",
+        "searchTo":"à",
+
+        "offendId": [
+                        { "value": "merde" },
+                        { "value": "saloperie"},
+                        { "value": "ta gueule"},
+                        { "value": "chier"}
+                    ],
+        "offendDescri":"grossièreté",
+        "offendTextOne":"Par pitié, calmez vous",
+        "offendTextTwo":"On dit Zut !",
+        "offendTextTree":"Plait-il ?",
+
+"_comment": "lang",
+        "myLang":"Français",
+        "codeLang":"fr",
+        "codeLangVoice":"fr-FR"
+
+
+
+
+}

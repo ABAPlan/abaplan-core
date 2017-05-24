@@ -1,19 +1,21 @@
 <div class="container">
     <div class="row show-grid">
         <h1>{{title}}</h1>
-        <h4>{{ _activeButtonInfo.heading }}</h4>
+        <h4>{{ _activeButtonInfo.kind | translate}}</h4>
     </div>
 
     <div class="row show-grid">
-        <div class="btn-group">
+        <div class="btn-group form-inline">
             <button
                     *ngFor="let tab of _btnInfos"
                     class="btn btn-primary"
                     [class.active]="isActive(tab)"
-                    (click)="onClick(tab)"> {{ tab.heading }}
-            </button>
+                    (click)="onClick(tab)"> {{ tab.kind | translate }}
+            </button>    
         </div>
+        <aba-select-lang></aba-select-lang>
     </div>
+
 
     <div class="row show-grid">
         <div class="col-md-12">

@@ -9,6 +9,7 @@ import {ModalSaveMapComponent} from "../editor/modal-save-map/modal-save-map.com
 import {ModalMapComponent} from "../editor/modal-maps-list/modal-maps-list.component";
 import {FormsModule} from "@angular/forms";
 
+
 @NgModule({
   imports: [
     /*
@@ -24,6 +25,6 @@ import {FormsModule} from "@angular/forms";
     , ModalMapComponent
     */
   ],
-  providers:    [ /*MapService */]
+  providers:    [/* MapService*/]
 })
 export class MapModule { }

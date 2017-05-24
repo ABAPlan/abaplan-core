@@ -8,7 +8,7 @@
                 (click)="onClick(tool)"
                 [class.active]="isActive(tool)">
             <img src="{{ tool.image }}">
-            <span class="tooltiptext">{{ tool.heading }}</span>
+            <span class="tooltiptext">{{tool.command | translate}}</span>
         </button>
     </div>
 </div>
@@ -22,7 +22,7 @@
                 (click)="onClick(tool)"
                 [class.active]="isActive(tool)">
             <img src="{{ tool.image }}">
-            <span class="tooltiptext">{{ tool.heading }}</span>
+            <span class="tooltiptext">{{tool.command | translate}}</span>
         </button>
     </div>
 
@@ -35,7 +35,7 @@
                 class="btn btn-primary btn-md"
                 (click)="onClick(tool)">
             <img src="{{ tool.image }}">
-            <span class="tooltiptext">{{ tool.heading }}</span>
+            <span class="tooltiptext">{{tool.command | translate}}</span>
         </button>
     </div>
 

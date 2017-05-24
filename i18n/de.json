@@ -1,0 +1,96 @@
+{
+"_comment": "Editor Component ",
+    "city" : "Stadtplan",
+    "osm" : "Plan OSM",
+    "square" : "Plan von Bezirk",
+
+
+"_comment": "Modal Map List",
+    "listModalMap" : "Liste von Landkarten",
+    "searchModalMap" : "Von Titel suchen oder der identifiziert",
+    "idModalMap" : "Identifiziert",
+    "titleModalMap" : "Titel",
+    "dateModalMap" : "Datiere mit der Schaffung",
+    "closeModalMap" : "Geschlossen",
+
+
+"_comment": "Modal Map Save",
+    "saveMapModalSave" : "Eine Landkarte sichern",
+    "titleModalSave" : "Titel",
+    "titleMapModalSave" : "Titel der Landkarte",
+    "visibilityModalSave" : "Sichtbarkeit",
+    "publicMapModalSave" : "Öffentliche Landkarte",
+    "privateMapModalSave" : "Private Landkarte",
+    "saveModalSave" : "Geschlossen",
+    "cancelModalSave" : "Aufheben",
+    "notPrivateModalSave" : "Zur Zeit ist es nicht möglich, private Landkarte aufzunehmen",
+
+"_comment": "Toolbar",
+    "move":"Bewegen",
+    "select":"Auswählen",
+    "delete":"Löschen",
+    "draw_circle" :"Kreis",
+    "draw_polygon":"Polygon",
+    "draw_traits": "Linie",
+    "draw_pedestrian": "Vorübergehen Fussgänger",
+    "print": "Drucken",
+    "open" : "öffnen",
+    "save": "Sichern",
+
+"_comment": "Map",
+    "mapZoom": "Zoom mehr",
+
+"_comment": "Voice Calibration",
+    "touchpadTopLeft": "Oben nach links drücken",
+    "touchpadTopRight": "oben rechts",
+    "touchpadBottomLeft": "unten links",
+    "touchpadBottomRight": "unten rechts",
+    "touchpadOk": "Kalibrierte Platte",
+    "touchpadCenter": "Im Zentrum der Platte drücken",
+
+"_comment": "Voice Commande",
+        "readId": "Lesung",
+        "readDescri": "Lesung, Voreinstellung",
+        "readActive": "Weise Lesung, die aktiviert ist",
+
+        "searchId": [
+                        { "value": "suchen *" },
+                        { "value": "sucht *"}
+                    ],
+        "searchDescri":"Suche nach einer Stelle",
+        "searchOk":"Suche",
+        "searchKo":"Gebrechliche Suche",
+        "search_upper":"oben",
+        "search_lower":"unten",
+        "search_left":"links",
+        "search_right":"rechts",
+        "search_upper_left":"oben links",
+        "search_upper_right":"oben rechts",
+        "search_lower_left":"unten links",
+        "search_lower_right":"unten rechts",
+        "search_center":"im Mittelpunkt",
+        "searchKilometer":"Kilometer",
+        "searchMeter":"Meter",
+        "searchArrived":"Sie kamen",
+        "searchTo":"In",
+
+        "offendId": [
+                        { "value": "Arschloch" },
+                        { "value": "Hurenkind"},
+                        { "value": "Schlampe"},
+                        { "value": "Maul zu"}
+                    ],
+        "offendDescri":"Grobheiten",
+        "offendTextOne":"Von Mitleid, beruhigen Sie Sie",
+        "offendTextTwo":"aufhören",
+        "offendTextTree":"aufhören",
+
+"_comment": "lang",
+        "myLang":"Deutsch",
+        "codeLang":"de",
+        "codeLangVoice":"de-DE"
+
+
+
+
+}

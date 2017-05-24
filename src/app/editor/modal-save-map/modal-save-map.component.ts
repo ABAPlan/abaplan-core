@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {TranslateService} from 'ng2-translate';
 
 @Component({
   selector: 'aba-modal-save-map',
@@ -12,7 +13,7 @@ export class ModalSaveMapComponent {
 
   private title: string = "";
 
-  constructor() {
+  constructor(private translateService: TranslateService) {
   }
 
   private isVisible(): boolean {

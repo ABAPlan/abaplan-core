@@ -16,6 +16,11 @@ import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 import {Vector2d, Plane2d, transform} from '../core/vector2d';
 import LatLng = google.maps.LatLng;
 
+import {TranslateService} from "ng2-translate";
+import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
+
+interface translations  {value : string};
+
 @Component({
   selector: 'aba-touchpad',
   templateUrl: 'touchpad.component.html',
@@ -39,11 +44,23 @@ export class TouchpadComponent {
     private voiceService : VoiceService,
     private stateService : StateService,
     private geoService : GeoService,
+    private translateService: TranslateService,
     private _elementRef: ElementRef
   ){
 
-    this.prepareVoiceCommand();
-    this.voiceService.say("Appuyez au centre de la dalle");
+    /**Init the voice commands and start calibration
+    *
+    * Can't be directly in the constructor beacause of
+    * compatibity with voice Commands (library can't charge voice early)
+    * Hack with onReady callback to be call after
+    * init of page
+    *  (pj)
+    */
+    document.onreadystatechange= () => {
+      this.voiceService.initialization();
+      this.prepareVoiceCommand();
+      this.voiceService.say(this.getStringTranslation("touchpadCenter"));
+    }
 
     document.onclick = (ev: MouseEvent) => {
       if (!this.isCalibrated()) {
@@ -53,7 +70,8 @@ export class TouchpadComponent {
          */
         switch (this.nbClick) {
           case 0:
-            this.voiceService.say("Appuyez en haut à gauche");
+            this.voiceService.say(this.getStringTranslation("touchpadTopLeft"));
+
             break;
           case 1:
             /* Note: clientX and clientY for firefox compatibility */
@@ -66,23 +84,23 @@ export class TouchpadComponent {
             this.divPlane.A = <Vector2d> {x: geo.xmin, y: geo.ymax };
             this.divPlane.B = <Vector2d> {x: geo.xmax, y: geo.ymax };
 
-            this.voiceService.say("en haut à droite");
+            this.voiceService.say(this.getStringTranslation("touchpadTopRight"));
             break;
 
           case 2:
             this.devicePlane.B = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("en bas à gauche");
+            this.voiceService.say(this.getStringTranslation("touchpadBottomLeft"));
             break;
           case 3:
             this.devicePlane.C = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("en bas à droite");
+            this.voiceService.say(this.getStringTranslation("touchpadBottomRight"));
             break;
           case 4:
             this.devicePlane.D = <Vector2d> {x: ev.x || ev.clientX, y: ev.y || ev.clientY};
 
-            this.voiceService.say("Dalle calibrée");
+            this.voiceService.say(this.getStringTranslation("touchpadOk"));
             break;
         }
         this.nbClick += 1;
@@ -123,12 +141,12 @@ export class TouchpadComponent {
 
       }
     };
+
   }
 
   private isCalibrated(): boolean {
     return this.nbClick > 4;
   }
-  
 
   onClick() {
     // Enable full screen
@@ -175,56 +193,86 @@ export class TouchpadComponent {
       });
   }
 
-  private prepareVoiceCommand(): void {
+  /** Switch to reading mode and notify the user */
+  private readCommand():void{
+    this.stateService.changeMode( {mode: "reading"} );
+    this.voiceService.say(this.getStringTranslation("readActive"));
+  }
 
-    // Reading mode (default)
-    this.voiceService.addCommand(
-      ["lecture"],
-      "lecture, mode par défaut",
-      () => {
-        this.stateService.changeMode( {mode: "reading"} );
-        this.voiceService.say("Mode lecture activé");
-      }
-    );
+  /** Switch to search mode and notify the user */
+  private searchCommand(i: number, wildcard: string):void{
+    this.searchingPoint = undefined;
+    this.stateService.changeMode( {mode: "searching"} );
+    this.voiceService.say(this.getStringTranslation("searchOk") + wildcard);
 
-    // Searching mode
-    this.voiceService.addCommand(
-      ["rechercher *", "recherche *", "chercher *", "cherche *"],
-      "Recherche d'un emplacement",
-      (i: number, wildcard: string) => {
-        this.searchingPoint = undefined;
-        this.stateService.changeMode( {mode: "searching"} );
-        this.voiceService.say("Recherche " + wildcard);
-
-        this.geoService.point(wildcard).subscribe(
-          (searchPoint: Point) => {
-            this.searchingPoint = searchPoint;
-            if (searchPoint === undefined){
-              this.voiceService.say("Recherche invalide");
-              this.stateService.changeMode( {mode: "reading"} );
-            }
-          }
-        );
-
-      }
-    );
-
-    this.voiceService.addCommand(
-      ["putain", "merde", "chier", "salope", "saloperie", "ça race", "enculer", "pute", "putain", "ta mère la pute", "ta gueule"],
-      "grossièreté",
-      (i) => {
-        if (i%3===0) {
-          this.voiceService.say("Par pitié, calmez vous");
-        } else if (i%3 === 1){
-          this.voiceService.say("On dit Zut !");
-        }else{
-          this.voiceService.say("Plait-il ?");
+    this.geoService.point(wildcard).subscribe(
+      (searchPoint: Point) => {
+        this.searchingPoint = searchPoint;
+        if (searchPoint === undefined){
+          this.voiceService.say(this.getStringTranslation("searchKo"));
+          this.stateService.changeMode( {mode: "reading"} );
         }
       }
     );
-
   }
 
+  /** Notity the user in terms of input number  */
+  private offendCommand(i:number):void{
+    if (i%3===0) {
+      this.voiceService.say(this.getStringTranslation("offendTextOne"));
+    } else if (i%3 === 1){
+      this.voiceService.say(this.getStringTranslation("offendTextTwo"));
+    }else{
+      this.voiceService.say(this.getStringTranslation("offendTextTree"));
+    }
+  }
+
+  /** Change language of application */
+  private changeLang(langTranslate : string,langVoice : string):void{
+        this.translateService.use(langTranslate);
+        this.voiceService.changeLang(langVoice);
+  }
+
+  /** Add Commands */
+  private prepareVoiceCommand() {
+    // Loop for add command in each lang of application
+    let langs = this.translateService.getLangs();
+    for(let entry of langs){
+      this.translateService.use(entry);
+      let codeVoice = this.getStringTranslation("codeLangVoice");
+
+      // Reading mode (default)
+      this.voiceService.addCommand(
+        [this.getStringTranslation("readId")],
+        this.getStringTranslation("readDescri"),
+        () => this.readCommand()
+      );
+
+      // Searching mode
+      this.voiceService.addCommand(
+        this.getStringTranslations("searchId"),
+        this.getStringTranslation("searchDescri"),
+        (i: number, wildcard: string) => this.searchCommand(i, wildcard)
+      );
+
+      // React to insults command
+      this.voiceService.addCommand(
+        this.getStringTranslations("offendId"),
+        this.getStringTranslation("offendDescri"),
+        (i: number) => this.offendCommand(i)
+      );
+
+      // Switch Lang command
+      this.voiceService.addCommand(
+        [this.getStringTranslation("myLang")],
+        this.getStringTranslation("codeLang"),
+        () => this.changeLang(entry,codeVoice)
+      );
+    }
+    this.translateService.use(this.translateService.getBrowserLang());
+  }
+
+  /** Locate click and notity the user */
   private locateClick(point: Point): void {
 
     this.geoService.address(point).subscribe(
@@ -237,10 +285,28 @@ export class TouchpadComponent {
 
   }
 
+  /** Notity the user of direction */
   private searchLocationClick(location: Point, touchPoint: Point): void {
-
-    this.voiceService.say(this.geoService.directionToText(location, touchPoint));
-
+    let data : Array<string> = this.geoService.directionToText(location, touchPoint);
+    let diction : string;
+    if(data.length>1){//["search_upper", "searchTo", "522", "searchKilometer"]
+      diction = this.getStringTranslation(data[0])+" "+this.getStringTranslation(data[1])
+                +" "+ data[2] +" "+ this.getStringTranslation(data[3]);
+    }
+    else{
+      diction = this.getStringTranslation(data[0]);
+    }
+    this.voiceService.say(diction);
   }
 
+  /** Return string by id and current lang of application */
+  private getStringTranslation(s: string) : string {
+    return (this.translateService.get(s)as ScalarObservable<string>).value;
+  }
+
+  /** Return array of string by id and current lang of application */
+  private getStringTranslations(s: string) : Array<string> {
+    return  (this.translateService.get(s)as ScalarObservable<Array<translations>>).value.map(object => object.value);
+
+  }
 }

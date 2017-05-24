@@ -10,6 +10,7 @@ import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 import Layer = require("esri/layers/layer");
 
+
 @Component({
   selector: 'aba-map',
   templateUrl: 'map.component.html',
@@ -30,6 +31,8 @@ export class MapComponent implements OnInit {
   @Input() searchable: boolean = true;
 
   readonly ZOOM_LEVEL_MINIMUM : number = 16;
+
+  mapZoom = "";
 
   constructor(private mapService: MapService) {
   }
@@ -67,9 +70,19 @@ export class MapComponent implements OnInit {
         {
           map: this.map,
           /* useMapExtent:false, */
-          enableHighlight: false
+          enableHighlight: false,
         }, "search"
       );
+
+
+       /* hack for fix placeholder
+       * get the object and replace with emtpy string
+       *  (pj) Issue #90
+       */
+      const s = this.search.sources;
+      s[0].placeholder = "";
+      this.search.set("sources", s);
+
     }
 
     this.checkNeedZoom();
@@ -83,7 +96,7 @@ export class MapComponent implements OnInit {
     // Zoom restriction
     this.map.on("zoom-end", () => this.checkNeedZoom());
   }
-  
+
 
   // Show or hide 'need zoom' message
   public checkNeedZoom(): boolean{
