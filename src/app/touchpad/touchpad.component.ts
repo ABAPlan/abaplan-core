@@ -48,7 +48,14 @@ export class TouchpadComponent {
     private _elementRef: ElementRef
   ){
 
-    /**Init the voice commands and start calibration */
+    /**Init the voice commands and start calibration
+    *
+    * Can't be directly in the constructor beacause of
+    * compatibity with voice Commands (library can't charge voice early)
+    * Hack with onReady callback to be call after
+    * init of page
+    *  (pj)
+    */
     document.onreadystatechange= () => {
       this.voiceService.initialization();
       this.prepareVoiceCommand();
