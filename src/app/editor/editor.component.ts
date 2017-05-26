@@ -91,9 +91,9 @@ export class EditorComponent {
         } else {
           console.log("NOON");
           let title = this.mapComponent.map.title;
-          let date = this.mapComponent.map.creationDate;
+          let id =  this.mapComponent.map.uid ;
           let map = this.getMapString();
-          this.printService.printMap(map, title, date);
+          this.printService.printMap(map, title,String(id));
         }
         break;
 
@@ -186,6 +186,7 @@ export class EditorComponent {
     // We send this id upper
     this.updateMapId(info[0]);
     this.updateMapTitle(info[1]);
+
   }
 
   private insertMap(info: any): void {

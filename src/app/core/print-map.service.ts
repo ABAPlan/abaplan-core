@@ -88,7 +88,7 @@ export class PrintService {
       <head>
         <title>${title}</title>
         <!-- <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <!-- <link rel="stylesheet" type="text/css" href="src/app/core/print-map.service.css"  /> -->
         <style>
             ${this.style}
@@ -96,7 +96,7 @@ export class PrintService {
       </head>
       <body onload="window.print();window.close()">
       <div class="container">
-			    <div class="row map"> 
+			    <div class="row map">
 			    <div id="map" >
             <div class="col-md-12">
               ${map}
