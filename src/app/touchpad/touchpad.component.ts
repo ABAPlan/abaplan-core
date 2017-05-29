@@ -365,6 +365,16 @@ export class TouchpadComponent {
         }
       }
     );
+
+    this.geoService.stations(point).subscribe(
+      address => {
+        if (address){
+          //this.voiceService.sayGeocodeResult(address);
+          console.log(address);
+          
+        }
+      }
+    );
   }
 
   /** Notity the user of direction */
