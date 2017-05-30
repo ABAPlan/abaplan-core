@@ -9,6 +9,7 @@ import { MapComponent } from "../map/map.component";
 import {SharedModule} from "../shared/shared.module";
 import {TouchpadComponent} from "./touchpad.component";
 import {StateService} from "../core/state.service";
+import {TransportService} from "../core/transport.service";
 
 @NgModule({
   imports:      [ SharedModule ],
@@ -21,6 +22,7 @@ import {StateService} from "../core/state.service";
     , VoiceService
     , StateService
     , KmlService
+    , TransportService
   ]
 })
 export class TouchpadModule { }

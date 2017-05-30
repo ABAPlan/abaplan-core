@@ -110,7 +110,7 @@ class GoogleProvider {
     return Observable.create(
       obs => {
         service.route(
-          {origin: p,travelMode: google.maps.TravelMode.TRANSIT},
+          { origin: {lat: 37.77, lng: -122.447},travelMode: google.maps.TravelMode.TRANSIT,destination: {lat: 37.768, lng: -122.511}},
           (result: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
             if (status === google.maps.DirectionsStatus.OK) {
               console.log(result);

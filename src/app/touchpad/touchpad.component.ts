@@ -6,6 +6,7 @@ import { GeoService } from '../core/geo.service';
 import { VoiceService } from '../core/voice.service';
 import { StateService } from "../core/state.service";
 import { KmlService } from "../core/kml.service";
+import { TransportService } from "../core/transport.service";
 import { OptionMap } from '../map/map';
 import { MapComponent } from '../map/map.component'
 
@@ -47,6 +48,7 @@ export class TouchpadComponent {
     private geoService : GeoService,
     private translateService: TranslateService,
     private kmlService: KmlService,
+    private transportService: TransportService,
     private _elementRef: ElementRef
   ){
 
@@ -66,6 +68,7 @@ export class TouchpadComponent {
         switch (this.nbClick) {
           case 0:
             this.voiceService.say(this.getStringTranslation("touchpadTopLeft"));
+
 
             break;
           case 1:
@@ -113,6 +116,8 @@ export class TouchpadComponent {
         // Transform to EsriPoint
         const mappedPoint = new Point(OP_.x, OP_.y);
         const touchPoint : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+
+        this.transportService.getCloserStation(touchPoint);
 
         switch (this.stateService.activeMode().mode){
           case "reading":
@@ -365,13 +370,14 @@ export class TouchpadComponent {
         }
       }
     );
+  }
 
-    this.geoService.stations(point).subscribe(
+  private locateClickStation(point: Point):void{
+      this.geoService.stations(point).subscribe(
       address => {
         if (address){
           //this.voiceService.sayGeocodeResult(address);
           console.log(address);
-          
         }
       }
     );
