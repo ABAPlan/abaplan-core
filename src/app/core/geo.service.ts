@@ -25,14 +25,6 @@ export class GeoService {
     return this.geoProvider.point(address);
   }
 
-  public stations(location: Point): Observable<string | undefined> {
-    return this.geoProvider.stations(location);
-  }
-
-  public linesByStation(location: Point): Observable<string | undefined> {
-    return this.geoProvider.linesByStation(location);
-  }
-
   /** Translate Direction in key word for translate */
   public directionToText(target: Point, point: Point): Array<string> {
     let data : Array<string> = [];
@@ -61,8 +53,6 @@ export class GeoService {
 
 interface IGeoProvider {
   address(location: Point): Observable<string | undefined>;
-  stations(location: Point): Observable<string | undefined>;
-  linesByStation(location: Point): Observable<string | undefined>;
   point(address: string): Observable<Point | undefined>;
   distance(p1: Point, p2: Point): number;
   direction(point1: Point, point2: Point): Direction;
@@ -75,53 +65,7 @@ class GoogleProvider {
   constructor(){
     googleMaps.KEY = GOOGLE_GEOCODE_KEY;
     googleMaps.LIBRARIES = ['geometry','places'];
-    googleMaps.load();
-  }
-
-   public stations(point: Point): Observable<string | undefined> {
-
-    const p = new google.maps.LatLng(point.y, point.x);
-    const container = document.createElement("div");
-    const service = new google.maps.places.PlacesService(container);
-
-    return Observable.create(
-      obs => {
-        service.nearbySearch(
-          { location: p ,radius: 500,types: ['bus_station','subway_station','train_station']},
-          (results: google.maps.places.PlaceResult[], status: google.maps.places.PlacesServiceStatus) => {
-            container.remove();
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-              console.log(results);
-              obs.next(results[0]);
-            } else {
-              obs.next(undefined);
-            }
-          }
-        );
-      }
-    );
-  }
-
-  public linesByStation(point : Point): Observable<string | undefined> {
-
-    const p = new google.maps.LatLng(point.y, point.x);
-    const service = new google.maps.DirectionsService;
-
-    return Observable.create(
-      obs => {
-        service.route(
-          { origin: {lat: 37.77, lng: -122.447},travelMode: google.maps.TravelMode.TRANSIT,destination: {lat: 37.768, lng: -122.511}},
-          (result: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
-            if (status === google.maps.DirectionsStatus.OK) {
-              console.log(result);
-              obs.next(result);
-            } else {
-              obs.next(undefined);
-            }
-          }
-        );
-      }
-    );
+    googleMaps.load();  
   }
 
   public address(point: Point): Observable<string | undefined> {

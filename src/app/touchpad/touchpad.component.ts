@@ -116,8 +116,7 @@ export class TouchpadComponent {
         // Transform to EsriPoint
         const mappedPoint = new Point(OP_.x, OP_.y);
         const touchPoint : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
-
-        this.transportService.getCloserStation(touchPoint);
+        this.transportService.currentPoint = touchPoint;
 
         switch (this.stateService.activeMode().mode){
           case "reading":
@@ -127,13 +126,18 @@ export class TouchpadComponent {
             if (this.searchingPoint !== undefined){
               this.searchLocationClick(this.searchingPoint, touchPoint);
             } else {
-              console.warn("Impossible state, searchingPoint must be defined");
+              this.voiceService.say("Recherche en cours");
             }
             break;
           case "itinerary":
-            this.kmlService.currentPoint(touchPoint.x,touchPoint.y);
+            this.kmlService.currentPoint(touchPoint.y,touchPoint.x);
             this.locateClick(touchPoint);
             break;
+        }
+
+        if(this.nbClick==5){
+          this.nbClick++;
+          this.voiceService.simulate("stop 14");
         }
 
         const symbol = new SimpleMarkerSymbol({
@@ -219,6 +223,58 @@ export class TouchpadComponent {
       }
     );
   }
+
+  /** Search the closest station */
+  private searchStation():void{
+    this.searchingPoint = undefined;
+    this.stateService.changeMode( {mode: "searching"} );
+
+    this.transportService.stationsNearby().subscribe(
+      (stations : any) => {
+        if (stations){
+            const station = stations.json().stations[0];
+            const point = new Point(station.coordinate.y,station.coordinate.x);
+            this.searchingPoint = point;
+            this.voiceService.say(this.getStringTranslation("searchOk") + station.name);          
+        }
+      }
+    );
+  }
+
+  /** Search the closest station by line */
+  private searchStationByLine(i: number, wildcard: string):void{
+    this.searchingPoint = undefined;
+    this.stateService.changeMode( {mode: "searching"} );
+
+    this.transportService.stationsNearby().subscribe(
+      (stations : any) => {
+        if (stations){
+           // this.voiceService.say(this.getStringTranslation("searchOk") + station.name);
+            this.getBusByStation(stations.json(),0);          
+        }
+      }
+    );
+  }
+
+ /* TODO control currentPoint empty & dynmaic station  */
+  private getBusByStation(station : any,index : number){
+      if(index < station.stations.length)
+        this.transportService.closerStationFilter(station.stations[index].name).subscribe(
+              st => {
+                  let n = "14";
+                  if(st.json().stationboard.some(elem => elem.number == n)){
+                    const station = st.json().station;
+                    const point = new Point(station.coordinate.y,station.coordinate.x);
+                    this.searchingPoint = point;
+                  }
+                  else{
+                      setTimeout(() =>this.getBusByStation(station,index+1), 500)
+                  }              
+                }
+          )
+  }
+
+  
 
   /** Switch to itinerary mode */
   private itineraryCommand():void{
@@ -356,6 +412,20 @@ export class TouchpadComponent {
         (i: number, wildcard: string) => this.itineraryEndSession(i, wildcard)
       );
 
+      // Search Station
+      this.voiceService.addCommand(
+        ["stations"],
+        this.getStringTranslation("itinerarySaveDescri"),
+        () => this.searchStation()
+      );
+
+      // Search Station
+      this.voiceService.addCommand(
+        ["stop *"],
+        this.getStringTranslation("itinerarySaveDescri"),
+        (i: number, wildcard: string) => this.searchStationByLine(i,wildcard)
+      );
+
     }
     this.translateService.use(this.translateService.getBrowserLang());
   }
@@ -372,16 +442,6 @@ export class TouchpadComponent {
     );
   }
 
-  private locateClickStation(point: Point):void{
-      this.geoService.stations(point).subscribe(
-      address => {
-        if (address){
-          //this.voiceService.sayGeocodeResult(address);
-          console.log(address);
-        }
-      }
-    );
-  }
 
   /** Notity the user of direction */
   private searchLocationClick(location: Point, touchPoint: Point): void {
