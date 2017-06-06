@@ -20,37 +20,6 @@ export class TransportService {
     return this.transportProvider.getStationInfo(station);
   }
 
-/*
-  public getCloserStation(point:Point){
-      this.transportProvider.getStations(point).subscribe(
-      station => {
-        if (station){
-          console.log(station.json().stations);
-          this.getBusByStation(station.json(),0);
-        }
-      }
-    );
-   // console.log(this.transportProvider.getStations(point));
-  }
-/*
-  private getBusByStation(station : any,index : number){
-      if(index < station.stations.length)
-        this.transportProvider.getStationByBus(station.stations[index].name).subscribe(
-              st => {
-                  let n = "14";
-                  if(st.json().stationboard.some(elem => elem.number == n))
-                    console.log(st.json().station);
-                  else{
-                      setTimeout(() =>this.getBusByStation(station,index+1), 1000)
-                      //this.getBusByStation(station,index+1);
-                  }              
-                }
-          )
-  }*/
-
-
-
-
 }
 
 interface transportProvider {

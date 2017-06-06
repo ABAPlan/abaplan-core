@@ -68,8 +68,6 @@ export class TouchpadComponent {
         switch (this.nbClick) {
           case 0:
             this.voiceService.say(this.getStringTranslation("touchpadTopLeft"));
-
-
             break;
           case 1:
             /* Note: clientX and clientY for firefox compatibility */
@@ -137,7 +135,7 @@ export class TouchpadComponent {
 
         if(this.nbClick==5){
           this.nbClick++;
-          this.voiceService.simulate("stop 14");
+          this.voiceService.simulate("arrêt transport 45");
         }
 
         const symbol = new SimpleMarkerSymbol({
@@ -235,7 +233,10 @@ export class TouchpadComponent {
             const station = stations.json().stations[0];
             const point = new Point(station.coordinate.y,station.coordinate.x);
             this.searchingPoint = point;
-            this.voiceService.say(this.getStringTranslation("searchOk") + station.name);          
+            this.voiceService.say(this.getStringTranslation("transportOKDescri") + station.name);          
+        }else{
+          this.voiceService.say(this.getStringTranslation("transportKODescri"));
+          this.stateService.changeMode( {mode: "reading"} );
         }
       }
     );
@@ -249,29 +250,35 @@ export class TouchpadComponent {
     this.transportService.stationsNearby().subscribe(
       (stations : any) => {
         if (stations){
-           // this.voiceService.say(this.getStringTranslation("searchOk") + station.name);
-            this.getBusByStation(stations.json(),0);          
+            this.voiceService.say(this.getStringTranslation("transportOKDescri") + wildcard);
+            this.getBusByStation(stations.json(),0,wildcard);          
+        }else{
+          this.voiceService.say(this.getStringTranslation("transportKODescri")+wildcard);
+          this.stateService.changeMode( {mode: "reading"} );
         }
       }
     );
   }
 
- /* TODO control currentPoint empty & dynmaic station  */
-  private getBusByStation(station : any,index : number){
-      if(index < station.stations.length)
+ /* TODO control currentPoint empty  */
+  private getBusByStation(station : any,index : number,line: string){
+      if(index < station.stations.length){
         this.transportService.closerStationFilter(station.stations[index].name).subscribe(
               st => {
-                  let n = "14";
-                  if(st.json().stationboard.some(elem => elem.number == n)){
+                  if(st.json().stationboard.some(elem => elem.number == line)){
                     const station = st.json().station;
                     const point = new Point(station.coordinate.y,station.coordinate.x);
                     this.searchingPoint = point;
                   }
                   else{
-                      setTimeout(() =>this.getBusByStation(station,index+1), 500)
+                      setTimeout(() =>this.getBusByStation(station,index+1,line), 400)
                   }              
                 }
           )
+      }else{
+        this.voiceService.say(this.getStringTranslation("transportKODescri"));
+        this.stateService.changeMode( {mode: "reading"} );
+      }
   }
 
   
@@ -414,15 +421,15 @@ export class TouchpadComponent {
 
       // Search Station
       this.voiceService.addCommand(
-        ["stations"],
-        this.getStringTranslation("itinerarySaveDescri"),
+        this.getStringTranslations("transportId"),
+        this.getStringTranslation("transportDescri"),
         () => this.searchStation()
       );
 
       // Search Station
       this.voiceService.addCommand(
-        ["stop *"],
-        this.getStringTranslation("itinerarySaveDescri"),
+        this.getStringTranslations("transportSearchId"),
+        this.getStringTranslation("transportSearchDescri"),
         (i: number, wildcard: string) => this.searchStationByLine(i,wildcard)
       );
 

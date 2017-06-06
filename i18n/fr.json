@@ -60,7 +60,7 @@
                         { "value": "chercher *"}
                     ],
         "searchDescri":"Recherche d'un emplacement",
-        "searchOk":"Recherche",
+        "searchOk":"Recherche ",
         "searchKo":"Recherche invalide",
         "search_upper":"en haut",
         "search_lower":"en bas",
@@ -114,6 +114,17 @@
         "itineraryDelet": "Suppression réussi",
         "itinerarySave": "Sauvegarde réussi",
         "itinerarySaveError": "Pas de valeur à Sauvegarder",
+        "transportId": [
+                        { "value": "arrêt transport" }
+                       ],
+        "transportDescri":"Recherche d'un arrêt de transport public le plus proche",
+        "transportSearchId": [
+                        { "value": "arrêt transport *" }
+                       ],
+        "transportSearchDescri":"Recherche d'un arrêt de transport public le plus proche",
+        "transportOKDescri":"Recherche Transport ",
+        "transportKODescri":"Pas d'arrêt à proximité ",
+
 
 "_comment": "lang",
         "myLang":"Français",
