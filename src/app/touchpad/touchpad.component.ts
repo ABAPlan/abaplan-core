@@ -133,11 +133,6 @@ export class TouchpadComponent {
             break;
         }
 
-        if(this.nbClick==5){
-          this.nbClick++;
-          this.voiceService.simulate("arrêt transport 45");
-        }
-
         const symbol = new SimpleMarkerSymbol({
           color: [226, 119, 40],
           outline: { color: [255, 255, 255], width: 2 },
@@ -236,7 +231,7 @@ export class TouchpadComponent {
             this.voiceService.say(this.getStringTranslation("transportOKDescri") + station.name);          
         }else{
           this.voiceService.say(this.getStringTranslation("transportKODescri"));
-          this.stateService.changeMode( {mode: "reading"} );
+          this.readCommand();
         }
       }
     );
@@ -248,19 +243,19 @@ export class TouchpadComponent {
     this.stateService.changeMode( {mode: "searching"} );
 
     this.transportService.stationsNearby().subscribe(
-      (stations : any) => {
+      (stations : any) => { 
         if (stations){
             this.voiceService.say(this.getStringTranslation("transportOKDescri") + wildcard);
             this.getBusByStation(stations.json(),0,wildcard);          
         }else{
           this.voiceService.say(this.getStringTranslation("transportKODescri")+wildcard);
-          this.stateService.changeMode( {mode: "reading"} );
+          this.readCommand();
         }
       }
     );
   }
 
- /* TODO control currentPoint empty  */
+  /* Check if stops contains specific line */
   private getBusByStation(station : any,index : number,line: string){
       if(index < station.stations.length){
         this.transportService.closerStationFilter(station.stations[index].name).subscribe(
@@ -277,11 +272,9 @@ export class TouchpadComponent {
           )
       }else{
         this.voiceService.say(this.getStringTranslation("transportKODescri"));
-        this.stateService.changeMode( {mode: "reading"} );
+        this.readCommand();
       }
   }
-
-  
 
   /** Switch to itinerary mode */
   private itineraryCommand():void{
