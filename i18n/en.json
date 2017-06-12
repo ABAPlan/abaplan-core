@@ -110,6 +110,16 @@
                 "itineraryDelet": "Delete Done",
                 "itinerarySave": "Save Done",
                 "itinerarySaveError": "No value to Save",
+                "transportId": [
+                        { "value": "stop transport" }
+                       ],
+                "transportDescri":"Search nearest public transport stop",
+                "transportSearchId": [
+                        { "value": "stop transport *" }
+                       ],
+                "transportSearchDescri":"Search nearest public transport stop",
+                "transportOKDescri":"Search Transport",
+                "transportKODescri":"No nearby stop",
 
   "_comment": "lang",
                 "myLang":"English",
