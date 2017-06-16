@@ -81,7 +81,8 @@ export class DrawInfoCircle extends DrawInfoBasicGeometry {
 
 export class DrawInfoWater extends DrawInfoBasicGeometry {
     constructor(){
-        let symbol = new PictureFillSymbol("https://octicons.github.com/img/og/primitive-dot.png"
+        
+        let symbol = new PictureFillSymbol("./assets/dot.png"
                             ,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),50,50);
 
         super(Draw.CIRCLE,symbol,

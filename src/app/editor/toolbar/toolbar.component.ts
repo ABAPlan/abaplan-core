@@ -80,7 +80,7 @@ export class ToolbarMapComponent {
       kind: 'draw',
       command: 'draw_water',
       drawType : <DrawType>{ kind: 'water' },
-      image: require("file?name=./assets/[name].[ext]!./img/pedestrian2.png")
+      image: require("file?name=./assets/[name].[ext]!./img/water.png")
     },
     {
       kind: 'action',
