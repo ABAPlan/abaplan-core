@@ -10,7 +10,7 @@ export interface DrawTool { kind: 'draw', drawType : DrawType }
 export interface ActionTool { kind: 'action' }
 export interface EditTool { kind: 'edit' }
 
-export type Command = Move | Select | Delete | DrawCircle | DrawPolygon | DrawTraits | DrawPedestrian | Print | Open | Save;
+export type Command = Move | Select | Delete | DrawCircle | DrawPolygon | DrawTraits | DrawPedestrian | DrawWater | Print | Open | Save;
 export interface Move { command: "move"; }
 export interface Select { command: "select"; }
 export interface Delete { command: "delete"; }
@@ -18,6 +18,7 @@ export interface DrawCircle { command: "draw_circle"; }
 export interface DrawPolygon { command: "draw_polygon"; }
 export interface DrawTraits { command: "draw_traits"; }
 export interface DrawPedestrian { command: "draw_pedestrian"; }
+export interface DrawWater { command: "draw_water"; }
 export interface Print { command: "print"; }
 export interface Open { command: "open"; }
 export interface Save { command: "save"; }
@@ -74,6 +75,12 @@ export class ToolbarMapComponent {
       command: 'draw_pedestrian',
       drawType : <DrawType>{ kind: 'pedestrian' },
       image: require("file?name=./assets/[name].[ext]!./img/pedestrian.png")
+    },
+    {
+      kind: 'draw',
+      command: 'draw_water',
+      drawType : <DrawType>{ kind: 'water' },
+      image: require("file?name=./assets/[name].[ext]!./img/pedestrian2.png")
     },
     {
       kind: 'action',

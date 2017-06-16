@@ -11,17 +11,20 @@ import {DrawGraphic,
         DrawInfoPedestrian,
         DrawInfoPolyline,
         DrawInfoPolygon,
-        DrawInfoCircle} from './draw'
+        DrawInfoCircle,
+        DrawInfoWater} from './draw'
 
 interface CircleDrawType { kind: 'circle' }
 interface PolygonDrawType { kind: 'polygon' }
 interface LineDrawType { kind: 'line' }
 interface PedestrianDrawType { kind: 'pedestrian' }
+interface WaterDrawType { kind: 'water' }
 
 export type DrawType =
   ( CircleDrawType  |
     PolygonDrawType |
     LineDrawType    |
+    WaterDrawType    |
     PedestrianDrawType);
 
 export class AbaDrawEdit {
@@ -40,7 +43,8 @@ export class AbaDrawEdit {
     'circle' : new DrawInfoCircle(),
     'polygon' : new DrawInfoPolygon(),
     'line' : new DrawInfoPolyline(),
-    'pedestrian' : new DrawInfoPedestrian()
+    'pedestrian' : new DrawInfoPedestrian(),
+    'water' : new DrawInfoWater()
   };
 
   private edit : ArcgisEdit;

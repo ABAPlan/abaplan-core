@@ -74,6 +74,21 @@ export class DrawInfoCircle extends DrawInfoBasicGeometry {
                   color),
               <any>(Edit.SCALE | Edit.MOVE)
         );
+
+        
+    }
+}
+
+export class DrawInfoWater extends DrawInfoBasicGeometry {
+    constructor(){
+        let symbol = new PictureFillSymbol("https://octicons.github.com/img/og/primitive-dot.png"
+                            ,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),50,50);
+
+        super(Draw.CIRCLE,symbol,
+              <any>(Edit.SCALE | Edit.MOVE)
+        );
+
+        
     }
 }
 
