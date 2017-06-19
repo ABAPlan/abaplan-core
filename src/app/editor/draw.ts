@@ -83,7 +83,7 @@ export class DrawInfoWater extends DrawInfoBasicGeometry {
     constructor(){    
         const url_dot = require("file?name=./assets/[name].[ext]!./dot.png");
         let symbol = new PictureFillSymbol(url_dot
-                            ,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),50,50);
+                            ,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),16,16);
 
         super(Draw.CIRCLE,symbol,
               <any>(Edit.SCALE | Edit.MOVE)
