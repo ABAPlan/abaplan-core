@@ -74,7 +74,12 @@ export class MapComponent implements OnInit {
         }, "search"
       );
 
-      let s = this.search.sources;
+
+       /* hack for fix placeholder
+       * get the object and replace with emtpy string
+       *  (pj) Issue #90
+       */
+      const s = this.search.sources;
       s[0].placeholder = "";
       this.search.set("sources", s);
 
