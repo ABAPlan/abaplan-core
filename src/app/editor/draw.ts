@@ -80,9 +80,9 @@ export class DrawInfoCircle extends DrawInfoBasicGeometry {
 }
 
 export class DrawInfoWater extends DrawInfoBasicGeometry {
-    constructor(){
-        
-        let symbol = new PictureFillSymbol("./assets/dot.png"
+    constructor(){    
+        const url_dot = require("file?name=./assets/[name].[ext]!./dot.png");
+        let symbol = new PictureFillSymbol(url_dot
                             ,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),50,50);
 
         super(Draw.CIRCLE,symbol,
