@@ -28,6 +28,11 @@
     </div>
 </div>
 
+<div class="dataMap">
+                <div class="titleMap"> {{this.mapComponent.map.title}}</div>
+                <div class="idMap"> {{this.mapComponent.map.uid}}</div>
+</div>
+
 <aba-modal-maps (onSelectEvent)="selectMap($event)"></aba-modal-maps>
 <aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
 <aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>

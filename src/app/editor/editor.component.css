@@ -13,14 +13,51 @@ aba-toolbar-map {
     margin-left: 40px;
 }
 
+.dataMap{
+    display: none;
+}
+
 @media print {
-    body {
-      size: landscape;
-      margin: 0mm;}
 
     aba-toolbar-map ,aba-select-lang,.title,.typeMaps,.arcgisSearch{
        display: none;
     }
 
+    .container{
+        padding-left: 0px;
+        margin-left: 0px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+        
+    }
+
+    .dataMap{
+         display: block;
+         margin-top: 0px;
+    }
+
+    .titleMap{
+        margin-left: 12%;
+        text-align: left;
+    }
+
+    .idMap{
+        margin-right: 12%;
+        text-align: right;
+    }
+
+    .braille{
+        font-weight: bold;
+        font-size: 220%;
+        letter-spacing: 6%;
+    }
+
+    .text{
+        font-size: 150%;
+    }
+
+    
 
 }
+
+

@@ -5,7 +5,6 @@ import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 @Component({
   selector: 'aba-plan',
   template: '<router-outlet></router-outlet>'
-
 })
 export class AppComponent {
   constructor(private translateService: TranslateService) {
