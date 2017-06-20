@@ -17,6 +17,7 @@ import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
 import {TranslateService} from 'ng2-translate';
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
+import * as br from 'braille';
 
 type ButtonInfo = LayerType ;
 
@@ -86,16 +87,11 @@ export class EditorComponent {
         break;
 
       case "print":
-    /**    if (!this.flagSavable){
+        if (!this.flagSavable)
           this.modalYesNoComponent.open();
-        } else {
-          console.log("NOON");
-          let title = this.mapComponent.map.title;
-          let date = this.mapComponent.map.creationDate;
-          let map = this.getMapString();
-          this.printService.printMap(map, title, date);
-        }**/
-        window.print();
+        else 
+          window.print();
+            
         break;
 
       case "open":
@@ -175,14 +171,6 @@ export class EditorComponent {
     this.mapComponent.saveMapWithTitle(title);
   }
 
-  private getMapString() {
-    // Converts Map to String
-    let map = this.mapComponent.map.root;
-    let serializer = new XMLSerializer();
-    let ser = serializer.serializeToString(map);
-    return ser;
-  }
-
   private selectMap(info: [number, string]): void {
     // We send this id upper
     this.updateMapId(info[0]);
@@ -202,9 +190,21 @@ export class EditorComponent {
   }
 
   private printMapWithoutSaving(): void {
-    let map = this.getMapString();
-    console.log("======");
-    this.printService.printMap(map);
+    window.print();
+  }
+
+  private getBrailleTitle () : string{
+    if(this.mapComponent.map.title)
+      return br.toBraille(this.mapComponent.map.title);
+    else
+      return "";
+  }
+
+  private getBrailleId () : string{
+    if(this.mapComponent.map.title)
+      return br.toBraille(String(this.mapComponent.map.uid));
+    else
+      return "";
   }
 
   ngOnInit(): void {

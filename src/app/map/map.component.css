@@ -29,6 +29,10 @@
 
 @media print {
 
+    #esri-map {
+        margin-left: 0px;
+    }
+
 
     .map {
         border-style:solid;
@@ -36,11 +40,10 @@
         overflow: hidden;
 
         
-        display:inline-block;
-        margin-left: 12%;
-        margin-right: 10%;
+     
+       
 
-        margin-top: 3%;
+        margin-top: 1%;
         margin-bottom: 0px;
         
     }

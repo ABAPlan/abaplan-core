@@ -19,16 +19,8 @@ aba-toolbar-map {
 
 @media print {
 
-    aba-toolbar-map ,aba-select-lang,.title,.typeMaps,.arcgisSearch{
+    aba-toolbar-map ,aba-select-lang,aba-modal-yesno,.title,.typeMaps,.arcgisSearch{
        display: none;
-    }
-
-    .container{
-        padding-left: 0px;
-        margin-left: 0px;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-        
     }
 
     .dataMap{
@@ -36,14 +28,24 @@ aba-toolbar-map {
          margin-top: 0px;
     }
 
+    .container{ 
+        margin-left: 8%;  
+        
+    }
+  
+
     .titleMap{
-        margin-left: 12%;
+     
         text-align: left;
+        float: left;
+        margin-left: 12%;
     }
 
     .idMap{
-        margin-right: 12%;
+       
         text-align: right;
+        float: right;
+        margin-right: 12%;
     }
 
     .braille{
