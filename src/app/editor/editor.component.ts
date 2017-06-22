@@ -85,6 +85,10 @@ export class EditorComponent {
         this.mapComponent.map.disableMapNavigation();
         break;
 
+      case "texture":
+        console.log("fdfd");
+        break;
+
       case "print":
         if (!this.flagSavable){
           this.modalYesNoComponent.open();

@@ -30,6 +30,7 @@ export interface DrawInfo {
   getEditionGraphic(map : ArcgisMap, drawGraphic : DrawGraphic, clickedGraphic : Graphic) : Graphic;
   finishEdit(map : ArcgisMap, drawGraphic : DrawGraphic, graphic : Graphic) : void;
   onLoad(graphics : Graphic[]) : void;
+  changeTexture(texture : string) : void;
 };
 
 /**
@@ -40,10 +41,27 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   public geometryType : string;
   public editTools : any;
 
-  constructor(geometryType : string, symbol: Symbol, editTools : any) {
+  private urlDot = require("file?name=./assets/[name].[ext]!./dot.png");
+  private blackColor =  new Color([0, 0, 0, 1]);
+  private whiteColor =  new Color([255, 255, 255, 1]);
+
+  private textureTypes : { [name:string] : Symbol; } = {
+    'water' : new PictureFillSymbol(this.urlDot,
+                              new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),16,16),
+    'black' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(),
+                              this.blackColor),
+    'white' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(),
+                              this.whiteColor),
+  };
+
+  constructor(geometryType : string, symbol: string, editTools : any) {
     this.geometryType = geometryType;
-    this.symbol = symbol;
+    this.symbol = this.textureTypes[symbol];
     this.editTools = editTools;
+  }
+
+  changeTexture(texture : string){
+      this.symbol = this.textureTypes[texture];
   }
 
   draw(drawGraphic : DrawGraphic, event) {
@@ -63,63 +81,37 @@ export class DrawInfoBasicGeometry implements DrawInfo{
 }
 
 export class DrawInfoCircle extends DrawInfoBasicGeometry {
-    constructor(color? : Color){
-        if(!color)
-            color = new Color([0, 0, 0, 1]);
+    constructor(texture? : string){
+        if(!texture)
+            texture = "black";
 
-        super(Draw.CIRCLE,
-              new SimpleFillSymbol(
-                  SimpleFillSymbol.STYLE_SOLID,
-                  new SimpleLineSymbol(),
-                  color),
+        super(Draw.CIRCLE,texture,
               <any>(Edit.SCALE | Edit.MOVE)
         );
 
         
-    }
-}
-
-export class DrawInfoWater extends DrawInfoBasicGeometry {
-    constructor(){    
-        const url_dot = require("file?name=./assets/[name].[ext]!./dot.png");
-        let symbol = new PictureFillSymbol(url_dot
-                            ,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),16,16);
-
-        super(Draw.CIRCLE,symbol,
-              <any>(Edit.SCALE | Edit.MOVE)
-        );
-
-        
-    }
-}
-
-export class DrawInfoPolyline extends DrawInfoBasicGeometry {
-    constructor(color? : Color){
-        if(!color)
-            color = new Color([0, 0, 0, 1]);
-
-        super(Draw.POLYLINE,
-              new SimpleLineSymbol(
-                  SimpleLineSymbol.STYLE_LONGDASH,
-                  color,
-                  3
-              ),
-              <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES) 
-        );
     }
 }
 
 export class DrawInfoPolygon extends DrawInfoBasicGeometry {
-    constructor(color? : Color){
-        if(!color)
-            color = new Color([0, 0, 0, 1]);
+    constructor(texture? : string){
+        if(!texture)
+            texture = "black";
 
-        super(Draw.POLYGON,
-              new SimpleFillSymbol(
-                  SimpleFillSymbol.STYLE_SOLID,
-                  new SimpleLineSymbol(),
-                  color),
+
+        super(Draw.POLYGON,texture,
               <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES | Edit.ROTATE) 
+        );
+    }
+}
+
+export class DrawInfoPolyline extends DrawInfoBasicGeometry {
+    constructor(texture? : string){
+        if(!texture)
+            texture = "black";
+
+        super(Draw.POLYLINE,texture,
+              <any>(Edit.SCALE | Edit.MOVE | Edit.ROTATE | Edit.EDIT_VERTICES) 
         );
     }
 }
@@ -134,6 +126,8 @@ export class DrawInfoPedestrian implements DrawInfo {
   constructor() {
 
   }
+
+  changeTexture(texture : string){}
 
   draw(drawGraphic : DrawGraphic, event) {
     var A = {x:0, y:0};

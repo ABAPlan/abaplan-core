@@ -11,20 +11,17 @@ import {DrawGraphic,
         DrawInfoPedestrian,
         DrawInfoPolyline,
         DrawInfoPolygon,
-        DrawInfoCircle,
-        DrawInfoWater} from './draw'
+        DrawInfoCircle} from './draw'
 
 interface CircleDrawType { kind: 'circle' }
 interface PolygonDrawType { kind: 'polygon' }
 interface LineDrawType { kind: 'line' }
 interface PedestrianDrawType { kind: 'pedestrian' }
-interface WaterDrawType { kind: 'water' }
 
 export type DrawType =
   ( CircleDrawType  |
     PolygonDrawType |
     LineDrawType    |
-    WaterDrawType    |
     PedestrianDrawType);
 
 export class AbaDrawEdit {
@@ -43,8 +40,7 @@ export class AbaDrawEdit {
     'circle' : new DrawInfoCircle(),
     'polygon' : new DrawInfoPolygon(),
     'line' : new DrawInfoPolyline(),
-    'pedestrian' : new DrawInfoPedestrian(),
-    'water' : new DrawInfoWater()
+    'pedestrian' : new DrawInfoPedestrian()
   };
 
   private edit : ArcgisEdit;
@@ -168,6 +164,7 @@ export class AbaDrawEdit {
       let kind : string = drawType.kind;
       this.currentDrawTypeKind = kind;
       this.currentDrawInfo = this.drawTypes[kind];
+      this.currentDrawInfo.changeTexture("water");
       this.draw.activate(this.currentDrawInfo.geometryType);
     }else
       this.draw.deactivate();
