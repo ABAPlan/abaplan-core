@@ -82,6 +82,35 @@
             "offendTextOne":"Please , calm yourself",
             "offendTextTwo":"Stop this",
             "offendTextTree":"Please , calm yourself",
+
+            "itineraryId":"itinerary",
+                "itineraryDescri":"itinerary mode on",
+                "itineraryAddId":[
+                                { "value": "Add *" },
+                                { "value": "Adding *"}
+                            ],
+                "itineraryAddDescri":"Add point",
+                "itineraryDeletId":"Delete",
+                "itineraryDeletDescri":"Delete Last Point",
+                "itineraryAbortId":[
+                                { "value": "Stop itinerary" },
+                                { "value": "Stoping itinerary"}
+                                ],
+                "itineraryAbortDescri":"Stop current itinerary",
+                "itinerarySaveId":[
+                                { "value": "Save *" },
+                                { "value": "Saving *"}
+                                ],
+                "itinerarySaveDescri":"Save in kml file",
+                "itineraryActive": "itinerary mode on",
+                "itineraryAddPoint": "Add point",
+                "itineraryAddPointError": "No Point to Add",
+                "itineraryError": "This Command is not in the actual mode",
+                "itineraryDeletLastError": "No point to Delet",
+                "itineraryDelet": "Delete Done",
+                "itinerarySave": "Save Done",
+                "itinerarySaveError": "No value to Save",
+
   "_comment": "lang",
                 "myLang":"English",
                 "codeLang":"en",

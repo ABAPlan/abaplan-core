@@ -85,6 +85,34 @@
         "offendTextTwo":"aufhören",
         "offendTextTree":"aufhören",
 
+        "itineraryId":"Strecke",
+        "itineraryDescri":"Strecke aktiven Modus",
+        "itineraryAddId":[
+                        { "value": "hinzufügen *" },
+                        { "value": "sagen *"}
+                    ],
+        "itineraryAddDescri":"Einen Punkt hinzufügen",
+        "itineraryDeletId":"löscht",
+        "itineraryDeletDescri":"Beseitige den letzten Punkt",
+        "itineraryAbortId":[
+                        { "value": "Die Weise anhalten" },
+                        { "value": "Die Modus aufgeben"}
+                        ],
+        "itineraryAbortDescri":"Die Modus aufgeben",
+        "itinerarySaveId":[
+                        { "value": "sichern *" },
+                        { "value": "schützen *"}
+                        ],
+        "itinerarySaveDescri":"sichern kml",
+        "itineraryActive": "Weise aktivierte Reiseroute",
+        "itineraryAddPoint": "Zusatz des Punktes",
+        "itineraryAddPointError": "Kein hinzuzufügender Punkt",
+        "itineraryError": "Diese Bestellung existiert in der gegenwärtigen Weise nicht",
+        "itineraryDeletLastError": "Kein zu beseitigender Punkt",
+        "itineraryDelet": "Abschaffung fertiggebracht",
+        "itinerarySave": "Schutz fertiggebracht",
+        "itinerarySaveError": "Kein zu Sichernder Wert",
+
 "_comment": "lang",
         "myLang":"Deutsch",
         "codeLang":"de",
