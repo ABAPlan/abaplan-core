@@ -86,7 +86,7 @@ export class EditorComponent {
         break;
 
       case "texture":
-        console.log("fdfd");
+        this.drawEdit.changeTexture("water");
         break;
 
       case "print":

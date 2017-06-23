@@ -164,10 +164,13 @@ export class AbaDrawEdit {
       let kind : string = drawType.kind;
       this.currentDrawTypeKind = kind;
       this.currentDrawInfo = this.drawTypes[kind];
-      this.currentDrawInfo.changeTexture("water");
       this.draw.activate(this.currentDrawInfo.geometryType);
     }else
       this.draw.deactivate();
+  }
+
+  public changeTexture(texture:string){
+      this.currentDrawInfo.changeTexture(texture);
   }
 
   public enableDelete(enable:boolean) {
