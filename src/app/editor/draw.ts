@@ -48,9 +48,9 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   private textureTypes : { [name:string] : Symbol; } = {
     'water' : new PictureFillSymbol(this.urlDot,
                               new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),16,16),
-    'black' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(),
+    'black' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
                               this.blackColor),
-    'white' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(),
+    'white' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
                               this.whiteColor),
   };
 

@@ -33,7 +33,7 @@
     "draw_polygon":"Polygon",
     "draw_traits": "Traits",
     "draw_pedestrian": "Pedestrian pathway",
-    "draw_water": "Water",
+    "fill": "Texture",
     "print": "Print",
     "open" : "Open",
     "save": "Save",

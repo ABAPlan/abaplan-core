@@ -33,7 +33,7 @@
     "draw_polygon":"Polygone",
     "draw_traits": "Traitillés",
     "draw_pedestrian": "Passage piétons",
-    "draw_water": "Eau",
+    "fill": "Texture",
     "print": "Imprimer",
     "open" : "Ouvrir",
     "save": "Sauvegarder",

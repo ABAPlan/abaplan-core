@@ -85,8 +85,9 @@ export class EditorComponent {
         this.mapComponent.map.disableMapNavigation();
         break;
 
-      case "texture":
-        this.drawEdit.changeTexture("water");
+      case "fill":
+        this.drawEdit.changeTexture(
+          this.toolbarMapComponent.changeFillTool());
         break;
 
       case "print":
