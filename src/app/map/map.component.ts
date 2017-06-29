@@ -9,6 +9,7 @@ import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 import Layer = require("esri/layers/layer");
+import Point = require("esri/geometry/Point");
 
 
 @Component({
@@ -57,6 +58,20 @@ export class MapComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  setZoom(zoom:number):boolean{
+    this.map.setZoom(zoom);
+    return true;
+  }
+
+  isInMap(point : Point):boolean{
+    return this.map.extent.contains(point);
+  }
+
+  centerMap(point : Point):boolean{
+    this.map.centerAt(point);
+    return true;
   }
 
 
