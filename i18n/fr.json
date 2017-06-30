@@ -126,7 +126,7 @@
         "itineraryAbortDescri":"Arrêt l'Itinéraire en cours",
         "itinerarySaveId":[
                         { "value": "Sauve *" },
-                        { "value": "Sauvgarde *"}
+                        { "value": "Sauvegarde *"}
                         ],
         "itinerarySaveDescri":"Sauve dans un fichier kml",
         "itineraryActive": "Mode Itinéraire activé",
