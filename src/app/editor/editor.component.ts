@@ -10,7 +10,6 @@ import {
 } from "./toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
-import { PrintService } from "../core/print-map.service";
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
@@ -24,8 +23,7 @@ type ButtonInfo = LayerType ;
 @Component({
   selector: 'aba-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css'],
-  providers: [PrintService]
+  styleUrls: ['editor.component.css']
 })
 export class EditorComponent {
 
@@ -55,7 +53,7 @@ export class EditorComponent {
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-  constructor(private printService: PrintService,private translateService: TranslateService) {
+  constructor(private translateService: TranslateService) {
 
   }
 
