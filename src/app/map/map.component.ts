@@ -59,6 +59,13 @@ export class MapComponent implements OnInit {
     return false;
   }
 
+  resetInfos():void{
+    this.map.uid = undefined;
+    this.map.title = undefined;
+    this.map.owner = undefined;
+    this.map.hash = undefined;
+    this.map.creationDate = undefined;
+  }
 
   initMap(optionMap: OptionMap, layerType? : LayerType): void {
 
