@@ -170,8 +170,7 @@ export class AbaDrawEdit {
   }
 
   public changeTexture(texture:string){
-    this.drawTypes["circle"].changeTexture(texture);
-    this.drawTypes["polygon"].changeTexture(texture);
+    Object.keys(this.drawTypes).forEach((key)=>this.drawTypes[key].changeTexture(texture));
   }
 
   public enableDelete(enable:boolean) {
