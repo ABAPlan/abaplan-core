@@ -147,9 +147,15 @@ export class EditorComponent {
     } else {
       this.selectTabByLayerType( {kind: "osm"} );
     }
-    this.flagSavable = true;
+    //Not Savable when the map load isn't save
+    if(optionMap.title)
+      this.flagSavable = true;
 
-    this.mapComponent.map.on('mouse-drag-end', () => this.flagSavable = false);
+    this.mapComponent.map.on('mouse-drag-end', () => {
+      this.flagSavable = false;
+      this.title = this.defaultTitle;
+      this.mapComponent.resetInfos();
+    });
 
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
@@ -199,7 +205,7 @@ export class EditorComponent {
   }
 
   private getBrailleId () : string{
-    if(this.mapComponent.map.title)
+    if(this.mapComponent.map.uid)
       return br.toBraille(String(this.mapComponent.map.uid));
     else
       return "";
