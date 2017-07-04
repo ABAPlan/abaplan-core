@@ -29,19 +29,6 @@
 
 </div>
 
-
-<div>
-            <div class="row dataMap">
-                <div class="titleMap text"> {{this.mapComponent.map.title}}</div>
-                <div class="idMap text"> {{this.mapComponent.map.uid}}</div>
-            </div>
-            <div class="row dataMap">
-                <div class="titleMap braille"> {{getBrailleTitle()}} </div>
-                <div class="idMap braille"> {{getBrailleId()}} </div>
-            </div>
-</div>
-
-
 <aba-modal-maps (onSelectEvent)="selectMap($event)"></aba-modal-maps>
 <aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
 <aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>

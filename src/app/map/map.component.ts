@@ -11,6 +11,8 @@ import Graphic = require("esri/graphic");
 import Layer = require("esri/layers/layer");
 import Point = require("esri/geometry/Point");
 
+import * as br from 'braille';
+
 
 @Component({
   selector: 'aba-map',
@@ -82,6 +84,20 @@ export class MapComponent implements OnInit {
     this.map.creationDate = undefined;
   }
 
+  private getBrailleTitle () : string{
+    if(this.map.title)
+      return br.toBraille(this.map.title);
+    else
+      return "";
+  }
+
+  private getBrailleId () : string{
+    if(this.map.uid)
+      return br.toBraille(String(this.map.uid));
+    else
+      return "";
+  }
+
   initMap(optionMap: OptionMap, layerType? : LayerType): void {
 
     this.map = AbaMap.fromOptionMap("esri-map", optionMap, layerType);
@@ -151,8 +167,10 @@ export class MapComponent implements OnInit {
       }
     );
   }
+
   public saveMapWithTitle(title: string): void {
     this.map.title = title;
     this.mapService.add(this.map.toOptionMap()).subscribe( i => this.map.uid = i );
   }
+
 }

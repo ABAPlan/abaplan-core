@@ -68,7 +68,8 @@ export class BlindCreatorComponent {
      if(this.points.length == 1)
           this.searchAddress("Avenue de la jonction");
       if(this.points.length == 2)
-         this.searchAddress("Rolle");
+        // this.searchAddress("Rolle");
+         this.printMap()
     };
   }
 
@@ -130,6 +131,10 @@ export class BlindCreatorComponent {
 
   private saveMap(title:string){
     this.mapComponent.saveMapWithTitle(title);
+  }
+
+  private printMap(){
+    window.print();
   }
 
 

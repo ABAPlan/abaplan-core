@@ -27,6 +27,10 @@
   vertical-align: middle;
 }
 
+.dataMap{
+    display: none;
+}
+
 @media print {
 
     #esri-map {
@@ -39,10 +43,6 @@
         border: 5px;
         overflow: hidden;
 
-        
-     
-       
-
         margin-top: 1%;
         margin-bottom: 0px;
         
@@ -51,5 +51,34 @@
      .searchBar{
         display: none;
     }
+
+    .dataMap{
+         display: block;
+         margin-top: 0px;
+    }
+
+     
+    .titleMap{     
+        text-align: left;
+        float: left;
+        margin-left: 8%;
+    }
+
+    .idMap{      
+        text-align: right;
+        float: right;
+        margin-right: 12%;
+    }
+
+    .braille{
+        font-weight: bold;
+        font-size: 220%;
+        letter-spacing: 6%;
+    }
+
+    .text{
+        font-size: 150%;
+    }
+
 
 }
