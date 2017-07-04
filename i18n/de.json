@@ -50,7 +50,26 @@
     "touchpadCenter": "Im Zentrum der Platte drücken",
 
 "_comment": "Voice Commande",
-        "readId": "Lesung",
+        "helpId": [
+                        { "value": "hilfe *" }
+                  ],
+        "helpDescri": "hilfe erhalten",
+        "mainHelpIntro": "Die Betriebsarten stehen zur Verfügung",
+        "mainHelpMode": "der Modus ",
+        "mainHelpDo": " erlaubt ",
+        "mainHelp*": " * bedeutet Ersetzung durch eine Zeichenkette",
+        "mainHelpLang": "Um die Systemsprache ändern Sie den Namen der es mit",
+        "readHelp": "Dieser Modus bietet die Straße je nach dem Druck auf dem Touchscreen",
+        "searchHelp": "Um diesen Modus zu verwenden, müssen Sie den Suchbegriff eingeben, indem Sie einen Straßennamen gefolgt, wenn die Adresse richtig ist, wenn sie auf dem Touchscreen drücken, wird Richtung und Entfernung zum gewünschten Such zeigen",
+        "itineraryHelp": "Diese Betriebsart enthält vier Befehle",
+        "itineraryAddHelp": " Dieser Befehl fügt einen Punkt. * Um die Punktnamen angeben",
+        "itineraryDelHelp": " Dieser Befehl entfernt das letzte Element in Fehler hinzugefügt.",
+        "itinerarySaveHelp": " Dieser Befehl um die Strecke zu beenden und eine KML-Datei erstellen. * Zeigt den Dateinamen",
+        "itineraryEndHelp": " Dieser Befehl aus der Mode dieser Route löscht alle Inhalte eingefügt",
+
+        "readId": [
+                        { "value": "Lesung" }
+                  ],
         "readDescri": "Lesung, Voreinstellung",
         "readActive": "Weise Lesung, die aktiviert ist",
 
@@ -85,6 +104,38 @@
         "offendTextOne":"Von Mitleid, beruhigen Sie Sie",
         "offendTextTwo":"aufhören",
         "offendTextTree":"aufhören",
+
+        "itineraryId":[
+                        { "value": "Strecke" }
+                      ],
+        "itineraryDescri":"Strecke aktiven Modus",
+        "itineraryAddId":[
+                        { "value": "hinzufügen *" },
+                        { "value": "sagen *"}
+                    ],
+        "itineraryAddDescri":"Einen Punkt hinzufügen",
+        "itineraryDeletId":[
+                              { "value": "löscht" }
+                           ],
+        "itineraryDeletDescri":"Beseitige den letzten Punkt",
+        "itineraryAbortId":[
+                        { "value": "Die Weise anhalten" },
+                        { "value": "Die Modus aufgeben"}
+                        ],
+        "itineraryAbortDescri":"Die Modus aufgeben",
+        "itinerarySaveId":[
+                        { "value": "sichern *" },
+                        { "value": "schützen *"}
+                        ],
+        "itinerarySaveDescri":"sichern kml",
+        "itineraryActive": "Weise aktivierte Reiseroute",
+        "itineraryAddPoint": "Zusatz des Punktes",
+        "itineraryAddPointError": "Kein hinzuzufügender Punkt",
+        "itineraryError": "Diese Bestellung existiert in der gegenwärtigen Weise nicht",
+        "itineraryDeletLastError": "Kein zu beseitigender Punkt",
+        "itineraryDelet": "Abschaffung fertiggebracht",
+        "itinerarySave": "Schutz fertiggebracht",
+        "itinerarySaveError": "Kein zu Sichernder Wert",
 
 "_comment": "lang",
         "myLang":"Deutsch",

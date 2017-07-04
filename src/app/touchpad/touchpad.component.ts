@@ -5,6 +5,7 @@ import { MapService } from '../map/map.service';
 import { GeoService } from '../core/geo.service';
 import { VoiceService } from '../core/voice.service';
 import { StateService } from "../core/state.service";
+import { KmlService } from "../core/kml.service";
 import { OptionMap } from '../map/map';
 import { MapComponent } from '../map/map.component'
 
@@ -45,6 +46,7 @@ export class TouchpadComponent {
     private stateService : StateService,
     private geoService : GeoService,
     private translateService: TranslateService,
+    private kmlService: KmlService,
     private _elementRef: ElementRef
   ){
 
@@ -129,6 +131,10 @@ export class TouchpadComponent {
             } else {
               console.warn("Impossible state, searchingPoint must be defined");
             }
+            break;
+          case "itinerary":
+            this.kmlService.currentPoint(touchPoint.x,touchPoint.y);
+            this.locateClick(touchPoint);
             break;
         }
 
@@ -216,6 +222,54 @@ export class TouchpadComponent {
     );
   }
 
+  /** Switch to itinerary mode */
+  private itineraryCommand():void{
+    this.stateService.changeMode( {mode: "itinerary"} );
+    this.voiceService.say(this.getStringTranslation("itineraryActive"));
+    //In case of the user switch mod in middle of session , reset values
+    this.kmlService.endCurrentSession();
+  }
+
+  /** Add last Press Location */
+  private itineraryAddCommand(i: number, wildcard: string):void{
+    if(this.stateService.activeMode().mode == "itinerary"){
+      if(this.kmlService.addCurrentPoint(wildcard))
+        this.voiceService.say(this.getStringTranslation("itineraryAddPoint")+wildcard);
+      else
+        this.voiceService.say(this.getStringTranslation("itineraryAddPointError"));
+    }else{
+        this.voiceService.say(this.getStringTranslation("itineraryError"));
+    }
+  }
+
+  /** Delet last add point */
+  private itineraryDeletLastCommand():void{
+    if(this.stateService.activeMode().mode == "itinerary"){
+      if(this.kmlService.deletLastPoint())
+          this.voiceService.say(this.getStringTranslation("itineraryDelet"));
+      else
+        this.voiceService.say(this.getStringTranslation("itineraryDeletLastError"));
+    }else{
+        this.voiceService.say(this.getStringTranslation("itineraryError"));
+    }
+  }
+
+  /** Stop the current Session */
+  private itineraryStopSession():void{
+    this.kmlService.endCurrentSession();
+    this.readCommand();
+  }
+
+  private itineraryEndSession(i: number, wildcard: string):void{
+    if(this.kmlService.toKml(wildcard)){
+      this.voiceService.say(this.getStringTranslation("itinerarySave"));
+      this.kmlService.endCurrentSession();
+      this.readCommand();
+    }
+    else
+      this.voiceService.say(this.getStringTranslation("itinerarySaveError"));
+  }
+
   /** Notity the user in terms of input number  */
   private offendCommand(i:number):void{
     if (i%3===0) {
@@ -233,6 +287,57 @@ export class TouchpadComponent {
         this.voiceService.changeLang(langVoice);
   }
 
+  /** Help Command */
+  private helpCommand(i: number, wildcard: string, langTranslate : string):void{
+    let currentLang = this.translateService.currentLang;
+    this.translateService.use(langTranslate);
+    console.log(wildcard);
+    console.log(this.getStringTranslations("itineraryId")[0]);
+    switch(wildcard){
+      case this.getStringTranslations("readId")[0]:
+        this.voiceService.say(this.getStringTranslation("readHelp"));
+        break;
+      case this.getStringTranslations("itineraryId")[0]:
+        this.voiceService.say(this.getStringTranslation("itineraryHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryAddId")[0]
+                              +this.getStringTranslation("itineraryAddHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryDeletId")[0]
+                              +this.getStringTranslation("itineraryDelHelp"));
+        this.voiceService.say(this.getStringTranslations("itinerarySaveId")[0]
+                              +this.getStringTranslation("itinerarySaveHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryAbortId")[0]
+                              +this.getStringTranslation("itineraryEndHelp"));
+        break;
+      case this.getStringTranslations("searchId")[0].replace(' *',''):
+        this.voiceService.say(this.getStringTranslation("searchHelp"));
+        break;
+      default:
+        this.voiceService.say(this.getStringTranslation("mainHelpIntro"));
+        // Read Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("readId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("readDescri"));
+        // Search Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("searchId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("searchDescri"));
+        // Itinerary Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("itineraryId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("itineraryDescri"));
+        // * help
+        this.voiceService.say(this.getStringTranslation("mainHelp*"));
+
+        // lang
+        this.voiceService.say(this.getStringTranslation("mainHelpLang"));
+        break;
+    }
+    this.translateService.use(currentLang);
+  }
+
   /** Add Commands */
   private prepareVoiceCommand() {
     // Loop for add command in each lang of application
@@ -243,7 +348,7 @@ export class TouchpadComponent {
 
       // Reading mode (default)
       this.voiceService.addCommand(
-        [this.getStringTranslation("readId")],
+        this.getStringTranslations("readId"),
         this.getStringTranslation("readDescri"),
         () => this.readCommand()
       );
@@ -268,6 +373,49 @@ export class TouchpadComponent {
         this.getStringTranslation("codeLang"),
         () => this.changeLang(entry,codeVoice)
       );
+
+      // switch to itinerary Mode
+      this.voiceService.addCommand(
+        this.getStringTranslations("itineraryId"),
+        this.getStringTranslation("itineraryDescri"),
+        () => this.itineraryCommand()
+      );
+
+      // itinerary Mode - Add
+      this.voiceService.addCommand(
+        this.getStringTranslations("itineraryAddId"),
+        this.getStringTranslation("itineraryAddDescri"),
+        (i: number, wildcard: string) => this.itineraryAddCommand(i, wildcard)
+      );
+
+      // itinerary Mode - Delet Last
+      this.voiceService.addCommand(
+        this.getStringTranslations("itineraryDeletId"),
+        this.getStringTranslation("itineraryDeletDescri"),
+        () => this.itineraryDeletLastCommand()
+      );
+
+      // itinerary Mode - Abort
+      this.voiceService.addCommand(
+        this.getStringTranslations("itineraryAbortId"),
+        this.getStringTranslation("itineraryAbortDescri"),
+        () => this.itineraryStopSession()
+      );
+
+      // itinerary Mode - Save As
+      this.voiceService.addCommand(
+        this.getStringTranslations("itinerarySaveId"),
+        this.getStringTranslation("itinerarySaveDescri"),
+        (i: number, wildcard: string) => this.itineraryEndSession(i, wildcard)
+      );
+
+      // itinerary Mode - Save As
+      this.voiceService.addCommand(
+        this.getStringTranslations("helpId"),
+        this.getStringTranslation("helpDescri"),
+        (i: number, wildcard: string) => this.helpCommand(i, wildcard,entry)
+      );
+
     }
     this.translateService.use(this.translateService.getBrowserLang());
   }
@@ -282,7 +430,6 @@ export class TouchpadComponent {
         }
       }
     );
-
   }
 
   /** Notity the user of direction */
