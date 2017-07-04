@@ -68,25 +68,25 @@ export class BlindCreatorComponent {
      if(this.points.length == 1)
           this.searchAddress("Avenue de la jonction");
       if(this.points.length == 2)
-         this.searchAddress("boulevard carl-vogt");
+         this.searchAddress("Rolle");
     };
-
   }
 
   ngOnInit(): void {
     this.mapComponent.getDefaultMap();
     this.mapComponent.setLayerType({kind: "city"});
     this.mapComponent.setZoom(16);
+    this.mapComponent.map.disableMapNavigation();
   }
 
-  averagePoint(): Point{
+  private averagePoint(): Point{
     let lat_av : number = 0;
     let lon_av : number = 0;
 
      this.points.forEach((point)=>{
          lat_av += point.getLatitude();
          lon_av += point.getLongitude();
-      });
+    });
 
     return new Point(lon_av/this.points.length,lat_av/this.points.length);
   }
@@ -126,6 +126,10 @@ export class BlindCreatorComponent {
         }
       }
     );
+  }
+
+  private saveMap(title:string){
+    this.mapComponent.saveMapWithTitle(title);
   }
 
 
