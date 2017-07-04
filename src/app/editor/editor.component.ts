@@ -10,21 +10,20 @@ import {
 } from "./toolbar/toolbar.component";
 
 import { AbaDrawEdit } from './drawEditMap';
-import { PrintService } from "../core/print-map.service";
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
 import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
 import {TranslateService} from 'ng2-translate';
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
+import * as br from 'braille';
 
 type ButtonInfo = LayerType ;
 
 @Component({
   selector: 'aba-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css'],
-  providers: [PrintService]
+  styleUrls: ['editor.component.css']
 })
 export class EditorComponent {
 
@@ -54,7 +53,7 @@ export class EditorComponent {
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-  constructor(private printService: PrintService,private translateService: TranslateService) {
+  constructor(private translateService: TranslateService) {
 
   }
 
@@ -86,15 +85,11 @@ export class EditorComponent {
         break;
 
       case "print":
-        if (!this.flagSavable){
+        if (!this.flagSavable)
           this.modalYesNoComponent.open();
-        } else {
-          console.log("NOON");
-          let title = this.mapComponent.map.title;
-          let date = this.mapComponent.map.creationDate;
-          let map = this.getMapString();
-          this.printService.printMap(map, title, date);
-        }
+        else 
+          window.print();
+            
         break;
 
       case "open":
@@ -152,9 +147,15 @@ export class EditorComponent {
     } else {
       this.selectTabByLayerType( {kind: "osm"} );
     }
-    this.flagSavable = true;
+    //Not Savable when the map load isn't save
+    if(optionMap.title)
+      this.flagSavable = true;
 
-    this.mapComponent.map.on('mouse-drag-end', () => this.flagSavable = false);
+    this.mapComponent.map.on('mouse-drag-end', () => {
+      this.flagSavable = false;
+      this.title = this.defaultTitle;
+      this.mapComponent.resetInfos();
+    });
 
     this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
@@ -172,14 +173,6 @@ export class EditorComponent {
   /* Fire when a user create a map */
   private saveMapTitle(title: string): void {
     this.mapComponent.saveMapWithTitle(title);
-  }
-
-  private getMapString() {
-    // Converts Map to String
-    let map = this.mapComponent.map.root;
-    let serializer = new XMLSerializer();
-    let ser = serializer.serializeToString(map);
-    return ser;
   }
 
   private selectMap(info: [number, string]): void {
@@ -201,9 +194,21 @@ export class EditorComponent {
   }
 
   private printMapWithoutSaving(): void {
-    let map = this.getMapString();
-    console.log("======");
-    this.printService.printMap(map);
+    window.print();
+  }
+
+  private getBrailleTitle () : string{
+    if(this.mapComponent.map.title)
+      return br.toBraille(this.mapComponent.map.title);
+    else
+      return "";
+  }
+
+  private getBrailleId () : string{
+    if(this.mapComponent.map.uid)
+      return br.toBraille(String(this.mapComponent.map.uid));
+    else
+      return "";
   }
 
   ngOnInit(): void {

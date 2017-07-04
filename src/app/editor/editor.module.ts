@@ -4,7 +4,6 @@ import { SharedModule } from "../shared/shared.module";
 
 /* Services */
 import { MapService }       from '../map/map.service';
-import { PrintService } from "../core/print-map.service";
 
 /* Internal Components */
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
@@ -32,6 +31,6 @@ import {TranslateModule} from "ng2-translate";
     , FilterMapsPipe
     , PaginationComponent
   ],
-  providers:    [ MapService, PrintService ]
+  providers:    [ MapService ]
 })
 export class EditorModule { }

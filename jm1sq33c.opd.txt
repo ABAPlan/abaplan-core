@@ -1,0 +1,36 @@
+﻿Merge remote-tracking branch 'refs/remotes/origin/master' into feat-map-blind-create-pj
+
+# Conflicts:
+#	src/app/map/map.component.ts
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch feat-map-blind-create-pj
+# Your branch is ahead of 'origin/feat-map-blind-create-pj' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   i18n/de.json
+#	modified:   i18n/en.json
+#	modified:   i18n/fr.json
+#	modified:   index.html
+#	modified:   src/app/app.component.ts
+#	deleted:    src/app/core/print-map.service.ts
+#	modified:   src/app/editor/editor.component.css
+#	modified:   src/app/editor/editor.component.html
+#	modified:   src/app/editor/editor.component.ts
+#	modified:   src/app/editor/editor.module.ts
+#	modified:   src/app/map/map.component.css
+#	modified:   src/app/map/map.component.html
+#	modified:   src/app/map/map.component.ts
+#	modified:   src/app/touchpad/touchpad.component.ts
+#
+
