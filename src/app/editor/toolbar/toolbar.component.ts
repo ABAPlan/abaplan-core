@@ -39,6 +39,7 @@ export class ToolbarMapComponent {
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
 
+  // Array of state for the fill button 
   private fillState : Array<Tool> = [
     {
       kind: 'texture',
