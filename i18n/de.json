@@ -136,6 +136,18 @@
         "itinerarySave": "Schutz fertiggebracht",
         "itinerarySaveError": "Kein zu Sichernder Wert",
 
+        "transportId": [
+                        { "value": "Stop-transport" }
+                       ],
+        "transportDescri":"Suchen Sie die nächste Haltestelle der öffentlichen Verkehrsmittel",
+        "transportSearchId": [
+                        { "value": "Stop-transport *" }
+                       ],
+        "transportSearchDescri":"Suchen Sie die nächste Haltestelle der öffentlichen Verkehrsmittel",
+        "transportOKDescri":"Forschung Transport",
+        "transportKODescri":"Keine Stelle in der Nähe",
+
+
 "_comment": "lang",
         "myLang":"Deutsch",
         "codeLang":"de",

@@ -384,6 +384,13 @@ export class TouchpadComponent {
                               +this.getStringTranslations("searchId")[0]);
         this.voiceService.say(this.getStringTranslation("mainHelpDo")
                               + this.getStringTranslation("searchDescri"));
+
+        // Search Transport Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("transportId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("transportDescri"));
+
         // Itinerary Command
         this.voiceService.say(this.getStringTranslation("mainHelpMode")
                               +this.getStringTranslations("itineraryId")[0]);

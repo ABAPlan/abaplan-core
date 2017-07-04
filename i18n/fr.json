@@ -138,6 +138,7 @@
         "itineraryDelet": "Suppression réussi",
         "itinerarySave": "Sauvegarde réussi",
         "itinerarySaveError": "Pas de valeur à Sauvegarder",
+        
         "transportId": [
                         { "value": "arrêt transport" }
                        ],
