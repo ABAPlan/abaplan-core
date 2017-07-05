@@ -33,6 +33,10 @@
 
 @media print {
 
+    .load{
+        display: none;
+    }
+
     #esri-map {
         margin-left: 0px;
     }

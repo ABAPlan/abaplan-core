@@ -85,15 +85,29 @@ export class MapComponent implements OnInit {
   }
 
   private getBrailleTitle () : string{
-    if(this.map.title)
+    if(this.map && this.map.title)
       return br.toBraille(this.map.title);
     else
       return "";
   }
 
   private getBrailleId () : string{
-    if(this.map.uid)
+    if(this.map && this.map.uid)
       return br.toBraille(String(this.map.uid));
+    else
+      return "";
+  }
+
+  private getTitle() : string{
+    if(this.map && this.map.title)
+      return String(this.map.title);
+    else
+      return "";
+  }
+
+  private getId () : string{
+    if(this.map && this.map.uid)
+      return String(this.map.uid);
     else
       return "";
   }

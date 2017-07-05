@@ -6,7 +6,7 @@
 
       <img  [hidden]="!mapLoading"
             src='{{imgLoading}}'
-            class="center-div"
+            class="center-div load"
             style="z-index:999;"
       />
 
@@ -24,8 +24,8 @@
 
 <div>
             <div class="row dataMap">
-                <div class="titleMap text"> {{this.map.title}}</div>
-                <div class="idMap text"> {{this.map.uid}}</div>
+                <div class="titleMap text"> {{getTitle()}}</div>
+                <div class="idMap text"> {{getId()}}</div>
             </div>
             <div class="row dataMap">
                 <div class="titleMap braille"> {{getBrailleTitle()}} </div>

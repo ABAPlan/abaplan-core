@@ -8,7 +8,7 @@ import { VoiceService } from '../core/voice.service';
 import { StateService } from "../core/state.service";
 import { KmlService } from "../core/kml.service";
 import { OptionMap } from '../map/map';
-import { MapComponent } from '../map/map.component'
+import { MapComponent } from '../map/map.component';
 
 import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
 import Geometry = require('esri/geometry/Geometry');
@@ -36,15 +36,21 @@ export class BlindCreatorComponent {
   private points:Array<Point> = new Array<Point>();
   private centerPoint : Point;
 
+  private readonly zoomLevel: number = 16;
+  private readonly layerType : any = {kind: "city"};
+  private readonly maxPoints : number = 3;
+
+  test = true;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private mapService: MapService,
+    
     private voiceService : VoiceService,
-    private stateService : StateService,
+    
     private geoService : GeoService,
     private translateService: TranslateService,
-    private kmlService: KmlService,
+
     private _elementRef: ElementRef
   ){
 
@@ -57,34 +63,44 @@ export class BlindCreatorComponent {
     *  (pj)
     */
     document.onreadystatechange= () => {
-     // this.voiceService.initialization();
-    //  this.prepareVoiceCommand();
-      //this.voiceService.say(this.getStringTranslation("touchpadCenter"));
+      this.voiceService.initialization();
+      this.prepareVoiceCommand();
+      this.voiceService.say("Salutation voyageur");
     }
 
      document.onclick = (ev: MouseEvent) => {
+        this.voiceService.simulate("Ajoute Jonction");
+      //  this.voiceService.simulate("Ajoute Rolle");
+      /*if(!this.test)
+        window.location.replace('touchpad-voice/285');
+
      if(this.points.length == 0)
         this.searchAddress("5 fief-de-chapitre");
      if(this.points.length == 1)
-          this.searchAddress("Avenue de la jonction");
-      if(this.points.length == 2)
-        // this.searchAddress("Rolle");
-         this.printMap()
+          this.searchAddress("boulevard carl-vogt");
+     if(this.points.length == 2 && this.test){
+        this.printMap();
+        this.test = false;
+     }*/
+     
+         
     };
   }
 
   ngOnInit(): void {
+    //Init the Map
     this.mapComponent.getDefaultMap();
-    this.mapComponent.setLayerType({kind: "city"});
-    this.mapComponent.setZoom(16);
+    this.mapComponent.setLayerType(this.layerType);
+    this.mapComponent.setZoom(this.zoomLevel);
     this.mapComponent.map.disableMapNavigation();
   }
 
+  /* Compute average Point */
   private averagePoint(): Point{
     let lat_av : number = 0;
     let lon_av : number = 0;
 
-     this.points.forEach((point)=>{
+    this.points.forEach((point)=>{
          lat_av += point.getLatitude();
          lon_av += point.getLongitude();
     });
@@ -92,15 +108,18 @@ export class BlindCreatorComponent {
     return new Point(lon_av/this.points.length,lat_av/this.points.length);
   }
 
+  /* Check if a point is in the map  */
   private isInMap(point : Point):boolean{
     return this.mapComponent.isInMap(point);
   }
 
+  /* Check if all the points is in the map */
   private pointsInMap():boolean{
       return this.points.every((p)=>this.isInMap(p));
   }
 
-  private searchAddress(address:string){
+  /* Try to add a new Point */
+  private addPoint(address:string){
       this.geoService.point(address).subscribe(
       (searchPoint: Point) => {
         if (searchPoint === undefined){
@@ -110,18 +129,17 @@ export class BlindCreatorComponent {
             if(this.points.length == 1){
                 this.mapComponent.centerMap(searchPoint);
                 this.centerPoint = searchPoint;
+                this.voiceService.say("Point ajouté");
             }else{
                 const average : Point = this.averagePoint();               
                 this.mapComponent.centerMap(average);
 
                 if(this.pointsInMap()){
-                    console.log("ok");
+                    this.voiceService.say("Point ajouté");
                     this.centerPoint = average;
-                    // message OK
                 }else{
-                    console.log("ko");
+                    this.voiceService.say("Point non ajouté");
                     this.mapComponent.centerMap(this.centerPoint);
-                    // message KO
                 }
             }
         }
@@ -129,12 +147,23 @@ export class BlindCreatorComponent {
     );
   }
 
+  /* Save the Map in Database */
   private saveMap(title:string){
     this.mapComponent.saveMapWithTitle(title);
   }
 
+  /* Print the map when the update end */
   private printMap(){
-    window.print();
+    if(!this.mapComponent.mapLoading)
+        window.print();
+    else
+        this.mapComponent.map.onUpdateEnd = () => 
+              {
+                this.mapComponent.mapLoading = false;
+                window.print();
+                //At the end load the older UpdateEnd
+                this.mapComponent.map.onUpdateEnd = () => this.mapComponent.mapLoading = false;
+              };
   }
 
 
@@ -157,6 +186,12 @@ export class BlindCreatorComponent {
         [this.getStringTranslation("myLang")],
         this.getStringTranslation("codeLang"),
         () => this.changeLang(entry,codeVoice)
+      );
+
+      this.voiceService.addCommand(
+        ["Ajoute *"],
+        "blablou",
+        (i: number, wildcard: string) => this.addPoint(wildcard)
       );
 
     }
