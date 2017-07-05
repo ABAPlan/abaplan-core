@@ -46,27 +46,9 @@ export class BlindCreatorComponent {
     document.onreadystatechange= () => {
       this.voiceService.initialization();
       this.prepareVoiceCommand();
-      this.voiceService.say("Salutation voyageur");
+      this.voiceService.say(this.getStringTranslation("blindCreatorEntry"));
     }
 
-     document.onclick = (ev: MouseEvent) => {
-        this.voiceService.simulate("Ajoute Jonction");
-        this.voiceService.simulate("redirection");
-      //  this.voiceService.simulate("Ajoute Rolle");
-      /*if(!this.test)
-        window.location.replace('touchpad-voice/285');
-
-     if(this.points.length == 0)
-        this.searchAddress("5 fief-de-chapitre");
-     if(this.points.length == 1)
-          this.searchAddress("boulevard carl-vogt");
-     if(this.points.length == 2 && this.test){
-        this.printMap();
-        this.test = false;
-     }*/
-     
-         
-    };
   }
 
   ngOnInit(): void {
@@ -127,16 +109,17 @@ export class BlindCreatorComponent {
               if(this.points.length == 1){
                   this.mapComponent.centerMap(searchPoint);
                   this.centerPoint = searchPoint;
-                  this.voiceService.say("Point ajouté");
+                  this.voiceService.say(this.getStringTranslation("bcAddPoint"));
               }else{
                   const average : Point = this.averagePoint();               
                   this.mapComponent.centerMap(average);
 
                   if(this.pointsInMap()){
-                      this.voiceService.say("Point ajouté");
+                      this.voiceService.say(this.getStringTranslation("bcAddPoint"));
                       this.centerPoint = average;
                   }else{
-                      this.voiceService.say("Point non ajouté");
+                      this.points.pop();
+                      this.voiceService.say(this.getStringTranslation("bcNotAddPoint"));
                       this.mapComponent.centerMap(this.centerPoint);
                   }
               }
@@ -144,9 +127,9 @@ export class BlindCreatorComponent {
         }
       );
       else
-        this.voiceService.say("Trop de points");
+        this.voiceService.say(this.getStringTranslation("bcTooManyPoints"));
     }else{
-      this.voiceService.say("la carte est déjà sauvegarder");
+      this.voiceService.say(this.getStringTranslation("bcAlreadySave"));
     }
   }
 
@@ -154,13 +137,11 @@ export class BlindCreatorComponent {
   private saveMap(title:string){
     if(!this.isSave){
       this.mapComponent.saveMapWithTitle(title);
-      this.voiceService.say("Sauvegarde de la carte "+title);
-      this.voiceService.say("Pour imprimer dire imprimer pour aller vers le touc dire touch ect");
+      this.voiceService.say(this.getStringTranslation("bcSave")+title);
       this.isSave = true;
     }else{
-      this.voiceService.say("la carte est déjà sauvegarder");
-    }
-    
+      this.voiceService.say(this.getStringTranslation("bcAlreadySave"));
+    }   
   }
 
   /* Print the map when the update end */
@@ -171,14 +152,13 @@ export class BlindCreatorComponent {
       else
           this.mapComponent.map.onUpdateEnd = () => 
                 {
-                  this.voiceService.say("Carte "+this.mapComponent.map.title+" imprimée ");
                   this.mapComponent.mapLoading = false;
                   window.print();
                   //At the end load the older UpdateEnd
                   this.mapComponent.map.onUpdateEnd = () => this.mapComponent.mapLoading = false;
                 };
     }else{
-      this.voiceService.say("Veuillier sauvgarder la carte avant");
+      this.voiceService.say(this.getStringTranslation("bcNeedSave"));
     }
   }
 
@@ -186,16 +166,15 @@ export class BlindCreatorComponent {
   private redirectionToTouchpad():void{
     if(this.isSave){
         if(this.mapComponent.map.uid){
-            this.voiceService.say("Redirection vers la carte"+String(this.mapComponent.map.uid));
+            this.voiceService.say(this.getStringTranslation("bcRedirection")+String(this.mapComponent.map.uid));
              window.location.replace('touchpad-voice/'+String(this.mapComponent.map.uid));
         }else{
-            this.voiceService.say("Sauvegarde en cours");
+            this.voiceService.say(this.getStringTranslation("bcSaving"));
         }
     }else{
-      this.voiceService.say("Veuillier sauvgarder la carte avant");
+      this.voiceService.say(this.getStringTranslation("bcNeedSave"));
     } 
   }
-
 
   /** Change language of application */
   private changeLang(langTranslate : string,langVoice : string):void{
@@ -220,26 +199,26 @@ export class BlindCreatorComponent {
 
       // Add Point to the map
       this.voiceService.addCommand(
-        ["Ajoute *"],
-        "blablou",
+        this.getStringTranslations("bcAddId"),
+        this.getStringTranslation("bcAddDescri"),
         (i: number, wildcard: string) => this.addPoint(wildcard)
       );
 
       this.voiceService.addCommand(
-        ["Sauve *"],
-        "blablou",
+        this.getStringTranslations("bcSaveId"),
+        this.getStringTranslation("bcSaveDescri"),
         (i: number, wildcard: string) => this.saveMap(wildcard)
       );
 
       this.voiceService.addCommand(
-        ["Imprime"],
-        "blablou",
+        this.getStringTranslations("bcPrintId"),
+        this.getStringTranslation("bcPrintDecri"),
         () => this.printMap()
       );
 
       this.voiceService.addCommand(
-        ["redirection"],
-        "blablou",
+        this.getStringTranslations("bcRedirectionId"),
+        this.getStringTranslation("bcRedirectionDescri"),
         () => this.redirectionToTouchpad()
       );
 
