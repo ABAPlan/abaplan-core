@@ -1,25 +1,14 @@
-
-import {Component, ViewChild, ElementRef} from "@angular/core";
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import {Component, ViewChild} from "@angular/core";
 import 'rxjs/add/operator/switchMap';
+
 import { MapService } from '../map/map.service';
 import { GeoService } from '../core/geo.service';
 import { VoiceService } from '../core/voice.service';
-import { StateService } from "../core/state.service";
-import { KmlService } from "../core/kml.service";
-import { OptionMap } from '../map/map';
+import { TranslateService } from "ng2-translate";
+
 import { MapComponent } from '../map/map.component';
 
-import WebMercatorUtils = require('esri/geometry/webMercatorUtils');
-import Geometry = require('esri/geometry/Geometry');
-import Point = require('esri/geometry/Point')
-import Graphic = require("esri/graphic");
-import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
-import {Vector2d, Plane2d, transform} from '../core/vector2d';
-import LatLng = google.maps.LatLng;
-import Multipoint = require("esri/geometry/Multipoint")
-
-import {TranslateService} from "ng2-translate";
+import Point = require('esri/geometry/Point');
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 
 interface translations  {value : string};
@@ -41,15 +30,9 @@ export class BlindCreatorComponent {
   private readonly maxPoints : number = 3;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    
     private voiceService : VoiceService,
-    
     private geoService : GeoService,
-    private translateService: TranslateService,
-
-    private _elementRef: ElementRef
+    private translateService: TranslateService
   ){
 
     /**Init the voice commands and start calibration
