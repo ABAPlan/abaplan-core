@@ -35,12 +35,10 @@ export class BlindCreatorComponent {
   private mapComponent: MapComponent;
   private points:Array<Point> = new Array<Point>();
   private centerPoint : Point;
-
+  private isSave : boolean = false;
   private readonly zoomLevel: number = 16;
   private readonly layerType : any = {kind: "city"};
   private readonly maxPoints : number = 3;
-
-  test = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,6 +68,7 @@ export class BlindCreatorComponent {
 
      document.onclick = (ev: MouseEvent) => {
         this.voiceService.simulate("Ajoute Jonction");
+        this.voiceService.simulate("redirection");
       //  this.voiceService.simulate("Ajoute Rolle");
       /*if(!this.test)
         window.location.replace('touchpad-voice/285');
@@ -97,15 +96,24 @@ export class BlindCreatorComponent {
 
   /* Compute average Point */
   private averagePoint(): Point{
-    let lat_av : number = 0;
-    let lon_av : number = 0;
+    if(this.points.length==0){
+      return new Point(0,0);
+    }
+    else if(this.points.length==1){
+      return this.points[0];
+    }
+    else{
+      let lat_av : number = 0;
+      let lon_av : number = 0;
 
-    this.points.forEach((point)=>{
+      this.points.forEach((point)=>{
          lat_av += point.getLatitude();
          lon_av += point.getLongitude();
-    });
+      });
 
-    return new Point(lon_av/this.points.length,lat_av/this.points.length);
+      return new Point(lon_av/this.points.length,lat_av/this.points.length);
+    }
+    
   }
 
   /* Check if a point is in the map  */
@@ -118,52 +126,91 @@ export class BlindCreatorComponent {
       return this.points.every((p)=>this.isInMap(p));
   }
 
+  /* Check if the user can add a new point */
+  private checkLimit():boolean{
+    return this.points.length+1 <= this.maxPoints;
+  }
+
   /* Try to add a new Point */
   private addPoint(address:string){
-      this.geoService.point(address).subscribe(
-      (searchPoint: Point) => {
-        if (searchPoint === undefined){
-          this.voiceService.say(this.getStringTranslation("searchKo"));
-        }else{
-            this.points.push(searchPoint);
-            if(this.points.length == 1){
-                this.mapComponent.centerMap(searchPoint);
-                this.centerPoint = searchPoint;
-                this.voiceService.say("Point ajouté");
-            }else{
-                const average : Point = this.averagePoint();               
-                this.mapComponent.centerMap(average);
+    if(!this.isSave){
+      if(this.checkLimit())
+        this.geoService.point(address).subscribe(
+        (searchPoint: Point) => {
+          if (searchPoint === undefined){
+            this.voiceService.say(this.getStringTranslation("searchKo"));
+          }else{
+              this.points.push(searchPoint);
+              if(this.points.length == 1){
+                  this.mapComponent.centerMap(searchPoint);
+                  this.centerPoint = searchPoint;
+                  this.voiceService.say("Point ajouté");
+              }else{
+                  const average : Point = this.averagePoint();               
+                  this.mapComponent.centerMap(average);
 
-                if(this.pointsInMap()){
-                    this.voiceService.say("Point ajouté");
-                    this.centerPoint = average;
-                }else{
-                    this.voiceService.say("Point non ajouté");
-                    this.mapComponent.centerMap(this.centerPoint);
-                }
-            }
+                  if(this.pointsInMap()){
+                      this.voiceService.say("Point ajouté");
+                      this.centerPoint = average;
+                  }else{
+                      this.voiceService.say("Point non ajouté");
+                      this.mapComponent.centerMap(this.centerPoint);
+                  }
+              }
+          }
         }
-      }
-    );
+      );
+      else
+        this.voiceService.say("Trop de points");
+    }else{
+      this.voiceService.say("la carte est déjà sauvegarder");
+    }
   }
 
   /* Save the Map in Database */
   private saveMap(title:string){
-    this.mapComponent.saveMapWithTitle(title);
+    if(!this.isSave){
+      this.mapComponent.saveMapWithTitle(title);
+      this.voiceService.say("Sauvegarde de la carte "+title);
+      this.voiceService.say("Pour imprimer dire imprimer pour aller vers le touc dire touch ect");
+      this.isSave = true;
+    }else{
+      this.voiceService.say("la carte est déjà sauvegarder");
+    }
+    
   }
 
   /* Print the map when the update end */
   private printMap(){
-    if(!this.mapComponent.mapLoading)
-        window.print();
-    else
-        this.mapComponent.map.onUpdateEnd = () => 
-              {
-                this.mapComponent.mapLoading = false;
-                window.print();
-                //At the end load the older UpdateEnd
-                this.mapComponent.map.onUpdateEnd = () => this.mapComponent.mapLoading = false;
-              };
+    if(this.isSave){
+      if(!this.mapComponent.mapLoading)
+          window.print();
+      else
+          this.mapComponent.map.onUpdateEnd = () => 
+                {
+                  this.voiceService.say("Carte "+this.mapComponent.map.title+" imprimée ");
+                  this.mapComponent.mapLoading = false;
+                  window.print();
+                  //At the end load the older UpdateEnd
+                  this.mapComponent.map.onUpdateEnd = () => this.mapComponent.mapLoading = false;
+                };
+    }else{
+      this.voiceService.say("Veuillier sauvgarder la carte avant");
+    }
+  }
+
+  /* Redirect to Touchpad if the map is save */
+  private redirectionToTouchpad():void{
+    if(this.isSave){
+        if(this.mapComponent.map.uid){
+            this.voiceService.say("Redirection vers la carte"+String(this.mapComponent.map.uid));
+             window.location.replace('touchpad-voice/'+String(this.mapComponent.map.uid));
+        }else{
+            this.voiceService.say("Sauvegarde en cours");
+        }
+    }else{
+      this.voiceService.say("Veuillier sauvgarder la carte avant");
+    } 
   }
 
 
@@ -188,10 +235,29 @@ export class BlindCreatorComponent {
         () => this.changeLang(entry,codeVoice)
       );
 
+      // Add Point to the map
       this.voiceService.addCommand(
         ["Ajoute *"],
         "blablou",
         (i: number, wildcard: string) => this.addPoint(wildcard)
+      );
+
+      this.voiceService.addCommand(
+        ["Sauve *"],
+        "blablou",
+        (i: number, wildcard: string) => this.saveMap(wildcard)
+      );
+
+      this.voiceService.addCommand(
+        ["Imprime"],
+        "blablou",
+        () => this.printMap()
+      );
+
+      this.voiceService.addCommand(
+        ["redirection"],
+        "blablou",
+        () => this.redirectionToTouchpad()
       );
 
     }

@@ -13,7 +13,6 @@ import Point = require("esri/geometry/Point");
 
 import * as br from 'braille';
 
-
 @Component({
   selector: 'aba-map',
   templateUrl: 'map.component.html',
