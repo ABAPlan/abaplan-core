@@ -49,7 +49,26 @@
             "touchpadCenter": "Press in the middle of the touchpad",
 
 "_comment": "Voice Commande",
-            "readId": "Read",
+            "helpId": [
+                        { "value": "help *" }
+                      ],
+            "helpDescri": "to get help",
+            "mainHelpIntro": "operating modes available are",
+            "mainHelpMode": "Mod ",
+            "mainHelpDo": " which allows to ",
+            "mainHelp*": "  * means replacement by a string ",
+            "mainHelpLang": "To change the language of the system use the name of the language",
+            "readHelp": "This mode of operation makes it possible to obtain the street according to the pressure on the touch panel",
+            "searchHelp": "To use this mode, enter the search key followed by a street name, if the address is just when pressing the touch panel will indicate a direction and a distance from the desired search",
+            "itineraryHelp": "This mode of operation contains four commands",
+            "itineraryAddHelp": " This command adds a point. * Indicates the name of the point",
+            "itineraryDelHelp": " This command is used to delete the last add point in the event of an error.",
+            "itinerarySaveHelp": " This command completes the route and creates a KML file. * Indicates the name of the file",
+            "itineraryEndHelp": " This command exits the route mode, which removes all the inserted contents",
+
+            "readId":  [
+                           { "value": "read" }
+                       ],
             "readDescri": "Read, default mode",
             "readActive": "Read Mode",
 
@@ -57,7 +76,7 @@
                             { "value": "Search *" },
                             { "value": "Searching *" }
                         ],
-            "searchDescri":"Search d'un emplacement",
+            "searchDescri":"Search an emplacement",
             "searchOk":"Search",
             "searchKo":"Invalid Search",
             "search_upper":"top",
@@ -83,47 +102,52 @@
             "offendTextTwo":"Stop this",
             "offendTextTree":"Please , calm yourself",
 
-            "itineraryId":"itinerary",
-                "itineraryDescri":"itinerary mode on",
-                "itineraryAddId":[
+            "itineraryId":[
+                            { "value": "itinerary" }
+                          ],
+            "itineraryDescri":"itinerary mode on",
+            "itineraryAddId":[
                                 { "value": "Add *" },
                                 { "value": "Adding *"}
                             ],
-                "itineraryAddDescri":"Add point",
-                "itineraryDeletId":"Delete",
-                "itineraryDeletDescri":"Delete Last Point",
-                "itineraryAbortId":[
+            "itineraryAddDescri":"Add point",
+            "itineraryDeletId":[
+                                   { "value": "Delete" }
+                               ],
+            "itineraryDeletDescri":"Delete Last Point",
+            "itineraryAbortId":[
                                 { "value": "Stop itinerary" },
                                 { "value": "Stoping itinerary"}
                                 ],
-                "itineraryAbortDescri":"Stop current itinerary",
-                "itinerarySaveId":[
+            "itineraryAbortDescri":"Stop current itinerary",
+            "itinerarySaveId":[
                                 { "value": "Save *" },
                                 { "value": "Saving *"}
                                 ],
-                "itinerarySaveDescri":"Save in kml file",
-                "itineraryActive": "itinerary mode on",
-                "itineraryAddPoint": "Add point",
-                "itineraryAddPointError": "No Point to Add",
-                "itineraryError": "This Command is not in the actual mode",
-                "itineraryDeletLastError": "No point to Delet",
-                "itineraryDelet": "Delete Done",
-                "itinerarySave": "Save Done",
-                "itinerarySaveError": "No value to Save",
-                "transportId": [
-                        { "value": "stop transport" }
+            "itinerarySaveDescri":"Save in kml file",
+            "itineraryActive": "itinerary mode on",
+            "itineraryAddPoint": "Add point",
+            "itineraryAddPointError": "No Point to Add",
+            "itineraryError": "This Command is not in the actual mode",
+            "itineraryDeletLastError": "No point to Delet",
+            "itineraryDelet": "Delete Done",
+            "itinerarySave": "Save Done",
+            "itinerarySaveError": "No value to Save",
+
+            "transportId": [
+                        { "value": "Stop transport" }
                        ],
-                "transportDescri":"Search nearest public transport stop",
-                "transportSearchId": [
-                        { "value": "stop transport *" }
+            "transportDescri":"Search the closest public transport stop",
+            "transportSearchId": [
+                        { "value": "Stop transport *" }
                        ],
-                "transportSearchDescri":"Search nearest public transport stop",
-                "transportOKDescri":"Search Transport",
-                "transportKODescri":"No nearby stop",
+            "transportSearchDescri":"Search the closest public transport stop",
+            "transportOKDescri":"Search Transport",
+            "transportKODescri":"No nearby stop",
 
   "_comment": "lang",
-                "myLang":"English",
-                "codeLang":"en",
-                "codeLangVoice":"en-GB"
+            "myLang":"English",
+            "codeLang":"en",
+            "codeLangVoice":"en-GB"
 
 }

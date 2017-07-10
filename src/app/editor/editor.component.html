@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row show-grid title">
+        <h1>{{title}}</h1>
+        <h4>{{ _activeButtonInfo.kind | translate}}</h4>
+    </div>
+
+    <div class="row show-grid">
+        <div class="btn-group form-inline">
+            <button
+                    *ngFor="let tab of _btnInfos"
+                    class="btn btn-primary typeMaps"
+                    [class.active]="isActive(tab)"
+                    (click)="onClick(tab)"> {{ tab.kind | translate }}
+            </button>
+        </div>
+        <aba-select-lang></aba-select-lang>
+    </div>
+
+
+    <div class="row show-grid">
+        <div class="col-md-12">
+
+            <aba-map (onMapInstancied)="initMap($event)"></aba-map>
+
+            <aba-toolbar-map (onUpdateTool)="updateTool($event)"></aba-toolbar-map>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div>
+            <div class="row dataMap">
+                <div class="titleMap text"> {{this.mapComponent.map.title}}</div>
+                <div class="idMap text"> {{this.mapComponent.map.uid}}</div>
+            </div>
+            <div class="row dataMap">
+                <div class="titleMap braille"> {{getBrailleTitle()}} </div>
+                <div class="idMap braille"> {{getBrailleId()}} </div>
+            </div>
+</div>
+
+
+<aba-modal-maps (onSelectEvent)="selectMap($event)"></aba-modal-maps>
+<aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
+<aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
+<aba-modal-yesno (onYesEvent)="setMapAsSavable($event)" (onCloseEvent)="printMapWithoutSaving($event)"></aba-modal-yesno>
