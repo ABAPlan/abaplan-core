@@ -9,11 +9,13 @@ export interface ITool {  image?: string, command: string }
 export interface DrawTool { kind: 'draw', drawType : DrawType }
 export interface ActionTool { kind: 'action' }
 export interface EditTool { kind: 'edit' }
+export interface TextureTool { kind: 'texture',color:string,texture:string}
 
-export type Command = Move | Select | Delete | DrawCircle | DrawPolygon | DrawTraits | DrawPedestrian | Print | Open | Save;
+export type Command = Move | Select | Delete | Texture | DrawCircle | DrawPolygon | DrawTraits | DrawPedestrian | Print | Open | Save | Fill;
 export interface Move { command: "move"; }
 export interface Select { command: "select"; }
 export interface Delete { command: "delete"; }
+export interface Texture { command: "texture"; }
 export interface DrawCircle { command: "draw_circle"; }
 export interface DrawPolygon { command: "draw_polygon"; }
 export interface DrawTraits { command: "draw_traits"; }
@@ -22,7 +24,9 @@ export interface Print { command: "print"; }
 export interface Open { command: "open"; }
 export interface Save { command: "save"; }
 
-export type KindTool = (DrawTool | EditTool | ActionTool);
+export interface Fill { command: "fill"; }
+
+export type KindTool = (DrawTool | EditTool | ActionTool | TextureTool);
 export type Tool = KindTool & ITool & Command;
 
 @Component({
@@ -34,6 +38,32 @@ export class ToolbarMapComponent {
 
   @Input() activeTab: LayerType;
   @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
+
+  // Array of state for the fill button 
+  private fillState : Array<Tool> = [
+    {
+      kind: 'texture',
+      command: 'fill',
+      image: require("file?name=./assets/[name].[ext]!./img/blackTextureFill.png"),
+      color: 'white',
+      texture: 'black'
+    },
+    {
+      kind: 'texture',
+      command: 'fill',
+      image: require("file?name=./assets/[name].[ext]!./img/whiteTextureFill.png"),
+      color: 'black',
+      texture: 'white'
+    },
+    {
+      kind: 'texture',
+      command: 'fill',
+      image: require("file?name=./assets/[name].[ext]!./img/water.png"),
+      color: 'black',
+      texture: 'water'
+    },
+  ];
+  private activeFill: number = 0;
 
   private tools: Array<Tool> = [
     {
@@ -90,8 +120,16 @@ export class ToolbarMapComponent {
       command: 'save',
       image: require("file?name=./assets/[name].[ext]!./img/save.png")
     },
+    {
+      kind: 'texture',
+      command: 'fill',
+      image: this.fillState[this.activeFill].image,
+      color: (this.fillState[this.activeFill]as TextureTool).color,
+      texture : (this.fillState[this.activeFill]as TextureTool).texture
+    }
   ];
   private activeTool: Tool = this.tools[0];
+  
 
 
   constructor(private translateService: TranslateService){ }
@@ -107,6 +145,26 @@ export class ToolbarMapComponent {
 
   private actionTools(): Array<Tool> {
     return this.tools.filter( (tool) => tool.kind === 'action');
+  }
+
+  private textureTools(): Array<Tool> {
+    return this.tools.filter( (tool) => tool.kind === 'texture');
+  }
+
+  public changeFillTool():string{
+    const item : TextureTool = (this.tools.filter( (tool) => tool.command === 'fill'))[0] as TextureTool;
+    this.increaseActiveFill();
+    item.color = (this.fillState[this.activeFill]as TextureTool).color;
+    (item as Tool).image = this.fillState[this.activeFill].image;
+    item.texture = (this.fillState[this.activeFill]as TextureTool).texture;
+
+    return item.texture;
+  }
+
+  private increaseActiveFill() : void{
+    this.activeFill++;
+    if(this.fillState.length == this.activeFill)
+      this.activeFill = 0;
   }
 
   public isActive(tool: Tool){

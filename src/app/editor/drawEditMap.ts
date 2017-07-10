@@ -169,6 +169,12 @@ export class AbaDrawEdit {
       this.draw.deactivate();
   }
 
+  /* Change Texture of all the draw type */
+  public changeTexture(texture:string){
+    //Can't access directly to all the object need to get the key first
+    Object.keys(this.drawTypes).forEach((key)=>this.drawTypes[key].changeTexture(texture));
+  }
+
   public enableDelete(enable:boolean) {
     this.deleteEnabled = enable;
   }

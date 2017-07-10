@@ -33,6 +33,7 @@
     "draw_polygon":"Polygon",
     "draw_traits": "Linie",
     "draw_pedestrian": "Vorübergehen Fussgänger",
+    "fill": "Textur",
     "print": "Drucken",
     "open" : "öffnen",
     "save": "Sichern",

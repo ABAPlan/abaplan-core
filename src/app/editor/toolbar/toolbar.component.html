@@ -15,6 +15,21 @@
 
 <div class="row show-grid">
     <div class="btn-group-vertical">
+        <button 
+                [style.background-color]="tool.color"
+                type="button"
+                *ngFor="let tool of textureTools()"
+                class="btn btn-primary btn-md"
+                (click)="onClick(tool)"
+                [class.active]="isActive(tool)">
+            <img src="{{ tool.image }}">
+            <span class="tooltiptext">{{tool.command | translate}}</span>
+        </button>
+    </div>
+</div>
+
+<div class="row show-grid">
+    <div class="btn-group-vertical">
         <button
                 type="button"
                 *ngFor="let tool of drawTools()"
@@ -25,8 +40,8 @@
             <span class="tooltiptext">{{tool.command | translate}}</span>
         </button>
     </div>
-
 </div>
+
 <div class="row show-grid">
     <div class="btn-group-vertical">
         <button
