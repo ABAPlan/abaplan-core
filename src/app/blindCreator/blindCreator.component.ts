@@ -204,18 +204,21 @@ export class BlindCreatorComponent {
         (i: number, wildcard: string) => this.addPoint(wildcard)
       );
 
+      //Save Map
       this.voiceService.addCommand(
         this.getStringTranslations("bcSaveId"),
         this.getStringTranslation("bcSaveDescri"),
         (i: number, wildcard: string) => this.saveMap(wildcard)
       );
 
+      // Print Map
       this.voiceService.addCommand(
         this.getStringTranslations("bcPrintId"),
         this.getStringTranslation("bcPrintDecri"),
         () => this.printMap()
       );
 
+      // Redirection to Touchpad
       this.voiceService.addCommand(
         this.getStringTranslations("bcRedirectionId"),
         this.getStringTranslation("bcRedirectionDescri"),
