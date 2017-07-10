@@ -64,7 +64,7 @@ class GoogleProvider {
 
   constructor(){
     googleMaps.KEY = GOOGLE_GEOCODE_KEY;
-    googleMaps.LIBRARIES = ['geometry','places'];
+    googleMaps.LIBRARIES = ['geometry'];
     googleMaps.load();  
   }
 
