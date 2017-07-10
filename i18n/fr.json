@@ -49,16 +49,36 @@
     "touchpadCenter": "Appuyer au centre de la dalle",
 
 "_comment": "Voice Commande",
-        "readId": "lecture",
-        "readDescri": "lecture, mode par défaut",
+        "helpId": [
+                        { "value": "aide *" }
+                  ],
+        "helpDescri": "obtenir l'aide",
+        "mainHelpIntro": "Les modes de fonctionnement disponible sont",
+        "mainHelpMode": "Le mode ",
+        "mainHelpDo": "qui permet de ",
+        "mainHelp*": "Le * veut dire remplacement par une chaine de caractères ",
+        "mainHelpLang": "Pour changer la langue du système utiliser le nom de celle-ci",
+        "readHelp": "Ce mode de fonctionnement permet d'obtenir la rue en fonction de la pression sur la dalle tactile",
+        "searchHelp": "Pour utiliser ce mode il faut indiquer le mot clef de recherche suivit d'un nom de rue, si l'adresse est juste lors de la pression sur la dalle tactile va indiquer une direction et une distance par rapport à la recherche voulue",
+        "itineraryHelp": "Ce mode de fonctionnement contient quatre commandes",
+        "itineraryAddHelp": " Cette commande permet d'ajouter un point. * permet d'indiquer le nom du point",
+        "itineraryDelHelp": " Cette commande permet de supprimer le dernier point ajouter en cas d'erreur.",
+        "itinerarySaveHelp": " Cette commande permet de terminer l'itinéraire et créer un fichier KML. * indique le nom du fichier",
+        "itineraryEndHelp": " Cette commande permet de sortir du mode itinéraire cela supprime tous le contenu insérer",
+
+        "readId": [
+                        { "value": "lecture" }
+                  ],
+        "readDescri": "obtenir une adresses",
         "readActive": "Mode lecture activé",
 
         "searchId": [
-                        { "value": "rechercher *" },
-                        { "value": "recherche *"},
+                        { "value": "recherche *" },
+                        { "value": "rechercher *"},
                         { "value": "cherche *"},
                         { "value": "chercher *"}
                     ],
+
         "searchDescri":"Recherche d'un emplacement",
         "searchOk":"Recherche ",
         "searchKo":"Recherche invalide",
@@ -87,14 +107,18 @@
         "offendTextTwo":"On dit Zut !",
         "offendTextTree":"Plait-il ?",
 
-        "itineraryId":"Itinéraire",
-        "itineraryDescri":"Enclenchement du mode itinéraire",
+        "itineraryId":[
+                        { "value": "itinéraire" }
+                      ],
+        "itineraryDescri":"Créer un itinéraire et le sauvegarder en Kml",
         "itineraryAddId":[
                         { "value": "Ajoute *" },
                         { "value": "Ajouter *"}
                     ],
         "itineraryAddDescri":"Ajoute un point",
-        "itineraryDeletId":"Supprime",
+        "itineraryDeletId":[
+                               { "value": "Supprime" }
+                           ],
         "itineraryDeletDescri":"Supprime le dernier Point",
         "itineraryAbortId":[
                         { "value": "Arrête Itinéraire" },
@@ -103,7 +127,7 @@
         "itineraryAbortDescri":"Arrêt l'Itinéraire en cours",
         "itinerarySaveId":[
                         { "value": "Sauve *" },
-                        { "value": "Sauvgarde *"}
+                        { "value": "Sauvegarde *"}
                         ],
         "itinerarySaveDescri":"Sauve dans un fichier kml",
         "itineraryActive": "Mode Itinéraire activé",
@@ -114,6 +138,7 @@
         "itineraryDelet": "Suppression réussi",
         "itinerarySave": "Sauvegarde réussi",
         "itinerarySaveError": "Pas de valeur à Sauvegarder",
+        
         "transportId": [
                         { "value": "arrêt transport" }
                        ],

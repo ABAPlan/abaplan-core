@@ -1,8 +1,8 @@
-<div class="row" [hidden]="!searchable">
+<div class="row searchBar" [hidden]="!searchable">
     <div id="search"></div>
 </div>
 <div class="row">
-    <div id="esri-map" [ngClass]="{'need-zoom':needZoom}">
+    <div id="esri-map" class="map" [ngClass]="{'need-zoom':needZoom}">
 
       <img  [hidden]="!mapLoading"
             src='{{imgLoading}}'

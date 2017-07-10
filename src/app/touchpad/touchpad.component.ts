@@ -52,7 +52,14 @@ export class TouchpadComponent {
     private _elementRef: ElementRef
   ){
 
-    /**Init the voice commands and start calibration */
+    /**Init the voice commands and start calibration
+    *
+    * Can't be directly in the constructor beacause of
+    * compatibity with voice Commands (library can't charge voice early)
+    * Hack with onReady callback to be call after
+    * init of page
+    *  (pj)
+    */
     document.onreadystatechange= () => {
       this.voiceService.initialization();
       this.prepareVoiceCommand();
@@ -341,6 +348,64 @@ export class TouchpadComponent {
         this.voiceService.changeLang(langVoice);
   }
 
+  /** Help Command */
+  private helpCommand(i: number, wildcard: string, langTranslate : string):void{
+    let currentLang = this.translateService.currentLang;
+    this.translateService.use(langTranslate);
+    console.log(wildcard);
+    console.log(this.getStringTranslations("itineraryId")[0]);
+    switch(wildcard){
+      case this.getStringTranslations("readId")[0]:
+        this.voiceService.say(this.getStringTranslation("readHelp"));
+        break;
+      case this.getStringTranslations("itineraryId")[0]:
+        this.voiceService.say(this.getStringTranslation("itineraryHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryAddId")[0]
+                              +this.getStringTranslation("itineraryAddHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryDeletId")[0]
+                              +this.getStringTranslation("itineraryDelHelp"));
+        this.voiceService.say(this.getStringTranslations("itinerarySaveId")[0]
+                              +this.getStringTranslation("itinerarySaveHelp"));
+        this.voiceService.say(this.getStringTranslations("itineraryAbortId")[0]
+                              +this.getStringTranslation("itineraryEndHelp"));
+        break;
+      case this.getStringTranslations("searchId")[0].replace(' *',''):
+        this.voiceService.say(this.getStringTranslation("searchHelp"));
+        break;
+      default:
+        this.voiceService.say(this.getStringTranslation("mainHelpIntro"));
+        // Read Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("readId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("readDescri"));
+        // Search Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("searchId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("searchDescri"));
+
+        // Search Transport Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("transportId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("transportDescri"));
+
+        // Itinerary Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("itineraryId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("itineraryDescri"));
+        // * help
+        this.voiceService.say(this.getStringTranslation("mainHelp*"));
+
+        // lang
+        this.voiceService.say(this.getStringTranslation("mainHelpLang"));
+        break;
+    }
+    this.translateService.use(currentLang);
+  }
+
   /** Add Commands */
   private prepareVoiceCommand() {
     // Loop for add command in each lang of application
@@ -351,7 +416,7 @@ export class TouchpadComponent {
 
       // Reading mode (default)
       this.voiceService.addCommand(
-        [this.getStringTranslation("readId")],
+        this.getStringTranslations("readId"),
         this.getStringTranslation("readDescri"),
         () => this.readCommand()
       );
@@ -379,7 +444,7 @@ export class TouchpadComponent {
 
       // switch to itinerary Mode
       this.voiceService.addCommand(
-        [this.getStringTranslation("itineraryId")],
+        this.getStringTranslations("itineraryId"),
         this.getStringTranslation("itineraryDescri"),
         () => this.itineraryCommand()
       );
@@ -393,7 +458,7 @@ export class TouchpadComponent {
 
       // itinerary Mode - Delet Last
       this.voiceService.addCommand(
-        [this.getStringTranslation("itineraryDeletId")],
+        this.getStringTranslations("itineraryDeletId"),
         this.getStringTranslation("itineraryDeletDescri"),
         () => this.itineraryDeletLastCommand()
       );
@@ -424,6 +489,13 @@ export class TouchpadComponent {
         this.getStringTranslations("transportSearchId"),
         this.getStringTranslation("transportSearchDescri"),
         (i: number, wildcard: string) => this.searchStationByLine(i,wildcard)
+      );
+
+      // itinerary Mode - Save As
+      this.voiceService.addCommand(
+        this.getStringTranslations("helpId"),
+        this.getStringTranslation("helpDescri"),
+        (i: number, wildcard: string) => this.helpCommand(i, wildcard,entry)
       );
 
     }
