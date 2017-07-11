@@ -65,7 +65,7 @@ class GoogleProvider {
   constructor(){
     googleMaps.KEY = GOOGLE_GEOCODE_KEY;
     googleMaps.LIBRARIES = ['geometry'];
-    googleMaps.load();
+    googleMaps.load();  
   }
 
   public address(point: Point): Observable<string | undefined> {

@@ -33,6 +33,7 @@
     "draw_polygon":"Polygon",
     "draw_traits": "Linie",
     "draw_pedestrian": "Vorübergehen Fussgänger",
+    "fill": "Textur",
     "print": "Drucken",
     "open" : "öffnen",
     "save": "Sichern",
@@ -135,6 +136,28 @@
         "itineraryDelet": "Abschaffung fertiggebracht",
         "itinerarySave": "Schutz fertiggebracht",
         "itinerarySaveError": "Kein zu Sichernder Wert",
+        "transportId": [
+                        { "value": "Zwischenstopp" }
+                       ],
+        "transportDescri":"Die Suche nach einer Haltestelle der öffentlichen Verkehrsmittel am nächsten",
+        "transportSearchId": [
+                        { "value": "Zwischenstopp *" }
+                       ],
+        "transportSearchDescri":"Die Suche nach einer Haltestelle der öffentlichen Verkehrsmittel am nächsten",
+        "transportOKDescri":"Forschung Transport ",
+        "transportKODescri":"Keine Stelle in der Nähe",
+
+        "transportId": [
+                        { "value": "Stop-transport" }
+                       ],
+        "transportDescri":"Suchen Sie die nächste Haltestelle der öffentlichen Verkehrsmittel",
+        "transportSearchId": [
+                        { "value": "Stop-transport *" }
+                       ],
+        "transportSearchDescri":"Suchen Sie die nächste Haltestelle der öffentlichen Verkehrsmittel",
+        "transportOKDescri":"Forschung Transport",
+        "transportKODescri":"Keine Stelle in der Nähe",
+
 
 "_comment": "lang",
         "myLang":"Deutsch",

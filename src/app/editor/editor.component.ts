@@ -83,6 +83,11 @@ export class EditorComponent {
         this.mapComponent.map.disableMapNavigation();
         break;
 
+      case "fill":
+        this.drawEdit.changeTexture(
+          this.toolbarMapComponent.changeFillTool());
+        break;
+
       case "print":
         if (!this.flagSavable)
           this.modalYesNoComponent.open();

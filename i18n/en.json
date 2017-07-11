@@ -33,6 +33,7 @@
     "draw_polygon":"Polygon",
     "draw_traits": "Traits",
     "draw_pedestrian": "Pedestrian pathway",
+    "fill": "Texture",
     "print": "Print",
     "open" : "Open",
     "save": "Save",
@@ -76,7 +77,7 @@
                             { "value": "Search *" },
                             { "value": "Searching *" }
                         ],
-            "searchDescri":"Search d'un emplacement",
+            "searchDescri":"Search an emplacement",
             "searchOk":"Search",
             "searchKo":"Invalid Search",
             "search_upper":"top",
@@ -133,6 +134,17 @@
             "itineraryDelet": "Delete Done",
             "itinerarySave": "Save Done",
             "itinerarySaveError": "No value to Save",
+
+            "transportId": [
+                        { "value": "Stop transport" }
+                       ],
+            "transportDescri":"Search the closest public transport stop",
+            "transportSearchId": [
+                        { "value": "Stop transport *" }
+                       ],
+            "transportSearchDescri":"Search the closest public transport stop",
+            "transportOKDescri":"Search Transport",
+            "transportKODescri":"No nearby stop",
 
   "_comment": "lang",
             "myLang":"English",

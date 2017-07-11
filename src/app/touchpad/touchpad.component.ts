@@ -6,6 +6,7 @@ import { GeoService } from '../core/geo.service';
 import { VoiceService } from '../core/voice.service';
 import { StateService } from "../core/state.service";
 import { KmlService } from "../core/kml.service";
+import { TransportService } from "../core/transport.service";
 import { OptionMap } from '../map/map';
 import { MapComponent } from '../map/map.component'
 
@@ -47,6 +48,7 @@ export class TouchpadComponent {
     private geoService : GeoService,
     private translateService: TranslateService,
     private kmlService: KmlService,
+    private transportService: TransportService,
     private _elementRef: ElementRef
   ){
 
@@ -73,7 +75,6 @@ export class TouchpadComponent {
         switch (this.nbClick) {
           case 0:
             this.voiceService.say(this.getStringTranslation("touchpadTopLeft"));
-
             break;
           case 1:
             /* Note: clientX and clientY for firefox compatibility */
@@ -120,6 +121,7 @@ export class TouchpadComponent {
         // Transform to EsriPoint
         const mappedPoint = new Point(OP_.x, OP_.y);
         const touchPoint : Point = <Point> WebMercatorUtils.webMercatorToGeographic(mappedPoint);
+        this.transportService.currentPoint = touchPoint;
 
         switch (this.stateService.activeMode().mode){
           case "reading":
@@ -129,11 +131,11 @@ export class TouchpadComponent {
             if (this.searchingPoint !== undefined){
               this.searchLocationClick(this.searchingPoint, touchPoint);
             } else {
-              console.warn("Impossible state, searchingPoint must be defined");
+              this.voiceService.say("Recherche en cours");
             }
             break;
           case "itinerary":
-            this.kmlService.currentPoint(touchPoint.x,touchPoint.y);
+            this.kmlService.currentPoint(touchPoint.y,touchPoint.x);
             this.locateClick(touchPoint);
             break;
         }
@@ -220,6 +222,65 @@ export class TouchpadComponent {
         }
       }
     );
+  }
+
+  /** Search the closest station */
+  private searchStation():void{
+    this.searchingPoint = undefined;
+    this.stateService.changeMode( {mode: "searching"} );
+
+    this.transportService.stationsNearby().subscribe(
+      (stations : any) => {
+        if (stations){
+            const station = stations.json().stations[0];
+            const point = new Point(station.coordinate.y,station.coordinate.x);
+            this.searchingPoint = point;
+            this.voiceService.say(this.getStringTranslation("transportOKDescri") + station.name);          
+        }else{
+          this.voiceService.say(this.getStringTranslation("transportKODescri"));
+          this.readCommand();
+        }
+      }
+    );
+  }
+
+  /** Search the closest station by line */
+  private searchStationByLine(i: number, wildcard: string):void{
+    this.searchingPoint = undefined;
+    this.stateService.changeMode( {mode: "searching"} );
+
+    this.transportService.stationsNearby().subscribe(
+      (stations : any) => { 
+        if (stations){
+            this.voiceService.say(this.getStringTranslation("transportOKDescri") + wildcard);
+            this.getBusByStation(stations.json(),0,wildcard);          
+        }else{
+          this.voiceService.say(this.getStringTranslation("transportKODescri")+wildcard);
+          this.readCommand();
+        }
+      }
+    );
+  }
+
+  /* Check if stops contains specific line */
+  private getBusByStation(station : any,index : number,line: string){
+      if(index < station.stations.length){
+        this.transportService.closerStationFilter(station.stations[index].name).subscribe(
+              st => {
+                  if(st.json().stationboard.some(elem => elem.number == line)){
+                    const station = st.json().station;
+                    const point = new Point(station.coordinate.y,station.coordinate.x);
+                    this.searchingPoint = point;
+                  }
+                  else{
+                      setTimeout(() =>this.getBusByStation(station,index+1,line), 400)
+                  }              
+                }
+          )
+      }else{
+        this.voiceService.say(this.getStringTranslation("transportKODescri"));
+        this.readCommand();
+      }
   }
 
   /** Switch to itinerary mode */
@@ -323,6 +384,13 @@ export class TouchpadComponent {
                               +this.getStringTranslations("searchId")[0]);
         this.voiceService.say(this.getStringTranslation("mainHelpDo")
                               + this.getStringTranslation("searchDescri"));
+
+        // Search Transport Command
+        this.voiceService.say(this.getStringTranslation("mainHelpMode")
+                              +this.getStringTranslations("transportId")[0]);
+        this.voiceService.say(this.getStringTranslation("mainHelpDo")
+                              + this.getStringTranslation("transportDescri"));
+
         // Itinerary Command
         this.voiceService.say(this.getStringTranslation("mainHelpMode")
                               +this.getStringTranslations("itineraryId")[0]);
@@ -409,6 +477,20 @@ export class TouchpadComponent {
         (i: number, wildcard: string) => this.itineraryEndSession(i, wildcard)
       );
 
+      // Search Station
+      this.voiceService.addCommand(
+        this.getStringTranslations("transportId"),
+        this.getStringTranslation("transportDescri"),
+        () => this.searchStation()
+      );
+
+      // Search Station
+      this.voiceService.addCommand(
+        this.getStringTranslations("transportSearchId"),
+        this.getStringTranslation("transportSearchDescri"),
+        (i: number, wildcard: string) => this.searchStationByLine(i,wildcard)
+      );
+
       // itinerary Mode - Save As
       this.voiceService.addCommand(
         this.getStringTranslations("helpId"),
@@ -431,6 +513,7 @@ export class TouchpadComponent {
       }
     );
   }
+
 
   /** Notity the user of direction */
   private searchLocationClick(location: Point, touchPoint: Point): void {
