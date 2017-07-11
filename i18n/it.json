@@ -1,0 +1,192 @@
+{
+"_comment": "Editor Component ",
+    "city": "Piano di Città",
+    "osm": "Piano OSM",
+    "square": "Piano di quartiere",
+
+
+"_comment": "Modale Map List",
+    "listModalMap": "Elenco delle carte",
+    "searchModalMap": "Ricercare per titolo o id",
+    "idModalMap": "Id",
+    "titleModalMap": "Titolo",
+    "dateModalMap": "Data di creazione",
+    "closeModalMap": "Chiudere",
+
+
+"_comment": "Modale Map Save",
+    "saveMapModalSave": "Salvaguardare una carta",
+    "titleModalSave": "Titolo",
+    "titleMapModalSave": "Titolo della carta",
+    "visibilityModalSave": "Visibilità",
+    "publicMapModalSave": "Carta pubblica",
+    "privateMapModalSave": "Carta privata",
+    "saveModalSave": "Salvaguardare",
+    "cancelModalSave": "Annullare",
+    "notPrivateModalSave": "Per l'istante, non è possibile registrare delle carte private",
+
+"_comment": "Toolbar",
+    "move": "Spostare",
+    "select": "Selezionare",
+    "delete": "Sopprimere",
+    "draw_circle": "Cerchio",
+    "draw_polygon": "Poligono",
+    "draw_traits": "puntinato",
+    "draw_pedestrian": "Passaggio pedoni",
+    "fill": "Struttura",
+    "print": "Stampare",
+    "open": "Aprire",
+    "save": "Salvaguardare",
+
+"_comment": "Map",
+    "mapZoom": "Volete zumare più",
+
+"_comment": "Voice Calibration",
+    "touchpadTopLeft": "Appoggiare a sinistra in altezza",
+    "touchpadTopRight": "in altezza a destra",
+    "touchpadBottomLeft": "in basso a sinistra",
+    "touchpadBottomRight": "in basso a destra",
+    "touchpadOk": "Lastra calibrata",
+    "touchpadCenter": "Appoggiare al centro della lastra",
+
+"_comment": "Voice Commande",
+        "helpId": [
+                        { "value": "aiuto *" }
+                  ],
+        "helpDescri": "ottenere l'aiuto",
+        "mainHelpIntro": "Le mode di funzionamento disponibile sono",
+        "mainHelpMode": "il modo ",
+        "mainHelpDo": "che permette di ",
+        "mainHelp*": "Egli * vuole dire sostituzione per una catena di caratteri",
+        "mainHelpLang": "Per cambiare la lingua il sistema utilizzare il nome di questa",
+        "readHelp": "Questo modo di funzionamento permette di ottenere la via in funzione della pressione sulla lastra tattile",
+        "searchHelp": "Per utilizzare questo modo bisogna indicare la parola chiave di ricerca seguì di un nome di via, se l'indirizzo è giusto all'epoca della pressione sulla lastra tattile vai ad indicare una direzione ed una distanza rispetto alla ricerca voluta",
+        "itineraryHelp": "Questo modo di funzionamento contiene quattro ordini",
+        "itineraryAddHelp": " Questo ordine permette di aggiungere un punto. * permette di indicare il nome del punto",
+        "itineraryDelHelp": " Questo ordine permette di sopprimere l'ultimo spunta aggiungere in caso di errore.",
+        "itinerarySaveHelp": " Questo ordine permette di finire l'itinerario e creare un schedario KML. * indica il nome dello schedario",
+        "itineraryEndHelp": " Questo ordine permette di estrarre del modo itinerario ciò sopprimo tutto il contenuto inserire",
+
+        "readId": [
+                        { "value": "lettura" }
+                  ],
+       "readDescri": "ottenere un indirizzi", 
+       "readActive": "Moda lettura attivata",
+
+        "searchId": [
+                        { "value": "ricerca *" },
+                        { "value": "cercare *"},
+                        { "value": "cerca *"}
+                    ],
+
+        "searchDescri":"Ricerca di un'area",
+        "searchOk":"ricerca ",
+        "searchKo":"Ricerca invalida",
+        "search_upper":"di sopra",
+        "search_lower":"di sotto",
+        "search_left":"a sinistra",
+        "search_right":"a destra",
+        "search_upper_left":"in alto a sinistra",
+        "search_upper_right":"in alto a destra",
+        "search_lower_left":"in basso a sinistra",
+        "search_lower_right":"in basso a destra",
+        "search_center":"al centro",
+        "searchKilometer":"chilometro",
+        "searchMeter":"metri",
+        "searchArrived":"sei arrivato",
+        "searchTo":"al",
+
+        "offendId": [
+                        { "value": "merda" },
+                        { "value": "cazzo"},
+                        { "value": "quella cazzo di bocca"},
+                        { "value": "cagare"}
+                    ],
+        "offendDescri":"maleducazione",
+        "offendTextOne":"Per compassione, calmatevi",
+        "offendTextTwo":"Si dice Acciderba!",
+        "offendTextTree":"Piace?",
+
+        "itineraryId":[
+                        { "value": "itinerario" }
+                      ],
+        "itineraryDescri":"Creare un itinerario e salvaguardarlo in Kml",
+        "itineraryAddId":[
+                        { "value": "aggiunge *" },
+                        { "value": "aggiungere *"}
+                    ],
+        "itineraryAddDescri":"Aggiungi un punto",
+        "itineraryDeletId":[
+                               { "value": "elimina" }
+                           ],
+        "itineraryDeletDescri":"Sopprimi l'ultimo Spunta",
+        "itineraryAbortId":[
+                        { "value": "Ferma Itinerario" },
+                        { "value": "Fermare Itinerario"}
+                        ],
+        "itineraryAbortDescri":"Arresto l'itinerario in corso",
+        "itinerarySaveId":[
+                        { "value": "salva *" },
+                        { "value": "salvaguardia *"}
+                        ],
+        "itinerarySaveDescri":"Salva in un schedario kml",
+        "itineraryActive": "Moda Itinerario attivata",
+        "itineraryAddPoint": "Aggiunta del punto",
+        "itineraryAddPointError": "Non di punto ad aggiungere",
+        "itineraryError": "Questo ordine non esiste nel modo attuale",
+        "itineraryDeletLastError": "Non di punto a sopprimere",
+        "itineraryDelet": "Soppressione riuscita",
+        "itinerarySave": "Salvaguardia riuscita",
+        "itinerarySaveError": "Non di valore a Salvaguardare",
+        
+        "transportId": [
+                        { "value": "arresto trasporto" }
+                       ],
+        "transportDescri":"Ricerca di un arresto di trasporto pubblico più vicino",
+        "transportSearchId": [
+                        { "value": "arresto trasporto *" }
+                       ],
+        "transportSearchDescri":"Ricerca di un arresto di trasporto pubblico più vicino",
+        "transportOKDescri":"Ricerca Trasporto",
+        "transportKODescri":"Non di arresto vicino ",
+
+
+        "blindCreatorEntry": "Benvenuto nella creazione di carta per ciechi",
+        "bcAddPoint":"Aggiunto affatto",
+        "bcNotAddPoint":"Punto non aggiunto",
+        "bcTooManyPoints":"troppi punti",
+        "bcAlreadySave":"La carta è salvaguardata già",
+        "bcSave":"salvaguardia della carta ",
+        "bcNeedSave":"Volete salvaguardare prima la carta",
+        "bcRedirection":"Redirection verso la carta",
+        "bcSaving":"Salvaguardia in corso",
+        "bcSaveId":[
+                        { "value": "salva *" },
+                        { "value": "salvaguardia *"}
+                        ],
+        "bcSaveDescri":"Salvaguarda la carta",
+        "bcAddId":[
+                        { "value": "aggiunge *" },
+                        { "value": "aggiungere *"}
+                        ],
+        "bcAddDescri":"Aggiungi un punto all'elenco",
+        "bcPrintId":[
+                        { "value": "stampare" },
+                        { "value": "stampa"}
+                        ],
+        "bcPrintDecri":"Stampa la carta",
+        "bcRedirectionId":[
+                        { "value": "redirezione" },
+                        { "value": "reindirizza"}
+                        ],
+        "bcRedirectionDescri":" Redirige verso l'indirizzo per la lastra",
+
+"_comment": "lang",
+        "myLang":"italiano",
+        "codeLang":"it",
+        "codeLangVoice":"it-IT"
+
+
+
+
+}
