@@ -9,7 +9,7 @@ import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 export class AppComponent {
   constructor(private translateService: TranslateService) {
     // Init Translate Service for the site
-    let languages = ['fr','en','de'];
+    let languages = ['fr','en','de','it'];
     translateService.addLangs(languages);
     translateService.setDefaultLang('fr');
     languages.forEach(lang => translateService.use(lang));

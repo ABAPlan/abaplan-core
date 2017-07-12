@@ -9,7 +9,9 @@ import 'rxjs/add/operator/toPromise';
 import Extent = require("esri/geometry/Extent");
 import Graphic = require("esri/graphic");
 import Layer = require("esri/layers/layer");
+import Point = require("esri/geometry/Point");
 
+import * as br from 'braille';
 
 @Component({
   selector: 'aba-map',
@@ -59,12 +61,52 @@ export class MapComponent implements OnInit {
     return false;
   }
 
+  setZoom(zoom:number):void{
+    this.map.setZoom(zoom);
+  }
+
+  isInMap(point : Point):boolean{
+    return this.map.extent.contains(point);
+  }
+
+  centerMap(point : Point):void{
+    this.map.centerAt(point);
+  }
+
   resetInfos():void{
     this.map.uid = undefined;
     this.map.title = undefined;
     this.map.owner = undefined;
     this.map.hash = undefined;
     this.map.creationDate = undefined;
+  }
+
+  private getBrailleTitle () : string{
+    if(this.map && this.map.title)
+      return br.toBraille(this.map.title);
+    else
+      return "";
+  }
+
+  private getBrailleId () : string{
+    if(this.map && this.map.uid)
+      return br.toBraille(String(this.map.uid));
+    else
+      return "";
+  }
+
+  private getTitle() : string{
+    if(this.map && this.map.title)
+      return String(this.map.title);
+    else
+      return "";
+  }
+
+  private getId () : string{
+    if(this.map && this.map.uid)
+      return String(this.map.uid);
+    else
+      return "";
   }
 
   initMap(optionMap: OptionMap, layerType? : LayerType): void {
@@ -136,8 +178,10 @@ export class MapComponent implements OnInit {
       }
     );
   }
+
   public saveMapWithTitle(title: string): void {
     this.map.title = title;
     this.mapService.add(this.map.toOptionMap()).subscribe( i => this.map.uid = i );
   }
+
 }

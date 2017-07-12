@@ -152,6 +152,36 @@
         "transportKODescri":"Pas d'arrêt à proximité ",
 
 
+        "blindCreatorEntry": "Bienvenue dans la création de carte pour aveugles",
+        "bcAddPoint":"Point ajouté",
+        "bcNotAddPoint":"Point non ajouté",
+        "bcTooManyPoints":"Trop de points",
+        "bcAlreadySave":"La carte est déjà sauvegardé",
+        "bcSave":"Sauvegarde de la carte ",
+        "bcNeedSave":"Veuillez sauvegarder la carte avant",
+        "bcRedirection":"Redirection vers la carte",
+        "bcSaving":"Sauvegarde en cours",
+        "bcSaveId":[
+                        { "value": "Sauve *" },
+                        { "value": "Sauvegarde *"}
+                        ],
+        "bcSaveDescri":"Sauvegarde la carte",
+        "bcAddId":[
+                        { "value": "Ajoute *" },
+                        { "value": "Ajouter *"}
+                        ],
+        "bcAddDescri":"Ajoute un point à la liste",
+        "bcPrintId":[
+                        { "value": "Imprimer" },
+                        { "value": "Imprime"}
+                        ],
+        "bcPrintDecri":"Imprime la carte",
+        "bcRedirectionId":[
+                        { "value": "Redirection" },
+                        { "value": "Redirige"}
+                        ],
+        "bcRedirectionDescri":" Redirige vers l'adresse pour la dalle",
+
 "_comment": "lang",
         "myLang":"Français",
         "codeLang":"fr",

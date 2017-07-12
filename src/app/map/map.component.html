@@ -6,7 +6,7 @@
 
       <img  [hidden]="!mapLoading"
             src='{{imgLoading}}'
-            class="center-div"
+            class="center-div load"
             style="z-index:999;"
       />
 
@@ -20,4 +20,15 @@
             {{ mapZoom }}
       </p>
     </div>
+</div>
+
+<div>
+            <div class="row dataMap">
+                <div class="titleMap text"> {{getTitle()}}</div>
+                <div class="idMap text"> {{getId()}}</div>
+            </div>
+            <div class="row dataMap">
+                <div class="titleMap braille"> {{getBrailleTitle()}} </div>
+                <div class="idMap braille"> {{getBrailleId()}} </div>
+            </div>
 </div>

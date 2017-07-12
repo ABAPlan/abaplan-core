@@ -16,7 +16,6 @@ import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
 import {TranslateService} from 'ng2-translate';
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
-import * as br from 'braille';
 
 type ButtonInfo = LayerType ;
 
@@ -202,19 +201,6 @@ export class EditorComponent {
     window.print();
   }
 
-  private getBrailleTitle () : string{
-    if(this.mapComponent.map.title)
-      return br.toBraille(this.mapComponent.map.title);
-    else
-      return "";
-  }
-
-  private getBrailleId () : string{
-    if(this.mapComponent.map.uid)
-      return br.toBraille(String(this.mapComponent.map.uid));
-    else
-      return "";
-  }
 
   ngOnInit(): void {
     this.mapComponent.getDefaultMap();

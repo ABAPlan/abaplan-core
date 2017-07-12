@@ -12,9 +12,11 @@ import {TranslateModule} from "ng2-translate";
 /* Feature Modules:
  * - TouchpadModule for voices interactivity with touchpad device
  * - EditorModule for editing, creating and saving new maps
+ * - BlindCreatorModule for creating and saving new maps for blind people
  */
 import { TouchpadModule } from "./touchpad/touchpad.module";
 import { EditorModule } from "./editor/editor.module";
+import { BlindCreatorModule } from "./blind-creator/blind-creator.module";
 
 @NgModule({
   imports: [
@@ -24,6 +26,7 @@ import { EditorModule } from "./editor/editor.module";
     , AppRoutingModule
     , TouchpadModule
     , EditorModule
+    , BlindCreatorModule
   ],
   declarations: [
     AppComponent

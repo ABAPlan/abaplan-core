@@ -147,16 +147,35 @@
         "transportOKDescri":"Forschung Transport ",
         "transportKODescri":"Keine Stelle in der Nähe",
 
-        "transportId": [
-                        { "value": "Stop-transport" }
-                       ],
-        "transportDescri":"Suchen Sie die nächste Haltestelle der öffentlichen Verkehrsmittel",
-        "transportSearchId": [
-                        { "value": "Stop-transport *" }
-                       ],
-        "transportSearchDescri":"Suchen Sie die nächste Haltestelle der öffentlichen Verkehrsmittel",
-        "transportOKDescri":"Forschung Transport",
-        "transportKODescri":"Keine Stelle in der Nähe",
+        "blindCreatorEntry": "Leite zur Adresse für die Platte wieder",
+        "bcAddPoint":"Keinesfalls hinzugefügt",
+        "bcNotAddPoint":"Keinesfalls nicht hinzugefügt",
+        "bcTooManyPoints":"Zuviel Punkte",
+        "bcAlreadySave":"Die Karte ist schon gesichert",
+        "bcSave":"Schutz der Karte ",
+        "bcNeedSave":"Sichern Sie die Karte vorher bitte",
+        "bcRedirection":"Redirection zur Karte",
+        "bcSaving":"Redirection zur Karte",
+        "bcSaveId":[
+                        { "value": "rettet *" },
+                        { "value": "Schutz *"}
+                        ],
+        "bcSaveDescri":"Sicher die Karte",
+        "bcAddId":[
+                        { "value": "fügt *" },
+                        { "value": "hinzufügen *"}
+                        ],
+        "bcAddDescri":"Füge einen Punkt zur Liste hinzu",
+        "bcPrintId":[
+                        { "value": "drucken" },
+                        { "value": "druckt"}
+                        ],
+        "bcPrintDecri":"Drucke die Karte",
+        "bcRedirectionId":[
+                        { "value": "Umleitung" },
+                        { "value": "umleitet"}
+                        ],
+        "bcRedirectionDescri":" Leite zur Adresse für die Platte wieder",
 
 
 "_comment": "lang",
