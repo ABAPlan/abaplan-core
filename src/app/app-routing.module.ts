@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { TouchpadComponent } from './touchpad/touchpad.component'
 import { EditorComponent } from './editor/editor.component'
-import {BlindCreatorComponent} from "./blindCreator/blindCreator.component";
+import {BlindCreatorComponent} from "./blind-creator/blind-creator.component";
 import { RouterModule, Routes } from '@angular/router';
 
 /* Routing Module */

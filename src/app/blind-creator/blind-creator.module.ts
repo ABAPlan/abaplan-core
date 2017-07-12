@@ -4,7 +4,7 @@ import { MapService }       from '../map/map.service';
 import { GeoService } from "../core/geo.service";
 import { VoiceService } from "../core/voice.service";
 import {SharedModule} from "../shared/shared.module";
-import {BlindCreatorComponent} from "./blindCreator.component";
+import {BlindCreatorComponent} from "./blind-creator.component";
 
 @NgModule({
   imports:      [ SharedModule ],

@@ -146,6 +146,36 @@
             "transportOKDescri":"Search Transport",
             "transportKODescri":"No nearby stop",
 
+            "blindCreatorEntry": "Welcome in the creation of map for blind persons",
+            "bcAddPoint":"Added",
+            "bcNotAddPoint":"Not added",
+            "bcTooManyPoints":"Too many points",
+            "bcAlreadySave":"The card is already saved",
+            "bcSave":"Save Map ",
+            "bcNeedSave":"Please save map before",
+            "bcRedirection":"Rerouting towards the map",
+            "bcSaving":"Save in progress",
+            "bcSaveId":[
+                            { "value": "Save *" },
+                            { "value": "Saving *"}
+                            ],
+            "bcSaveDescri":"Save Map",
+            "bcAddId":[
+                            { "value": "Add *" },
+                            { "value": "Adding *"}
+                            ],
+            "bcAddDescri":"Add point in map",
+            "bcPrintId":[
+                            { "value": "Print" },
+                            { "value": "Printing"}
+                            ],
+            "bcPrintDecri":"Print Map",
+            "bcRedirectionId":[
+                            { "value": "redirection" },
+                            { "value": "redirects"}
+                            ],
+            "bcRedirectionDescri":" Redirect towards the address for touchpad",
+
   "_comment": "lang",
             "myLang":"English",
             "codeLang":"en",

@@ -61,18 +61,16 @@ export class MapComponent implements OnInit {
     return false;
   }
 
-  setZoom(zoom:number):boolean{
+  setZoom(zoom:number):void{
     this.map.setZoom(zoom);
-    return true;
   }
 
   isInMap(point : Point):boolean{
     return this.map.extent.contains(point);
   }
 
-  centerMap(point : Point):boolean{
+  centerMap(point : Point):void{
     this.map.centerAt(point);
-    return true;
   }
 
   resetInfos():void{

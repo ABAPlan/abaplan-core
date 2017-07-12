@@ -15,8 +15,8 @@ interface translations  {value : string};
 
 @Component({
   selector: 'aba-blindCreator',
-  templateUrl: 'blindCreator.component.html',
-  styleUrls: ['blindCreator.component.css'],
+  templateUrl: 'blind-creator.component.html',
+  styleUrls: ['blind-creator.component.css'],
   providers : []
 })
 export class BlindCreatorComponent {

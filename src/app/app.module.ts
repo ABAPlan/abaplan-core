@@ -16,7 +16,7 @@ import {TranslateModule} from "ng2-translate";
  */
 import { TouchpadModule } from "./touchpad/touchpad.module";
 import { EditorModule } from "./editor/editor.module";
-import { BlindCreatorModule } from "./blindCreator/blindCreator.module";
+import { BlindCreatorModule } from "./blind-creator/blind-creator.module";
 
 @NgModule({
   imports: [
