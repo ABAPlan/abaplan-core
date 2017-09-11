@@ -50,7 +50,7 @@
     "@types/google-maps": "^3.2.0",
     "@types/lodash": "4.14.42",
     "angular-in-memory-web-api": "^0.2.2",
-    "artyom.js": "^1.0.5",
+    "artyom.js": "1.0.5",
     "bootstrap": "^3.3.7",
     "bower": "^1.8.0",
     "braille": "^1.1.0",
