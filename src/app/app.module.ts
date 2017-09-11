@@ -9,6 +9,8 @@ import { APP_BASE_HREF } from '@angular/common';
 
 import {TranslateModule} from "ng2-translate";
 
+import {} from '@types/googlemaps';
+
 /* Feature Modules:
  * - TouchpadModule for voices interactivity with touchpad device
  * - EditorModule for editing, creating and saving new maps
