@@ -17,3 +17,5 @@ bower_components
 /assets/
 *secret.ts
 !example.*secret.ts
+
+.DS_STORE
