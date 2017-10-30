@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "amd",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -10,7 +10,14 @@
     "noImplicitAny": false,
     "rootDir": "src",
     "strictNullChecks": true,
-    "skipLibCheck": true
-
-  }
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "typeRoots" : ["../node_modules/@types"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "node_modules/@types"
+  ]
 }
