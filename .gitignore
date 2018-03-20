@@ -15,6 +15,7 @@ abaplan-core.iml
 output
 bower_components
 /assets/
+/doc/
 *secret.ts
 !example.*secret.ts
 

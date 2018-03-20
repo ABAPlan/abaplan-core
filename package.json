@@ -11,6 +11,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "build": "webpack --config ./webpack.config.js",
+    "doc": "typedoc --out ./doc/ ./src/ --ignoreCompilerErrors",
     "clean": "rm -f -r node_modules bower_components"
   },
   "repository": {
@@ -90,6 +91,7 @@
     "lite-server": "^2.2.2",
     "purs-loader": "^2.3.0",
     "ts-helpers": "^1.1.2",
+    "typedoc": "^0.11.1",
     "typescript": "^2.0.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.15.0"
