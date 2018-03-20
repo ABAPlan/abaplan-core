@@ -7,7 +7,6 @@
     "test": "karma start karma.conf.js --single-run",
     "start": "concurrently \"webpack --watch --progress\" \"lite-server\" ",
     "lite": "lite-server",
-    "postinstall": "bower install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "tsc:c": "gulp clear",
@@ -30,7 +29,9 @@
   "author": "Joel Cavat",
   "contributors": [
     "Joel Cavat",
-    "Maxiume Burri"
+    "Maxiume Burri <maxime.burri@gmail.com>",
+    "Pierre Johner",
+    "Robin Chappatte <robin.chappatte@gmail.com>"
   ],
   "license": "MIT",
   "bugs": {
@@ -54,7 +55,6 @@
     "angular-in-memory-web-api": "^0.2.2",
     "artyom.js": "1.0.5",
     "bootstrap": "^3.3.7",
-    "bower": "^1.8.0",
     "braille": "^1.1.0",
     "core-js": "^2.4.1",
     "esri-system-js": "^1.0.0-beta.0",
@@ -65,7 +65,6 @@
     "lodash": "4.17.2",
     "ng2-bootstrap": "^1.1.14",
     "ng2-translate": "^5.0.0",
-    "purescript": "^0.10.7",
     "raw-loader": "^0.5.1",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.1",
@@ -94,7 +93,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.2",
     "lite-server": "^2.2.2",
-    "purs-loader": "^2.3.0",
     "ts-helpers": "^1.1.2",
     "typedoc": "^0.11.1",
     "typescript": "^2.0.3",

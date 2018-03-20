@@ -21,11 +21,6 @@ module.exports = {
             "angular-in-memory-web-api",
             "ng2-bootstrap"
         ]
-        /*,
-        pure: [
-            './app/shared/pagination/paginate.purs'
-        ]
-        */
     },
     output: {
         filename: 'dist/[name].bundle.js',
@@ -33,7 +28,7 @@ module.exports = {
     },
     resolve: {
     modulesDirectories: [ 'node_modules', 'bower_components' ],
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.html', '.purs']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.html']
     },
     module: {
         loaders: [
@@ -44,17 +39,6 @@ module.exports = {
             {
                 test: /\.(html|css)$/,
                 loader: 'raw-loader'
-            },
-            {
-                test: /\.purs$/,
-                loader: 'purs-loader',
-                exclude: /node_modules/,
-                query: {
-                    src: [ 'bower_components/purescript-*/src/**/*.purs', 'src/**/*.purs' ],
-                    bundle: false,
-                    psc: 'psc',
-                    pscIde: false
-                }
             }
         ]
     },
