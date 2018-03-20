@@ -232,14 +232,18 @@ export class TouchpadComponent {
     this.transportService.stationsNearby().subscribe(
       (stations : any) => {
         if (stations){
-            const station = stations.json().stations[0];
-            const point = new Point(station.coordinate.y,station.coordinate.x);
-            this.searchingPoint = point;
-            this.voiceService.say(this.getStringTranslation("transportOKDescri") + station.name);          
-        }else{
-          this.voiceService.say(this.getStringTranslation("transportKODescri"));
-          this.readCommand();
+            const station = stations.json().stations.find(station => station.coordinate.x !== null && station.coordinate.y !== null);
+            if (station) {
+              const point = new Point(station.coordinate.y,station.coordinate.x);
+              this.searchingPoint = point;
+              this.voiceService.say(this.getStringTranslation("transportOKDescri") + station.name);
+              return
+            }
         }
+
+        // If we get to this point, that mean that something went wrong with the station search
+        this.voiceService.say(this.getStringTranslation("transportKODescri"));
+        this.readCommand();
       }
     );
   }

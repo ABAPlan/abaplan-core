@@ -28,7 +28,7 @@ interface transportProvider {
 }
 
 class OpendataCHProvider implements transportProvider {
-  private url = 'http://transport.opendata.ch/v1/';
+  private url = 'https://transport.opendata.ch/v1/';
 
   constructor(private http: Http) {
   }
