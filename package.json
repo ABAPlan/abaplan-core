@@ -10,6 +10,7 @@
     "postinstall": "bower install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
+    "tsc:c": "gulp clear",
     "build": "webpack --config ./webpack.config.js",
     "doc": "typedoc --out ./doc/ ./src/ --ignoreCompilerErrors",
     "clean": "rm -f -r node_modules bower_components"
@@ -80,6 +81,8 @@
     "concurrently": "^3.0.0",
     "dojo-typings": "^1.11.9",
     "file-loader": "^0.9.0",
+    "gulp": "^3.9.1",
+    "gulp-clean-compiled-typescript": "^1.2.0",
     "jasmine-core": "^2.5.2",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",

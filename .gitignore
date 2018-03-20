@@ -3,6 +3,7 @@ typings
 *.info.txt
 *.log
 *.js
+!gulpfile.js
 *.js.map
 !karma-test-shim.js
 !karma-test-main.js
