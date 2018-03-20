@@ -11,8 +11,7 @@
     "tsc:w": "tsc -w",
     "tsc:c": "gulp clear",
     "build": "webpack --config ./webpack.config.js",
-    "doc": "typedoc --out ./doc/ ./src/ --ignoreCompilerErrors",
-    "clean": "rm -f -r node_modules bower_components"
+    "doc": "typedoc --out ./doc/ ./src/ --ignoreCompilerErrors"
   },
   "repository": {
     "type": "git",
