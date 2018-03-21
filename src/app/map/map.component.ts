@@ -19,8 +19,6 @@ import * as br from 'braille';
   styleUrls: ['map.component.css']
 })
 export class MapComponent implements OnInit {
-
-  //optionMaps: OptionMap[];
   map : AbaMap;
   search: ArcgisSearch;
 
