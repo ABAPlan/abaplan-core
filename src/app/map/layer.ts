@@ -69,8 +69,8 @@ const surface = {
 
 const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color('black'));
 
-const url_traitilles = require("file?name=./assets/[name].[ext]!./../core/img/traitilles.png");
-const url_cercle = require("file?name=./assets/[name].[ext]!./../core/img/cercle.png");
+const url_traitilles = require("file-loader?name=./assets/[name].[ext]!./../core/img/traitilles.png");
+const url_cercle = require("file-loader?name=./assets/[name].[ext]!./../core/img/cercle.png");
 
 const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
 const WATER_SYMBOL = new PictureFillSymbol(url_cercle, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);

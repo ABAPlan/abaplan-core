@@ -41,7 +41,7 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   public geometryType : string;
   public editTools : any;
 
-  private urlDot = require("file?name=./assets/[name].[ext]!./dot.png");
+  private urlDot = require("file-loader?name=./assets/[name].[ext]!./dot.png");
   private blackColor =  new Color([0, 0, 0, 1]);
   private whiteColor =  new Color([255, 255, 255, 1]);
 

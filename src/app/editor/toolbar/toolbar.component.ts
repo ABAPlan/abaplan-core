@@ -44,21 +44,21 @@ export class ToolbarMapComponent {
     {
       kind: 'texture',
       command: 'fill',
-      image: require("file?name=./assets/[name].[ext]!./img/blackTextureFill.png"),
+      image: require("file-loader?name=./assets/[name].[ext]!./img/blackTextureFill.png"),
       color: 'white',
       texture: 'black'
     },
     {
       kind: 'texture',
       command: 'fill',
-      image: require("file?name=./assets/[name].[ext]!./img/whiteTextureFill.png"),
+      image: require("file-loader?name=./assets/[name].[ext]!./img/whiteTextureFill.png"),
       color: 'black',
       texture: 'white'
     },
     {
       kind: 'texture',
       command: 'fill',
-      image: require("file?name=./assets/[name].[ext]!./img/water.png"),
+      image: require("file-loader?name=./assets/[name].[ext]!./img/water.png"),
       color: 'black',
       texture: 'water'
     },
@@ -69,56 +69,56 @@ export class ToolbarMapComponent {
     {
       kind: 'edit',
       command: 'move',
-      image: require("file?name=./assets/[name].[ext]!./img/move.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/move.png")
     },
     {
       kind: 'edit',
       command: 'select',
-      image: require("file?name=./assets/[name].[ext]!./img/select.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/select.png")
     },
     {
       kind: 'edit',
       command: 'delete',
-      image: require("file?name=./assets/[name].[ext]!./img/delete.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/delete.png")
     },
     {
       kind: 'draw',
       command: 'draw_circle',
       drawType : <DrawType>{ kind: 'circle' },
-      image: require("file?name=./assets/[name].[ext]!./img/circle.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/circle.png")
     },
     {
       kind: 'draw',
       command: 'draw_polygon',
       drawType : <DrawType>{ kind: 'polygon' },
-      image: require("file?name=./assets/[name].[ext]!./img/polygon.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/polygon.png")
     },
     {
       kind: 'draw',
       command: 'draw_traits',
       drawType : <DrawType>{ kind: 'line' },
-      image: require("file?name=./assets/[name].[ext]!./img/dotted.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/dotted.png")
     },
     {
       kind: 'draw',
       command: 'draw_pedestrian',
       drawType : <DrawType>{ kind: 'pedestrian' },
-      image: require("file?name=./assets/[name].[ext]!./img/pedestrian.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/pedestrian.png")
     },
     {
       kind: 'action',
       command: 'print',
-      image: require("file?name=./assets/[name].[ext]!./img/print.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/print.png")
     },
     {
       kind: 'action',
       command: 'open',
-      image: require("file?name=./assets/[name].[ext]!./img/open.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/open.png")
     },
     {
       kind: 'action',
       command: 'save',
-      image: require("file?name=./assets/[name].[ext]!./img/save.png")
+      image: require("file-loader?name=./assets/[name].[ext]!./img/save.png")
     },
     {
       kind: 'texture',

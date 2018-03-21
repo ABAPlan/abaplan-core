@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import artyomjs = require('artyom.js');
-import ArtyomCommand = artyomjs.ArtyomCommand;
+import artyomjs from 'artyom.js/source/artyom';
 import * as _ from "lodash";
 
 @Injectable()
@@ -55,7 +54,7 @@ interface IVoiceProvider {
 
 class ArtyomProvider implements IVoiceProvider {
 
-  readonly artyom = artyomjs.ArtyomBuilder.getInstance();
+  readonly artyom = new artyomjs();
   private lang :string;
 
   constructor() {
