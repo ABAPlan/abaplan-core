@@ -49,7 +49,12 @@ export class MapService {
 
     return Observable.create(
       o => {
-        const om = new OptionMap(800, 1176, 0, JSON.stringify(startExtent));
+        const om: OptionMap = {
+          city: 0,
+          extent: JSON.stringify(startExtent),
+          height: 800,
+          width: 1176,
+        };
         om.layerType = { kind: "osm" };
         o.next(om)
       }
