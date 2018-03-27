@@ -5,7 +5,7 @@
     <div id="esri-map" class="map" [ngClass]="{'need-zoom':needZoom}">
 
       <img  [hidden]="!mapLoading"
-            src='{{imgLoading}}'
+            src="{{ loadingSpinnerURL }}"
             class="center-div load"
             style="z-index:999;"
       />

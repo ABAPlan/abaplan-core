@@ -17,6 +17,9 @@ import esriConfig = require('esri/config');
 import { removeCommonSegments } from './polygon';
 import {LayerOptions} from "esri";
 
+import * as cercleTextureUrl from "Assets/img/icons/cercle.png";
+import * as tiledLinesTextureUrl from "Assets/img/textures/traitilles.png";
+
 export type LayerType = City | Square | Osm;
 export interface City { kind: "city"; }
 export interface Square { kind: "square"; }
@@ -69,12 +72,9 @@ const surface = {
 
 const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color('black'));
 
-const url_traitilles = require("file-loader?name=./assets/[name].[ext]!./../core/img/traitilles.png");
-const url_cercle = require("file-loader?name=./assets/[name].[ext]!./../core/img/cercle.png");
-
-const BUILDING_SYMBOL = new PictureFillSymbol(url_traitilles, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
-const WATER_SYMBOL = new PictureFillSymbol(url_cercle, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
-const GREEN_SYMBOL = new PictureFillSymbol(url_traitilles, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 25, 25);
+const BUILDING_SYMBOL = new PictureFillSymbol(tiledLinesTextureUrl, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
+const WATER_SYMBOL = new PictureFillSymbol(cercleTextureUrl, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
+const GREEN_SYMBOL = new PictureFillSymbol(tiledLinesTextureUrl, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 25, 25);
 
 const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/";
 const URL_FEATURE_LAYER_SURFACE = URL_FEATURE_LAYER + '3';

@@ -16,6 +16,8 @@ import * as _ from "lodash";
 //import * as Vector from '../core/vector2d';
 import { Vector2d, subVec, addVec, norm, multVec, perp, clone } from '../core/vector2d';
 
+import * as dotUrl from "Assets/img/icons/dot.png";
+
 export type DrawGraphic = (graphic: Graphic) => void;
 
 export interface DrawInfo {
@@ -41,13 +43,12 @@ export class DrawInfoBasicGeometry implements DrawInfo{
   public geometryType : string;
   public editTools : any;
 
-  private urlDot = require("file-loader?name=./assets/[name].[ext]!./dot.png");
   private blackColor =  new Color([0, 0, 0, 1]);
   private whiteColor =  new Color([255, 255, 255, 1]);
 
   //Array of all the texture available
   private textureTypes : { [name:string] : Symbol; } = {
-    'water' : new PictureFillSymbol(this.urlDot,
+    'water' : new PictureFillSymbol(dotUrl,
                               new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),16,16),
     'black' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
                               this.blackColor),

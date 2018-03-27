@@ -35,21 +35,34 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(gif|png)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: "assets/",
+            publicPath: "dist/assets/",
+          }
+        }
+      },
+      {
+        test: /\.ts$/,
         loaders: ["ts-loader", "angular2-template-loader"]
       },
       {
         test: /\.(html|css)$/,
         loaders: "raw-loader"
-      }
+      },
     ]
   },
   output: {
     filename: "[name].bundle.js",
     libraryTarget: "amd", // necessary for esri (arcgis)
-    path: path.resolve(__dirname, "../dist")
+    path: path.resolve(__dirname, "../dist"),
   },
   resolve: {
-    extensions: ["*", ".ts", ".tsx", ".js"]
+    alias: {
+      Assets: path.resolve(__dirname, "../assets"),
+    },
+    extensions: [".ts", ".tsx", ".js"]
   }
 };

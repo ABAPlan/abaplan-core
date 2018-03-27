@@ -4,6 +4,22 @@ import { DrawType } from '../drawEditMap';
 
 import {TranslateService} from 'ng2-translate';
 
+import * as blackTextureFillUrl from "Assets/img/textures/blackTextureFill.png";
+import * as whiteTextureFillUrl from "Assets/img/textures/whiteTextureFill.png";
+
+import * as circleIconUrl from "Assets/img/icons/circle.png";
+import * as deleteIconUrl from "Assets/img/icons/delete.png";
+import * as dottedIconUrl from "Assets/img/icons/dotted.png";
+import * as moveIconUrl from "Assets/img/icons/move.png";
+import * as pedestrianIconUrl from "Assets/img/icons/pedestrian.png";
+import * as polygonIconUrl from "Assets/img/icons/polygon.png";
+import * as selectIconUrl from "Assets/img/icons/select.png";
+import * as waterIconUrl from "Assets/img/icons/water.png";
+
+import * as openIconUrl from "Assets/img/icons/open.png";
+import * as printIconUrl from "Assets/img/icons/print.png";
+import * as saveIconUrl from "Assets/img/icons/save.png";
+
 export interface ITool {  image?: string, command: string }
 
 export interface DrawTool { kind: 'draw', drawType : DrawType }
@@ -44,21 +60,21 @@ export class ToolbarMapComponent {
     {
       kind: 'texture',
       command: 'fill',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/blackTextureFill.png"),
+      image: blackTextureFillUrl,
       color: 'white',
       texture: 'black'
     },
     {
       kind: 'texture',
       command: 'fill',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/whiteTextureFill.png"),
+      image: whiteTextureFillUrl,
       color: 'black',
       texture: 'white'
     },
     {
       kind: 'texture',
       command: 'fill',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/water.png"),
+      image: waterIconUrl,
       color: 'black',
       texture: 'water'
     },
@@ -69,56 +85,56 @@ export class ToolbarMapComponent {
     {
       kind: 'edit',
       command: 'move',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/move.png")
+      image: moveIconUrl,
     },
     {
       kind: 'edit',
       command: 'select',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/select.png")
+      image: selectIconUrl,
     },
     {
       kind: 'edit',
       command: 'delete',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/delete.png")
+      image: deleteIconUrl,
     },
     {
       kind: 'draw',
       command: 'draw_circle',
       drawType : <DrawType>{ kind: 'circle' },
-      image: require("file-loader?name=./assets/[name].[ext]!./img/circle.png")
+      image: circleIconUrl,
     },
     {
       kind: 'draw',
       command: 'draw_polygon',
       drawType : <DrawType>{ kind: 'polygon' },
-      image: require("file-loader?name=./assets/[name].[ext]!./img/polygon.png")
+      image: polygonIconUrl,
     },
     {
       kind: 'draw',
       command: 'draw_traits',
       drawType : <DrawType>{ kind: 'line' },
-      image: require("file-loader?name=./assets/[name].[ext]!./img/dotted.png")
+      image: dottedIconUrl,
     },
     {
       kind: 'draw',
       command: 'draw_pedestrian',
       drawType : <DrawType>{ kind: 'pedestrian' },
-      image: require("file-loader?name=./assets/[name].[ext]!./img/pedestrian.png")
+      image: pedestrianIconUrl,
     },
     {
       kind: 'action',
       command: 'print',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/print.png")
+      image: printIconUrl,
     },
     {
       kind: 'action',
       command: 'open',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/open.png")
+      image: openIconUrl,
     },
     {
       kind: 'action',
       command: 'save',
-      image: require("file-loader?name=./assets/[name].[ext]!./img/save.png")
+      image: saveIconUrl,
     },
     {
       kind: 'texture',
