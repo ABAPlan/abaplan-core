@@ -7,18 +7,20 @@ import {TranslateService} from 'ng2-translate';
 import * as blackTextureFillUrl from "Assets/img/textures/blackTextureFill.png";
 import * as whiteTextureFillUrl from "Assets/img/textures/whiteTextureFill.png";
 
-import * as circleIconUrl from "Assets/img/icons/circle.png";
-import * as deleteIconUrl from "Assets/img/icons/delete.png";
-import * as dottedIconUrl from "Assets/img/icons/dotted.png";
-import * as moveIconUrl from "Assets/img/icons/move.png";
-import * as pedestrianIconUrl from "Assets/img/icons/pedestrian.png";
-import * as polygonIconUrl from "Assets/img/icons/polygon.png";
-import * as selectIconUrl from "Assets/img/icons/select.png";
-import * as waterIconUrl from "Assets/img/icons/water.png";
+import * as waterIconUrl from "Assets/img/icons/textures/water.png";
 
-import * as openIconUrl from "Assets/img/icons/open.png";
-import * as printIconUrl from "Assets/img/icons/print.png";
-import * as saveIconUrl from "Assets/img/icons/save.png";
+import * as deleteIconUrl from "Assets/img/icons/mouseActions/delete.png";
+import * as moveIconUrl from "Assets/img/icons/mouseActions/move.png";
+import * as selectIconUrl from "Assets/img/icons/mouseActions/select.png";
+
+import * as circleIconUrl from "Assets/img/icons/shapes/circle.png";
+import * as pedestrianIconUrl from "Assets/img/icons/shapes/pedestrian.png";
+import * as polygonIconUrl from "Assets/img/icons/shapes/polygon.png";
+import * as tiledLinesIconUrl from "Assets/img/icons/shapes/tiledLines.png";
+
+import * as openIconUrl from "Assets/img/icons/operations/open.png";
+import * as printIconUrl from "Assets/img/icons/operations/print.png";
+import * as saveIconUrl from "Assets/img/icons/operations/save.png";
 
 export interface ITool {  image?: string, command: string }
 
@@ -113,7 +115,7 @@ export class ToolbarMapComponent {
       kind: 'draw',
       command: 'draw_traits',
       drawType : <DrawType>{ kind: 'line' },
-      image: dottedIconUrl,
+      image: tiledLinesIconUrl,
     },
     {
       kind: 'draw',

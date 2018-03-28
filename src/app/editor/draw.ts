@@ -16,7 +16,7 @@ import * as _ from "lodash";
 //import * as Vector from '../core/vector2d';
 import { Vector2d, subVec, addVec, norm, multVec, perp, clone } from '../core/vector2d';
 
-import * as dotUrl from "Assets/img/icons/dot.png";
+import * as blackDotTextureUrl from "Assets/img/textures/blackDot.png";
 
 export type DrawGraphic = (graphic: Graphic) => void;
 
@@ -48,7 +48,7 @@ export class DrawInfoBasicGeometry implements DrawInfo{
 
   //Array of all the texture available
   private textureTypes : { [name:string] : Symbol; } = {
-    'water' : new PictureFillSymbol(dotUrl,
+    'water' : new PictureFillSymbol(blackDotTextureUrl,
                               new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),16,16),
     'black' : new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
                               this.blackColor),

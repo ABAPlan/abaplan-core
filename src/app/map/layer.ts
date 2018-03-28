@@ -17,7 +17,7 @@ import esriConfig = require('esri/config');
 import { removeCommonSegments } from './polygon';
 import {LayerOptions} from "esri";
 
-import * as cercleTextureUrl from "Assets/img/icons/cercle.png";
+import * as blackDotTextureUrl from "Assets/img/textures/blackDot.png";
 import * as tiledLinesTextureUrl from "Assets/img/textures/traitilles.png";
 
 export type LayerType = City | Square | Osm;
@@ -73,7 +73,7 @@ const surface = {
 const HARD_SYMBOL = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(), new Color('black'));
 
 const BUILDING_SYMBOL = new PictureFillSymbol(tiledLinesTextureUrl, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
-const WATER_SYMBOL = new PictureFillSymbol(cercleTextureUrl, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
+const WATER_SYMBOL = new PictureFillSymbol(blackDotTextureUrl, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 15, 15);
 const GREEN_SYMBOL = new PictureFillSymbol(tiledLinesTextureUrl, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL), 25, 25);
 
 const URL_FEATURE_LAYER = "https://hepiageo.hesge.ch/arcgis/rest/services/audiotactile/audiotactile/FeatureServer/";
