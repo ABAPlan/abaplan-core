@@ -1,16 +1,16 @@
-import { NgModule }           from '@angular/core';
+import { NgModule } from "@angular/core";
 
 import { SharedModule } from "../shared/shared.module";
 
 /* Services */
-import { MapService }       from '../map/map.service';
+import { MapService } from "../map/map.service";
 
 /* Internal Components */
+import { EditorComponent } from "./editor.component";
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
-import { ToolbarMapComponent } from "./toolbar/toolbar.component";
-import { EditorComponent } from "./editor.component";
 import { SelectLangComponent } from "./select-lang/select-lang.component";
+import { ToolbarMapComponent } from "./toolbar/toolbar.component";
 
 /* Internal Pipes */
 import { FilterMapsPipe } from "./modal-maps-list/filtermaps.pipe";
@@ -18,19 +18,19 @@ import { FilterMapsPipe } from "./modal-maps-list/filtermaps.pipe";
 /* External Components */
 import { PaginationComponent } from "../shared/pagination/pagination-buttons.component";
 
-import {TranslateModule} from "ng2-translate";
+import { TranslateModule } from "ng2-translate";
 
 @NgModule({
-  imports:      [ SharedModule,  TranslateModule ],
   declarations: [
-      SelectLangComponent
-    , EditorComponent
-    , ModalMapComponent
-    , ModalSaveMapComponent
-    , ToolbarMapComponent
-    , FilterMapsPipe
-    , PaginationComponent
+    SelectLangComponent,
+    EditorComponent,
+    ModalMapComponent,
+    ModalSaveMapComponent,
+    ToolbarMapComponent,
+    FilterMapsPipe,
+    PaginationComponent,
   ],
-  providers:    [ MapService ]
+  imports: [SharedModule, TranslateModule],
+  providers: [MapService],
 })
-export class EditorModule { }
+export class EditorModule {}

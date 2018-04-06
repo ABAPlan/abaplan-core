@@ -1,71 +1,98 @@
-import { Component, ViewChild } from '@angular/core';
-import { LayerType } from '../map/layer';
-import { MapComponent } from '../map/map.component'
-import { OptionMap } from '../map/map';
+import { Component, ViewChild } from "@angular/core";
+
+import { LayerType } from "../map/layer";
+import { OptionMap } from "../map/map";
+import { MapComponent } from "../map/map.component";
 import {
-    ToolbarMapComponent
-  , DrawTool
-  , Command
-  , KindTool
+  Command,
+  DrawTool,
+  KindTool,
+  ToolbarMapComponent,
 } from "./toolbar/toolbar.component";
 
-import { AbaDrawEdit } from './drawEditMap';
+import { ModalYesNoComponent } from "../shared/modal-yesno/modal-yesno.component";
+import { AbaDrawEdit } from "./drawEditMap";
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
-import {ModalYesNoComponent} from "../shared/modal-yesno/modal-yesno.component";
 
-import {TranslateService} from 'ng2-translate';
-import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
+import { TranslateService } from "ng2-translate";
+import { ScalarObservable } from "rxjs/observable/ScalarObservable";
 
-type ButtonInfo = LayerType ;
+type ButtonInfo = LayerType;
 
 @Component({
-  selector: 'aba-editor',
-  templateUrl: 'editor.component.html',
-  styleUrls: ['editor.component.css']
+  selector: "aba-editor",
+  styleUrls: ["editor.component.css"],
+  templateUrl: "editor.component.html",
 })
 export class EditorComponent {
+  @ViewChild(MapComponent) public mapComponent: MapComponent;
+  @ViewChild(ToolbarMapComponent) public toolbarMapComponent: ToolbarMapComponent;
 
-  @ViewChild(MapComponent) mapComponent: MapComponent;
-  @ViewChild(ToolbarMapComponent) toolbarMapComponent: ToolbarMapComponent;
+  @ViewChild(ModalMapComponent) public modalMapComponent: ModalMapComponent;
+  @ViewChild(ModalSaveMapComponent) public modalSaveMapComponent: ModalSaveMapComponent;
+  @ViewChild(ModalYesNoComponent) public modalYesNoComponent: ModalYesNoComponent;
 
-  @ViewChild(ModalMapComponent) modalMapComponent: ModalMapComponent;
-  @ViewChild(ModalSaveMapComponent) modalSaveMapComponent: ModalSaveMapComponent;
-  @ViewChild(ModalYesNoComponent) modalYesNoComponent: ModalYesNoComponent;
+  public readonly defaultTitle: string = "AbaPlans";
+  public flagSavable: boolean = false;
+  public title = this.defaultTitle;
 
-  private readonly defaultTitle: string = "AbaPlans";
-  private flagSavable: boolean = false;
-  title = this.defaultTitle;
+  public drawEdit: AbaDrawEdit;
 
-  drawEdit : AbaDrawEdit;
-
-  private _btnInfos: Array<ButtonInfo> = [
+  private _btnInfos: ButtonInfo[] = [
     {
-      kind : 'osm'
+      kind: "osm",
     },
     {
-      kind : 'square'
+      kind: "square",
     },
     {
-      kind : 'city'
-    }
+      kind: "city",
+    },
   ];
   private _activeButtonInfo: ButtonInfo = this._btnInfos[0];
 
-  constructor(private translateService: TranslateService) {
+  constructor(private translateService: TranslateService) {}
 
+  public ngOnInit(): void {
+    this.mapComponent.getDefaultMap();
+  }
+
+  public ngAfterViewInit() {
+    // Init default btnInfo to first
+    this.setActive(this._btnInfos[0]);
+  }
+
+  public initMap(optionMap: OptionMap) {
+    if (optionMap.layerType) {
+      this.selectTabByLayerType(optionMap.layerType);
+    } else {
+      this.selectTabByLayerType({ kind: "osm" });
+    }
+    // Not Savable when the map load isn't save
+    if (optionMap.title) {
+      this.flagSavable = true;
+    }
+
+    this.mapComponent.map.on("mouse-drag-end", () => {
+      this.flagSavable = false;
+      this.title = this.defaultTitle;
+      this.mapComponent.resetInfos();
+    });
+
+    this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
   private onClick(btnInfo: ButtonInfo) {
     this.setActive(btnInfo);
-    this.mapComponent.mapZoom = (this.translateService.get("mapZoom")as ScalarObservable<string>).value;
+    this.mapComponent.mapZoom = (this.translateService.get(
+      "mapZoom",
+    ) as ScalarObservable<string>).value;
   }
 
   private updateTool(tool: Command & KindTool) {
-
     // Personalized operation on command
     switch (tool.command) {
-
       case "move":
         this.drawEdit.enableDraw(false);
         this.mapComponent.map.enableMapNavigation();
@@ -84,16 +111,15 @@ export class EditorComponent {
         break;
 
       case "fill":
-        this.drawEdit.changeTexture(
-          this.toolbarMapComponent.changeFillTool());
+        this.drawEdit.changeTexture(this.toolbarMapComponent.changeFillTool());
         break;
 
       case "print":
-        if (!this.flagSavable)
+        if (!this.flagSavable) {
           this.modalYesNoComponent.open();
-        else 
-          window.print();
-            
+        } else {
+          (window as any).print();
+        }
         break;
 
       case "open":
@@ -103,65 +129,48 @@ export class EditorComponent {
         this.modalSaveMapComponent.open();
         break;
       default:
-        console.warn("action buttons not implemented");
-
+        if (process.env.NODE_ENV !== "production") {
+          // tslint:disable-next-line no-console
+          console.warn("action buttons not implemented");
+        }
     }
 
     // Global operation on kind
     switch (tool.kind) {
-      case "draw" :
+      case "draw":
         this.mapComponent.map.disableMapNavigation();
         const drawTool = tool as DrawTool;
         this.drawEdit.enableDraw(true, drawTool.drawType);
         this.drawEdit.enableDelete(false);
         this.drawEdit.enableEdit(false);
-      break;
+        break;
 
-      case "action" :
+      case "action":
         this.drawEdit.enableDraw(false);
         this.drawEdit.enableDelete(false);
         this.drawEdit.enableEdit(false);
-      break;
+        break;
     }
-
   }
 
   private isActive(btnInfo: ButtonInfo) {
     return btnInfo === this._activeButtonInfo;
   }
 
-  private setActive(btnInfo: ButtonInfo){
+  private setActive(btnInfo: ButtonInfo) {
     this._activeButtonInfo = btnInfo;
-    if (this.mapComponent)
+    if (this.mapComponent) {
       this.mapComponent.setLayerType(btnInfo);
-  }
-
-  private selectTabByLayerType(layerType : LayerType) : void {
-    // Find first layer type _btnInfos
-    this._btnInfos.forEach( (btnInfo) => {
-        if (btnInfo.kind == layerType.kind)
-          this.setActive(btnInfo)
-      }
-    );
-  }
-
-  public initMap(optionMap : OptionMap){
-    if (optionMap.layerType){
-      this.selectTabByLayerType(optionMap.layerType);
-    } else {
-      this.selectTabByLayerType( {kind: "osm"} );
     }
-    //Not Savable when the map load isn't save
-    if(optionMap.title)
-      this.flagSavable = true;
+  }
 
-    this.mapComponent.map.on('mouse-drag-end', () => {
-      this.flagSavable = false;
-      this.title = this.defaultTitle;
-      this.mapComponent.resetInfos();
+  private selectTabByLayerType(layerType: LayerType): void {
+    // Find first layer type _btnInfos
+    this._btnInfos.forEach((btnInfo) => {
+      if (btnInfo.kind === layerType.kind) {
+        this.setActive(btnInfo);
+      }
     });
-
-    this.drawEdit = new AbaDrawEdit(this.mapComponent.map);
   }
 
   // Fire when a user choose a map
@@ -193,22 +202,14 @@ export class EditorComponent {
   }
 
   private setMapAsSavable($event): void {
-    console.log("Merde");
+    if (process.env.NODE_ENV !== "production") {
+      // tslint:disable-next-line no-console
+      console.log("Merde");
+    }
     this.modalSaveMapComponent.open();
   }
 
   private printMapWithoutSaving(): void {
-    window.print();
+    (window as any).print();
   }
-
-
-  ngOnInit(): void {
-    this.mapComponent.getDefaultMap();
-  }
-
-  ngAfterViewInit() {
-    // Init default btnInfo to first
-    this.setActive(this._btnInfos[0]);
-  }
-
 }

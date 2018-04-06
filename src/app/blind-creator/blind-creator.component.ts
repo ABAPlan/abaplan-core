@@ -148,11 +148,11 @@ export class BlindCreatorComponent {
   private printMap() {
     if (this.isSave) {
       if (!this.mapComponent.mapLoading) {
-        window.print();
+        (window as any).print();
       } else {
         this.mapComponent.map.onUpdateEnd = () => {
           this.mapComponent.mapLoading = false;
-          window.print();
+          (window as any).print();
           // At the end load the older UpdateEnd
           this.mapComponent.map.onUpdateEnd = () =>
             (this.mapComponent.mapLoading = false);
