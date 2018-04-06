@@ -1,45 +1,41 @@
 // good practices: https://angular.io/styleguide/#!#-a-id-04-10-a-shared-feature-module
 
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
 
-import { TakePipe } from "./take.pipe";
+import {AppRoutingModule} from "../app-routing.module";
+import { MapComponent } from "../map/map.component";
 import { DropPipe } from "./drop.pipe";
 import { LengthPipe } from "./length.pipe";
-import { HttpModule } from "@angular/http";
-import { MapComponent } from "../map/map.component";
-import { CommonModule } from "@angular/common";
-import {AppRoutingModule} from "../app-routing.module";
 import {ModalYesNoComponent} from "./modal-yesno/modal-yesno.component";
-
+import { TakePipe } from "./take.pipe";
 
 @NgModule({
-  imports: [
-      FormsModule
-    , HttpModule // editor component
-    , CommonModule
-    , AppRoutingModule
-  ],
   declarations: [
-      TakePipe
-    , DropPipe
-    , LengthPipe
-    , MapComponent
-    , ModalYesNoComponent
+    TakePipe,
+    DropPipe,
+    LengthPipe,
+    MapComponent,
+    ModalYesNoComponent,
   ],
   exports: [
-      FormsModule
-    , TakePipe
-    , DropPipe
-    , LengthPipe
-    , CommonModule
-    , MapComponent
-    , AppRoutingModule
-    , ModalYesNoComponent
+    FormsModule,
+    TakePipe,
+    DropPipe,
+    LengthPipe,
+    CommonModule,
+    MapComponent,
+    AppRoutingModule,
+    ModalYesNoComponent,
   ],
-  providers: [ ]
+  imports: [
+    FormsModule,
+    HttpModule, // editor component
+    CommonModule,
+    AppRoutingModule,
+  ],
+  providers: [],
 })
 export class SharedModule { }
-
-
-

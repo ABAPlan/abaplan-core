@@ -1,56 +1,63 @@
-import ArcgisMap = require('esri/map');
-import Graphic = require('esri/graphic');
-import Extent = require('esri/geometry/Extent');
-import OpenStreetMapLayer = require('esri/layers/OpenStreetMapLayer');
+import Extent = require("esri/geometry/Extent");
+import Graphic = require("esri/graphic");
+import OpenStreetMapLayer = require("esri/layers/OpenStreetMapLayer");
+import ArcgisMap = require("esri/map");
 
-import ArcgisDraw = require('esri/toolbars/draw');
-import ArcgisEdit = require('esri/toolbars/edit');
+import ArcgisDraw = require("esri/toolbars/draw");
+import ArcgisEdit = require("esri/toolbars/edit");
 
-import {DrawGraphic,
-        DrawInfo,
-        DrawInfoPedestrian,
-        DrawInfoPolyline,
-        DrawInfoPolygon,
-        DrawInfoCircle} from './draw'
+import {DrawInfo} from "./draw/drawInfoBasicGeometry";
+import {DrawInfoCircle} from "./draw/drawInfoCircle";
+import {DrawInfoPedestrian} from "./draw/drawInfoPedestrian";
+import {DrawInfoPolygon} from "./draw/drawInfoPolygon";
+import {DrawInfoPolyline} from "./draw/drawInfoPolyline";
 
-interface CircleDrawType { kind: 'circle' }
-interface PolygonDrawType { kind: 'polygon' }
-interface LineDrawType { kind: 'line' }
-interface PedestrianDrawType { kind: 'pedestrian' }
+interface CircleDrawType {
+  kind: "circle";
+}
+interface PolygonDrawType {
+  kind: "polygon";
+}
+interface LineDrawType {
+  kind: "line";
+}
+interface PedestrianDrawType {
+  kind: "pedestrian";
+}
 
 export type DrawType =
-  ( CircleDrawType  |
-    PolygonDrawType |
-    LineDrawType    |
-    PedestrianDrawType);
+  | CircleDrawType
+  | PolygonDrawType
+  | LineDrawType
+  | PedestrianDrawType;
 
 export class AbaDrawEdit {
-  private map : ArcgisMap;
-  private currentDrawInfo : DrawInfo;
-  private currentDrawTypeKind : string; // Remember the string key of drawTypes[]
+  private map: ArcgisMap;
+  private currentDrawInfo: DrawInfo;
+  private currentDrawTypeKind: string; // Remember the string key of drawTypes[]
 
-  private deleteEnabled : boolean;
-  private editEnabled : boolean;
+  private deleteEnabled: boolean;
+  private editEnabled: boolean;
 
   /**
    * DrawTypes object foreach kind
    * Warning, must have same kinds with DrawType
    */
-  private drawTypes : { [name:string] : DrawInfo; } = {
-    'circle' : new DrawInfoCircle(),
-    'polygon' : new DrawInfoPolygon(),
-    'line' : new DrawInfoPolyline(),
-    'pedestrian' : new DrawInfoPedestrian()
+  private drawTypes: { [name: string]: DrawInfo } = {
+    circle: new DrawInfoCircle(),
+    line: new DrawInfoPolyline(),
+    pedestrian: new DrawInfoPedestrian(),
+    polygon: new DrawInfoPolygon(),
   };
 
-  private edit : ArcgisEdit;
-  private draw : ArcgisDraw;
+  private edit: ArcgisEdit;
+  private draw: ArcgisDraw;
 
-  public constructor(map : ArcgisMap) {
+  public constructor(map: ArcgisMap) {
     this.map = map;
     this.edit = new ArcgisEdit(map);
     this.draw = new ArcgisDraw(map);
-    
+
     this.loadAllDrawTypes();
 
     this.registerOnDrawComplete();
@@ -61,37 +68,40 @@ export class AbaDrawEdit {
     this.enableEdit(false);
   }
 
-  public registerOnMapClickGraphic(){
-    this.map.graphics.on("click", (e:{graphic:any}) => {
+  public registerOnMapClickGraphic() {
+    this.map.graphics.on("click", (e: { graphic: any }) => {
       /** For delete */
-      if(this.deleteEnabled){
+      if (this.deleteEnabled) {
         // For current release
-        if(e.graphic.attributes && e.graphic.attributes.kind){
+        if (e.graphic.attributes && e.graphic.attributes.kind) {
           this.drawTypes[e.graphic.attributes.kind].delete(this.map, e.graphic);
-        }
-        // For old release compatibility : pedestrian => to delete in future..
-        else if (e.graphic.attributes && e.graphic.attributes.passage_pieton){
-          this.drawTypes['pedestrian'].delete(this.map, e.graphic);
-        }
-        // For old release compatibility : all shapes => to delete in future..
-        else {
+        } else if (
+          e.graphic.attributes &&
+          e.graphic.attributes.passage_pieton
+        ) {
+          // For old release compatibility : pedestrian => to delete in future..
+          this.drawTypes.pedestrian.delete(this.map, e.graphic);
+        } else {
+          // For old release compatibility : all shapes => to delete in future..
           this.map.graphics.remove(e.graphic);
         }
       }
       /** For edit */
-      if(this.editEnabled){
-        if(e.graphic.attributes && e.graphic.attributes.kind){
+      if (this.editEnabled) {
+        if (e.graphic.attributes && e.graphic.attributes.kind) {
           // Get the type
-          let drawType = this.drawTypes[e.graphic.attributes.kind];
-          let editTools : any = drawType.editTools;
-          let graphics = this.map.graphics;
+          const drawType = this.drawTypes[e.graphic.attributes.kind];
+          const editTools: any = drawType.editTools;
+          const graphics = this.map.graphics;
 
           // Get the graphic to edit
-          let graphicToEdit : Graphic = drawType.getEditionGraphic(this.map, 
+          const graphicToEdit: Graphic = drawType.getEditionGraphic(
+            this.map,
             this.drawGraphicFunction(e.graphic.attributes.kind),
-            e.graphic);
+            e.graphic,
+          );
 
-            // Activate
+          // Activate
           this.edit.activate(editTools, graphicToEdit);
         }
       }
@@ -99,89 +109,103 @@ export class AbaDrawEdit {
   }
 
   // On edit deactivate : call finishEdit of drawType
-  public registerOnEditDeactivate(){
-      this.edit.on("deactivate", (event: { graphic: Graphic; info: any; tool: string }) => {
-      let drawType = this.drawTypes[event.graphic.attributes.kind];
-      drawType.finishEdit( 
-        this.map,
-        this.drawGraphicFunction(event.graphic.attributes.kind),
-        event.graphic )
-    }); 
+  public registerOnEditDeactivate() {
+    this.edit.on(
+      "deactivate",
+      (event: { graphic: Graphic; info: any; tool: string }) => {
+        const drawType = this.drawTypes[event.graphic.attributes.kind];
+        drawType.finishEdit(
+          this.map,
+          this.drawGraphicFunction(event.graphic.attributes.kind),
+          event.graphic,
+        );
+      },
+    );
   }
 
   // On draw complete : call draw of drawType
-  public registerOnDrawComplete(){
+  public registerOnDrawComplete() {
     this.draw.on("draw-complete", (event) => {
       // Call draw complete of current draw info
-      let currentDrawTypeKind = this.currentDrawTypeKind;
-      let graphics = this.map.graphics;
+      const currentDrawTypeKind = this.currentDrawTypeKind;
+      const graphics = this.map.graphics;
 
       this.currentDrawInfo.draw(
         // Callback to add graphics
         this.drawGraphicFunction(currentDrawTypeKind),
-        event);
+        event,
+      );
     });
   }
 
   // Load all graphics by draw types
   public loadAllDrawTypes = () => {
     // Class all graphics by kind
-    let graphicsDrawTypes = {};
+    const graphicsDrawTypes = {};
     this.map.graphics.graphics.forEach((g) => {
       try {
-        let kind = g.attributes.kind;
+        const kind = g.attributes.kind;
 
-        if(this.drawTypes[kind] === undefined)
+        if (this.drawTypes[kind] === undefined && process.env.NODE_ENV !== "production") {
+          // tslint:disable-next-line no-console
           console.warn("Graphic kind not supported (kind not implemented)");
-        else{
-          if(!graphicsDrawTypes[kind])
+        } else {
+          if (!graphicsDrawTypes[kind]) {
             graphicsDrawTypes[kind] = [];
-          else
+          } else {
             graphicsDrawTypes[kind].push(g);
+          }
         }
       } catch (error) {
-        console.warn("Graphic kind not supported (empty kind)", g);
+        if (process.env.NODE_ENV !== "production") {
+          // tslint:disable-next-line no-console
+          console.warn("Graphic kind not supported (empty kind)", g);
+        }
       }
     });
 
     // Load all graphics by kind
-    for(let kind in this.drawTypes){
-      this.drawTypes[kind].onLoad(graphicsDrawTypes[kind]);
-    }
+    Object.keys(this.drawTypes).forEach((type) => this.drawTypes[type].onLoad(graphicsDrawTypes[type]));
   }
 
-  public drawGraphicFunction = (typeKind:string) => {
-      return (graphic: Graphic) => {
-          if(!graphic.attributes) 
-            graphic.attributes = {};
-          graphic.attributes.kind = /*this.currentEditTypeKind*/typeKind;
-          this.map.graphics.add(graphic);
-        }
-  }; 
+  public drawGraphicFunction = (typeKind: string) => {
+    return (graphic: Graphic) => {
+      if (!graphic.attributes) {
+        graphic.attributes = {};
+      }
 
-  public enableDraw(enable:boolean, drawType? : DrawType) {
-    if(enable && drawType){
-      let kind : string = drawType.kind;
+      graphic.attributes.kind = /*this.currentEditTypeKind*/ typeKind;
+      this.map.graphics.add(graphic);
+    };
+  }
+
+  public enableDraw(enable: boolean, drawType?: DrawType) {
+    if (enable && drawType) {
+      const kind: string = drawType.kind;
       this.currentDrawTypeKind = kind;
       this.currentDrawInfo = this.drawTypes[kind];
       this.draw.activate(this.currentDrawInfo.geometryType);
-    }else
+    } else {
       this.draw.deactivate();
+    }
   }
 
   /* Change Texture of all the draw type */
-  public changeTexture(texture:string){
-    //Can't access directly to all the object need to get the key first
-    Object.keys(this.drawTypes).forEach((key)=>this.drawTypes[key].changeTexture(texture));
+  public changeTexture(texture: string) {
+    // Can't access directly to all the object need to get the key first
+    Object.keys(this.drawTypes).forEach((key) =>
+      this.drawTypes[key].changeTexture(texture),
+    );
   }
 
-  public enableDelete(enable:boolean) {
+  public enableDelete(enable: boolean) {
     this.deleteEnabled = enable;
   }
 
-  public enableEdit(enable:boolean) {
+  public enableEdit(enable: boolean) {
     this.editEnabled = enable;
-    if(!enable)
+    if (!enable) {
       this.edit.deactivate();
+    }
   }
 }

@@ -5,14 +5,16 @@ import OpenStreetMapLayer = require("esri/layers/OpenStreetMapLayer");
 import ArcgisMap = require("esri/map");
 
 import * as _ from "lodash";
+
+import CityRootBrailleLayer from "./layers/CityRootBrailleLayer";
+import OsmRootLayer from "./layers/OsmRootLayer";
+import SquareRootBrailleLayer from "./layers/SquareRootBrailleLayer";
+
 import {
   City,
-  CityRootBrailleLayer,
   LayerType,
-  OsmRootLayer,
   RootLayer,
   Square,
-  SquareRootBrailleLayer,
 } from "./layer";
 
 export interface OptionMap {

@@ -1,22 +1,23 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 import { OptionMap } from "../../map/map";
 
-
-@Pipe({name: 'filterMaps'})
+@Pipe({ name: "filterMaps" })
 export class FilterMapsPipe implements PipeTransform {
-  transform(maps: OptionMap[], query: string, activePage: number): OptionMap[] {
-    const filteredMaps = maps
-      .filter(
-        m => {
-          if (m.title === undefined){
-            m.title = "";
-          }
-          if (m.uid === undefined){
-            m.uid = -1;
-          }
-          return m.title.toString().toLowerCase().includes(query.toLowerCase()) || m.uid.toString().includes(query);
-        }
+  public transform(maps: OptionMap[], query: string, activePage: number): OptionMap[] {
+    const filteredMaps = maps.filter((m) => {
+      if (m.title === undefined) {
+        m.title = "";
+      }
+      if (m.uid === undefined) {
+        m.uid = -1;
+      }
+      return (
+        m.title
+          .toString()
+          .toLowerCase()
+          .includes(query.toLowerCase()) || m.uid.toString().includes(query)
       );
+    });
 
     return filteredMaps;
   }

@@ -5,7 +5,7 @@ import {OptionMap, AbaMap } from './map';
 import { LayerType } from './layer';
 import 'rxjs/add/operator/toPromise';
 
-const LayerTypeId: { [id: number]: LayerType } = {
+const LAYER_TYPE_ID: { [id: number]: LayerType } = {
   0: { kind: "square" },
   1: { kind: "city" }
 };
@@ -74,7 +74,7 @@ export class MapService {
    * Build a complete OptionMap from the basic OptionMap
    */
   private build(optionMap: OptionMap): OptionMap {
-    optionMap.layerType = LayerTypeId[optionMap.city];
+    optionMap.layerType = LAYER_TYPE_ID[optionMap.city];
     return optionMap;
   }
 }

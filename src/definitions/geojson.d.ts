@@ -1,7 +1,3 @@
-declare module 'geojson' {
-    interface dataType {}
-
-    interface settingsType {}
-
-    function parse(data: dataType, settings: settingsType, callback?: Function): string;
+declare module "geojson" {
+    function parse(data: {}, settings: {}, callback?: function): string;
 }

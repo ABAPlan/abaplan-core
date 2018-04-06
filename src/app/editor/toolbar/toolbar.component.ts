@@ -1,8 +1,14 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from "@angular/core";
-import { LayerType } from '../../map/layer';
-import { DrawType } from '../drawEditMap';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from "@angular/core";
+import { LayerType } from "../../map/layer";
+import { DrawType } from "../drawEditMap";
 
-import {TranslateService} from 'ng2-translate';
+import { TranslateService } from "ng2-translate";
 
 import * as blackTextureFillUrl from "Assets/img/textures/blackTextureFill.png";
 import * as whiteTextureFillUrl from "Assets/img/textures/whiteTextureFill.png";
@@ -22,170 +28,196 @@ import * as openIconUrl from "Assets/img/icons/operations/open.png";
 import * as printIconUrl from "Assets/img/icons/operations/print.png";
 import * as saveIconUrl from "Assets/img/icons/operations/save.png";
 
-export interface ITool {  image?: string, command: string }
+export interface ITool {// tslint:disable-line interface-name
+  image?: string;
+  command: string;
+}
 
-export interface DrawTool { kind: 'draw', drawType : DrawType }
-export interface ActionTool { kind: 'action' }
-export interface EditTool { kind: 'edit' }
-export interface TextureTool { kind: 'texture',color:string,texture:string}
+export interface DrawTool {
+  kind: "draw";
+  drawType: DrawType;
+}
+export interface ActionTool {
+  kind: "action";
+}
+export interface EditTool {
+  kind: "edit";
+}
+export interface TextureTool {
+  kind: "texture";
+  color: string;
+  texture: string;
+}
 
-export type Command = Move | Select | Delete | Texture | DrawCircle | DrawPolygon | DrawTraits | DrawPedestrian | Print | Open | Save | Fill;
-export interface Move { command: "move"; }
-export interface Select { command: "select"; }
-export interface Delete { command: "delete"; }
-export interface Texture { command: "texture"; }
-export interface DrawCircle { command: "draw_circle"; }
-export interface DrawPolygon { command: "draw_polygon"; }
-export interface DrawTraits { command: "draw_traits"; }
-export interface DrawPedestrian { command: "draw_pedestrian"; }
-export interface Print { command: "print"; }
-export interface Open { command: "open"; }
-export interface Save { command: "save"; }
+export type Command =
+  | Move
+  | Select
+  | Delete
+  | Texture
+  | DrawCircle
+  | DrawPolygon
+  | DrawTraits
+  | DrawPedestrian
+  | Print
+  | Open
+  | Save
+  | Fill;
+export interface Move {
+  command: "move";
+}
+export interface Select {
+  command: "select";
+}
+export interface Delete {
+  command: "delete";
+}
+export interface Texture {
+  command: "texture";
+}
+export interface DrawCircle {
+  command: "draw_circle";
+}
+export interface DrawPolygon {
+  command: "draw_polygon";
+}
+export interface DrawTraits {
+  command: "draw_traits";
+}
+export interface DrawPedestrian {
+  command: "draw_pedestrian";
+}
+export interface Print {
+  command: "print";
+}
+export interface Open {
+  command: "open";
+}
+export interface Save {
+  command: "save";
+}
 
-export interface Fill { command: "fill"; }
+export interface Fill {
+  command: "fill";
+}
 
-export type KindTool = (DrawTool | EditTool | ActionTool | TextureTool);
+export type KindTool = DrawTool | EditTool | ActionTool | TextureTool;
 export type Tool = KindTool & ITool & Command;
 
 @Component({
-  selector: 'aba-toolbar-map',
-  templateUrl: 'toolbar.component.html',
-  styleUrls: ['toolbar.component.css']
+  selector: "aba-toolbar-map",
+  styleUrls: ["toolbar.component.css"],
+  templateUrl: "toolbar.component.html",
 })
 export class ToolbarMapComponent {
+  @Input() public activeTab: LayerType;
+  @Output() public onUpdateTool: EventEmitter<Tool> = new EventEmitter();
 
-  @Input() activeTab: LayerType;
-  @Output() onUpdateTool: EventEmitter<Tool> = new EventEmitter();
-
-  // Array of state for the fill button 
-  private fillState : Array<Tool> = [
+  // Array of state for the fill button
+  private fillState: Tool[] = [
     {
-      kind: 'texture',
-      command: 'fill',
+      color: "white",
+      command: "fill",
       image: blackTextureFillUrl,
-      color: 'white',
-      texture: 'black'
+      kind: "texture",
+      texture: "black",
     },
     {
-      kind: 'texture',
-      command: 'fill',
+      color: "black",
+      command: "fill",
       image: whiteTextureFillUrl,
-      color: 'black',
-      texture: 'white'
+      kind: "texture",
+      texture: "white",
     },
     {
-      kind: 'texture',
-      command: 'fill',
+      color: "black",
+      command: "fill",
       image: waterIconUrl,
-      color: 'black',
-      texture: 'water'
+      kind: "texture",
+      texture: "water",
     },
   ];
   private activeFill: number = 0;
 
-  private tools: Array<Tool> = [
+  private tools: Tool[] = [
     {
-      kind: 'edit',
-      command: 'move',
+      command: "move",
       image: moveIconUrl,
+      kind: "edit",
     },
     {
-      kind: 'edit',
-      command: 'select',
+      command: "select",
       image: selectIconUrl,
+      kind: "edit",
     },
     {
-      kind: 'edit',
-      command: 'delete',
+      command: "delete",
       image: deleteIconUrl,
+      kind: "edit",
     },
     {
-      kind: 'draw',
-      command: 'draw_circle',
-      drawType : <DrawType>{ kind: 'circle' },
+      command: "draw_circle",
+      drawType: { kind: "circle" } as DrawType,
       image: circleIconUrl,
+      kind: "draw",
     },
     {
-      kind: 'draw',
-      command: 'draw_polygon',
-      drawType : <DrawType>{ kind: 'polygon' },
+      command: "draw_polygon",
+      drawType: { kind: "polygon" } as DrawType,
       image: polygonIconUrl,
+      kind: "draw",
     },
     {
-      kind: 'draw',
-      command: 'draw_traits',
-      drawType : <DrawType>{ kind: 'line' },
+      command: "draw_traits",
+      drawType: { kind: "line" } as DrawType,
       image: tiledLinesIconUrl,
+      kind: "draw",
     },
     {
-      kind: 'draw',
-      command: 'draw_pedestrian',
-      drawType : <DrawType>{ kind: 'pedestrian' },
+      command: "draw_pedestrian",
+      drawType: { kind: "pedestrian" } as DrawType,
       image: pedestrianIconUrl,
+      kind: "draw",
     },
     {
-      kind: 'action',
-      command: 'print',
+      command: "print",
       image: printIconUrl,
+      kind: "action",
     },
     {
-      kind: 'action',
-      command: 'open',
+      command: "open",
       image: openIconUrl,
+      kind: "action",
     },
     {
-      kind: 'action',
-      command: 'save',
+      command: "save",
       image: saveIconUrl,
+      kind: "action",
     },
     {
-      kind: 'texture',
-      command: 'fill',
+      color: (this.fillState[this.activeFill] as TextureTool).color,
+      command: "fill",
       image: this.fillState[this.activeFill].image,
-      color: (this.fillState[this.activeFill]as TextureTool).color,
-      texture : (this.fillState[this.activeFill]as TextureTool).texture
-    }
+      kind: "texture",
+      texture: (this.fillState[this.activeFill] as TextureTool).texture,
+    },
   ];
   private activeTool: Tool = this.tools[0];
-  
 
+  constructor(private translateService: TranslateService) {}
 
-  constructor(private translateService: TranslateService){ }
-
-
-  private drawTools(): Array<Tool> {
-    return this.tools.filter( (tool) => tool.kind === 'draw');
-  }
-
-  private editTools(): Array<Tool> {
-    return this.tools.filter( (tool) => tool.kind === 'edit');
-  }
-
-  private actionTools(): Array<Tool> {
-    return this.tools.filter( (tool) => tool.kind === 'action');
-  }
-
-  private textureTools(): Array<Tool> {
-    return this.tools.filter( (tool) => tool.kind === 'texture');
-  }
-
-  public changeFillTool():string{
-    const item : TextureTool = (this.tools.filter( (tool) => tool.command === 'fill'))[0] as TextureTool;
+  public changeFillTool(): string {
+    const item: TextureTool = this.tools.filter(
+      (tool) => tool.command === "fill",
+    )[0] as TextureTool;
     this.increaseActiveFill();
-    item.color = (this.fillState[this.activeFill]as TextureTool).color;
+    item.color = (this.fillState[this.activeFill] as TextureTool).color;
     (item as Tool).image = this.fillState[this.activeFill].image;
-    item.texture = (this.fillState[this.activeFill]as TextureTool).texture;
+    item.texture = (this.fillState[this.activeFill] as TextureTool).texture;
 
     return item.texture;
   }
 
-  private increaseActiveFill() : void{
-    this.activeFill++;
-    if(this.fillState.length == this.activeFill)
-      this.activeFill = 0;
-  }
-
-  public isActive(tool: Tool){
+  public isActive(tool: Tool) {
     return tool === this.activeTool;
   }
 
@@ -195,18 +227,40 @@ export class ToolbarMapComponent {
   }
 
   public changeEditableState(): void {
-      this.activeTool = this.tools[0];
+    this.activeTool = this.tools[0];
   }
 
-  public getActiveToolKind(): string{
+  public getActiveToolKind(): string {
     return this.activeTool.kind;
   }
 
   public isEditableEditButton(): boolean {
-    if(this.activeTab){
-      return this.activeTab.kind !== 'osm';
+    if (this.activeTab) {
+      return this.activeTab.kind !== "osm";
     }
     return false;
   }
 
+  private drawTools(): Tool[] {
+    return this.tools.filter((tool) => tool.kind === "draw");
+  }
+
+  private editTools(): Tool[] {
+    return this.tools.filter((tool) => tool.kind === "edit");
+  }
+
+  private actionTools(): Tool[] {
+    return this.tools.filter((tool) => tool.kind === "action");
+  }
+
+  private textureTools(): Tool[] {
+    return this.tools.filter((tool) => tool.kind === "texture");
+  }
+
+  private increaseActiveFill(): void {
+    this.activeFill++;
+    if (this.fillState.length === this.activeFill) {
+      this.activeFill = 0;
+    }
+  }
 }

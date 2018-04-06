@@ -1,4 +1,4 @@
-declare module 'braille' {
-    function toBraille(string: text): string;
-    function toText(string: braille): string;
+declare module "braille" {
+    function toBraille(text: string): string;
+    function toText(braille: string): string;
 }

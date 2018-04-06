@@ -3,18 +3,25 @@
  * (jca)
  */
 
-
-export interface Vector2d { x: number, y: number }
-export interface Plane2d { A: Vector2d, B: Vector2d, C: Vector2d, D: Vector2d }
+export interface Vector2d {
+  x: number;
+  y: number;
+}
+export interface Plane2d {
+  A: Vector2d;
+  B: Vector2d;
+  C: Vector2d;
+  D: Vector2d;
+}
 
 /*
  * clone a vector
  */
-export function clone(v: Vector2d){
+export function clone(v: Vector2d) {
   return {
     x: v.x,
-    y: v.y
-  }
+    y: v.y,
+  };
 }
 
 /*
@@ -23,17 +30,17 @@ export function clone(v: Vector2d){
 export function perp(v: Vector2d) {
   return {
     x: -v.y,
-    y: v.x
-  }
+    y: v.x,
+  };
 }
 
 /*
  * addVec sum two 2d vectors
  */
-export function addVec(v1: Vector2d, v2: Vector2d){
+export function addVec(v1: Vector2d, v2: Vector2d) {
   return {
     x: v1.x + v2.x,
-    y: v1.y + v2.y
+    y: v1.y + v2.y,
   };
 }
 
@@ -48,17 +55,17 @@ export function subVec(v1: Vector2d, v2: Vector2d) {
  * subVec substrac v2 from v1
  */
 export function norm(v: Vector2d) {
-  return Math.sqrt( v.x*v.x + v.y*v.y );
+  return Math.sqrt(v.x * v.x + v.y * v.y);
 }
 
 /*
  * multVec multiply a v vector by a factor n
  */
 export function multVec(n: number, v: Vector2d) {
-    return {
-        x: v.x * n,
-        y: v.y * n
-    };
+  return {
+    x: v.x * n,
+    y: v.y * n,
+  };
 }
 
 /*
@@ -100,10 +107,18 @@ export function det(v1: Vector2d, v2: Vector2d) {
  *   / /     x  \       | /      x  |
  *  B -----_____ D      B --------- D
  */
-export function transform(OP: Vector2d, O: Plane2d, finalPlan: Plane2d): Vector2d {
-
-  if (O.A === undefined || O.B === undefined || O.C === undefined || O.D === undefined){
-    return <Vector2d> {x: 0, y: 0};
+export function transform(
+  OP: Vector2d,
+  O: Plane2d,
+  finalPlan: Plane2d,
+): Vector2d {
+  if (
+    O.A === undefined ||
+    O.B === undefined ||
+    O.C === undefined ||
+    O.D === undefined
+  ) {
+    return { x: 0, y: 0 } as Vector2d;
   }
   const PA = subVec(O.A, OP); // PA = OA - OP;
   const PB = subVec(O.B, OP); // PB = OB - OP;
@@ -111,9 +126,9 @@ export function transform(OP: Vector2d, O: Plane2d, finalPlan: Plane2d): Vector2
   const PD = subVec(O.D, OP); // PD = OD - OP;
 
   const BC = subVec(O.C, O.B); // BC = OC - OB
-  const BP = subVec(OP, O.B);  // BP = OP - OB
+  const BP = subVec(OP, O.B); // BP = OP - OB
 
-  let PX;     // PX is PA or PD
+  let PX; // PX is PA or PD
   let finalX; // finalX is PA' or PD'
 
   // According to the position of OP, we need to consider a specific area
@@ -146,10 +161,12 @@ export function transform(OP: Vector2d, O: Plane2d, finalPlan: Plane2d): Vector2
 
   // transformation. P_ is P'
   const total = alpha + beta + gamma;
-  const P_ = (addVec(multVec(alpha, finalX), addVec(multVec(beta, finalPlan.B), multVec(gamma, finalPlan.C))));
+  const P_ = addVec(
+    multVec(alpha, finalX),
+    addVec(multVec(beta, finalPlan.B), multVec(gamma, finalPlan.C)),
+  );
   P_.x /= total;
   P_.y /= total;
 
   return P_;
-
 }

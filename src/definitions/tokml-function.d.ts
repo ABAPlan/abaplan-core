@@ -1,6 +1,6 @@
 // import { GeoJsonObject } from "geojson";
 
-declare module 'tokml' {
+declare module "tokml" {
     interface Options {
         name?: string;
         description?: string;
@@ -11,7 +11,7 @@ declare module 'tokml' {
     }
 
     function tokml(geojsonObject: GeoJsonObject, options: tokml.Options): string;
-    
+
     namespace tokml {} // workaround: https://github.com/Microsoft/TypeScript/issues/5073#issue-109478860
     export = tokml;
 }

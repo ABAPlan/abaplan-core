@@ -1,0 +1,25 @@
+export default {
+  building: ["batiment"],
+  green: [
+    "roseliere",
+    "paturage_boise_ouvert",
+    "tourbiere",
+    "autre_verte",
+    "autre_culture_intensive",
+    "paturage_boise_dense",
+    "autre_boisee",
+    "jardin",
+    "foret_dense",
+    "vigne",
+    "champ_pre_paturage",
+  ],
+  hard: [
+    "ilot",
+    "trottoir",
+    "autre_revetement_dur",
+    "rocher",
+    "place_aviation",
+  ],
+  linear: ["route_chemin", "chemin_de_fer"],
+  water: ["eau_stagnante", "bassin", "cours_eau", "fontaine"],
+};
