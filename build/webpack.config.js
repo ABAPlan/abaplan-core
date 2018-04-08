@@ -1,4 +1,5 @@
 const path = require("path");
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -46,7 +47,18 @@ module.exports = {
       },
       {
         test: /\.ts$/,
-        loaders: ["ts-loader", "angular2-template-loader"]
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              // disable type checker - we will use it in fork plugin
+              transpileOnly: true,
+            }
+          },
+          {
+            loader: "angular2-template-loader",
+          }
+        ],
       },
       {
         test: /\.(html|css)$/,
@@ -59,6 +71,9 @@ module.exports = {
     libraryTarget: "amd", // necessary for esri (arcgis)
     path: path.resolve(__dirname, "../dist"),
   },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin()
+  ],
   resolve: {
     alias: {
       Assets: path.resolve(__dirname, "../assets"),
