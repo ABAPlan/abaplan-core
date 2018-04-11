@@ -1,22 +1,13 @@
 #esri-map {
     width: 1058px;
     height: 720px;
-    border-style: solid;
-    border-width: 2px;
-    position:relative;
+    border-style: solid 2px #000000;
+    margin: auto;
 }
 
-.row {
-    padding-bottom: 4px;
-}
-
-.need-zoom {
-    background: repeating-linear-gradient(   
-        45deg,  
-        #ffffff,   
-        #ffffff 10px,   
-        #9a9a9a 10px,
-        #9a9a9a 20px );
+.searchBar {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .center-div {
@@ -27,40 +18,39 @@
   vertical-align: middle;
 }
 
-.dataMap{
+.hide-on-screen {
     display: none;
 }
 
 @media print {
 
-    .load{
+    @page {
+        size: 320mm 450mm;  
+        margin: 0;
+    }
+
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hide-on-print {
         display: none;
     }
 
     #esri-map {
-        margin-left: 0px;
-    }
+        margin: 0;
+        padding: 0;
 
-
-    .map {
-        border-style:solid;
-        border: 5px;
         overflow: hidden;
-
-        margin-top: 1%;
-        margin-bottom: 0px;
-        
     }
 
-     .searchBar{
-        display: none;
+    .hide-on-screen {
+        display: block;
+        margin-top: 0px;
     }
-
-    .dataMap{
-         display: block;
-         margin-top: 0px;
-    }
-
      
     .titleMap{     
         text-align: left;
@@ -83,6 +73,4 @@
     .text{
         font-size: 150%;
     }
-
-
 }

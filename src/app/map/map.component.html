@@ -1,34 +1,41 @@
-<div class="row searchBar" [hidden]="!searchable">
-    <div id="search"></div>
-</div>
-<div class="row">
-    <div id="esri-map" class="map" [ngClass]="{'need-zoom':needZoom}">
-
-      <img  [hidden]="!mapLoading"
-            src="{{ loadingSpinnerURL }}"
-            class="center-div load"
-            style="z-index:999;"
-      />
-
-      <p
-       [hidden]="!needZoom"
-        style="margin-top:290px;text-align: center;"
-
-        class="center-div">
-          <i class="glyphicon glyphicon glyphicon-zoom-in"
-          style="font-size:100px;"></i> <br/>
-            {{ mapZoom }}
-      </p>
+<div class="row searchBar hide-on-print" [hidden]="!searchable">
+    <div class="col-xs-12">
+        <div id="search"></div>
     </div>
 </div>
-
-<div>
-            <div class="row dataMap">
-                <div class="titleMap text"> {{getTitle()}}</div>
-                <div class="idMap text"> {{getId()}}</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div style="width: 100%;">
+            <div id="esri-map" class="map" [ngClass]="{'need-zoom':needZoom}">
+                <img
+                    [hidden]="!mapLoading"
+                    src="{{ loadingSpinnerURL }}"
+                    class="center-div hide-on-print"
+                    style="z-index:999;"
+                />
+            
+                <p
+                    [hidden]="!needZoom"
+                    style="margin-top:290px;text-align: center;"
+            
+                    class="center-div"
+                >
+                    <i class="glyphicon glyphicon glyphicon-zoom-in"
+                    style="font-size:100px;"></i>
+                    <br/>
+                    {{ mapZoom }}
+                </p>
             </div>
-            <div class="row dataMap">
-                <div class="titleMap braille"> {{getBrailleTitle()}} </div>
-                <div class="idMap braille"> {{getBrailleId()}} </div>
-            </div>
+        </div>
+    </div>
+</div>
+<div class="row hide-on-screen">
+    <div class="row">
+        <div class="titleMap text"> {{getTitle()}}</div>
+        <div class="idMap text"> {{getId()}}</div>
+    </div>
+    <div class="row">
+        <div class="titleMap braille"> {{getBrailleTitle()}} </div>
+        <div class="idMap braille"> {{getBrailleId()}} </div>
+    </div>
 </div>

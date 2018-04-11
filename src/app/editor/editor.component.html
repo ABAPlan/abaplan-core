@@ -1,35 +1,39 @@
-<div class="container">
-    <div class="row show-grid title">
-        <h1>{{title}}</h1>
-        <h4>{{ _activeButtonInfo.kind | translate}}</h4>
-    </div>
-
-    <div class="row show-grid">
-        <div class="btn-group form-inline">
-            <button
-                    *ngFor="let tab of _btnInfos"
-                    class="btn btn-primary typeMaps"
-                    [class.active]="isActive(tab)"
-                    (click)="onClick(tab)"> {{ tab.kind | translate }}
-            </button>
+<div id="layout">
+    <div id="main-container" class="container">
+        <div class="row hide-on-print">
+            <div class="col-xs-12">
+                <h1>{{title}}</h1>
+                <h4>{{ _activeButtonInfo.kind | translate}}</h4>
+            </div>
         </div>
-        <aba-select-lang></aba-select-lang>
-    </div>
-
-
-    <div class="row show-grid">
-        <div class="col-md-12">
-
-            <aba-map (onMapInstancied)="initMap($event)"></aba-map>
-
-            <aba-toolbar-map (onUpdateTool)="updateTool($event)"></aba-toolbar-map>
-
+        <div class="row hide-on-print">
+            <div class="col-xs-5">
+                <div class="btn-group">            
+                    <button
+                        *ngFor="let tab of _btnInfos"
+                        class="btn btn-primary typeMaps"
+                        [class.active]="isActive(tab)"
+                        (click)="onClick(tab)"> {{ tab.kind | translate }}
+                    </button>
+                </div>
+                <aba-select-lang></aba-select-lang>
+            </div>
+            <div class="col-xs-7 text-right">
+                <aba-toolbar-map (onUpdateTool)="updateTool($event)"></aba-toolbar-map>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <aba-map (onMapInstancied)="initMap($event)"></aba-map>
+            </div>
+        </div>
+
     </div>
 
+    <div class="hide-on-print">
+        <aba-modal-maps (onSelectEvent)="selectMap($event)"></aba-modal-maps>
+        <aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
+        <aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
+        <aba-modal-yesno (onYesEvent)="setMapAsSavable($event)" (onCloseEvent)="printMapWithoutSaving($event)"></aba-modal-yesno>
+    </div>
 </div>
-
-<aba-modal-maps (onSelectEvent)="selectMap($event)"></aba-modal-maps>
-<aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
-<aba-modal-save-map (onSaveEvent)="insertMap($event)"></aba-modal-save-map>
-<aba-modal-yesno (onYesEvent)="setMapAsSavable($event)" (onCloseEvent)="printMapWithoutSaving($event)"></aba-modal-yesno>

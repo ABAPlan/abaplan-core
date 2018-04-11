@@ -1,30 +1,18 @@
-.show-grid {
-    margin-bottom:10px;
+#main-container {
+    overflow-x: hidden;
+    width: 1088px;
 }
-
-aba-map {
-    float: left;
-}
-
-aba-toolbar-map {
-    float: left;
-    width: 55px;
-    padding-top: 38px;
-    margin-left: 40px;
-}
-
 
 @media print {
 
-    aba-toolbar-map ,aba-select-lang,aba-modal-yesno,.title,.typeMaps,.arcgisSearch{
+    .hide-on-print {
        display: none;
     }
 
-    .container{ 
-        margin-left: 8%;  
-        
+    #layout {
+        width: 100%;
+        padding: 1cm;
     }
-    
 }
 
 
