@@ -10,6 +10,7 @@ const appRoutes: Routes = [
   { path: "", pathMatch: "full", component: EditorComponent},
   { path: "touchpad-voice/:id", component: TouchpadComponent },
   { path: "create-map", component: BlindCreatorComponent },
+  { path: ":id", redirectTo: "touchpad-voice/:id" },
 ];
 
 @NgModule({
