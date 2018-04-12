@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-
 import { GeoService } from "../core/geo.service";
 import { VoiceService } from "../core/voice.service";
 import { MapService } from "../map/map.service";

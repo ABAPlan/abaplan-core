@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
+import { TranslateService } from "ng2-translate";
 
-import {TranslateService} from "ng2-translate";
-import {ScalarObservable} from "rxjs/observable/ScalarObservable";
 @Component({
   selector: "aba-plan",
   template: "<router-outlet></router-outlet>",

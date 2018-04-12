@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import * as _ from "lodash";
-
 import { TranslateService } from "ng2-translate";
-
 import { OptionMap } from "../../map/map";
 import { MapService } from "../../map/map.service";
 

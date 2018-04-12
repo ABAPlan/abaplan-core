@@ -1,4 +1,4 @@
-import {RootLayer} from "../layer";
+import { RootLayer } from "../layer";
 import OsmSubLayer from "./OsmSubLayer";
 
 /**

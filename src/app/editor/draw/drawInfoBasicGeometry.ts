@@ -12,18 +12,6 @@ import EsriSymbol = require("esri/symbols/Symbol");
 import Draw = require("esri/toolbars/draw");
 import Edit = require("esri/toolbars/edit");
 
-import * as _ from "lodash";
-
-import {
-  addVec,
-  clone,
-  multVec,
-  norm,
-  perp,
-  subVec,
-  Vector2d,
-} from "../../core/vector2d";
-
 import * as blackDotTextureUrl from "Assets/img/textures/blackDot.png";
 
 export type DrawGraphic = (graphic: Graphic) => void;

@@ -1,32 +1,20 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from "@angular/core";
-import { LayerType } from "../../map/layer";
-import { DrawType } from "../drawEditMap";
-
-import { TranslateService } from "ng2-translate";
-
-import * as blackTextureFillUrl from "Assets/img/textures/blackTextureFill.png";
-import * as whiteTextureFillUrl from "Assets/img/textures/whiteTextureFill.png";
-
-import * as waterIconUrl from "Assets/img/icons/textures/water.png";
-
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import * as deleteIconUrl from "Assets/img/icons/mouseActions/delete.png";
 import * as moveIconUrl from "Assets/img/icons/mouseActions/move.png";
 import * as selectIconUrl from "Assets/img/icons/mouseActions/select.png";
-
+import * as openIconUrl from "Assets/img/icons/operations/open.png";
+import * as printIconUrl from "Assets/img/icons/operations/print.png";
+import * as saveIconUrl from "Assets/img/icons/operations/save.png";
 import * as circleIconUrl from "Assets/img/icons/shapes/circle.png";
 import * as pedestrianIconUrl from "Assets/img/icons/shapes/pedestrian.png";
 import * as polygonIconUrl from "Assets/img/icons/shapes/polygon.png";
 import * as tiledLinesIconUrl from "Assets/img/icons/shapes/tiledLines.png";
-
-import * as openIconUrl from "Assets/img/icons/operations/open.png";
-import * as printIconUrl from "Assets/img/icons/operations/print.png";
-import * as saveIconUrl from "Assets/img/icons/operations/save.png";
+import * as waterIconUrl from "Assets/img/icons/textures/water.png";
+import * as blackTextureFillUrl from "Assets/img/textures/blackTextureFill.png";
+import * as whiteTextureFillUrl from "Assets/img/textures/whiteTextureFill.png";
+import { TranslateService } from "ng2-translate";
+import { LayerType } from "../../map/layer";
+import { DrawType } from "../drawEditMap";
 
 export interface ITool {// tslint:disable-line interface-name
   image?: string;

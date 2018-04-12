@@ -6,11 +6,11 @@ import ArcgisMap = require("esri/map");
 import ArcgisDraw = require("esri/toolbars/draw");
 import ArcgisEdit = require("esri/toolbars/edit");
 
-import {DrawInfo} from "./draw/drawInfoBasicGeometry";
-import {DrawInfoCircle} from "./draw/drawInfoCircle";
-import {DrawInfoPedestrian} from "./draw/drawInfoPedestrian";
-import {DrawInfoPolygon} from "./draw/drawInfoPolygon";
-import {DrawInfoPolyline} from "./draw/drawInfoPolyline";
+import { DrawInfo } from "./draw/drawInfoBasicGeometry";
+import { DrawInfoCircle } from "./draw/drawInfoCircle";
+import { DrawInfoPedestrian } from "./draw/drawInfoPedestrian";
+import { DrawInfoPolygon } from "./draw/drawInfoPolygon";
+import { DrawInfoPolyline } from "./draw/drawInfoPolyline";
 
 interface CircleDrawType {
   kind: "circle";

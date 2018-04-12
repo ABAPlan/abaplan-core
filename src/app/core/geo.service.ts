@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs/Observable";
+import { GeoProvider, GoogleProvider } from "./googleProvider";
 
 import Point = require("esri/geometry/Point");
 import WebMercatorUtils = require("esri/geometry/webMercatorUtils");
-import { Observable } from "rxjs/Observable";
-
-import { GeoProvider, GoogleProvider } from "./googleProvider";
 
 @Injectable()
 export class GeoService {

@@ -4,10 +4,9 @@ import UniqueValueRenderer = require("esri/renderers/UniqueValueRenderer");
 import SimpleFillSymbol = require("esri/symbols/SimpleFillSymbol");
 import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
 
-import {WATER_SYMBOL} from "../symbols";
-
-import {URL_FEATURE_LAYER_SURFACE} from "../../../conf/featureLayerApiUrls";
+import { URL_FEATURE_LAYER_SURFACE } from "../../../conf/featureLayerApiUrls";
 import Surfaces from "../../../conf/surfaces";
+import { WATER_SYMBOL } from "../symbols";
 
 /**
  * Sublayer for city details

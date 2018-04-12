@@ -2,12 +2,10 @@ import googleMaps = require("google-maps");
 
 import Point = require("esri/geometry/Point");
 import { Observable } from "rxjs/Observable";
-
+import { GOOGLE_GEOCODE_KEY } from "../../conf/secret";
 import { Direction } from "./direction";
 
 import LatLng = google.maps.LatLng;
-
-import { GOOGLE_GEOCODE_KEY } from "../../conf/secret";
 
 export interface GeoProvider {
   address(location: Point): Observable<string | undefined>;

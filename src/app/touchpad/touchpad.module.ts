@@ -1,14 +1,12 @@
 import { NgModule } from "@angular/core";
-
 import { GeoService } from "../core/geo.service";
 import { KmlService } from "../core/kml.service";
-import {StateService} from "../core/state.service";
-import {TransportService} from "../core/transport.service";
+import { StateService } from "../core/state.service";
+import { TransportService } from "../core/transport.service";
 import { VoiceService } from "../core/voice.service";
-import { MapComponent } from "../map/map.component";
 import { MapService } from "../map/map.service";
-import {SharedModule} from "../shared/shared.module";
-import {TouchpadComponent} from "./touchpad.component";
+import { SharedModule } from "../shared/shared.module";
+import { TouchpadComponent } from "./touchpad.component";
 
 @NgModule({
   declarations: [

@@ -1,10 +1,8 @@
+import { inject, TestBed } from "@angular/core/testing";
+import { HttpModule } from "@angular/http";
+import "rxjs/add/operator/map";
 import { OptionMap } from "./map";
 import { MapService } from "./map.service";
-
-import { HttpModule } from "@angular/http";
-
-import { async, inject, TestBed } from "@angular/core/testing";
-import "rxjs/add/operator/map";
 
 describe("MapService", () => {
   // Before each, import module and providers

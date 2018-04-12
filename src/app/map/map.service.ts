@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, RequestOptions, Response } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import "rxjs/add/operator/toPromise";
 import { Observable } from "rxjs/Observable";
-
 import { LayerType } from "./layer";
-import { AbaMap, OptionMap } from "./map";
+import { OptionMap } from "./map";
 
 const LAYER_TYPE_ID: { [id: number]: LayerType } = {
   0: { kind: "square" },

@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-
 import { ArtyomProvider, VoiceProvider } from "./artyomProvider";
 
 @Injectable()

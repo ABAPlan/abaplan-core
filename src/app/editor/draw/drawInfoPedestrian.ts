@@ -13,18 +13,8 @@ import Draw = require("esri/toolbars/draw");
 import Edit = require("esri/toolbars/edit");
 
 import * as _ from "lodash";
-
-import {
-  addVec,
-  clone,
-  multVec,
-  norm,
-  perp,
-  subVec,
-  Vector2d,
-} from "../../core/vector2d";
-
-import { DrawGraphic, DrawInfo, DrawInfoBasicGeometry } from "./drawInfoBasicGeometry";
+import { addVec, clone, multVec, norm, perp, subVec, Vector2d } from "../../core/vector2d";
+import { DrawGraphic, DrawInfo } from "./drawInfoBasicGeometry";
 
 export class DrawInfoPedestrian implements DrawInfo {
   public geometryType: string = Draw.LINE;

@@ -1,15 +1,12 @@
 import { Component, ViewChild } from "@angular/core";
-
 import { TranslateService } from "ng2-translate";
-
-import Point = require("esri/geometry/Point");
 import "rxjs/add/operator/switchMap";
 import { ScalarObservable } from "rxjs/observable/ScalarObservable";
-
 import { GeoService } from "../core/geo.service";
 import { VoiceService } from "../core/voice.service";
 import { MapComponent } from "../map/map.component";
-import { MapService } from "../map/map.service";
+
+import Point = require("esri/geometry/Point");
 
 interface Translations {
   value: string;

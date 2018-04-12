@@ -5,12 +5,10 @@ import SimpleFillSymbol = require("esri/symbols/SimpleFillSymbol");
 import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
 
 import * as _ from "lodash";
-
-import {URL_FEATURE_LAYER_SURFACE} from "../../../conf/featureLayerApiUrls";
+import { URL_FEATURE_LAYER_SURFACE } from "../../../conf/featureLayerApiUrls";
 import Surfaces from "../../../conf/surfaces";
-import {BUILDING_SYMBOL, HARD_SYMBOL, WATER_SYMBOL} from "../symbols";
-
 import { removeCommonSegments } from "../polygon";
+import { BUILDING_SYMBOL, HARD_SYMBOL, WATER_SYMBOL } from "../symbols";
 
 /**
  * Sublayer for square details

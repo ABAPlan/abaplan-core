@@ -1,5 +1,4 @@
 import artyomjs from "artyom.js/source/artyom";
-
 import * as _ from "lodash";
 
 export interface VoiceProvider {

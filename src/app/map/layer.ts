@@ -1,4 +1,3 @@
-import { LayerOptions } from "esri";
 import Color = require("esri/Color");
 import esriConfig = require("esri/config");
 import geometryEngine = require("esri/geometry/geometryEngine");
@@ -11,8 +10,6 @@ import PictureMarkerSymbol = require("esri/symbols/PictureMarkerSymbol");
 import SimpleFillSymbol = require("esri/symbols/SimpleFillSymbol");
 import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
 import urlUtils = require("esri/urlUtils");
-
-import * as _ from "lodash";
 
 export type LayerType = City | Square | Osm;
 export interface City {

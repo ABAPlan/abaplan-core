@@ -4,12 +4,11 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
-
-import {AppRoutingModule} from "../app-routing.module";
+import { AppRoutingModule } from "../app-routing.module";
 import { MapComponent } from "../map/map.component";
 import { DropPipe } from "./drop.pipe";
 import { LengthPipe } from "./length.pipe";
-import {ModalYesNoComponent} from "./modal-yesno/modal-yesno.component";
+import { ModalYesNoComponent } from "./modal-yesno/modal-yesno.component";
 import { TakePipe } from "./take.pipe";
 
 @NgModule({

@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-
 import * as fileSaver from "file-saver";
 import * as geoJson from "geojson";
 import * as tokml from "tokml";

@@ -1,10 +1,13 @@
-import {Component, ElementRef, ViewChild} from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { Component, ElementRef, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { TranslateService } from "ng2-translate";
 import "rxjs/add/operator/switchMap";
+import { ScalarObservable } from "rxjs/observable/ScalarObservable";
 import { GeoService } from "../core/geo.service";
 import { KmlService } from "../core/kml.service";
 import { StateService } from "../core/state.service";
 import { TransportService } from "../core/transport.service";
+import { Plane2d, transform, Vector2d } from "../core/vector2d";
 import { VoiceService } from "../core/voice.service";
 import { OptionMap } from "../map/map";
 import { MapComponent } from "../map/map.component";
@@ -15,11 +18,7 @@ import Point = require("esri/geometry/Point");
 import WebMercatorUtils = require("esri/geometry/webMercatorUtils");
 import Graphic = require("esri/graphic");
 import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
-import {Plane2d, transform, Vector2d} from "../core/vector2d";
 import LatLng = google.maps.LatLng;
-
-import {TranslateService} from "ng2-translate";
-import {ScalarObservable} from "rxjs/observable/ScalarObservable";
 
 interface Translations {
   value: string;

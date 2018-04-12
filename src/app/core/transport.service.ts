@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import Point = require("esri/geometry/Point");
 import { Observable } from "rxjs/Observable";
-
 import { OpendataCHProvider, TransportProvider } from "./opendataProvider";
+
+import Point = require("esri/geometry/Point");
 
 @Injectable()
 export class TransportService {

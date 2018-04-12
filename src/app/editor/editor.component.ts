@@ -1,22 +1,14 @@
 import { Component, ViewChild } from "@angular/core";
-
+import { TranslateService } from "ng2-translate";
+import { ScalarObservable } from "rxjs/observable/ScalarObservable";
 import { LayerType } from "../map/layer";
 import { OptionMap } from "../map/map";
 import { MapComponent } from "../map/map.component";
-import {
-  Command,
-  DrawTool,
-  KindTool,
-  ToolbarMapComponent,
-} from "./toolbar/toolbar.component";
-
 import { ModalYesNoComponent } from "../shared/modal-yesno/modal-yesno.component";
 import { AbaDrawEdit } from "./drawEditMap";
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
-
-import { TranslateService } from "ng2-translate";
-import { ScalarObservable } from "rxjs/observable/ScalarObservable";
+import { Command, DrawTool, KindTool, ToolbarMapComponent } from "./toolbar/toolbar.component";
 
 type ButtonInfo = LayerType;
 

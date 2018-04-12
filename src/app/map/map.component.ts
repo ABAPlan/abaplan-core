@@ -1,13 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from "@angular/core";
-
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import * as loadingSpinnerUrl from "Assets/img/spin.gif";
+import * as br from "braille";
 import "rxjs/add/operator/toPromise";
+import { LayerType } from "./layer";
+import { AbaMap, OptionMap } from "./map";
+import { MapService } from "./map.service";
 
 import ArcgisSearch = require("esri/dijit/Search");
 import Extent = require("esri/geometry/Extent");
@@ -15,13 +12,6 @@ import Point = require("esri/geometry/Point");
 import Graphic = require("esri/graphic");
 import Layer = require("esri/layers/layer");
 
-import * as br from "braille";
-
-import { LayerType } from "./layer";
-import { AbaMap, OptionMap } from "./map";
-import { MapService } from "./map.service";
-
-import * as loadingSpinnerUrl from "Assets/img/spin.gif";
 @Component({
   selector: "aba-map",
   styleUrls: ["map.component.css"],

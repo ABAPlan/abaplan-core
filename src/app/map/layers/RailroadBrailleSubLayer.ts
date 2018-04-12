@@ -4,7 +4,7 @@ import UniqueValueRenderer = require("esri/renderers/UniqueValueRenderer");
 import SimpleFillSymbol = require("esri/symbols/SimpleFillSymbol");
 import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
 
-import {URL_FEATURE_LAYER_LINEAR} from "../../../conf/featureLayerApiUrls";
+import { URL_FEATURE_LAYER_LINEAR } from "../../../conf/featureLayerApiUrls";
 
 /**
  * Sublayer for railroad details
