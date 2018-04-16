@@ -1,7 +1,7 @@
 #esri-map {
     width: 1058px;
     height: 720px;
-    border-style: solid 2px #000000;
+    border: solid 2px #000000;
     margin: auto;
 }
 
