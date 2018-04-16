@@ -21,7 +21,6 @@ before_script:
 - npm install -g typescript
 - npm install -g karma
 - npm install
-- grep -v '^///' < node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts > node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts && mv node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts
 - echo "export let GOOGLE_GEOCODE_KEY = '$GOOGLE_API_KEY';" > src/conf/secret.ts
 - tsc
 
