@@ -1,5 +1,38 @@
 const path = require("path");
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// May be improved by selecting only the needed files
+const copyWebpackPluginConfig = [
+  'i18n/*.json',
+  {
+    from: 'assets/css/abaplans.css',
+    to: 'css/abaplans.css',
+  },
+];
+
+const htmlWebpackIncludeAssetsPluginConfig = {
+  assets: [
+    'css/abaplans.css',
+    '//js.arcgis.com/3.20/esri/css/esri.css',
+    '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+    '//code.jquery.com/jquery-3.3.1.min.js',
+    '//js.arcgis.com/3.20/init.js',// must be after jquery
+  ],
+  append: false
+};
+
+const HtmlWebpackPluginConfig = {
+  meta: {
+    viewport: 'width=device-width, initial-scale=1',
+  },
+  template: path.resolve(__dirname, "../src/index.html"),
+  inject: 'head',
+  chunks: [],
+};
 
 module.exports = {
   entry: {
@@ -41,7 +74,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             outputPath: "assets/",
-            publicPath: "dist/assets/",
+            publicPath: "assets/",
           }
         }
       },
@@ -72,7 +105,10 @@ module.exports = {
     path: path.resolve(__dirname, "../dist"),
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin()
+    new CopyWebpackPlugin(copyWebpackPluginConfig),
+    new ForkTsCheckerWebpackPlugin(),
+    new HtmlWebpackPlugin(HtmlWebpackPluginConfig),
+    new HtmlWebpackIncludeAssetsPlugin(htmlWebpackIncludeAssetsPluginConfig),
   ],
   resolve: {
     alias: {
