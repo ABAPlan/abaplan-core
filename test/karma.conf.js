@@ -1,4 +1,4 @@
-var webpackConfig = require('./webpack.config');
+var webpackConfig = require('../build/webpack.config');
 webpackConfig.devtool = 'inline-source-map';
 delete webpackConfig.plugins;
 
@@ -12,22 +12,22 @@ module.exports = function (config) {
       // asset (HTML & CSS) paths loaded via Angular's component compiler
       // (these paths need to be rewritten, see proxies section)
       {
-        pattern: './src/**/*.html',
+        pattern: '../src/**/*.html',
         included: false,
         watched: true
       }, {
-        pattern: './src/**/*.css',
+        pattern: '../src/**/*.css',
         included: false,
         watched: true
       },
 
       // paths for debugging with source maps in dev tools
       {
-        pattern: './src/**/*.ts',
+        pattern: '../src/**/*.ts',
         included: false,
         watched: false
       }, {
-        pattern: './src/**/*.js.map',
+        pattern: '../src/**/*.js.map',
         included: false,
         watched: false
       },

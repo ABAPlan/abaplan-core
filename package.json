@@ -15,7 +15,7 @@
     "start-help": "echo Run a developpement server and watch for changes",
     "start": "concurrently \"webpack -d --watch --progress --config ./build/webpack.config.js\" \"lite-server\" ",
     "test-help": "echo Run the tests",
-    "test": "karma start karma.conf.js --single-run",
+    "test": "karma start ./test/karma.conf.js --single-run",
     "tsc-help": "echo Transpile to js",
     "tsc": "tsc",
     "tsc:c-help": "echo Clear the transpiled files safely (remove only the js file that match ts files)",

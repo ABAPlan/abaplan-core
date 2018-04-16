@@ -22,7 +22,7 @@ require('zone.js/dist/fake-async-test');
  any file that ends with '.spec.ts' and get its path. By passing in true
  we say do this recursively
  */
-var appContext = require.context('./', true, /\.spec\.ts/);
+var appContext = require.context('../', true, /\.spec\.ts/);
 
 // get all the files, for each file, call the context function
 // that will require the file and load it up here. Context will
