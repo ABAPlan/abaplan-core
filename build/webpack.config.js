@@ -15,7 +15,7 @@ module.exports = {
       "@angular/router",
       "angular-in-memory-web-api",
       "core-js",
-      "ng2-bootstrap",
+      "ngx-bootstrap",
       "rxjs",
       "zone.js"
     ]
