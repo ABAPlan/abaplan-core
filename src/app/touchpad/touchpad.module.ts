@@ -9,10 +9,8 @@ import { SharedModule } from "../shared/shared.module";
 import { TouchpadComponent } from "./touchpad.component";
 
 @NgModule({
-  declarations: [
-    TouchpadComponent,
-  ],
-  imports:      [ SharedModule ],
+  declarations: [TouchpadComponent],
+  imports: [SharedModule],
   providers: [
     MapService,
     GeoService,
@@ -22,4 +20,4 @@ import { TouchpadComponent } from "./touchpad.component";
     TransportService,
   ],
 })
-export class TouchpadModule { }
+export class TouchpadModule {}
