@@ -3,7 +3,7 @@ import { TranslateService } from "ng2-translate";
 
 @Component({
   selector: "aba-plan",
-  template: "<router-outlet></router-outlet>",
+  template: "<hotkeys-cheatsheet></hotkeys-cheatsheet><router-outlet></router-outlet>",
 })
 export class AppComponent {
   constructor(private translateService: TranslateService) {

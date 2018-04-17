@@ -12,6 +12,7 @@ import { VoiceService } from "../core/voice.service";
 import { OptionMap } from "../map/map";
 import { MapComponent } from "../map/map.component";
 import { MapService } from "../map/map.service";
+import { AbaplanHotkeysService } from "../shared/abaplanHotkeysService";
 
 import Geometry = require("esri/geometry/Geometry");
 import Point = require("esri/geometry/Point");
@@ -61,7 +62,36 @@ export class TouchpadComponent {
     private kmlService: KmlService,
     private transportService: TransportService,
     private _elementRef: ElementRef,
+    private hotkey: AbaplanHotkeysService,
   ) {
+
+    // TODO: move this outside of the code
+    hotkey.addHotkeys([
+      {
+        callback: () => {
+          this.readCommand();
+          return false;
+        },
+        description: "Passe en mode plan (lecture)",
+        hotkeys: ["l", "p"],
+      },
+      {
+        callback: () => {
+          this.searchStation();
+          return false;
+        },
+        description: "Passe en mode transport",
+        hotkeys: "t",
+      },
+      {
+        callback: () => {
+          this.itineraryCommand();
+          return false;
+        },
+        description: "Passe en mode itinéraire",
+        hotkeys: "i",
+      },
+    ]);
 
     /**Init the voice commands and start calibration
      *
