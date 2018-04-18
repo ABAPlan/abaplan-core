@@ -1,40 +1,35 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-
-import { AppRoutingModule } from './app-routing.module';
-import { APP_BASE_HREF } from '@angular/common';
-
-import {TranslateModule} from "ng2-translate";
-
-import {} from '@types/googlemaps';
-
-/* Feature Modules:
- * - TouchpadModule for voices interactivity with touchpad device
- * - EditorModule for editing, creating and saving new maps
- * - BlindCreatorModule for creating and saving new maps for blind people
- */
-import { TouchpadModule } from "./touchpad/touchpad.module";
-import { EditorModule } from "./editor/editor.module";
+import { APP_BASE_HREF } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { HotkeyModule } from "angular2-hotkeys";
+import { TranslateModule } from "ng2-translate";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
 import { BlindCreatorModule } from "./blind-creator/blind-creator.module";
+import { CoreModule } from "./core/core.module";
+import { EditorModule } from "./editor/editor.module";
+import { AbaplanHotkeysService } from "./shared/abaplanHotkeysService";
+import { TouchpadModule } from "./touchpad/touchpad.module";
 
 @NgModule({
-  imports: [
-    TranslateModule.forRoot()
-    , BrowserModule
-    , CoreModule
-    , AppRoutingModule
-    , TouchpadModule
-    , EditorModule
-    , BlindCreatorModule
-  ],
-  declarations: [
-    AppComponent
-  ],
   bootstrap: [ AppComponent ],
-  providers: [{provide: APP_BASE_HREF, useValue : '/' }]
+  declarations: [
+    AppComponent,
+  ],
+  imports: [
+    BrowserModule,
+    CoreModule,
+    AppRoutingModule,
+    TouchpadModule,
+    EditorModule,
+    BlindCreatorModule,
+    TranslateModule.forRoot(),
+    HotkeyModule.forRoot(),
+  ],
+  providers: [
+    AbaplanHotkeysService,
+    {provide: APP_BASE_HREF, useValue : "/" },
+  ],
 })
 
-export class AppModule { }
+export class AppModule {}

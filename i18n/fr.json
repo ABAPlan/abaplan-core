@@ -33,7 +33,10 @@
     "draw_polygon":"Polygone",
     "draw_traits": "Traitillés",
     "draw_pedestrian": "Passage piétons",
-    "fill": "Texture",
+    "texture_black": "Noir",
+    "texture_white": "Blanc",
+    "texture_water": "Eau",
+    "texture_vegetation": "Végétation",
     "print": "Imprimer",
     "open" : "Ouvrir",
     "save": "Sauvegarder",
@@ -68,7 +71,8 @@
         "itineraryEndHelp": " Cette commande permet de sortir du mode itinéraire cela supprime tous le contenu insérer",
 
         "readId": [
-                        { "value": "lecture" }
+                        { "value": "lecture" },
+                        { "value": "plan" }
                   ],
         "readDescri": "obtenir une adresses",
         "readActive": "Mode lecture activé",
@@ -92,8 +96,8 @@
         "search_lower_left":"en bas à gauche",
         "search_lower_right":"en bas à droite",
         "search_center":"au centre",
-        "searchKilometer":"kilomètre",
-        "searchMeter":"mètres",
+        "si_unit_km":"kilomètre",
+        "si_unit_m":"mètre",
         "searchArrived":"Vous êtes arrivé",
         "searchTo":"à",
 

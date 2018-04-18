@@ -1,22 +1,19 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import {TranslateService} from 'ng2-translate';
+import { Component } from "@angular/core";
+import { TranslateService } from "ng2-translate";
 
 @Component({
-  selector: 'aba-select-lang',
-  templateUrl: 'select-lang.component.html',
-  styleUrls: ['select-lang.component.css']
+  selector: "aba-select-lang",
+  styleUrls: ["select-lang.component.css"],
+  templateUrl: "select-lang.component.html",
 })
 export class SelectLangComponent {
+  private _langsDropDowns: string[] = this.translateService.getLangs();
+  private _activeLangsDropDowns: string = this.translateService.getBrowserLang();
 
-  private _langsDropDowns : Array<string> = this.translateService.getLangs();
-  private _activeLangsDropDowns : string = this.translateService.getBrowserLang();;
-
-  constructor(private translateService: TranslateService) {
-  }
+  constructor(private translateService: TranslateService) {}
 
   /** Triggerd when user change the lang */
-  onChange(newValue) {
+  public onChange(newValue) {
     this.translateService.use(newValue);
   }
-
 }

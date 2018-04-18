@@ -19,7 +19,7 @@ img {
 
 .btn .tooltiptext {
     visibility: hidden;
-    width: 120px;
+    width: 130px;
     background-color: #555;
     color: #fff;
     text-align: center;
@@ -29,9 +29,9 @@ img {
     z-index: 1;
     bottom: 125%;
     left: 50%;
-    margin-left: -60px;
     opacity: 0;
     transition: opacity 1s;
+    transform: translateX(-50%);
 }
 
 .btn .tooltiptext::after {

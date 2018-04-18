@@ -33,9 +33,12 @@
     "draw_polygon":"Polygon",
     "draw_traits": "Linie",
     "draw_pedestrian": "Vorübergehen Fussgänger",
-    "fill": "Textur",
+    "texture_black": "Schwarz",
+    "texture_white": "Weiss",
+    "texture_water": "Wasser",
+    "texture_vegetation": "Vegetation",
     "print": "Drucken",
-    "open" : "öffnen",
+    "open" : "Öffnen",
     "save": "Sichern",
 
 "_comment": "Map",
@@ -68,7 +71,8 @@
         "itineraryEndHelp": " Dieser Befehl aus der Mode dieser Route löscht alle Inhalte eingefügt",
 
         "readId": [
-                        { "value": "Lesung" }
+                        { "value": "Lesung" },
+                        { "value": "Plan" }
                   ],
         "readDescri": "Lesung, Voreinstellung",
         "readActive": "Weise Lesung, die aktiviert ist",
@@ -89,8 +93,8 @@
         "search_lower_left":"unten links",
         "search_lower_right":"unten rechts",
         "search_center":"im Mittelpunkt",
-        "searchKilometer":"Kilometer",
-        "searchMeter":"Meter",
+        "si_unit_km":"Kilometer",
+        "si_unit_m":"Meter",
         "searchArrived":"Sie kamen",
         "searchTo":"In",
 

@@ -1,32 +1,27 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { MapService } from "../../map/map.service";
-import { OptionMap } from "../../map/map";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import * as _ from "lodash";
-
-import {TranslateService} from 'ng2-translate';
+import { TranslateService } from "ng2-translate";
+import { OptionMap } from "../../map/map";
+import { MapService } from "../../map/map.service";
 
 @Component({
-  selector: 'aba-modal-maps',
-  templateUrl: 'modal-maps-list.component.html',
-  styleUrls: ['modal-maps-list.component.css']
+  selector: "aba-modal-maps",
+  styleUrls: ["modal-maps-list.component.css"],
+  templateUrl: "modal-maps-list.component.html",
 })
 export class ModalMapComponent {
-
-  @Input('visible') visible: boolean = false;
-  @Output() onSelectEvent: EventEmitter<[number, string]> = new EventEmitter();
+  @Input("visible") public visible: boolean = false;
+  @Output() public onSelectEvent: EventEmitter<[number, string]> = new EventEmitter();
 
   private maps: OptionMap[] = [];
   private queryInputValue: string = "";
   private activePage = 1;
   private readonly chunkListSize = 8;
 
-
-  constructor(private mapService: MapService,private translateService: TranslateService) {
-  }
-
-  private isVisible(): boolean {
-    return this.visible;
-  }
+  constructor(
+    private mapService: MapService,
+    private translateService: TranslateService,
+  ) {}
 
   public open(): void {
     this.visible = true;
@@ -34,20 +29,23 @@ export class ModalMapComponent {
     this.queryInputValue = "";
 
     this.mapService.maps().subscribe(
-      (maps : OptionMap[]) => {
+      (maps: OptionMap[]) => {
         this.maps = maps;
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => console.error(error), // tslint:disable-line no-console
     );
   }
+
   public close(): void {
     this.visible = false;
   }
 
+  private isVisible(): boolean {
+    return this.visible;
+  }
+
   private onChange(): void {
-      this.activePage = 1;
+    this.activePage = 1;
   }
 
   private onClick(info: [number, string]): void {
@@ -56,11 +54,10 @@ export class ModalMapComponent {
   }
 
   private range(n): number[] {
-    return _.range(1, n+1);
+    return _.range(1, n + 1);
   }
 
-  private updateSelectedPage(idPage: number){
+  private updateSelectedPage(idPage: number) {
     this.activePage = idPage;
   }
-
 }

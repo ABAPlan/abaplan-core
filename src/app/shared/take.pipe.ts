@@ -1,9 +1,9 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 import * as _ from "lodash";
 
-@Pipe({name: 'take'})
+@Pipe({name: "take"})
 export class TakePipe implements PipeTransform {
-  transform(collection: any[], n: number): any[] {
+  public transform(collection: any[], n: number): any[] {
     return _.take(collection, n);
   }
 }

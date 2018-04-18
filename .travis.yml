@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - '4.2'
+  - '9.10'
 
 addons:
 apt:
@@ -21,10 +21,7 @@ before_script:
 - npm install -g typescript
 - npm install -g karma
 - npm install
-- npm install bower
-- bower install
-- grep -v '^///' < node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts > node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts && mv node_modules/angular-in-memory-web-api/in-memory-backend.service2.d.ts node_modules/angular-in-memory-web-api/in-memory-backend.service.d.ts
-- echo "export let GOOGLE_GEOCODE_KEY = '$GOOGLE_API_KEY';" > src/app/core/secret.ts
+- echo "export let GOOGLE_GEOCODE_KEY = '$GOOGLE_API_KEY';" > src/conf/secret.ts
 - tsc
 
 script: npm test

@@ -33,7 +33,10 @@
     "draw_polygon":"Polygon",
     "draw_traits": "Traits",
     "draw_pedestrian": "Pedestrian pathway",
-    "fill": "Texture",
+    "texture_black": "Black",
+    "texture_white": "White",
+    "texture_water": "Water",
+    "texture_vegetation": "Vegetation",
     "print": "Print",
     "open" : "Open",
     "save": "Save",
@@ -68,7 +71,8 @@
             "itineraryEndHelp": " This command exits the route mode, which removes all the inserted contents",
 
             "readId":  [
-                           { "value": "read" }
+                           { "value": "read" },
+                           { "value": "plan" }
                        ],
             "readDescri": "Read, default mode",
             "readActive": "Read Mode",
@@ -89,8 +93,8 @@
             "search_lower_left":"at the bottom left",
             "search_lower_right":"at the bottom right",
             "search_center":"in middle",
-            "searchKilometer":"kilometer",
-            "searchMeter":"meter",
+            "si_unit_km":"kilometer",
+            "si_unit_m":"meter",
             "searchArrived":"You have arrived",
             "searchTo":"to",
 

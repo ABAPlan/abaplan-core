@@ -33,7 +33,10 @@
     "draw_polygon": "Poligono",
     "draw_traits": "puntinato",
     "draw_pedestrian": "Passaggio pedoni",
-    "fill": "Struttura",
+    "texture_black": "Nero",
+    "texture_white": "Bianco",
+    "texture_water": "Acqua",
+    "texture_vegetation": "Vegetazione",
     "print": "Stampare",
     "open": "Aprire",
     "save": "Salvaguardare",
@@ -68,7 +71,8 @@
         "itineraryEndHelp": " Questo ordine permette di estrarre del modo itinerario ciò sopprimo tutto il contenuto inserire",
 
         "readId": [
-                        { "value": "lettura" }
+                        { "value": "lettura" },
+                        { "value": "piano" }
                   ],
        "readDescri": "ottenere un indirizzi", 
        "readActive": "Moda lettura attivata",
@@ -91,8 +95,8 @@
         "search_lower_left":"in basso a sinistra",
         "search_lower_right":"in basso a destra",
         "search_center":"al centro",
-        "searchKilometer":"chilometro",
-        "searchMeter":"metri",
+        "si_unit_km":"chilometro",
+        "si_unit_m":"metri",
         "searchArrived":"sei arrivato",
         "searchTo":"al",
 

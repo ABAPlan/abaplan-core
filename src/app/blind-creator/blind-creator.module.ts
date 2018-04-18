@@ -1,20 +1,13 @@
-import { NgModule }           from '@angular/core';
-
-import { MapService }       from '../map/map.service';
+import { NgModule } from "@angular/core";
 import { GeoService } from "../core/geo.service";
 import { VoiceService } from "../core/voice.service";
-import {SharedModule} from "../shared/shared.module";
-import {BlindCreatorComponent} from "./blind-creator.component";
+import { MapService } from "../map/map.service";
+import { SharedModule } from "../shared/shared.module";
+import { BlindCreatorComponent } from "./blind-creator.component";
 
 @NgModule({
-  imports:      [ SharedModule ],
-  declarations: [
-    BlindCreatorComponent
-  ],
-  providers: [
-      MapService
-    , GeoService
-    , VoiceService
-  ]
+  declarations: [BlindCreatorComponent],
+  imports: [SharedModule],
+  providers: [MapService, GeoService, VoiceService],
 })
-export class BlindCreatorModule { }
+export class BlindCreatorModule {}
