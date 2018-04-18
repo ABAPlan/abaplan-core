@@ -152,7 +152,7 @@ export class TouchpadComponent {
         }
         this.nbClick += 1;
 
-      } else if (this.isCalibrated()) {
+      } else {
 
         // Transformation from device coordinates to esri map coordinates
 
