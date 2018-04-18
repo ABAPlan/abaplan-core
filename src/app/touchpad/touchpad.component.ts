@@ -573,7 +573,7 @@ export class TouchpadComponent {
     );
   }
 
-  /** Notity the user of direction */
+  /** Notify the user of direction */
   private searchLocationClick(location: Point, touchPoint: Point): void {
     const data: string[] = this.geoService.directionToText(location, touchPoint);
     let diction: string;
