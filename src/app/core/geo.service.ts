@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
+import { METERS_BY_KILOMETER } from "../../conf/internationalSystem";
+import { SEARCH_BY_PRESS_PRECISION_IN_METERS } from "../../conf/touchpad-voice";
 import { GeoProvider, GoogleProvider } from "./googleProvider";
 
 import Point = require("esri/geometry/Point");
@@ -19,27 +21,30 @@ export class GeoService {
 
   /** Translate Direction in key word for translate */
   public directionToText(target: Point, point: Point): string[] {
-    const data: string[] = [];
-
     const direction =
       "search_" + this.geoProvider.direction(target, point).direction;
-    const dist = this.geoProvider.distance(target, point);
+    const distanceInMeters = this.geoProvider.distance(target, point);
 
-    if (dist >= 1000) {
-      data.push(direction);
-      data.push("searchTo");
-      data.push(String(Math.floor(dist / 1000)));
-      data.push("searchKilometer");
-      return data;
-    } else if (dist > 20) {
-      data.push(direction);
-      data.push("searchTo");
-      data.push(String(Math.floor(dist)));
-      data.push("searchMeter");
-      return data;
-    } else {
-      data.push("searchArrived");
-      return data;
+    // If distant that at less one kilometer
+    if (distanceInMeters >= METERS_BY_KILOMETER) {
+      return [
+        direction,
+        "searchTo",
+        String(Math.floor(distanceInMeters / METERS_BY_KILOMETER)),
+        "searchKilometer",
+      ];
     }
+
+    // If distant that more than the precision
+    if (distanceInMeters > SEARCH_BY_PRESS_PRECISION_IN_METERS) {
+      return [
+        direction,
+        "searchTo",
+        String(String(Math.floor(distanceInMeters))),
+        "searchMeter",
+      ];
+    }
+
+    return ["searchArrived"];
   }
 }
