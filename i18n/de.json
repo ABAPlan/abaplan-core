@@ -68,7 +68,8 @@
         "itineraryEndHelp": " Dieser Befehl aus der Mode dieser Route löscht alle Inhalte eingefügt",
 
         "readId": [
-                        { "value": "Lesung" }
+                        { "value": "Lesung" },
+                        { "value": "Plan" }
                   ],
         "readDescri": "Lesung, Voreinstellung",
         "readActive": "Weise Lesung, die aktiviert ist",

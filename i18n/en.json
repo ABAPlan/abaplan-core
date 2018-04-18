@@ -68,7 +68,8 @@
             "itineraryEndHelp": " This command exits the route mode, which removes all the inserted contents",
 
             "readId":  [
-                           { "value": "read" }
+                           { "value": "read" },
+                           { "value": "plan" }
                        ],
             "readDescri": "Read, default mode",
             "readActive": "Read Mode",

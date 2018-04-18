@@ -68,7 +68,8 @@
         "itineraryEndHelp": " Questo ordine permette di estrarre del modo itinerario ciò sopprimo tutto il contenuto inserire",
 
         "readId": [
-                        { "value": "lettura" }
+                        { "value": "lettura" },
+                        { "value": "piano" }
                   ],
        "readDescri": "ottenere un indirizzi", 
        "readActive": "Moda lettura attivata",

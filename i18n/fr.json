@@ -68,7 +68,8 @@
         "itineraryEndHelp": " Cette commande permet de sortir du mode itinéraire cela supprime tous le contenu insérer",
 
         "readId": [
-                        { "value": "lecture" }
+                        { "value": "lecture" },
+                        { "value": "plan" }
                   ],
         "readDescri": "obtenir une adresses",
         "readActive": "Mode lecture activé",
