@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService } from "ng2-translate";
 import "rxjs/add/operator/switchMap";
 import { ScalarObservable } from "rxjs/observable/ScalarObservable";
-import { GeoService } from "../core/geo.service";
+import { GeoService, SearchedPointIndications } from "../core/geo.service";
 import { KmlService } from "../core/kml.service";
 import { StateService } from "../core/state.service";
 import { TransportService } from "../core/transport.service";
@@ -575,14 +575,20 @@ export class TouchpadComponent {
 
   /** Notify the user of direction */
   private searchLocationClick(location: Point, touchPoint: Point): void {
-    const data: string[] = this.geoService.directionToText(location, touchPoint);
+    const indication: SearchedPointIndications = this.geoService.directionToText(location, touchPoint);
     let diction: string;
-    if (data.length > 1) {// ["search_upper", "searchTo", "522", "searchKilometer"]
-      diction = this.getStringTranslation(data[0]) + " " + this.getStringTranslation(data[1])
-                + " " + data[2] + " " + this.getStringTranslation(data[3]);
+
+    if (indication.reached) {
+      diction = this.getStringTranslation("searchArrived");
     } else {
-      diction = this.getStringTranslation(data[0]);
+      const direction = this.getStringTranslation(indication.direction);
+      const directionDistanceConnector = this.getStringTranslation("searchTo");
+      const distance = indication.distance;
+      const unit = this.getStringTranslation(indication.unit);
+
+      diction = `${direction} ${directionDistanceConnector} ${distance} ${unit}`;
     }
+
     this.voiceService.say(diction);
   }
 

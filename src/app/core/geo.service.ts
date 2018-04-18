@@ -7,6 +7,13 @@ import { GeoProvider, GoogleProvider } from "./googleProvider";
 import Point = require("esri/geometry/Point");
 import WebMercatorUtils = require("esri/geometry/webMercatorUtils");
 
+export interface SearchedPointIndications {
+  reached: boolean;
+  direction?: string;
+  distance?: number;
+  unit?: string;
+}
+
 @Injectable()
 export class GeoService {
   private readonly geoProvider: GeoProvider = new GoogleProvider();
@@ -20,31 +27,31 @@ export class GeoService {
   }
 
   /** Translate Direction in key word for translate */
-  public directionToText(target: Point, point: Point): string[] {
+  public directionToText(target: Point, point: Point): SearchedPointIndications {
     const direction =
       "search_" + this.geoProvider.direction(target, point).direction;
     const distanceInMeters = this.geoProvider.distance(target, point);
 
     // If distant that at less one kilometer
     if (distanceInMeters >= METERS_BY_KILOMETER) {
-      return [
+      return {
         direction,
-        "searchTo",
-        String(Math.floor(distanceInMeters / METERS_BY_KILOMETER)),
-        "searchKilometer",
-      ];
+        distance: Math.floor(distanceInMeters / METERS_BY_KILOMETER),
+        reached: false,
+        unit: "si_unit_km",
+      };
     }
 
     // If distant that more than the precision
     if (distanceInMeters > SEARCH_BY_PRESS_PRECISION_IN_METERS) {
-      return [
+      return {
         direction,
-        "searchTo",
-        String(String(Math.floor(distanceInMeters))),
-        "searchMeter",
-      ];
+        distance: Math.floor(distanceInMeters),
+        reached: false,
+        unit: "si_unit_m",
+      };
     }
 
-    return ["searchArrived"];
+    return {reached: true};
   }
 }

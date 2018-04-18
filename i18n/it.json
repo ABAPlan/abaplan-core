@@ -92,8 +92,8 @@
         "search_lower_left":"in basso a sinistra",
         "search_lower_right":"in basso a destra",
         "search_center":"al centro",
-        "searchKilometer":"chilometro",
-        "searchMeter":"metri",
+        "si_unit_km":"chilometro",
+        "si_unit_m":"metri",
         "searchArrived":"sei arrivato",
         "searchTo":"al",
 

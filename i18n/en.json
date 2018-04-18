@@ -90,8 +90,8 @@
             "search_lower_left":"at the bottom left",
             "search_lower_right":"at the bottom right",
             "search_center":"in middle",
-            "searchKilometer":"kilometer",
-            "searchMeter":"meter",
+            "si_unit_km":"kilometer",
+            "si_unit_m":"meter",
             "searchArrived":"You have arrived",
             "searchTo":"to",
 
