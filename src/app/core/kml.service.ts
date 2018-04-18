@@ -58,7 +58,7 @@ export class KmlService {
       return false;
     }
 
-    const geojsonObject = geoJson.parse(this.datas, { Point: ["lat", "lng"] });
+    const geojsonObject = geoJson.parse(this.datas, { Point: ["lng", "lat"] });
     const kmlNameDescription = tokml(geojsonObject, {
       documentName: "Itinerary",
     });
