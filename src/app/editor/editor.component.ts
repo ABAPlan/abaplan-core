@@ -8,7 +8,7 @@ import { ModalYesNoComponent } from "../shared/modal-yesno/modal-yesno.component
 import { AbaDrawEdit } from "./drawEditMap";
 import { ModalMapComponent } from "./modal-maps-list/modal-maps-list.component";
 import { ModalSaveMapComponent } from "./modal-save-map/modal-save-map.component";
-import { Command, DrawTool, KindTool, ToolbarMapComponent } from "./toolbar/toolbar.component";
+import { ToolbarMapComponent } from "./toolbar/toolbar.component";
 
 type ButtonInfo = LayerType;
 
@@ -82,9 +82,8 @@ export class EditorComponent {
     ) as ScalarObservable<string>).value;
   }
 
-  private updateTool(tool: Command & KindTool) {
-    // Personalized operation on command
-    switch (tool.command) {
+  private updateTool(toolId: string) {
+    switch (toolId) {
       case "move":
         this.drawEdit.enableDraw(false);
         this.mapComponent.map.enableMapNavigation();
@@ -102,10 +101,18 @@ export class EditorComponent {
         this.mapComponent.map.disableMapNavigation();
         break;
 
-      case "fill":
-        this.drawEdit.changeTexture(this.toolbarMapComponent.changeFillTool());
+      // Should be a draw shape
+      default:
+        this.mapComponent.map.disableMapNavigation();
+        this.drawEdit.enableDraw(true, toolId);
+        this.drawEdit.enableDelete(false);
+        this.drawEdit.enableEdit(false);
         break;
+    }
+  }
 
+  private operation(operationId: string) {
+    switch (operationId) {
       case "print":
         if (!this.flagSavable) {
           this.modalYesNoComponent.open();
@@ -117,32 +124,22 @@ export class EditorComponent {
       case "open":
         this.modalMapComponent.open();
         break;
+
       case "save":
         this.modalSaveMapComponent.open();
         break;
+
       default:
         if (process.env.NODE_ENV !== "production") {
           // tslint:disable-next-line no-console
-          console.warn("action buttons not implemented");
+          console.warn("operation not implemented");
         }
-    }
-
-    // Global operation on kind
-    switch (tool.kind) {
-      case "draw":
-        this.mapComponent.map.disableMapNavigation();
-        const drawTool = tool as DrawTool;
-        this.drawEdit.enableDraw(true, drawTool.drawType);
-        this.drawEdit.enableDelete(false);
-        this.drawEdit.enableEdit(false);
-        break;
-
-      case "action":
-        this.drawEdit.enableDraw(false);
-        this.drawEdit.enableDelete(false);
-        this.drawEdit.enableEdit(false);
         break;
     }
+
+    this.drawEdit.enableDraw(false);
+    this.drawEdit.enableDelete(false);
+    this.drawEdit.enableEdit(false);
   }
 
   private isActive(btnInfo: ButtonInfo) {

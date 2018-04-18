@@ -1,6 +1,10 @@
 #main-container {
-    overflow-x: hidden;
     width: 1088px;
+}
+
+#control-row {
+    display: flex;
+    justify-content: space-between;
 }
 
 @media print {

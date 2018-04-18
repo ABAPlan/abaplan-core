@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="row hide-on-print">
-            <div class="col-xs-5">
+            <div class="col-xs-12" id="control-row">
                 <div class="btn-group">            
                     <button
                         *ngFor="let tab of _btnInfos"
@@ -16,10 +16,15 @@
                         (click)="onClick(tab)"> {{ tab.kind | translate }}
                     </button>
                 </div>
-                <aba-select-lang></aba-select-lang>
-            </div>
-            <div class="col-xs-7 text-right">
-                <aba-toolbar-map (onUpdateTool)="updateTool($event)"></aba-toolbar-map>
+                <div>
+                    <aba-toolbar-map
+                        (onUpdateTool)="updateTool($event)"
+                        (onUpdateTexture)="drawEdit.changeTexture($event)"
+                        (onOperation)="operation($event)"
+                    >
+                    </aba-toolbar-map>
+                    <aba-select-lang></aba-select-lang>
+                </div>
             </div>
         </div>
         <div class="row">

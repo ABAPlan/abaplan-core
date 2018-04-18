@@ -13,6 +13,7 @@ import Draw = require("esri/toolbars/draw");
 import Edit = require("esri/toolbars/edit");
 
 import * as blackDotTextureUrl from "Assets/img/textures/blackDot.png";
+import * as tiledLinesTextureUrl from "Assets/img/textures/traitilles.png";
 
 export type DrawGraphic = (graphic: Graphic) => void;
 
@@ -52,6 +53,12 @@ export class DrawInfoBasicGeometry implements DrawInfo {
       SimpleFillSymbol.STYLE_SOLID,
       new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
       this.blackColor,
+    ),
+    vegetation: new PictureFillSymbol(
+      tiledLinesTextureUrl,
+      new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
+      16,
+      16,
     ),
     water: new PictureFillSymbol(
       blackDotTextureUrl,

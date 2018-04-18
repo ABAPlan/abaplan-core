@@ -12,25 +12,6 @@ import { DrawInfoPedestrian } from "./draw/drawInfoPedestrian";
 import { DrawInfoPolygon } from "./draw/drawInfoPolygon";
 import { DrawInfoPolyline } from "./draw/drawInfoPolyline";
 
-interface CircleDrawType {
-  kind: "circle";
-}
-interface PolygonDrawType {
-  kind: "polygon";
-}
-interface LineDrawType {
-  kind: "line";
-}
-interface PedestrianDrawType {
-  kind: "pedestrian";
-}
-
-export type DrawType =
-  | CircleDrawType
-  | PolygonDrawType
-  | LineDrawType
-  | PedestrianDrawType;
-
 export class AbaDrawEdit {
   private map: ArcgisMap;
   private currentDrawInfo: DrawInfo;
@@ -179,11 +160,10 @@ export class AbaDrawEdit {
     };
   }
 
-  public enableDraw(enable: boolean, drawType?: DrawType) {
+  public enableDraw(enable: boolean, drawType?: string) {
     if (enable && drawType) {
-      const kind: string = drawType.kind;
-      this.currentDrawTypeKind = kind;
-      this.currentDrawInfo = this.drawTypes[kind];
+      this.currentDrawTypeKind = drawType;
+      this.currentDrawInfo = this.drawTypes[drawType];
       this.draw.activate(this.currentDrawInfo.geometryType);
     } else {
       this.draw.deactivate();
