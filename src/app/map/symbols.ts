@@ -15,20 +15,20 @@ export const HARD_SYMBOL = new SimpleFillSymbol(
 export const BUILDING_SYMBOL = new PictureFillSymbol(
   tiledLinesTextureUrl,
   new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
-  15,
-  15,
+  16,
+  16,
 );
 
 export const WATER_SYMBOL = new PictureFillSymbol(
   blackDotTextureUrl,
   new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
-  15,
-  15,
+  16,
+  16,
 );
 
 export const GREEN_SYMBOL = new PictureFillSymbol(
   tiledLinesTextureUrl,
   new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL),
-  25,
-  25,
+  16,
+  16,
 );
